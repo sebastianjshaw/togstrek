@@ -3,21 +3,22 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { TogstrekSiteHeaderAdventuresMegaPanel } from "@/components/togstrek-site-header-adventures-mega-panel";
 import type { TogstrekMegaMenuNavLinks } from "@/data/togstrek-continent-mega-menu";
 import {
   togstrekContinentNavMegaItems,
   type TogstrekNavMegaContinentId,
 } from "@/data/togstrek-continent-nav-mega-items";
 import {
+  togstrekAdventuresMegaFeaturedCards,
+  togstrekAdventuresMegaTagline,
+} from "@/data/togstrek-adventures-mega-menu";
+import {
   togstrekSectionMegaMenuByKey,
   togstrekSectionMegaMenuList,
   type TogstrekSectionMegaAside,
   type TogstrekSectionMegaKey,
 } from "@/data/togstrek-section-mega-menu";
-
-const togstrekNavStaticFirst = [
-  { href: "/adventures", label: "Adventures" },
-] as const;
 
 const MEGA_CLOSE_MS = 200;
 
@@ -27,7 +28,10 @@ function isSectionMegaKey(
   return key === "hiking" || key === "other-work";
 }
 
-type OpenMegaKey = TogstrekNavMegaContinentId | TogstrekSectionMegaKey;
+type OpenMegaKey =
+  | TogstrekNavMegaContinentId
+  | TogstrekSectionMegaKey
+  | "adventures";
 
 function TogstrekSiteHeaderMegaMenuPanelBase({
   panelHeading,
@@ -205,16 +209,20 @@ export function TogstrekSiteHeaderPrimaryNav({
         aria-label="Primary"
       >
         <ul className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-[var(--tt-text-small)] font-medium tracking-wide">
-          {togstrekNavStaticFirst.map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className="text-tt-text-secondary transition-colors duration-[var(--tt-duration-fast)] hover:text-tt-accent"
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
+          <li
+            className="togstrek-site-header-mega-trigger relative"
+            onMouseEnter={() => openMega("adventures")}
+            onMouseLeave={scheduleClose}
+          >
+            <Link
+              href="/adventures"
+              className="text-tt-text-secondary transition-colors duration-[var(--tt-duration-fast)] hover:text-tt-accent"
+              aria-expanded={openMegaKey === "adventures"}
+              aria-haspopup="true"
+            >
+              Adventures
+            </Link>
+          </li>
           {togstrekContinentNavMegaItems.map((item) => (
             <li
               key={item.href}
@@ -253,7 +261,11 @@ export function TogstrekSiteHeaderPrimaryNav({
       </nav>
 
       <div
-        className={`togstrek-site-header-mega-panel fixed inset-x-0 z-[100] border-b border-tt-border-muted bg-tt-surface-base shadow-[var(--tt-shadow-elevated)] transition-[opacity,visibility] duration-[var(--tt-duration-fast)] ease-[var(--tt-ease-out)] ${
+        className={`togstrek-site-header-mega-panel fixed inset-x-0 z-[100] border-b shadow-[var(--tt-shadow-elevated)] transition-[opacity,visibility] duration-[var(--tt-duration-fast)] ease-[var(--tt-ease-out)] ${
+          openMegaKey === "adventures"
+            ? "border-white/10 bg-tt-surface-inverse"
+            : "border-tt-border-muted bg-tt-surface-base"
+        } ${
           panelVisible
             ? "visible opacity-100"
             : "invisible pointer-events-none opacity-0"
@@ -262,6 +274,9 @@ export function TogstrekSiteHeaderPrimaryNav({
         onMouseEnter={cancelClose}
         onMouseLeave={scheduleClose}
       >
+        {openMegaKey === "adventures" ? (
+          <TogstrekSiteHeaderAdventuresMegaPanel onNavigate={closeMega} />
+        ) : null}
         {openContinentItem ? (
           <TogstrekSiteHeaderMegaMenuPanelBase
             panelHeading={openContinentItem.label}
@@ -301,16 +316,43 @@ export function TogstrekSiteHeaderPrimaryNav({
         </summary>
         <div className="absolute right-0 z-[var(--tt-z-dropdown)] mt-2 w-[min(calc(100vw-2*var(--tt-layout-gutter)),22rem)] max-w-[calc(100vw-1rem)] border border-tt-border-default bg-tt-surface-base py-2 shadow-[var(--tt-shadow-elevated)]">
           <ul className="flex max-h-[min(75vh,36rem)] flex-col gap-0.5 overflow-y-auto overscroll-contain px-2">
-            {togstrekNavStaticFirst.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="block min-h-11 rounded-[var(--tt-radius-sm)] px-3 py-3 text-[var(--tt-text-small)] leading-snug text-tt-text-secondary transition-colors hover:bg-tt-surface-muted hover:text-tt-accent sm:py-2.5"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+            <li className="min-w-0">
+              <details className="togstrek-site-header-mobile-adventures-mega rounded-[var(--tt-radius-sm)]">
+                <summary className="cursor-pointer list-none px-3 py-2 font-tt-display text-[var(--tt-text-small)] font-semibold text-tt-text-primary [&::-webkit-details-marker]:hidden">
+                  <span className="flex min-h-9 items-center justify-between gap-2">
+                    Adventures
+                    <span className="text-tt-text-tertiary" aria-hidden>
+                      +
+                    </span>
+                  </span>
+                </summary>
+                <ul className="border-t border-tt-border-muted bg-tt-surface-muted/60 py-1 pl-2 pr-1">
+                  <li>
+                    <Link
+                      href="/adventures"
+                      className="block min-h-10 rounded-[var(--tt-radius-sm)] px-2 py-2 text-[var(--tt-text-small)] font-semibold text-tt-accent [overflow-wrap:anywhere]"
+                    >
+                      See all adventures →
+                    </Link>
+                  </li>
+                  {togstrekAdventuresMegaFeaturedCards.map((card) => (
+                    <li key={card.href}>
+                      <Link
+                        href={card.href}
+                        className="block min-h-10 rounded-[var(--tt-radius-sm)] px-2 py-2 text-[var(--tt-text-small)] text-tt-text-secondary [overflow-wrap:anywhere] hover:bg-tt-surface-base hover:text-tt-accent"
+                      >
+                        {card.title}
+                      </Link>
+                    </li>
+                  ))}
+                  <li className="px-2 py-2">
+                    <p className="text-[length:0.7rem] font-semibold uppercase leading-snug tracking-wide text-tt-text-tertiary [overflow-wrap:anywhere]">
+                      {togstrekAdventuresMegaTagline}
+                    </p>
+                  </li>
+                </ul>
+              </details>
+            </li>
             {togstrekContinentNavMegaItems.map((c) => {
               const sub = megaMenuNavLinks[c.continentId];
               if (sub.length === 0) {
