@@ -1,0 +1,153 @@
+/**
+ * Togstrek design tokens — single source of truth.
+ * Swap fonts/colors by editing this file; Tailwind maps these in globals.css @theme.
+ * Prefix: tt- (togstrek) to avoid collisions with other CSS.
+ */
+
+:root {
+  /* —— Primitive palette (edit here to retheme) —— */
+  --tt-color-white: #ffffff;
+  --tt-color-surface-tint: #f3f0f8;
+  --tt-color-accent: #e31937;
+  --tt-color-accent-hover: #ff2344;
+  --tt-color-ink-strong: #0a0a0a;
+  --tt-color-ink-muted: #4a4a4a;
+  --tt-color-ink-subtle: #6b6b6b;
+  --tt-color-surface-inverse: #1a1420;
+  --tt-color-surface-inverse-elevated: #2a2230;
+
+  /* —— Semantic colors —— */
+  --tt-color-surface-base: var(--tt-color-white);
+  --tt-color-surface-muted: var(--tt-color-surface-tint);
+  /* --tt-color-surface-inverse: set in primitives above */
+  --tt-color-text-primary: var(--tt-color-ink-strong);
+  --tt-color-text-secondary: var(--tt-color-ink-muted);
+  --tt-color-text-tertiary: var(--tt-color-ink-subtle);
+  --tt-color-text-inverse: var(--tt-color-white);
+  --tt-color-text-accent: var(--tt-color-accent);
+  --tt-color-border-default: var(--tt-color-ink-strong);
+  --tt-color-border-muted: color-mix(
+    in srgb,
+    var(--tt-color-ink-strong) 18%,
+    transparent
+  );
+  --tt-color-border-accent: var(--tt-color-accent);
+  --tt-color-overlay-scrim: color-mix(
+    in srgb,
+    var(--tt-color-ink-strong) 55%,
+    transparent
+  );
+  --tt-color-overlay-hero: linear-gradient(
+    105deg,
+    color-mix(in srgb, var(--tt-color-ink-strong) 72%, transparent) 0%,
+    color-mix(in srgb, var(--tt-color-surface-inverse) 45%, transparent) 45%,
+    color-mix(in srgb, var(--tt-color-accent) 18%, transparent) 100%
+  );
+
+  /* —— Typography scale (fluid) —— */
+  /* --font-tt-syne, --font-tt-dm-sans, --font-tt-geist-mono: injected via next/font in layout */
+  --tt-font-display: var(--font-tt-syne), "Syne", system-ui, sans-serif;
+  --tt-font-body: var(--font-tt-dm-sans), "DM Sans", system-ui, sans-serif;
+  --tt-font-mono: var(--font-tt-geist-mono), ui-monospace, monospace;
+
+  --tt-text-hero: clamp(2.5rem, 6vw + 1rem, 5.25rem);
+  --tt-text-display: clamp(2rem, 4vw + 0.75rem, 3.5rem);
+  --tt-text-title: clamp(1.35rem, 2vw + 0.5rem, 1.85rem);
+  --tt-text-lead: clamp(1.05rem, 0.6vw + 0.95rem, 1.2rem);
+  --tt-text-body: 1rem;
+  --tt-text-small: 0.875rem;
+  --tt-text-overline: 0.72rem;
+
+  --tt-leading-tight: 1.05;
+  --tt-leading-snug: 1.25;
+  --tt-leading-normal: 1.55;
+  --tt-leading-relaxed: 1.7;
+
+  --tt-tracking-tight: -0.03em;
+  --tt-tracking-wide: 0.14em;
+  --tt-tracking-overline: 0.22em;
+
+  /* —— Spacing scale —— */
+  --tt-space-1: 0.25rem;
+  --tt-space-2: 0.5rem;
+  --tt-space-3: 0.75rem;
+  --tt-space-4: 1rem;
+  --tt-space-5: 1.25rem;
+  --tt-space-6: 1.5rem;
+  --tt-space-8: 2rem;
+  --tt-space-10: 2.5rem;
+  --tt-space-12: 3rem;
+  --tt-space-16: 4rem;
+  --tt-space-20: 5rem;
+  --tt-space-24: 6rem;
+  --tt-space-32: 8rem;
+
+  /* —— Layout —— */
+  --tt-layout-max-prose: 42rem;
+  --tt-layout-max-content: 72rem;
+  --tt-layout-max-wide: 90rem;
+  --tt-layout-gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --tt-layout-header-height: 4.5rem;
+
+  /* —— Radius & shape —— */
+  --tt-radius-none: 0;
+  --tt-radius-sm: 2px;
+  --tt-radius-md: 4px;
+
+  /* —— Stroke —— */
+  --tt-border-width-hairline: 1px;
+  --tt-border-width-thick: 2px;
+  --tt-border-width-accent: 3px;
+
+  /* —— Shadows —— */
+  --tt-shadow-sm: 0 1px 2px
+    color-mix(in srgb, var(--tt-color-ink-strong) 12%, transparent);
+  --tt-shadow-elevated: 0 18px 48px
+    color-mix(in srgb, var(--tt-color-ink-strong) 22%, transparent);
+
+  /* —— Motion —— */
+  --tt-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --tt-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --tt-duration-fast: 160ms;
+  --tt-duration-normal: 280ms;
+  --tt-duration-slow: 480ms;
+
+  /* —— Z-index scale —— */
+  --tt-z-base: 0;
+  --tt-z-dropdown: 40;
+  --tt-z-sticky: 50;
+  --tt-z-overlay: 100;
+
+  /* —— Explore map (markers / popups; basemap is third-party tiles) —— */
+  --tt-map-cluster-size: 2.5rem;
+  --tt-map-cluster-font: var(--tt-font-display);
+  --tt-map-cluster-shadow: 0 0 0 1px color-mix(in srgb, var(--tt-color-accent) 55%, transparent),
+    0 8px 28px color-mix(in srgb, var(--tt-color-ink-strong) 45%, transparent);
+  --tt-map-popup-width: min(18rem, 92vw);
+
+  /* Homepage region cards */
+  --tt-region-card-min-height: clamp(15rem, 52vmin, 22rem);
+  --tt-region-card-featured-min-height: clamp(18rem, 48vh, 32rem);
+}
+
+/* Optional: dark theme hook — toggle by setting data-theme on <html> */
+[data-theme="dark"] {
+  --tt-color-surface-base: var(--tt-color-surface-inverse);
+  --tt-color-surface-muted: var(--tt-color-surface-inverse-elevated);
+  --tt-color-text-primary: var(--tt-color-white);
+  --tt-color-text-secondary: color-mix(
+    in srgb,
+    var(--tt-color-white) 78%,
+    transparent
+  );
+  --tt-color-text-tertiary: color-mix(
+    in srgb,
+    var(--tt-color-white) 62%,
+    transparent
+  );
+  --tt-color-border-default: color-mix(
+    in srgb,
+    var(--tt-color-white) 35%,
+    transparent
+  );
+}

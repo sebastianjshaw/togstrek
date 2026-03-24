@@ -1,0 +1,44 @@
+/* MapLibre popup chrome — scoped under .togstrek-explore-map */
+
+.togstrek-explore-map .maplibregl-popup {
+  z-index: var(--tt-z-overlay);
+}
+
+.togstrek-explore-map .maplibregl-popup-content {
+  padding: 0 !important;
+  margin: 0;
+  border-radius: var(--tt-radius-sm);
+  overflow: hidden;
+  box-shadow: var(--tt-shadow-elevated);
+  border: var(--tt-border-width-hairline) solid var(--tt-color-border-default);
+  background: var(--tt-color-surface-base);
+  width: var(--tt-map-popup-width);
+}
+
+.togstrek-explore-map .maplibregl-popup-tip {
+  border-top-color: var(--tt-color-surface-base) !important;
+}
+
+.togstrek-explore-map .maplibregl-ctrl-attrib {
+  font-family: var(--tt-font-body);
+  font-size: 10px;
+  color: var(--tt-color-text-tertiary);
+  background: color-mix(
+    in srgb,
+    var(--tt-color-surface-inverse) 88%,
+    transparent
+  ) !important;
+}
+
+.togstrek-explore-map .maplibregl-ctrl-attrib a {
+  color: var(--tt-color-text-inverse);
+}
+
+.togstrek-explore-map .maplibregl-ctrl-group button {
+  background-color: var(--tt-color-surface-base);
+  border-color: var(--tt-color-border-muted);
+}
+
+.togstrek-explore-map .maplibregl-ctrl-group button:hover {
+  background-color: var(--tt-color-surface-muted);
+}
