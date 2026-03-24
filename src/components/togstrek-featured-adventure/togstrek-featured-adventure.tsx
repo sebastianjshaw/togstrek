@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 import { TogstrekCtaOutlineAccentLink } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
+import { TogstrekImageScrim } from "@/components/togstrek-ui/togstrek-image-scrim";
 import { togstrekFeaturedAlpineAdventure } from "@/data/togstrek-featured-alpine-adventure";
 
 type TogstrekFeaturedAdventureLayout = "media" | "panel";
@@ -27,41 +28,38 @@ export function TogstrekFeaturedAdventure({
   if (layout === "media") {
     return (
       <section
-        className="togstrek-featured-adventure togstrek-featured-adventure--media border-t border-tt-border-muted bg-tt-surface-muted py-[var(--tt-space-16)] md:py-[var(--tt-space-20)]"
+        className="togstrek-featured-adventure togstrek-featured-adventure--media border-t border-tt-border-muted bg-tt-surface-muted py-tt-16 md:py-tt-20"
         aria-labelledby={sectionAriaLabelledBy}
       >
         <TogstrekContentWidth>
           <Link
             href={adventure.href}
-            className="togstrek-featured-adventure-card group relative flex min-h-[min(52vw,20rem)] w-full flex-col justify-end overflow-hidden border border-tt-border-muted bg-tt-surface-base text-left shadow-[var(--tt-shadow-sm)] transition-[transform,box-shadow,border-color] duration-[var(--tt-duration-normal)] ease-[var(--tt-ease-out)] after:pointer-events-none after:absolute after:inset-0 after:z-[2] after:border-[length:var(--tt-border-width-thick)] after:border-transparent after:transition-colors hover:-translate-y-1 hover:shadow-[var(--tt-shadow-elevated)] hover:after:border-tt-accent sm:min-h-[min(42vw,24rem)] md:aspect-[2.2/1] md:min-h-[min(36vh,26rem)]"
+            className="togstrek-featured-adventure-card group relative flex min-h-[min(52vw,20rem)] w-full flex-col justify-end overflow-hidden border border-tt-border-muted bg-tt-surface-base text-left shadow-[var(--tt-shadow-sm)] transition-[transform,box-shadow,border-color] duration-tt-normal ease-tt-out after:pointer-events-none after:absolute after:inset-0 after:z-tt-base after:border-tt-thick after:border-transparent after:transition-colors hover:-translate-y-1 hover:shadow-[var(--tt-shadow-elevated)] hover:after:border-tt-accent sm:min-h-[min(42vw,24rem)] md:aspect-[2.2/1] md:min-h-[min(36vh,26rem)]"
           >
             <Image
               src={adventure.imageSrc}
               alt={adventure.imageAlt}
               fill
-              className="object-cover object-center transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.03]"
+              className="object-cover object-center transition-transform duration-tt-slow ease-tt-out group-hover:scale-[1.03]"
               sizes="(max-width:768px) 100vw, min(90rem, 100vw)"
             />
-            <div
-              className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_92%,transparent)] via-[color-mix(in_srgb,var(--tt-color-ink-strong)_45%,transparent)] to-[color-mix(in_srgb,var(--tt-color-ink-strong)_12%,transparent)]"
-              aria-hidden
-            />
+            <TogstrekImageScrim variant="deep" className="z-[1]" />
             <div className="relative z-[3] p-6 sm:p-8 md:p-10">
-              <p className="font-tt-display text-[length:var(--tt-text-overline)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-accent">
+              <p className="font-tt-display text-tt-overline font-semibold uppercase tracking-tt-wide text-tt-accent">
                 {kicker}
               </p>
               <h2
                 id={sectionAriaLabelledBy}
-                className="mt-[var(--tt-space-3)] max-w-[min(28ch,100%)] font-tt-display text-[clamp(1.5rem,4vw,2.75rem)] font-bold leading-[var(--tt-leading-tight)] tracking-[var(--tt-tracking-tight)] text-tt-text-inverse [overflow-wrap:anywhere]"
+                className="mt-tt-3 max-w-[min(28ch,100%)] font-tt-display text-tt-feature font-bold leading-tt-tight tracking-tt-tight text-tt-text-inverse [overflow-wrap:anywhere]"
               >
                 {adventure.title}
               </h2>
-              <p className="mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-inverse/90 [overflow-wrap:anywhere]">
+              <p className="mt-tt-4 max-w-[var(--tt-layout-max-prose)] font-tt-body text-tt-lead font-semibold uppercase tracking-tt-wide text-tt-text-inverse/90 [overflow-wrap:anywhere]">
                 {adventure.tagline}
               </p>
-              <span className="togstrek-featured-adventure-cta mt-[var(--tt-space-8)] inline-flex min-h-12 w-full min-w-0 items-center justify-center border-[length:var(--tt-border-width-thick)] border-tt-accent bg-transparent px-6 py-3 font-tt-display text-[var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-accent transition-colors duration-[var(--tt-duration-normal)] group-hover:bg-tt-accent group-hover:text-tt-text-inverse sm:w-auto sm:px-8">
+              <TogstrekCtaOutlineAccentLink asGroupChild className="togstrek-featured-adventure-cta mt-tt-8">
                 {adventure.ctaLabel}
-              </span>
+              </TogstrekCtaOutlineAccentLink>
             </div>
           </Link>
         </TogstrekContentWidth>
@@ -74,24 +72,24 @@ export function TogstrekFeaturedAdventure({
       className="togstrek-featured-adventure togstrek-featured-adventure--panel border border-tt-border-muted bg-tt-surface-muted p-6 sm:p-8"
       aria-labelledby={sectionAriaLabelledBy}
     >
-      <p className="font-tt-display text-[length:var(--tt-text-overline)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-accent">
+      <p className="font-tt-display text-tt-overline font-semibold uppercase tracking-tt-wide text-tt-accent">
         {kicker}
       </p>
       <h2
         id={sectionAriaLabelledBy}
-        className="mt-[var(--tt-space-3)] font-tt-display text-[length:var(--tt-text-title)] font-bold text-tt-text-primary"
+        className="mt-tt-3 font-tt-display text-tt-title font-bold text-tt-text-primary"
       >
         {adventure.title}
       </h2>
-      <p className="mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-secondary">
+      <p className="mt-tt-4 max-w-[var(--tt-layout-max-prose)] font-tt-body text-tt-lead font-semibold uppercase tracking-tt-wide text-tt-text-secondary">
         {adventure.tagline}
       </p>
-      <p className="mt-[var(--tt-space-6)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
+      <p className="mt-tt-6 max-w-[var(--tt-layout-max-prose)] font-tt-body text-tt-lead leading-tt-relaxed text-tt-text-secondary">
         {adventure.body}
       </p>
       <TogstrekCtaOutlineAccentLink
         href={adventure.href}
-        className="mt-[var(--tt-space-8)]"
+        className="mt-tt-8"
       >
         {adventure.ctaLabel}
       </TogstrekCtaOutlineAccentLink>

@@ -4,7 +4,7 @@ type TogstrekSectionHeaderProps = {
   id: string;
   title: string;
   description?: ReactNode;
-  /** Larger lead size (e.g. “Where to” intro). */
+  /** Larger lead size (e.g. "Where to" intro). */
   descriptionProminent?: boolean;
   className?: string;
 };
@@ -21,7 +21,7 @@ export function TogstrekSectionHeader({
     <div className={className}>
       <h2
         id={id}
-        className="font-tt-display text-[length:var(--tt-text-display)] font-bold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-primary"
+        className="font-tt-display text-tt-display font-bold uppercase tracking-tt-wide text-tt-text-primary"
       >
         {title}
       </h2>
@@ -29,8 +29,8 @@ export function TogstrekSectionHeader({
         <div
           className={
             descriptionProminent
-              ? "mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] text-tt-text-secondary"
-              : "mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-tt-text-secondary"
+              ? "mt-tt-4 max-w-[var(--tt-layout-max-prose)] font-tt-body text-tt-lead text-tt-text-secondary"
+              : "mt-tt-4 max-w-[var(--tt-layout-max-prose)] font-tt-body text-tt-body text-tt-text-secondary"
           }
         >
           {description}

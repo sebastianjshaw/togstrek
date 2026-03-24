@@ -12,7 +12,7 @@ type TogstrekBreadcrumbProps = {
 export function TogstrekBreadcrumb({ items }: TogstrekBreadcrumbProps) {
   return (
     <nav
-      className="togstrek-breadcrumb font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary"
+      className="togstrek-breadcrumb font-tt-body text-tt-small text-tt-text-tertiary"
       aria-label="Breadcrumb"
     >
       <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -31,7 +31,7 @@ export function TogstrekBreadcrumb({ items }: TogstrekBreadcrumbProps) {
             return [<li key={`crumb-${index}`}>{label}</li>];
           }
           return [
-            <li key={`sep-${index}`} className="text-tt-text-tertiary" aria-hidden>
+            <li key={`sep-${index}`} className="text-tt-text-tertiary" aria-hidden={true}>
               /
             </li>,
             <li key={`crumb-${index}`}>{label}</li>,

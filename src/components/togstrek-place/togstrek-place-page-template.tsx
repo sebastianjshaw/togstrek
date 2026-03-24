@@ -51,7 +51,7 @@ export function TogstrekPlacePageTemplate({
         />
       ) : (
         <header className="togstrek-place-header border-b border-tt-border-muted bg-tt-surface-muted">
-          <TogstrekContentWidth className="py-[var(--tt-space-12)]">
+          <TogstrekContentWidth className="py-tt-12">
             <TogstrekPageTitle id="togstrek-place-title">
               {frontmatter.title}
             </TogstrekPageTitle>
@@ -62,12 +62,12 @@ export function TogstrekPlacePageTemplate({
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
         <TogstrekBreadcrumb items={breadcrumbItems} />
 
-        <p className="togstrek-place-lead mt-[var(--tt-space-8)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
+        <p className="togstrek-place-lead mt-tt-8 max-w-[var(--tt-layout-max-prose)] font-tt-body text-tt-lead leading-tt-relaxed text-tt-text-secondary">
           {frontmatter.description}
         </p>
 
         {frontmatter.published ? (
-          <p className="mt-[var(--tt-space-4)] font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary">
+          <p className="mt-tt-4 font-tt-body text-tt-small text-tt-text-tertiary">
             Published {frontmatter.published}
             {frontmatter.modified
               ? ` · Updated ${frontmatter.modified}`
@@ -76,12 +76,12 @@ export function TogstrekPlacePageTemplate({
         ) : null}
 
         {poiGroups.length > 0 ? (
-          <div className="mt-[var(--tt-space-10)] max-w-[var(--tt-layout-max-prose)]">
+          <div className="mt-tt-10 max-w-[var(--tt-layout-max-prose)]">
             <TogstrekPlacePoiToc groups={poiGroups} />
           </div>
         ) : null}
 
-        <article className="togstrek-prose togstrek-place-mdx-root mt-[var(--tt-space-12)]">
+        <article className="togstrek-prose togstrek-place-mdx-root mt-tt-12">
           {mdxContent}
         </article>
 

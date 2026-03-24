@@ -17,8 +17,8 @@ export function TogstrekPageTitle({
       id={id}
       className={
         className
-          ? `font-tt-display text-[length:var(--tt-text-display)] font-bold tracking-[var(--tt-tracking-tight)] text-tt-text-primary ${className}`
-          : "font-tt-display text-[length:var(--tt-text-display)] font-bold tracking-[var(--tt-tracking-tight)] text-tt-text-primary"
+          ? `font-tt-display text-tt-display font-bold tracking-tt-tight text-tt-text-primary ${className}`
+          : "font-tt-display text-tt-display font-bold tracking-tt-tight text-tt-text-primary"
       }
     >
       {children}

@@ -21,7 +21,7 @@ export function TogstrekContentWidth({
   className,
 }: TogstrekContentWidthProps) {
   const base =
-    "mx-auto w-full min-w-0 px-[var(--tt-layout-gutter)] " +
+    "mx-auto w-full min-w-0 px-tt-gutter " +
     togstrekContentWidthMaxClass[max];
   return (
     <div className={className ? `${base} ${className}` : base}>{children}</div>

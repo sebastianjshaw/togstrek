@@ -28,13 +28,13 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
     h2: (props) => (
       <h2
         {...props}
-        className="togstrek-place-mdx-h2 mt-[var(--tt-space-12)] scroll-mt-[calc(var(--tt-layout-header-height)+var(--tt-space-6))] font-tt-display text-[length:var(--tt-text-title)] font-bold text-tt-text-primary first:mt-0"
+        className="togstrek-place-mdx-h2 mt-tt-12 scroll-mt-[calc(var(--tt-layout-header-height)+var(--tt-space-6))] font-tt-display text-tt-title font-bold text-tt-text-primary first:mt-0"
       />
     ),
     h3: (props) => (
       <h3
         {...props}
-        className="togstrek-place-mdx-h3 mt-[var(--tt-space-8)] font-tt-display text-[length:var(--tt-text-lead)] font-semibold text-tt-text-primary"
+        className="togstrek-place-mdx-h3 mt-tt-8 font-tt-display text-tt-lead font-semibold text-tt-text-primary"
       />
     ),
     p: ({ children, ...rest }) => {
@@ -43,7 +43,7 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
       return (
         <p
           {...rest}
-          className="togstrek-place-mdx-p mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-body)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary first:mt-0"
+          className="togstrek-place-mdx-p mt-tt-4 max-w-[var(--tt-layout-max-prose)] font-tt-body text-tt-body leading-tt-relaxed text-tt-text-secondary first:mt-0"
         >
           {children}
         </p>
@@ -52,16 +52,16 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
     ul: (props) => (
       <ul
         {...props}
-        className="togstrek-place-mdx-ul mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] list-disc pl-[var(--tt-space-6)] font-tt-body text-[length:var(--tt-text-body)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary marker:text-tt-accent"
+        className="togstrek-place-mdx-ul mt-tt-4 max-w-[var(--tt-layout-max-prose)] list-disc pl-tt-6 font-tt-body text-tt-body leading-tt-relaxed text-tt-text-secondary marker:text-tt-accent"
       />
     ),
     ol: (props) => (
       <ol
         {...props}
-        className="togstrek-place-mdx-ol mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] list-decimal pl-[var(--tt-space-6)] font-tt-body text-[length:var(--tt-text-body)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary"
+        className="togstrek-place-mdx-ol mt-tt-4 max-w-[var(--tt-layout-max-prose)] list-decimal pl-tt-6 font-tt-body text-tt-body leading-tt-relaxed text-tt-text-secondary"
       />
     ),
-    li: (props) => <li {...props} className="togstrek-place-mdx-li mt-2" />,
+    li: (props) => <li {...props} className="togstrek-place-mdx-li mt-tt-2" />,
     a: ({ href, children, ...rest }) => {
       const external = href?.startsWith("http");
       return (
@@ -80,13 +80,13 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
     blockquote: (props) => (
       <blockquote
         {...props}
-        className="togstrek-place-mdx-blockquote my-[var(--tt-space-8)] border-l-[3px] border-tt-accent pl-[var(--tt-space-6)] font-tt-body italic text-tt-text-secondary"
+        className="togstrek-place-mdx-blockquote my-tt-8 border-l-tt-accent-stroke border-tt-accent pl-tt-6 font-tt-body italic text-tt-text-secondary"
       />
     ),
     hr: (props) => (
       <hr
         {...props}
-        className="togstrek-place-mdx-hr my-[var(--tt-space-12)] border-tt-border-muted"
+        className="togstrek-place-mdx-hr my-tt-12 border-tt-border-muted"
       />
     ),
     img: (props) => {
@@ -101,8 +101,8 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
       const safeW = Number.isFinite(w) && w > 0 ? w : 1200;
       const safeH = Number.isFinite(h) && h > 0 ? h : 800;
       return (
-        <figure className="togstrek-place-mdx-figure my-[var(--tt-space-10)] w-full">
-          <span className="relative block overflow-hidden rounded-[var(--tt-radius-sm)] border border-tt-border-muted bg-tt-surface-muted">
+        <figure className="togstrek-place-mdx-figure my-tt-10 w-full">
+          <span className="relative block overflow-hidden rounded-tt-sm border border-tt-border-muted bg-tt-surface-muted">
             <Image
               src={src}
               alt={typeof alt === "string" ? alt : ""}
@@ -114,7 +114,7 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
             />
           </span>
           {alt ? (
-            <figcaption className="mt-[var(--tt-space-3)] text-center font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary">
+            <figcaption className="mt-tt-3 text-center font-tt-body text-tt-small text-tt-text-tertiary">
               {alt}
             </figcaption>
           ) : null}

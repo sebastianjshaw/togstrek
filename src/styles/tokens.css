@@ -44,6 +44,44 @@
     color-mix(in srgb, var(--tt-color-accent) 18%, transparent) 100%
   );
 
+  /* —— Image scrim overlays (gradient-to-top) —— */
+  /* Standard: used by hero landing, region cards */
+  --tt-color-overlay-image-scrim: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--tt-color-ink-strong) 88%, transparent) 0%,
+    color-mix(in srgb, var(--tt-color-ink-strong) 35%, transparent) 50%,
+    color-mix(in srgb, var(--tt-color-ink-strong) 12%, transparent) 100%
+  );
+  /* Deep: used by featured adventure card */
+  --tt-color-overlay-image-scrim-deep: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--tt-color-ink-strong) 92%, transparent) 0%,
+    color-mix(in srgb, var(--tt-color-ink-strong) 45%, transparent) 50%,
+    color-mix(in srgb, var(--tt-color-ink-strong) 12%, transparent) 100%
+  );
+  /* Soft: used by article hero (fades quickly upward) */
+  --tt-color-overlay-image-scrim-soft: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--tt-color-ink-strong) 78%, transparent) 0%,
+    transparent 60%
+  );
+
+  /* —— Spot overlays —— */
+  /* Radial vignette used in landing hero */
+  --tt-color-overlay-radial-vignette: radial-gradient(
+    ellipse 90% 60% at 50% 50%,
+    color-mix(in srgb, var(--tt-color-ink-strong) 42%, transparent) 0%,
+    transparent 68%
+  );
+  /* Texture stripe used in landing hero strip */
+  --tt-color-overlay-texture-stripe: repeating-linear-gradient(
+    -12deg,
+    transparent,
+    transparent 2px,
+    color-mix(in srgb, var(--tt-color-ink-strong) 8%, transparent) 2px,
+    color-mix(in srgb, var(--tt-color-ink-strong) 8%, transparent) 3px
+  );
+
   /* —— Typography scale (fluid) —— */
   /* --font-tt-syne, --font-tt-dm-sans, --font-tt-geist-mono: injected via next/font in layout */
   --tt-font-display: var(--font-tt-syne), "Syne", system-ui, sans-serif;
@@ -52,11 +90,18 @@
 
   --tt-text-hero: clamp(2.5rem, 6vw + 1rem, 5.25rem);
   --tt-text-display: clamp(2rem, 4vw + 0.75rem, 3.5rem);
+  /* Between title and display — article heroes, mega panel headings, featured cards */
+  --tt-text-subhero: clamp(1.75rem, 4vw, 3rem);
+  /* Between title and subhero — feature card titles, adventure card H2 */
+  --tt-text-feature: clamp(1.5rem, 4vw, 2.75rem);
   --tt-text-title: clamp(1.35rem, 2vw + 0.5rem, 1.85rem);
   --tt-text-lead: clamp(1.05rem, 0.6vw + 0.95rem, 1.2rem);
+  /* Large lead — hero quote text */
+  --tt-text-quote: clamp(1.05rem, 2vw + 0.55rem, 1.65rem);
   --tt-text-body: 1rem;
   --tt-text-small: 0.875rem;
   --tt-text-overline: 0.72rem;
+  --tt-text-caption: 0.625rem;
 
   --tt-leading-tight: 1.05;
   --tt-leading-snug: 1.25;
@@ -77,6 +122,7 @@
   --tt-space-8: 2rem;
   --tt-space-10: 2.5rem;
   --tt-space-12: 3rem;
+  --tt-space-14: 3.5rem;
   --tt-space-16: 4rem;
   --tt-space-20: 5rem;
   --tt-space-24: 6rem;
@@ -104,6 +150,16 @@
     color-mix(in srgb, var(--tt-color-ink-strong) 12%, transparent);
   --tt-shadow-elevated: 0 18px 48px
     color-mix(in srgb, var(--tt-color-ink-strong) 22%, transparent);
+  /* Photo layout shadows */
+  --tt-shadow-photo: 0 20px 50px -20px
+    color-mix(in srgb, var(--tt-color-ink-strong) 35%, transparent);
+  --tt-shadow-photo-tight: 0 16px 40px -18px
+    color-mix(in srgb, var(--tt-color-ink-strong) 30%, transparent);
+  /* Collage / gallery shadows */
+  --tt-shadow-collage-lg: 0 32px 80px -28px
+    color-mix(in srgb, var(--tt-color-ink-strong) 55%, transparent);
+  --tt-shadow-collage-md: 0 28px 70px -24px
+    color-mix(in srgb, var(--tt-color-ink-strong) 50%, transparent);
 
   /* —— Motion —— */
   --tt-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -117,6 +173,7 @@
   --tt-z-dropdown: 40;
   --tt-z-sticky: 50;
   --tt-z-overlay: 100;
+  --tt-z-skip-link: 10000;
 
   /* —— Explore map (markers / popups; basemap is third-party tiles) —— */
   --tt-map-cluster-size: 2.5rem;
@@ -150,4 +207,13 @@
     var(--tt-color-white) 35%,
     transparent
   );
+  /* Borders need inverting on dark surfaces */
+  --tt-color-border-muted: color-mix(
+    in srgb,
+    var(--tt-color-white) 12%,
+    transparent
+  );
+  /* Shadows need more opacity on dark backgrounds */
+  --tt-shadow-sm: 0 1px 2px color-mix(in srgb, black 35%, transparent);
+  --tt-shadow-elevated: 0 18px 48px color-mix(in srgb, black 55%, transparent);
 }

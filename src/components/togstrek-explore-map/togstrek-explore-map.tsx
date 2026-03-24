@@ -173,7 +173,7 @@ export function TogstrekExploreMap({
   if (places.length === 0) {
     return (
       <div
-        className={`togstrek-explore-map-empty rounded-[var(--tt-radius-sm)] border border-tt-border-muted bg-tt-surface-muted px-6 py-12 text-center font-tt-body text-tt-text-secondary ${className}`}
+        className={`togstrek-explore-map-empty rounded-tt-sm border border-tt-border-muted bg-tt-surface-muted px-6 py-12 text-center font-tt-body text-tt-text-secondary ${className}`}
         role="status"
       >
         No places to show on the map yet.
@@ -190,7 +190,7 @@ export function TogstrekExploreMap({
 
   return (
     <div
-      className={`togstrek-explore-map relative h-[min(40vh,20rem)] w-full min-h-0 overflow-hidden rounded-[var(--tt-radius-sm)] border border-tt-border-default shadow-[var(--tt-shadow-sm)] sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)] ${className}`}
+      className={`togstrek-explore-map relative h-[min(40vh,20rem)] w-full min-h-0 overflow-hidden rounded-tt-sm border border-tt-border-default shadow-[var(--tt-shadow-sm)] sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)] ${className}`}
       role="region"
       aria-label={ariaLabel}
     >
@@ -223,7 +223,7 @@ export function TogstrekExploreMap({
               >
                 <button
                   type="button"
-                  className="togstrek-explore-map-cluster flex cursor-pointer items-center justify-center rounded-full border-[2px] border-tt-accent bg-[color-mix(in_srgb,var(--tt-color-surface-inverse)_92%,transparent)] font-tt-display text-[0.85rem] font-bold tabular-nums text-tt-text-inverse shadow-[var(--tt-map-cluster-shadow)] transition-transform duration-[var(--tt-duration-fast)] hover:scale-105 hover:border-tt-accent-hover"
+                  className="togstrek-explore-map-cluster flex cursor-pointer items-center justify-center rounded-full border-[2px] border-tt-accent bg-[color-mix(in_srgb,var(--tt-color-surface-inverse)_92%,transparent)] font-tt-display text-[0.85rem] font-bold tabular-nums text-tt-text-inverse shadow-[var(--tt-map-cluster-shadow)] transition-transform duration-tt-fast hover:scale-105 hover:border-tt-accent-hover"
                   style={{
                     width: "var(--tt-map-cluster-size)",
                     height: "var(--tt-map-cluster-size)",
@@ -263,7 +263,7 @@ export function TogstrekExploreMap({
                       ? "border-tt-text-inverse bg-tt-accent"
                       : "border-tt-accent bg-tt-surface-inverse"
                   }`}
-                  aria-hidden
+                  aria-hidden={true}
                 />
               </button>
             </Marker>
@@ -283,12 +283,12 @@ export function TogstrekExploreMap({
           >
             <article className="togstrek-explore-map-card text-left">
               <div className="flex items-start justify-between gap-3 border-b border-tt-border-muted px-4 py-3">
-                <h3 className="font-tt-display text-[length:var(--tt-text-title)] font-bold leading-[var(--tt-leading-snug)] tracking-[var(--tt-tracking-tight)] text-tt-text-primary">
+                <h3 className="font-tt-display text-tt-title font-bold leading-tt-snug tracking-tt-tight text-tt-text-primary">
                   {selected.title}
                 </h3>
                 <button
                   type="button"
-                  className="shrink-0 font-tt-body text-[length:var(--tt-text-small)] font-semibold text-tt-text-tertiary hover:text-tt-text-primary"
+                  className="shrink-0 font-tt-body text-tt-small font-semibold text-tt-text-tertiary hover:text-tt-text-primary"
                   onClick={() => setSelected(null)}
                   aria-label="Close"
                 >
@@ -306,13 +306,13 @@ export function TogstrekExploreMap({
                   />
                 </div>
               ) : null}
-              <p className="px-4 py-3 font-tt-body text-[length:var(--tt-text-small)] leading-[var(--tt-leading-normal)] text-tt-text-secondary">
+              <p className="px-4 py-3 font-tt-body text-tt-small leading-tt-normal text-tt-text-secondary">
                 {selected.excerpt}
               </p>
               <div className="border-t border-tt-border-muted px-4 py-3">
                 <Link
                   href={selected.href}
-                  className="inline-flex min-h-10 w-full items-center justify-center border-[length:var(--tt-border-width-thick)] border-tt-accent bg-transparent font-tt-display text-[length:var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-accent transition-colors hover:bg-tt-accent hover:text-tt-text-inverse"
+                  className="inline-flex min-h-10 w-full items-center justify-center border-tt-thick border-tt-accent bg-transparent font-tt-display text-tt-small font-semibold uppercase tracking-tt-wide text-tt-accent transition-colors hover:bg-tt-accent hover:text-tt-text-inverse"
                 >
                   Open story
                 </Link>

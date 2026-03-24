@@ -21,7 +21,7 @@
 
 .togstrek-explore-map .maplibregl-ctrl-attrib {
   font-family: var(--tt-font-body);
-  font-size: 10px;
+  font-size: var(--tt-text-caption);
   color: var(--tt-color-text-tertiary);
   background: color-mix(
     in srgb,

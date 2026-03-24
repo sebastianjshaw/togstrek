@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { TogstrekImageScrim } from "@/components/togstrek-ui/togstrek-image-scrim";
+
 type TogstrekLinkCardRegionProps = {
   variant: "region";
   href: string;
@@ -25,10 +27,10 @@ export type TogstrekLinkCardProps =
   | TogstrekLinkCardCompactProps;
 
 const togstrekLinkCardCompactBaseClass =
-  "togstrek-link-card togstrek-link-card--compact flex min-h-12 border px-4 py-3 font-tt-body text-[length:var(--tt-text-small)] transition-colors";
+  "togstrek-link-card togstrek-link-card--compact flex min-h-12 border px-4 py-3 font-tt-body text-tt-small transition-colors";
 
 /**
- * Shared interactive tile language: region “Where to” cards and hub list rows
+ * Shared interactive tile language: region "Where to" cards and hub list rows
  * use the same border, hover, and type scale.
  */
 export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
@@ -46,7 +48,7 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
         >
           <span className="font-semibold text-tt-text-primary">{title}</span>
           {meta ? (
-            <span className="mt-1 text-[length:var(--tt-text-overline)] leading-snug text-tt-text-tertiary">
+            <span className="mt-tt-1 text-tt-overline leading-tt-snug text-tt-text-tertiary">
               {meta}
             </span>
           ) : null}
@@ -61,7 +63,7 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
       >
         <span className="font-semibold">{title}</span>
         {meta ? (
-          <span className="mt-1 text-[length:var(--tt-text-overline)] leading-snug">
+          <span className="mt-tt-1 text-tt-overline leading-tt-snug">
             {meta}
           </span>
         ) : null}
@@ -84,7 +86,7 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
   return (
     <Link
       href={href}
-      className={`togstrek-link-card togstrek-link-card--region group relative flex min-h-[var(--tt-region-card-min-height)] flex-col justify-end overflow-hidden border border-tt-border-muted bg-tt-surface-base shadow-[var(--tt-shadow-sm)] transition-[transform,box-shadow,border-color] duration-[var(--tt-duration-normal)] ease-[var(--tt-ease-out)] after:pointer-events-none after:absolute after:inset-0 after:border-[length:var(--tt-border-width-thick)] after:border-transparent after:transition-colors hover:-translate-y-1 hover:shadow-[var(--tt-shadow-elevated)] hover:after:border-tt-accent ${
+      className={`togstrek-link-card togstrek-link-card--region group relative flex min-h-[var(--tt-region-card-min-height)] flex-col justify-end overflow-hidden border border-tt-border-muted bg-tt-surface-base shadow-[var(--tt-shadow-sm)] transition-[transform,box-shadow,border-color] duration-tt-normal ease-tt-out after:pointer-events-none after:absolute after:inset-0 after:border-tt-thick after:border-transparent after:transition-colors hover:-translate-y-1 hover:shadow-[var(--tt-shadow-elevated)] hover:after:border-tt-accent ${
         isFeatured ? "lg:min-h-[var(--tt-region-card-featured-min-height)]" : ""
       }`}
     >
@@ -94,22 +96,19 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
             src={imageSrc}
             alt={imageAlt ?? ""}
             fill
-            className="object-cover object-center transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.04]"
+            className="object-cover object-center transition-transform duration-tt-slow ease-tt-out group-hover:scale-[1.04]"
             sizes={
               isFeatured
                 ? "(max-width:768px) 100vw, min(90rem, 100vw)"
                 : "(max-width:768px) 100vw, 50vw"
             }
           />
-          <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_88%,transparent)] via-[color-mix(in_srgb,var(--tt-color-ink-strong)_35%,transparent)] to-[color-mix(in_srgb,var(--tt-color-ink-strong)_12%,transparent)]"
-            aria-hidden
-          />
+          <TogstrekImageScrim />
         </>
       ) : (
         <div
-          className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${gradient} opacity-95 transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-105`}
-          aria-hidden
+          className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${gradient} opacity-95 transition-transform duration-tt-slow ease-tt-out group-hover:scale-105`}
+          aria-hidden={true}
         />
       )}
 
@@ -117,10 +116,10 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
         className={`relative z-[1] p-6 sm:p-8 ${isFeatured ? "sm:p-10" : ""}`}
       >
         <span
-          className={`font-tt-display font-bold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-inverse ${
+          className={`font-tt-display font-bold uppercase tracking-tt-wide text-tt-text-inverse ${
             isFeatured
-              ? "text-[clamp(1.65rem,4.5vw,3.25rem)] leading-[var(--tt-leading-tight)]"
-              : "text-[length:var(--tt-text-title)]"
+              ? "text-tt-subhero leading-tt-tight"
+              : "text-tt-title"
           }`}
         >
           {title}
@@ -128,8 +127,8 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
         <p
           className={`mt-3 max-w-[min(40ch,100%)] font-tt-body text-tt-text-inverse/90 [overflow-wrap:anywhere] ${
             isFeatured
-              ? "text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)]"
-              : "text-[length:var(--tt-text-small)]"
+              ? "text-tt-lead leading-tt-relaxed"
+              : "text-tt-small"
           }`}
         >
           {description}

@@ -3,6 +3,7 @@
 
 /* Map design tokens into Tailwind v4 theme — use utilities like bg-tt-surface-base */
 @theme inline {
+  /* Colors */
   --color-tt-surface-base: var(--tt-color-surface-base);
   --color-tt-surface-muted: var(--tt-color-surface-muted);
   --color-tt-surface-inverse: var(--tt-color-surface-inverse);
@@ -18,11 +19,77 @@
   --color-tt-border-muted: var(--tt-color-border-muted);
   --color-tt-border-accent: var(--tt-color-border-accent);
 
+  /* Fonts */
   --font-tt-display: var(--tt-font-display);
   --font-tt-body: var(--tt-font-body);
   --font-tt-mono: var(--tt-font-mono);
 
+  /* Spacing scale → mt-tt-4, py-tt-8, gap-tt-6, etc. */
+  --spacing-tt-1: var(--tt-space-1);
+  --spacing-tt-2: var(--tt-space-2);
+  --spacing-tt-3: var(--tt-space-3);
+  --spacing-tt-4: var(--tt-space-4);
+  --spacing-tt-5: var(--tt-space-5);
+  --spacing-tt-6: var(--tt-space-6);
+  --spacing-tt-8: var(--tt-space-8);
+  --spacing-tt-10: var(--tt-space-10);
+  --spacing-tt-12: var(--tt-space-12);
+  --spacing-tt-14: var(--tt-space-14);
+  --spacing-tt-16: var(--tt-space-16);
+  --spacing-tt-20: var(--tt-space-20);
+  --spacing-tt-24: var(--tt-space-24);
+  --spacing-tt-32: var(--tt-space-32);
   --spacing-tt-gutter: var(--tt-layout-gutter);
+
+  /* Type scale → text-tt-title, text-tt-small, etc. */
+  --text-tt-hero: var(--tt-text-hero);
+  --text-tt-display: var(--tt-text-display);
+  --text-tt-subhero: var(--tt-text-subhero);
+  --text-tt-feature: var(--tt-text-feature);
+  --text-tt-title: var(--tt-text-title);
+  --text-tt-lead: var(--tt-text-lead);
+  --text-tt-quote: var(--tt-text-quote);
+  --text-tt-body: var(--tt-text-body);
+  --text-tt-small: var(--tt-text-small);
+  --text-tt-overline: var(--tt-text-overline);
+  --text-tt-caption: var(--tt-text-caption);
+
+  /* Line height → leading-tt-tight, leading-tt-relaxed, etc. */
+  --leading-tt-tight: var(--tt-leading-tight);
+  --leading-tt-snug: var(--tt-leading-snug);
+  --leading-tt-normal: var(--tt-leading-normal);
+  --leading-tt-relaxed: var(--tt-leading-relaxed);
+
+  /* Letter spacing → tracking-tt-tight, tracking-tt-wide, etc. */
+  --tracking-tt-tight: var(--tt-tracking-tight);
+  --tracking-tt-wide: var(--tt-tracking-wide);
+  --tracking-tt-overline: var(--tt-tracking-overline);
+
+  /* Transition duration → duration-tt-fast, duration-tt-normal, duration-tt-slow */
+  --duration-tt-fast: var(--tt-duration-fast);
+  --duration-tt-normal: var(--tt-duration-normal);
+  --duration-tt-slow: var(--tt-duration-slow);
+
+  /* Easing → ease-tt-out, ease-tt-in-out */
+  --ease-tt-out: var(--tt-ease-out);
+  --ease-tt-in-out: var(--tt-ease-in-out);
+
+  /* Border radius → rounded-tt-sm, rounded-tt-md */
+  --radius-tt-none: var(--tt-radius-none);
+  --radius-tt-sm: var(--tt-radius-sm);
+  --radius-tt-md: var(--tt-radius-md);
+
+  /* Border width → border-tt-hairline, border-tt-thick, border-tt-accent-stroke */
+  --border-width-tt-hairline: var(--tt-border-width-hairline);
+  --border-width-tt-thick: var(--tt-border-width-thick);
+  --border-width-tt-accent-stroke: var(--tt-border-width-accent);
+
+  /* Z-index → z-tt-dropdown, z-tt-sticky, z-tt-overlay, z-tt-skip-link */
+  --z-tt-base: var(--tt-z-base);
+  --z-tt-dropdown: var(--tt-z-dropdown);
+  --z-tt-sticky: var(--tt-z-sticky);
+  --z-tt-overlay: var(--tt-z-overlay);
+  --z-tt-skip-link: var(--tt-z-skip-link);
 }
 
 @layer components {
@@ -32,6 +99,23 @@
    */
   .togstrek-prose {
     min-width: 0;
+  }
+
+  /**
+   * Image scrim overlay — gradient-to-top darkness over hero/card images.
+   * Use variant modifier classes to select depth.
+   */
+  .togstrek-image-scrim {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background: var(--tt-color-overlay-image-scrim);
+  }
+  .togstrek-image-scrim--deep {
+    background: var(--tt-color-overlay-image-scrim-deep);
+  }
+  .togstrek-image-scrim--soft {
+    background: var(--tt-color-overlay-image-scrim-soft);
   }
 
   /**
@@ -54,20 +138,21 @@
     margin-block: 0;
   }
 
+  /* Mobile-first: 1 col by default, 2 col at md+ */
   .togstrek-place-mdx-photo-pair-wrap {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: var(--tt-space-4);
   }
 
-  @media (max-width: 767px) {
+  @media (min-width: 768px) {
     .togstrek-place-mdx-photo-pair-wrap {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
     }
   }
 
   .togstrek-place-mdx-photo-pair-wrap .togstrek-place-mdx-figure > span {
-    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--tt-shadow-photo);
   }
 
   .togstrek-place-mdx-photo-triptych-wrap {
@@ -87,7 +172,7 @@
     position: relative;
     aspect-ratio: 4 / 3;
     overflow: hidden;
-    box-shadow: 0 16px 40px -18px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--tt-shadow-photo-tight);
   }
 
   .togstrek-place-mdx-photo-mosaic-five-wrap {
@@ -108,7 +193,7 @@
     aspect-ratio: 16 / 9;
     max-height: min(72vh, 560px);
     overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--tt-shadow-photo);
   }
 
   .togstrek-place-mdx-photo-mosaic-five-quad {
@@ -129,41 +214,38 @@
     overflow: hidden;
   }
 
+  /* Mobile-first: portrait aspect by default, cinematic at md+ */
   .togstrek-place-mdx-photo-feature-wrap .togstrek-place-mdx-figure > span {
     position: relative;
     display: block;
-    aspect-ratio: 21 / 9;
-    max-height: min(52vh, 480px);
+    aspect-ratio: 5 / 4;
     overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--tt-shadow-photo);
   }
 
-  @media (max-width: 767px) {
+  @media (min-width: 768px) {
     .togstrek-place-mdx-photo-feature-wrap .togstrek-place-mdx-figure > span {
-      aspect-ratio: 5 / 4;
-      max-height: none;
+      aspect-ratio: 21 / 9;
+      max-height: min(52vh, 480px);
     }
   }
 
+  /* Mobile-first: 1 col by default, 2 col split at md+ */
   .togstrek-place-mdx-photo-castle-split-wrap {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: var(--tt-space-4);
   }
 
-  @media (max-width: 767px) {
+  @media (min-width: 768px) {
     .togstrek-place-mdx-photo-castle-split-wrap {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  .togstrek-place-mdx-photo-castle-split-wrap > .togstrek-place-mdx-figure:first-child {
-    grid-row: span 2;
-  }
-
-  @media (max-width: 767px) {
+  @media (min-width: 768px) {
     .togstrek-place-mdx-photo-castle-split-wrap > .togstrek-place-mdx-figure:first-child {
-      grid-row: auto;
+      grid-row: span 2;
     }
   }
 
@@ -173,7 +255,7 @@
     aspect-ratio: 3 / 4;
     max-height: min(70vh, 640px);
     overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--tt-shadow-photo);
   }
 
   .togstrek-place-mdx-photo-castle-split-wrap
@@ -214,7 +296,7 @@
     padding: 0;
     margin: -1px;
     overflow: hidden;
-    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
     white-space: nowrap;
     border: 0;
   }
@@ -223,13 +305,13 @@
     position: fixed;
     left: var(--tt-space-4);
     top: var(--tt-space-4);
-    z-index: 10000;
+    z-index: var(--tt-z-skip-link);
     width: auto;
     height: auto;
     margin: 0;
     padding: var(--tt-space-3) var(--tt-space-4);
     overflow: visible;
-    clip: auto;
+    clip-path: none;
     white-space: normal;
     border-radius: var(--tt-radius-sm);
     border: var(--tt-border-width-hairline) solid var(--tt-color-border-default);

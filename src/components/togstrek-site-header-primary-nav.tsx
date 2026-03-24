@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { TogstrekSiteHeaderAdventuresMegaPanel } from "@/components/togstrek-site-header-adventures-mega-panel";
@@ -33,6 +34,55 @@ type OpenMegaKey =
   | TogstrekSectionMegaKey
   | "adventures";
 
+/** Reusable expandable nav group for mobile menu. */
+function MobileExpandableNavGroup({
+  label,
+  topHref,
+  topLinkLabel,
+  links,
+  footer,
+}: {
+  label: string;
+  topHref: string;
+  topLinkLabel: string;
+  links: { href: string; label: string }[];
+  footer?: ReactNode;
+}) {
+  return (
+    <li className="min-w-0">
+      <details className="togstrek-site-header-mobile-nav-group rounded-tt-sm">
+        <summary className="cursor-pointer list-none px-3 py-2 font-tt-display text-tt-small font-semibold text-tt-text-primary [&::-webkit-details-marker]:hidden">
+          <span className="flex min-h-9 items-center justify-between gap-2">
+            {label}
+            <span className="text-tt-text-tertiary" aria-hidden={true}>+</span>
+          </span>
+        </summary>
+        <ul className="border-t border-tt-border-muted bg-tt-surface-muted/60 py-1 pl-2 pr-1">
+          <li>
+            <Link
+              href={topHref}
+              className="block min-h-10 rounded-tt-sm px-2 py-2 text-tt-small font-semibold text-tt-accent [overflow-wrap:anywhere]"
+            >
+              {topLinkLabel}
+            </Link>
+          </li>
+          {links.map((l) => (
+            <li key={`${l.href}-${l.label}`}>
+              <Link
+                href={l.href}
+                className="block min-h-10 rounded-tt-sm px-2 py-2 text-tt-small text-tt-text-secondary [overflow-wrap:anywhere] hover:bg-tt-surface-base hover:text-tt-accent"
+              >
+                {l.label}
+              </Link>
+            </li>
+          ))}
+          {footer}
+        </ul>
+      </details>
+    </li>
+  );
+}
+
 function TogstrekSiteHeaderMegaMenuPanelBase({
   panelHeading,
   tagline,
@@ -55,19 +105,19 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
   onNavigate: () => void;
 }) {
   return (
-    <div className="togstrek-site-header-mega-panel-inner mx-auto grid max-w-[var(--tt-layout-max-wide)] gap-10 px-[var(--tt-layout-gutter)] py-[var(--tt-space-10)] lg:grid-cols-[minmax(0,1fr)_min(14rem,28%)] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_min(16rem,26%)]">
+    <div className="togstrek-site-header-mega-panel-inner mx-auto grid max-w-[var(--tt-layout-max-wide)] gap-10 px-tt-gutter py-tt-10 lg:grid-cols-[minmax(0,1fr)_min(14rem,28%)] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_min(16rem,26%)]">
       <div className="togstrek-site-header-mega-panel-main min-w-0">
-        <p className="font-tt-display text-[clamp(1.75rem,3.5vw,2.75rem)] font-extrabold uppercase leading-[var(--tt-leading-tight)] tracking-[var(--tt-tracking-tight)] text-tt-text-primary [overflow-wrap:anywhere]">
+        <p className="font-tt-display text-tt-subhero font-extrabold uppercase leading-tt-tight tracking-tt-tight text-tt-text-primary [overflow-wrap:anywhere]">
           {panelHeading}
         </p>
         {tagline ? (
-          <p className="mt-[var(--tt-space-4)] max-w-[52ch] font-tt-body text-[length:var(--tt-text-small)] font-bold uppercase leading-snug tracking-[var(--tt-tracking-wide)] text-tt-text-primary [overflow-wrap:anywhere]">
+          <p className="mt-tt-4 max-w-[52ch] font-tt-body text-tt-small font-bold uppercase leading-tt-snug tracking-tt-wide text-tt-text-primary [overflow-wrap:anywhere]">
             {tagline}
           </p>
         ) : null}
         <div
-          className="togstrek-site-header-mega-panel-divider my-[var(--tt-space-8)] h-px w-full bg-tt-border-muted"
-          aria-hidden
+          className="togstrek-site-header-mega-panel-divider my-tt-8 h-px w-full bg-tt-border-muted"
+          aria-hidden={true}
         />
         {links.length > 0 ? (
           <ul className="togstrek-site-header-mega-panel-link-grid grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
@@ -76,7 +126,7 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
                 <Link
                   href={l.href}
                   onClick={onNavigate}
-                  className="togstrek-site-header-mega-panel-grid-link block py-1 font-tt-body text-[length:var(--tt-text-small)] text-tt-text-secondary transition-colors hover:text-tt-accent [overflow-wrap:anywhere]"
+                  className="togstrek-site-header-mega-panel-grid-link block py-1 font-tt-body text-tt-small text-tt-text-secondary transition-colors hover:text-tt-accent [overflow-wrap:anywhere]"
                 >
                   {l.label}
                 </Link>
@@ -84,15 +134,15 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
             ))}
           </ul>
         ) : (
-          <p className="font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary">
+          <p className="font-tt-body text-tt-small text-tt-text-tertiary">
             {emptyStateMessage}
           </p>
         )}
-        <div className="mt-[var(--tt-space-10)] flex justify-center lg:justify-start">
+        <div className="mt-tt-10 flex justify-center lg:justify-start">
           <Link
             href={ctaHref}
             onClick={onNavigate}
-            className="inline-flex min-h-12 w-full min-w-0 max-w-xs items-center justify-center border-[length:var(--tt-border-width-thick)] border-tt-accent bg-transparent px-8 py-3 text-center font-tt-display text-[var(--tt-text-small)] font-semibold uppercase leading-snug tracking-[var(--tt-tracking-wide)] text-tt-accent transition-colors duration-[var(--tt-duration-normal)] hover:bg-tt-accent hover:text-tt-text-inverse sm:w-auto"
+            className="inline-flex min-h-12 w-full min-w-0 max-w-xs items-center justify-center border-tt-thick border-tt-accent bg-transparent px-8 py-3 text-center font-tt-display text-tt-small font-semibold uppercase leading-tt-snug tracking-tt-wide text-tt-accent transition-colors duration-tt-normal hover:bg-tt-accent hover:text-tt-text-inverse sm:w-auto"
           >
             {ctaLabel}
           </Link>
@@ -104,7 +154,7 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
       >
         <h2
           id={asideHeadingId}
-          className="font-tt-display text-[length:var(--tt-text-title)] font-bold text-tt-text-primary"
+          className="font-tt-display text-tt-title font-bold text-tt-text-primary"
         >
           {aside.headingHref ? (
             <Link
@@ -119,13 +169,13 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
           )}
         </h2>
         {aside.links.length > 0 ? (
-          <ul className="mt-[var(--tt-space-6)] space-y-2">
+          <ul className="mt-tt-6 space-y-tt-2">
             {aside.links.map((a) => (
               <li key={a.href}>
                 <Link
                   href={a.href}
                   onClick={onNavigate}
-                  className="togstrek-site-header-mega-panel-aside-link block py-1 font-tt-body text-[length:var(--tt-text-small)] text-tt-text-secondary transition-colors hover:text-tt-accent [overflow-wrap:anywhere]"
+                  className="togstrek-site-header-mega-panel-aside-link block py-1 font-tt-body text-tt-small text-tt-text-secondary transition-colors hover:text-tt-accent [overflow-wrap:anywhere]"
                 >
                   {a.label}
                 </Link>
@@ -200,6 +250,11 @@ export function TogstrekSiteHeaderPrimaryNav({
     links: adventureLinks,
   };
 
+  const openSectionDef =
+    openMegaKey && isSectionMegaKey(openMegaKey)
+      ? togstrekSectionMegaMenuByKey[openMegaKey]
+      : null;
+
   const panelVisible = openMegaKey !== null;
 
   return (
@@ -208,7 +263,7 @@ export function TogstrekSiteHeaderPrimaryNav({
         className="togstrek-site-header-primary-nav-desktop hidden lg:block"
         aria-label="Primary"
       >
-        <ul className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-[var(--tt-text-small)] font-medium tracking-wide">
+        <ul className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-tt-small font-medium tracking-tt-wide">
           <li
             className="togstrek-site-header-mega-trigger relative"
             onMouseEnter={() => openMega("adventures")}
@@ -216,7 +271,7 @@ export function TogstrekSiteHeaderPrimaryNav({
           >
             <Link
               href="/adventures"
-              className="text-tt-text-secondary transition-colors duration-[var(--tt-duration-fast)] hover:text-tt-accent"
+              className="text-tt-text-secondary transition-colors duration-tt-fast hover:text-tt-accent"
               aria-expanded={openMegaKey === "adventures"}
               aria-haspopup="true"
             >
@@ -232,7 +287,7 @@ export function TogstrekSiteHeaderPrimaryNav({
             >
               <Link
                 href={item.href}
-                className="text-tt-text-secondary transition-colors duration-[var(--tt-duration-fast)] hover:text-tt-accent"
+                className="text-tt-text-secondary transition-colors duration-tt-fast hover:text-tt-accent"
                 aria-expanded={openMegaKey === item.continentId}
                 aria-haspopup="true"
               >
@@ -249,7 +304,7 @@ export function TogstrekSiteHeaderPrimaryNav({
             >
               <Link
                 href={section.navHref}
-                className="text-tt-text-secondary transition-colors duration-[var(--tt-duration-fast)] hover:text-tt-accent"
+                className="text-tt-text-secondary transition-colors duration-tt-fast hover:text-tt-accent"
                 aria-expanded={openMegaKey === section.key}
                 aria-haspopup="true"
               >
@@ -261,7 +316,7 @@ export function TogstrekSiteHeaderPrimaryNav({
       </nav>
 
       <div
-        className={`togstrek-site-header-mega-panel fixed inset-x-0 z-[100] border-b shadow-[var(--tt-shadow-elevated)] transition-[opacity,visibility] duration-[var(--tt-duration-fast)] ease-[var(--tt-ease-out)] ${
+        className={`togstrek-site-header-mega-panel fixed inset-x-0 z-tt-overlay border-b shadow-[var(--tt-shadow-elevated)] transition-[opacity,visibility] duration-tt-fast ease-tt-out ${
           openMegaKey === "adventures"
             ? "border-white/10 bg-tt-surface-inverse"
             : "border-tt-border-muted bg-tt-surface-base"
@@ -290,69 +345,43 @@ export function TogstrekSiteHeaderPrimaryNav({
             onNavigate={closeMega}
           />
         ) : null}
-        {openMegaKey && isSectionMegaKey(openMegaKey) ? (
+        {openSectionDef ? (
           <TogstrekSiteHeaderMegaMenuPanelBase
-            {...(() => {
-              const def = togstrekSectionMegaMenuByKey[openMegaKey];
-              return {
-                panelHeading: def.panelHeading,
-                tagline: def.tagline,
-                links: def.links,
-                ctaLabel: def.ctaLabel,
-                ctaHref: def.ctaHref,
-                aside: def.aside,
-                emptyStateMessage: def.emptyStateMessage,
-                asideHeadingId: `togstrek-site-header-mega-aside-${def.key}`,
-              };
-            })()}
+            panelHeading={openSectionDef.panelHeading}
+            tagline={openSectionDef.tagline}
+            links={openSectionDef.links}
+            ctaLabel={openSectionDef.ctaLabel}
+            ctaHref={openSectionDef.ctaHref}
+            aside={openSectionDef.aside}
+            emptyStateMessage={openSectionDef.emptyStateMessage}
+            asideHeadingId={`togstrek-site-header-mega-aside-${openSectionDef.key}`}
             onNavigate={closeMega}
           />
         ) : null}
       </div>
 
       <details className="togstrek-site-header-mobile-nav relative shrink-0 lg:hidden">
-        <summary className="flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-[var(--tt-radius-sm)] border border-tt-border-default px-3 font-tt-display text-[var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-primary touch-manipulation [&::-webkit-details-marker]:hidden">
+        <summary className="flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-tt-sm border border-tt-border-default px-3 font-tt-display text-tt-small font-semibold uppercase tracking-tt-wide text-tt-text-primary touch-manipulation [&::-webkit-details-marker]:hidden">
           Menu
         </summary>
-        <div className="absolute right-0 z-[var(--tt-z-dropdown)] mt-2 w-[min(calc(100vw-2*var(--tt-layout-gutter)),22rem)] max-w-[calc(100vw-1rem)] border border-tt-border-default bg-tt-surface-base py-2 shadow-[var(--tt-shadow-elevated)]">
+        <div className="absolute right-0 z-tt-dropdown mt-2 w-[min(calc(100vw-2*var(--tt-layout-gutter)),22rem)] max-w-[calc(100vw-1rem)] border border-tt-border-default bg-tt-surface-base py-2 shadow-[var(--tt-shadow-elevated)]">
           <ul className="flex max-h-[min(75vh,36rem)] flex-col gap-0.5 overflow-y-auto overscroll-contain px-2">
-            <li className="min-w-0">
-              <details className="togstrek-site-header-mobile-adventures-mega rounded-[var(--tt-radius-sm)]">
-                <summary className="cursor-pointer list-none px-3 py-2 font-tt-display text-[var(--tt-text-small)] font-semibold text-tt-text-primary [&::-webkit-details-marker]:hidden">
-                  <span className="flex min-h-9 items-center justify-between gap-2">
-                    Adventures
-                    <span className="text-tt-text-tertiary" aria-hidden>
-                      +
-                    </span>
-                  </span>
-                </summary>
-                <ul className="border-t border-tt-border-muted bg-tt-surface-muted/60 py-1 pl-2 pr-1">
-                  <li>
-                    <Link
-                      href="/adventures"
-                      className="block min-h-10 rounded-[var(--tt-radius-sm)] px-2 py-2 text-[var(--tt-text-small)] font-semibold text-tt-accent [overflow-wrap:anywhere]"
-                    >
-                      See all adventures →
-                    </Link>
-                  </li>
-                  {togstrekAdventuresMegaFeaturedCards.map((card) => (
-                    <li key={card.href}>
-                      <Link
-                        href={card.href}
-                        className="block min-h-10 rounded-[var(--tt-radius-sm)] px-2 py-2 text-[var(--tt-text-small)] text-tt-text-secondary [overflow-wrap:anywhere] hover:bg-tt-surface-base hover:text-tt-accent"
-                      >
-                        {card.title}
-                      </Link>
-                    </li>
-                  ))}
-                  <li className="px-2 py-2">
-                    <p className="text-[length:0.7rem] font-semibold uppercase leading-snug tracking-wide text-tt-text-tertiary [overflow-wrap:anywhere]">
-                      {togstrekAdventuresMegaTagline}
-                    </p>
-                  </li>
-                </ul>
-              </details>
-            </li>
+            <MobileExpandableNavGroup
+              label="Adventures"
+              topHref="/adventures"
+              topLinkLabel="See all adventures →"
+              links={togstrekAdventuresMegaFeaturedCards.map((card) => ({
+                href: card.href,
+                label: card.title,
+              }))}
+              footer={
+                <li className="px-2 py-2">
+                  <p className="text-[length:0.7rem] font-semibold uppercase leading-tt-snug tracking-tt-wide text-tt-text-tertiary [overflow-wrap:anywhere]">
+                    {togstrekAdventuresMegaTagline}
+                  </p>
+                </li>
+              }
+            />
             {togstrekContinentNavMegaItems.map((c) => {
               const sub = megaMenuNavLinks[c.continentId];
               if (sub.length === 0) {
@@ -360,7 +389,7 @@ export function TogstrekSiteHeaderPrimaryNav({
                   <li key={c.href}>
                     <Link
                       href={c.href}
-                      className="block min-h-11 rounded-[var(--tt-radius-sm)] px-3 py-3 text-[var(--tt-text-small)] leading-snug text-tt-text-secondary transition-colors hover:bg-tt-surface-muted hover:text-tt-accent sm:py-2.5"
+                      className="block min-h-11 rounded-tt-sm px-3 py-3 text-tt-small leading-tt-snug text-tt-text-secondary transition-colors hover:bg-tt-surface-muted hover:text-tt-accent sm:py-2.5"
                     >
                       {c.label}
                     </Link>
@@ -368,73 +397,23 @@ export function TogstrekSiteHeaderPrimaryNav({
                 );
               }
               return (
-                <li key={c.href} className="min-w-0">
-                  <details className="togstrek-site-header-mobile-continent rounded-[var(--tt-radius-sm)]">
-                    <summary className="cursor-pointer list-none px-3 py-2 font-tt-display text-[var(--tt-text-small)] font-semibold text-tt-text-primary [&::-webkit-details-marker]:hidden">
-                      <span className="flex min-h-9 items-center justify-between gap-2">
-                        {c.label}
-                        <span className="text-tt-text-tertiary" aria-hidden>
-                          +
-                        </span>
-                      </span>
-                    </summary>
-                    <ul className="border-t border-tt-border-muted bg-tt-surface-muted/60 py-1 pl-2 pr-1">
-                      <li>
-                        <Link
-                          href={c.href}
-                          className="block min-h-10 rounded-[var(--tt-radius-sm)] px-2 py-2 text-[var(--tt-text-small)] font-semibold text-tt-accent [overflow-wrap:anywhere]"
-                        >
-                          Explore {c.label} →
-                        </Link>
-                      </li>
-                      {sub.map((l) => (
-                        <li key={`${l.href}-${l.label}`}>
-                          <Link
-                            href={l.href}
-                            className="block min-h-10 rounded-[var(--tt-radius-sm)] px-2 py-2 text-[var(--tt-text-small)] text-tt-text-secondary [overflow-wrap:anywhere] hover:bg-tt-surface-base hover:text-tt-accent"
-                          >
-                            {l.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </details>
-                </li>
+                <MobileExpandableNavGroup
+                  key={c.href}
+                  label={c.label}
+                  topHref={c.href}
+                  topLinkLabel={`Explore ${c.label} →`}
+                  links={sub}
+                />
               );
             })}
             {togstrekSectionMegaMenuList.map((section) => (
-              <li key={section.key} className="min-w-0">
-                <details className="togstrek-site-header-mobile-section-mega rounded-[var(--tt-radius-sm)]">
-                  <summary className="cursor-pointer list-none px-3 py-2 font-tt-display text-[var(--tt-text-small)] font-semibold text-tt-text-primary [&::-webkit-details-marker]:hidden">
-                    <span className="flex min-h-9 items-center justify-between gap-2">
-                      {section.navLabel}
-                      <span className="text-tt-text-tertiary" aria-hidden>
-                        +
-                      </span>
-                    </span>
-                  </summary>
-                  <ul className="border-t border-tt-border-muted bg-tt-surface-muted/60 py-1 pl-2 pr-1">
-                    <li>
-                      <Link
-                        href={section.navHref}
-                        className="block min-h-10 rounded-[var(--tt-radius-sm)] px-2 py-2 text-[var(--tt-text-small)] font-semibold text-tt-accent [overflow-wrap:anywhere]"
-                      >
-                        {section.ctaLabel} →
-                      </Link>
-                    </li>
-                    {section.links.map((l) => (
-                      <li key={`${l.href}-${l.label}`}>
-                        <Link
-                          href={l.href}
-                          className="block min-h-10 rounded-[var(--tt-radius-sm)] px-2 py-2 text-[var(--tt-text-small)] text-tt-text-secondary [overflow-wrap:anywhere] hover:bg-tt-surface-base hover:text-tt-accent"
-                        >
-                          {l.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </details>
-              </li>
+              <MobileExpandableNavGroup
+                key={section.key}
+                label={section.navLabel}
+                topHref={section.navHref}
+                topLinkLabel={`${section.ctaLabel} →`}
+                links={section.links}
+              />
             ))}
           </ul>
         </div>

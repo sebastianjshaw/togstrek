@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
+import { TogstrekImageScrim } from "@/components/togstrek-ui/togstrek-image-scrim";
 
 export type TogstrekPageHeroQuote = {
   children: ReactNode;
@@ -25,6 +26,15 @@ export type TogstrekPageHeroProps = {
   actions?: ReactNode;
   stripTexture?: boolean;
 };
+
+/** Shared eyebrow label used in both hero variants. */
+function HeroEyebrow({ children }: { children: ReactNode }) {
+  return (
+    <p className="font-tt-display text-tt-overline font-semibold uppercase tracking-tt-overline text-tt-text-inverse/90">
+      {children}
+    </p>
+  );
+}
 
 /**
  * `landing` — full-viewport marketing hero (home, continent hubs).
@@ -62,18 +72,13 @@ export function TogstrekPageHero({
             className="object-cover object-center"
             sizes="100vw"
           />
-          <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_78%,transparent)] via-transparent to-transparent"
-            aria-hidden
-          />
+          <TogstrekImageScrim variant="soft" />
           <div className="absolute inset-x-0 bottom-0 z-[1] [text-shadow:0_2px_20px_rgba(0,0,0,0.55)]">
-            <TogstrekContentWidth className="pb-[max(var(--tt-space-10),env(safe-area-inset-bottom))] pt-[var(--tt-space-16)]">
-              <p className="font-tt-display text-[length:var(--tt-text-overline)] font-semibold uppercase tracking-[var(--tt-tracking-overline)] text-tt-text-inverse/90">
-                {eyebrow}
-              </p>
+            <TogstrekContentWidth className="pb-[max(var(--tt-space-10),env(safe-area-inset-bottom))] pt-tt-16">
+              <HeroEyebrow>{eyebrow}</HeroEyebrow>
               <h1
                 id={titleId}
-                className="mt-[var(--tt-space-2)] max-w-[20ch] font-tt-display text-[clamp(1.75rem,4vw,3rem)] font-extrabold leading-[var(--tt-leading-tight)] text-tt-text-inverse"
+                className="mt-tt-2 max-w-[20ch] font-tt-display text-tt-subhero font-extrabold leading-tt-tight text-tt-text-inverse"
               >
                 {title}
               </h1>
@@ -98,66 +103,57 @@ export function TogstrekPageHero({
           className="object-cover object-center"
           sizes="100vw"
         />
+        <TogstrekImageScrim />
         <div
-          className="absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_88%,transparent)] via-[color-mix(in_srgb,var(--tt-color-ink-strong)_35%,transparent)] to-[color-mix(in_srgb,var(--tt-color-ink-strong)_18%,transparent)]"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_60%_at_50%_50%,rgba(0,0,0,0.42)_0%,transparent_68%)]"
-          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[var(--tt-color-overlay-radial-vignette)]"
+          aria-hidden={true}
         />
         {stripTexture ? (
           <>
             <div
               className="absolute inset-0 bg-[var(--tt-color-overlay-hero)]"
-              aria-hidden
+              aria-hidden={true}
             />
             <div
-              className="absolute inset-0 opacity-[0.35] mix-blend-overlay"
-              style={{
-                backgroundImage:
-                  "repeating-linear-gradient(-12deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 3px)",
-              }}
-              aria-hidden
+              className="absolute inset-0 opacity-[0.35] mix-blend-overlay bg-[var(--tt-color-overlay-texture-stripe)]"
+              aria-hidden={true}
             />
           </>
         ) : null}
       </div>
 
-      <div className="togstrek-page-hero-content relative z-[1] mx-auto w-full min-w-0 max-w-[var(--tt-layout-max-wide)] px-[var(--tt-layout-gutter)] pb-[max(var(--tt-space-16),env(safe-area-inset-bottom))] pt-[max(var(--tt-space-16),env(safe-area-inset-top))] [text-shadow:0_2px_20px_rgba(0,0,0,0.55)] sm:pt-[var(--tt-space-24)] md:pb-[var(--tt-space-20)]">
-        <p className="font-tt-display text-[length:var(--tt-text-overline)] font-semibold uppercase tracking-[var(--tt-tracking-overline)] text-tt-text-inverse/90">
-          {eyebrow}
-        </p>
+      <div className="togstrek-page-hero-content relative z-[1] mx-auto w-full min-w-0 max-w-[var(--tt-layout-max-wide)] px-tt-gutter pb-[max(var(--tt-space-16),env(safe-area-inset-bottom))] pt-[max(var(--tt-space-16),env(safe-area-inset-top))] [text-shadow:0_2px_20px_rgba(0,0,0,0.55)] sm:pt-tt-24 md:pb-tt-20">
+        <HeroEyebrow>{eyebrow}</HeroEyebrow>
         <h1
           id={titleId}
-          className="togstrek-page-hero-title mt-[var(--tt-space-4)] max-w-[min(22ch,100%)] font-tt-display text-[length:var(--tt-text-hero)] font-extrabold leading-[var(--tt-leading-tight)] tracking-[var(--tt-tracking-tight)] text-tt-text-inverse [overflow-wrap:anywhere]"
+          className="togstrek-page-hero-title mt-tt-4 max-w-[min(22ch,100%)] font-tt-display text-tt-hero font-extrabold leading-tt-tight tracking-tt-tight text-tt-text-inverse [overflow-wrap:anywhere]"
         >
           {title}
         </h1>
 
         {showAccentRule ? (
-          <div className="togstrek-page-hero-rule my-[var(--tt-space-8)] h-1 w-24 bg-tt-accent shadow-[0_0_24px_color-mix(in_srgb,var(--tt-color-accent)_55%,transparent)]" />
+          <div className="togstrek-page-hero-rule my-tt-8 h-1 w-24 bg-tt-accent shadow-[0_0_24px_color-mix(in_srgb,var(--tt-color-accent)_55%,transparent)]" />
         ) : null}
 
         {quote ? (
-          <figure className="togstrek-page-hero-quote mt-[var(--tt-space-8)] max-w-[min(36rem,100%)]">
-            <blockquote className="font-tt-display text-[clamp(1.05rem,2vw+0.55rem,1.65rem)] font-semibold leading-[var(--tt-leading-snug)] text-tt-text-inverse [overflow-wrap:anywhere]">
+          <figure className="togstrek-page-hero-quote mt-tt-8 max-w-[min(36rem,100%)]">
+            <blockquote className="font-tt-display text-tt-quote font-semibold leading-tt-snug text-tt-text-inverse [overflow-wrap:anywhere]">
               {quote.children}
             </blockquote>
-            <figcaption className="mt-[var(--tt-space-3)] font-tt-body text-[length:var(--tt-text-small)] italic text-tt-text-inverse/88">
+            <figcaption className="mt-tt-3 font-tt-body text-tt-small italic text-tt-text-inverse/88">
               — {quote.attribution}
             </figcaption>
           </figure>
         ) : null}
 
         {lead ? (
-          <div className="togstrek-page-hero-lead max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-inverse/92 [overflow-wrap:anywhere]">
+          <div className="togstrek-page-hero-lead max-w-[var(--tt-layout-max-prose)] font-tt-body text-tt-lead leading-tt-relaxed text-tt-text-inverse/92 [overflow-wrap:anywhere]">
             {lead}
           </div>
         ) : null}
 
         {actions ? (
-          <div className="togstrek-page-hero-actions mt-[var(--tt-space-10)] flex w-full max-w-lg flex-col gap-4 sm:max-w-none sm:flex-row sm:flex-wrap">
+          <div className="togstrek-page-hero-actions mt-tt-10 flex w-full max-w-lg flex-col gap-tt-4 sm:max-w-none sm:flex-row sm:flex-wrap">
             {actions}
           </div>
         ) : null}
