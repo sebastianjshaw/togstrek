@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, Geist_Mono, Syne } from "next/font/google";
 import "./globals.css";
+import { TogstrekSiteFooter } from "@/components/togstrek-site-footer";
 import { TogstrekSiteHeader } from "@/components/togstrek-site-header";
 import { TogstrekSkipLink } from "@/components/togstrek-skip-link";
 
@@ -36,6 +37,17 @@ export const metadata: Metadata = {
   description:
     "The most exciting journey is the next one… Curious travel guides and photo essays that dig deeper into countries, cities, and hikes.",
   metadataBase: new URL("https://togstrek.com"),
+  manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   openGraph: {
     title: "A Tog's Trek",
     description:
@@ -65,6 +77,7 @@ export default function RootLayout({
         >
           {children}
         </div>
+        <TogstrekSiteFooter />
       </body>
     </html>
   );

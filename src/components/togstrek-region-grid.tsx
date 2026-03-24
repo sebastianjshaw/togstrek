@@ -1,15 +1,14 @@
-import Image from "next/image";
-import Link from "next/link";
+import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
+import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
+import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
 
 type TogstrekRegionItem = {
   href: string;
   label: string;
   blurb: string;
   gradient: string;
-  /** Local or remote image — when set, fills the card behind text. */
   imageSrc?: string;
   imageAlt?: string;
-  /** Wide cinematic card on large screens (e.g. Europe). */
   featured?: boolean;
 };
 
@@ -86,91 +85,38 @@ export function TogstrekRegionGrid() {
       className="togstrek-region-grid border-t border-tt-border-muted bg-tt-surface-muted py-[var(--tt-space-20)]"
       aria-labelledby="togstrek-region-grid-heading"
     >
-      <div className="mx-auto max-w-[var(--tt-layout-max-wide)] px-[var(--tt-layout-gutter)]">
-        <h2
+      <TogstrekContentWidth>
+        <TogstrekSectionHeader
           id="togstrek-region-grid-heading"
-          className="font-tt-display text-[length:var(--tt-text-display)] font-bold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-primary"
-        >
-          Where to
-        </h2>
-        <p className="mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] text-tt-text-secondary">
-          Pick a region — each collection is built for wandering slowly, with
-          maps, notes, and images from the road.
-        </p>
+          title="Where to"
+          description="Pick a region — each collection is built for wandering slowly, with maps, notes, and images from the road."
+          descriptionProminent
+        />
 
         <ul className="mt-[var(--tt-space-12)] grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-7 lg:gap-8">
           {togstrekRegions.map((region) => {
             const isFeatured = Boolean(region.featured);
-            const hasImage = Boolean(region.imageSrc);
 
             return (
               <li
                 key={region.href}
                 className={`min-w-0 ${isFeatured ? "md:col-span-2" : ""}`}
               >
-                <Link
+                <TogstrekLinkCard
+                  variant="region"
                   href={region.href}
-                  className={`togstrek-region-card group relative flex min-h-[var(--tt-region-card-min-height)] flex-col justify-end overflow-hidden border border-tt-border-muted bg-tt-surface-base shadow-[var(--tt-shadow-sm)] transition-[transform,box-shadow,border-color] duration-[var(--tt-duration-normal)] ease-[var(--tt-ease-out)] after:pointer-events-none after:absolute after:inset-0 after:border-[length:var(--tt-border-width-thick)] after:border-transparent after:transition-colors hover:-translate-y-1 hover:shadow-[var(--tt-shadow-elevated)] hover:after:border-tt-accent ${
-                    isFeatured
-                      ? "lg:min-h-[var(--tt-region-card-featured-min-height)]"
-                      : ""
-                  }`}
-                >
-                  {hasImage && region.imageSrc ? (
-                    <>
-                      <Image
-                        src={region.imageSrc}
-                        alt={region.imageAlt ?? ""}
-                        fill
-                        className="object-cover object-center transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.04]"
-                        sizes={
-                          isFeatured
-                            ? "(max-width:768px) 100vw, min(90rem, 100vw)"
-                            : "(max-width:768px) 100vw, 50vw"
-                        }
-                      />
-                      <div
-                        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_88%,transparent)] via-[color-mix(in_srgb,var(--tt-color-ink-strong)_35%,transparent)] to-[color-mix(in_srgb,var(--tt-color-ink-strong)_12%,transparent)]"
-                        aria-hidden
-                      />
-                    </>
-                  ) : (
-                    <div
-                      className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${region.gradient} opacity-95 transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-105`}
-                      aria-hidden
-                    />
-                  )}
-
-                  <div
-                    className={`relative z-[1] p-6 sm:p-8 ${
-                      isFeatured ? "sm:p-10" : ""
-                    }`}
-                  >
-                    <span
-                      className={`font-tt-display font-bold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-inverse ${
-                        isFeatured
-                          ? "text-[clamp(1.65rem,4.5vw,3.25rem)] leading-[var(--tt-leading-tight)]"
-                          : "text-[length:var(--tt-text-title)]"
-                      }`}
-                    >
-                      {region.label}
-                    </span>
-                    <p
-                      className={`mt-3 max-w-[min(40ch,100%)] font-tt-body text-tt-text-inverse/90 [overflow-wrap:anywhere] ${
-                        isFeatured
-                          ? "text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)]"
-                          : "text-[length:var(--tt-text-small)]"
-                      }`}
-                    >
-                      {region.blurb}
-                    </p>
-                  </div>
-                </Link>
+                  title={region.label}
+                  description={region.blurb}
+                  gradient={region.gradient}
+                  imageSrc={region.imageSrc}
+                  imageAlt={region.imageAlt}
+                  featured={region.featured}
+                />
               </li>
             );
           })}
         </ul>
-      </div>
+      </TogstrekContentWidth>
     </section>
   );
 }

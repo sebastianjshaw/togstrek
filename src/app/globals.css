@@ -26,6 +26,187 @@
 }
 
 @layer components {
+  /**
+   * MDX / long-form article wrapper — typography lives on elements
+   * (e.g. `.togstrek-place-mdx-p`); this marks the prose subtree for theming.
+   */
+  .togstrek-prose {
+    min-width: 0;
+  }
+
+  /**
+   * Place MDX — portfolio-style photo layouts (wrap markdown images in these divs).
+   * Targets `.togstrek-place-mdx-figure` from `togstrek-place-mdx-components` `img`.
+   */
+  .togstrek-place-mdx-photo-pair-wrap,
+  .togstrek-place-mdx-photo-mosaic-five-wrap,
+  .togstrek-place-mdx-photo-feature-wrap,
+  .togstrek-place-mdx-photo-castle-split-wrap,
+  .togstrek-place-mdx-photo-triptych-wrap {
+    margin-block: var(--tt-space-12);
+  }
+
+  .togstrek-place-mdx-photo-pair-wrap .togstrek-place-mdx-figure,
+  .togstrek-place-mdx-photo-mosaic-five-wrap .togstrek-place-mdx-figure,
+  .togstrek-place-mdx-photo-feature-wrap .togstrek-place-mdx-figure,
+  .togstrek-place-mdx-photo-castle-split-wrap .togstrek-place-mdx-figure,
+  .togstrek-place-mdx-photo-triptych-wrap .togstrek-place-mdx-figure {
+    margin-block: 0;
+  }
+
+  .togstrek-place-mdx-photo-pair-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--tt-space-4);
+  }
+
+  @media (max-width: 767px) {
+    .togstrek-place-mdx-photo-pair-wrap {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .togstrek-place-mdx-photo-pair-wrap .togstrek-place-mdx-figure > span {
+    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.35);
+  }
+
+  .togstrek-place-mdx-photo-triptych-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--tt-space-3);
+  }
+
+  @media (min-width: 768px) {
+    .togstrek-place-mdx-photo-triptych-wrap {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--tt-space-4);
+    }
+  }
+
+  .togstrek-place-mdx-photo-triptych-wrap .togstrek-place-mdx-figure > span {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    box-shadow: 0 16px 40px -18px rgba(0, 0, 0, 0.3);
+  }
+
+  .togstrek-place-mdx-photo-mosaic-five-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--tt-space-4);
+  }
+
+  @media (min-width: 768px) {
+    .togstrek-place-mdx-photo-mosaic-five-wrap {
+      gap: var(--tt-space-5);
+    }
+  }
+
+  .togstrek-place-mdx-photo-mosaic-five-hero .togstrek-place-mdx-figure > span {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    max-height: min(72vh, 560px);
+    overflow: hidden;
+    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.35);
+  }
+
+  .togstrek-place-mdx-photo-mosaic-five-quad {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--tt-space-3);
+  }
+
+  @media (min-width: 768px) {
+    .togstrek-place-mdx-photo-mosaic-five-quad {
+      gap: var(--tt-space-4);
+    }
+  }
+
+  .togstrek-place-mdx-photo-mosaic-five-quad .togstrek-place-mdx-figure > span {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .togstrek-place-mdx-photo-feature-wrap .togstrek-place-mdx-figure > span {
+    position: relative;
+    display: block;
+    aspect-ratio: 21 / 9;
+    max-height: min(52vh, 480px);
+    overflow: hidden;
+    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.35);
+  }
+
+  @media (max-width: 767px) {
+    .togstrek-place-mdx-photo-feature-wrap .togstrek-place-mdx-figure > span {
+      aspect-ratio: 5 / 4;
+      max-height: none;
+    }
+  }
+
+  .togstrek-place-mdx-photo-castle-split-wrap {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--tt-space-4);
+  }
+
+  @media (max-width: 767px) {
+    .togstrek-place-mdx-photo-castle-split-wrap {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .togstrek-place-mdx-photo-castle-split-wrap > .togstrek-place-mdx-figure:first-child {
+    grid-row: span 2;
+  }
+
+  @media (max-width: 767px) {
+    .togstrek-place-mdx-photo-castle-split-wrap > .togstrek-place-mdx-figure:first-child {
+      grid-row: auto;
+    }
+  }
+
+  .togstrek-place-mdx-photo-castle-split-wrap > .togstrek-place-mdx-figure:first-child > span {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 4;
+    max-height: min(70vh, 640px);
+    overflow: hidden;
+    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.35);
+  }
+
+  .togstrek-place-mdx-photo-castle-split-wrap
+    > .togstrek-place-mdx-figure:first-child
+    ~ .togstrek-place-mdx-figure
+    > span {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  /**
+   * Next/Image adds `h-auto` (utilities layer) — it beats `height: 100%` in this layer.
+   * Absolutely position the img so it fills the aspect-ratio frame (no muted bg gap).
+   */
+  .togstrek-place-mdx-photo-triptych-wrap .togstrek-place-mdx-figure > span img,
+  .togstrek-place-mdx-photo-mosaic-five-hero .togstrek-place-mdx-figure > span img,
+  .togstrek-place-mdx-photo-mosaic-five-quad .togstrek-place-mdx-figure > span img,
+  .togstrek-place-mdx-photo-feature-wrap .togstrek-place-mdx-figure > span img,
+  .togstrek-place-mdx-photo-castle-split-wrap > .togstrek-place-mdx-figure:first-child > span img,
+  .togstrek-place-mdx-photo-castle-split-wrap
+    > .togstrek-place-mdx-figure:first-child
+    ~ .togstrek-place-mdx-figure
+    > span
+    img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    object-fit: cover !important;
+  }
+
   .togstrek-skip-link {
     position: absolute;
     width: 1px;

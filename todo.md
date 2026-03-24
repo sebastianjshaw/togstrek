@@ -31,6 +31,7 @@
 
 ## Design & UX
 
+- [ ] **Paused:** Storybook + Figma sync / Code Connect — revisit after `htmltodesign` experiments; prefer atomic components in `src/components/togstrek-ui/` and shared hubs (`togstrek-hub-*`).
 - [ ] Replace remote hero image with a hosted asset under `public/media/` when ready.
 - [ ] Real imagery or art direction for region grid cards (optional).
 - [ ] Review mobile nav (`<details>`) — consider full-screen overlay if needed.

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
 import type { TogstrekMapPlace } from "@/components/togstrek-explore-map";
+import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
+import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
+import { TOGSTREK_PAGE_SECTION_Y } from "@/lib/togstrek-layout";
 
 import { MapDemoClient } from "./map-demo-client";
 
@@ -79,18 +82,18 @@ const demoPlaces: TogstrekMapPlace[] = [
 
 export default function MapDemoPage() {
   return (
-    <main className="mx-auto w-full min-w-0 max-w-[var(--tt-layout-max-wide)] flex-1 px-[var(--tt-layout-gutter)] py-[var(--tt-space-12)] [overflow-wrap:anywhere]">
-      <h1 className="font-tt-display text-[length:var(--tt-text-display)] font-bold tracking-[var(--tt-tracking-tight)] text-tt-text-primary">
-        Explore map
-      </h1>
-      <p className="mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-tt-text-secondary">
-        Preview of the hub-page map: dark basemap, clustered counts, pins, and
-        a story card with image + excerpt + link — same concept as your current
-        site, restyled with design tokens.
-      </p>
-      <div className="mt-[var(--tt-space-10)]">
-        <MapDemoClient places={demoPlaces} />
-      </div>
+    <main className="w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+      <TogstrekContentWidth className={TOGSTREK_PAGE_SECTION_Y}>
+        <TogstrekPageTitle>Explore map</TogstrekPageTitle>
+        <p className="mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-tt-text-secondary">
+          Preview of the hub-page map: dark basemap, clustered counts, pins, and
+          a story card with image + excerpt + link — same concept as your current
+          site, restyled with design tokens.
+        </p>
+        <div className="mt-[var(--tt-space-10)]">
+          <MapDemoClient places={demoPlaces} />
+        </div>
+      </TogstrekContentWidth>
     </main>
   );
 }

@@ -32,6 +32,11 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# large photography staging (use CDN; see public/media/README.txt)
+public/media/originals/**
+!public/media/originals/.gitkeep
 
 # vercel
 .vercel
