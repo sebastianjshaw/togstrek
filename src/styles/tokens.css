@@ -2,6 +2,8 @@
  * Togstrek design tokens — single source of truth.
  * Swap fonts/colors by editing this file; Tailwind maps these in globals.css @theme.
  * Prefix: tt- (togstrek) to avoid collisions with other CSS.
+ *
+ * Interaction patterns (editorial cards, micro-CTA): docs/design-system.md
  */
 
 :root {
@@ -111,6 +113,18 @@
   --tt-duration-fast: 160ms;
   --tt-duration-normal: 280ms;
   --tt-duration-slow: 480ms;
+  /* Longer ease for large imagery (editorial cards, heroes). */
+  --tt-duration-slower: 700ms;
+  /* Micro-CTA row reveal on card hover (editorial media card). */
+  --tt-duration-micro-reveal: 400ms;
+
+  /*
+   * Editorial media card — interactive image tile with type on photo,
+   * lift + elevated shadow, accent ring, top sweep bar, scrims, micro-CTA.
+   * Spec: docs/design-system.md (Editorial media card & micro-CTA).
+   */
+  --tt-radius-editorial-xl: 1.75rem;
+  --tt-editorial-accent-bar-height: 3px;
 
   /* —— Z-index scale —— */
   --tt-z-base: 0;

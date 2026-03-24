@@ -2,6 +2,12 @@
  * Featured adventure cards for the primary nav “Adventures” mega menu (desktop + mobile).
  */
 
+import { togstrekMediaUrl } from "@/config/togstrek-media";
+
+function togstrekAdventuresMegaImage(filename: string): string {
+  return togstrekMediaUrl(`adventures/${filename}`);
+}
+
 export type TogstrekAdventuresMegaFeaturedCard = {
   href: `/${string}`;
   title: string;
@@ -16,8 +22,9 @@ export const togstrekAdventuresMegaFeaturedCards: TogstrekAdventuresMegaFeatured
     {
       href: "/adventures/2022-the-roof-of-africa",
       title: "2022: The Roof of Africa",
-      imageSrc:
-        "https://images.squarespace-cdn.com/content/v1/6207d70ece223e42dd9ae587/1676558793446-5828DQN9LVCCNWOD1QQU/01%2BMweka%2BCamp%2B-%2BMweka%2BGate-003A3115-868.jpg",
+      imageSrc: togstrekAdventuresMegaImage(
+        "01-Mweka-Camp-Mweka-Gate-003A3115-868.jpg",
+      ),
       imageAlt:
         "Mount Kilimanjaro framed by lush green forest with hanging moss.",
       width: 1980,
@@ -36,8 +43,9 @@ export const togstrekAdventuresMegaFeaturedCards: TogstrekAdventuresMegaFeatured
     {
       href: "/adventures/2020-443-kilometres",
       title: "2020: 443 Kilometres",
-      imageSrc:
-        "https://images.squarespace-cdn.com/content/v1/6207d70ece223e42dd9ae587/1663359916952-HPHTFHNPUJPVEJNL9Q9B/03+-+Alesjaure+to+Tjaktja-0007.jpg",
+      imageSrc: togstrekAdventuresMegaImage(
+        "03-Alesjaure-to-Tjaktja-0007.jpg",
+      ),
       imageAlt:
         "Tent pitched near a scenic lake with mountains in the background under cloudy skies",
       width: 1920,
