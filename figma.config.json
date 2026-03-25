@@ -1,0 +1,6 @@
+{
+  "codeConnect": {
+    "include": ["src/**/*.figma.tsx", "src/components/togstrek-ui/**/*.tsx"],
+    "exclude": ["**/*.test.ts", "**/*.test.tsx"]
+  }
+}

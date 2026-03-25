@@ -3,7 +3,6 @@
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./togstrek-explore-map.css";
 
-import Link from "next/link";
 import type { Map as MapLibreMap } from "maplibre-gl";
 import type { ComponentProps } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -14,6 +13,8 @@ import Map, {
   Popup,
 } from "react-map-gl/maplibre";
 import Supercluster from "supercluster";
+
+import { TogstrekCtaOutlineAccentLink } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 
 import type { TogstrekExploreMapProps, TogstrekMapPlace } from "./types";
 
@@ -310,12 +311,13 @@ export function TogstrekExploreMap({
                 {selected.excerpt}
               </p>
               <div className="border-t border-tt-border-muted px-4 py-3">
-                <Link
+                <TogstrekCtaOutlineAccentLink
                   href={selected.href}
-                  className="inline-flex min-h-10 w-full items-center justify-center border-[length:var(--tt-border-width-thick)] border-tt-accent bg-transparent font-tt-display text-[length:var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-accent transition-colors hover:bg-tt-accent hover:text-tt-text-inverse"
+                  size="compact"
+                  className="w-full"
                 >
                   Open story
-                </Link>
+                </TogstrekCtaOutlineAccentLink>
               </div>
             </article>
           </Popup>

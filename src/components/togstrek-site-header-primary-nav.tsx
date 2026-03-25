@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { TogstrekSiteHeaderAdventuresMegaPanel } from "@/components/togstrek-site-header-adventures-mega-panel";
+import { TogstrekCtaOutlineAccentLink } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 import type { TogstrekMegaMenuNavLinks } from "@/data/togstrek-continent-mega-menu";
 import {
   togstrekContinentNavMegaItems,
@@ -89,13 +90,13 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
           </p>
         )}
         <div className="mt-[var(--tt-space-10)] flex justify-center lg:justify-start">
-          <Link
+          <TogstrekCtaOutlineAccentLink
             href={ctaHref}
             onClick={onNavigate}
-            className="inline-flex min-h-12 w-full min-w-0 max-w-xs items-center justify-center border-[length:var(--tt-border-width-thick)] border-tt-accent bg-transparent px-8 py-3 text-center font-tt-display text-[var(--tt-text-small)] font-semibold uppercase leading-snug tracking-[var(--tt-tracking-wide)] text-tt-accent transition-colors duration-[var(--tt-duration-normal)] hover:bg-tt-accent hover:text-tt-text-inverse sm:w-auto"
+            className="max-w-xs text-center"
           >
             {ctaLabel}
-          </Link>
+          </TogstrekCtaOutlineAccentLink>
         </div>
       </div>
       <aside

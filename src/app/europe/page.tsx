@@ -76,7 +76,7 @@ export default function EuropeLandingPage() {
           <TogstrekSectionHeader
             id="togstrek-europe-map-heading"
             title="On the map"
-            description="Explore where stories are pinned — zoom clusters, then open a place for the full photo essay. (Data here is sample content for the new site; your migration will drive this from Markdown.)"
+            description="Live travel progress for Europe: coverage against the UN country list, visited country/city counts, and an interactive map that switches between country and city views."
           />
           <div className="mt-[var(--tt-space-10)]">
             <EuropeMapSection />

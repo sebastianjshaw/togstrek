@@ -1,5 +1,6 @@
 import { TogstrekPageHero } from "@/components/togstrek-page-hero";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
+import { togstrekCtaOutlineAccentClassName } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 import { TogstrekEditorialMediaCard } from "@/components/togstrek-ui/togstrek-editorial-media-card";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
 import {
@@ -7,9 +8,6 @@ import {
   togstrekAdventuresImage,
   togstrekAdventuresPortfolioGrid,
 } from "@/data/togstrek-adventures-page";
-
-const togstrekAdventuresPageOutlineButtonClass =
-  "togstrek-adventures-page-outline-btn inline-flex min-h-12 items-center justify-center border-2 border-tt-accent bg-transparent px-8 py-3 text-center font-tt-display text-[length:var(--tt-text-overline)] font-semibold uppercase tracking-[var(--tt-tracking-overline)] text-tt-accent transition-colors hover:bg-tt-accent hover:text-tt-surface-base";
 
 export function TogstrekAdventuresPage() {
   const heroSrc = togstrekAdventuresImage(TOGSTREK_ADVENTURES_HERO_IMAGE_FILE);
@@ -46,7 +44,7 @@ export function TogstrekAdventuresPage() {
               href="https://www.blurb.com/user/shawsolution"
               target="_blank"
               rel="noopener noreferrer"
-              className={togstrekAdventuresPageOutlineButtonClass}
+              className={`togstrek-adventures-page-outline-btn ${togstrekCtaOutlineAccentClassName} text-center text-[length:var(--tt-text-overline)] font-tt-display leading-snug tracking-[var(--tt-tracking-overline)]`}
             >
               Buy the Books
             </a>

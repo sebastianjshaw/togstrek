@@ -17,6 +17,12 @@ const STATIC_PATHS: {
     { path: "/about", priority: 0.85, changeFrequency: "monthly" },
     { path: "/adventures", priority: 0.9, changeFrequency: "weekly" },
     { path: "/europe", priority: 0.85, changeFrequency: "weekly" },
+    { path: "/africa", priority: 0.85, changeFrequency: "weekly" },
+    { path: "/asia", priority: 0.85, changeFrequency: "weekly" },
+    { path: "/north-america", priority: 0.85, changeFrequency: "weekly" },
+    { path: "/south-america", priority: 0.85, changeFrequency: "weekly" },
+    { path: "/oceania", priority: 0.85, changeFrequency: "weekly" },
+    { path: "/antarctica", priority: 0.85, changeFrequency: "weekly" },
   ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

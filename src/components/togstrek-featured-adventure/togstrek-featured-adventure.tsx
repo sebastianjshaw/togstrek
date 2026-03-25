@@ -2,7 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
-import { TogstrekCtaOutlineAccentLink } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
+import {
+  TogstrekCtaOutlineAccentLink,
+  togstrekCtaOutlineAccentGroupClassName,
+} from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 import { togstrekFeaturedAlpineAdventure } from "@/data/togstrek-featured-alpine-adventure";
 
 type TogstrekFeaturedAdventureLayout = "media" | "panel";
@@ -59,7 +62,9 @@ export function TogstrekFeaturedAdventure({
               <p className="mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-inverse/90 [overflow-wrap:anywhere]">
                 {adventure.tagline}
               </p>
-              <span className="togstrek-featured-adventure-cta mt-[var(--tt-space-8)] inline-flex min-h-12 w-full min-w-0 items-center justify-center border-[length:var(--tt-border-width-thick)] border-tt-accent bg-transparent px-6 py-3 font-tt-display text-[var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-accent transition-colors duration-[var(--tt-duration-normal)] group-hover:bg-tt-accent group-hover:text-tt-text-inverse sm:w-auto sm:px-8">
+              <span
+                className={`togstrek-featured-adventure-cta mt-[var(--tt-space-8)] ${togstrekCtaOutlineAccentGroupClassName}`}
+              >
                 {adventure.ctaLabel}
               </span>
             </div>

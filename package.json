@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "figma:connect:parse": "figma connect parse --config figma.config.json",
+    "figma:connect:publish": "figma connect publish --config figma.config.json"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
@@ -21,6 +23,7 @@
     "supercluster": "^8.0.1"
   },
   "devDependencies": {
+    "@figma/code-connect": "^1.4.2",
     "@tailwindcss/postcss": "^4",
     "@types/mdast": "^4.0.4",
     "@types/mdx": "^2.0.13",
