@@ -1,13 +1,11 @@
 import type { ReactNode } from "react";
 
-import {
-  TogstrekPlacePoiSections,
-  TogstrekPlacePoiToc,
-} from "@/components/togstrek-place/togstrek-place-poi-sections";
 import { TogstrekPageHero } from "@/components/togstrek-page-hero";
 import { TogstrekBreadcrumb } from "@/components/togstrek-ui/togstrek-breadcrumb";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
+import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
 import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
+import { formatSlugLabel } from "@/lib/togstrek-geo-labels";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 import type { TogstrekPlaceMdxFrontmatter } from "@/lib/togstrek-place-frontmatter";
 
@@ -23,16 +21,15 @@ export function TogstrekPlacePageTemplate({
   path,
 }: TogstrekPlacePageTemplateProps) {
   const { continent, country, place } = path;
-  const poiGroups = frontmatter.poiGroups ?? [];
 
   const breadcrumbItems = [
     {
       href: `/${continent}`,
-      label: continent.replace(/-/g, " "),
+      label: formatSlugLabel(continent),
     },
     {
       href: `/${continent}/${country}`,
-      label: country.replace(/-/g, " "),
+      label: formatSlugLabel(country),
     },
     { label: frontmatter.title },
   ];
@@ -44,6 +41,8 @@ export function TogstrekPlacePageTemplate({
           variant="article"
           imageSrc={frontmatter.heroImage.src}
           imageAlt={frontmatter.heroImage.alt}
+          imageWidth={frontmatter.heroImage.width}
+          imageHeight={frontmatter.heroImage.height}
           imagePriority={frontmatter.heroImage.priority}
           eyebrow={place.replace(/-/g, " ")}
           title={frontmatter.title}
@@ -75,19 +74,11 @@ export function TogstrekPlacePageTemplate({
           </p>
         ) : null}
 
-        {poiGroups.length > 0 ? (
-          <div className="mt-[var(--tt-space-10)] max-w-[var(--tt-layout-max-prose)]">
-            <TogstrekPlacePoiToc groups={poiGroups} />
-          </div>
-        ) : null}
-
-        <article className="togstrek-prose togstrek-place-mdx-root mt-[var(--tt-space-12)]">
-          {mdxContent}
-        </article>
-
-        {poiGroups.length > 0 ? (
-          <TogstrekPlacePoiSections groups={poiGroups} />
-        ) : null}
+        <TogstrekMdxLightboxScope>
+          <article className="togstrek-prose togstrek-place-mdx-root mt-[var(--tt-space-12)]">
+            {mdxContent}
+          </article>
+        </TogstrekMdxLightboxScope>
       </TogstrekContentWidth>
     </main>
   );

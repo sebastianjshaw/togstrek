@@ -20,10 +20,17 @@ export type TogstrekExploreMapProps = {
   className?: string;
   /** Accessible label for the map region */
   "aria-label"?: string;
+  /** Primary link label in the marker popup (default: “Open story”). */
+  popupCtaLabel?: string;
   /** Initial view; if omitted, bounds are fitted to `places`. */
   initialViewState?: {
     longitude: number;
     latitude: number;
     zoom: number;
   };
+  /**
+   * ISO 3166-1 alpha-2 codes to highlight on the basemap (Natural Earth polygons).
+   * Renders a semi-transparent fill under markers.
+   */
+  visitedCountryIso2?: string[];
 };

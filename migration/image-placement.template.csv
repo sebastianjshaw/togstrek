@@ -1,0 +1,3 @@
+filename,continent_slug,country_slug,place_slug,source_hint
+Castillo-20221223-0001.jpg,north-america,mexico,tulum,
+# source_hint: optional substring of path under --source to disambiguate duplicate basenames (e.g. content/v1/.../Castillo)

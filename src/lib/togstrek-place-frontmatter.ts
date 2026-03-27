@@ -1,6 +1,5 @@
 import {
   TOGSTREK_POI_GROUP_IDS,
-  TOGSTREK_POI_GROUP_LABELS,
   type TogstrekImageAsset,
   type TogstrekPoiGroupId,
   type TogstrekPoiListItem,
@@ -19,7 +18,7 @@ export type TogstrekPlaceMdxFrontmatter = {
   published?: string;
   modified?: string;
   heroImage?: TogstrekImageAsset;
-  /** Optional structured lists — rendered after the MDX body */
+  /** Optional POI lists — structured metadata (e.g. future search / JSON-LD); narrative stays in MDX */
   poiGroups?: TogstrekPlaceMdxPoiGroup[];
 };
 
@@ -151,14 +150,4 @@ export function parseTogstrekPlaceFrontmatter(
     heroImage: parseHeroImage(raw.heroImage),
     poiGroups: parsePoiGroups(raw.poiGroups),
   };
-}
-
-export function togstrekPoiGroupAnchorId(groupId: TogstrekPoiGroupId): string {
-  return groupId;
-}
-
-export function togstrekPoiGroupDisplayTitle(
-  group: TogstrekPlaceMdxPoiGroup,
-): string {
-  return group.title ?? TOGSTREK_POI_GROUP_LABELS[group.groupId];
 }

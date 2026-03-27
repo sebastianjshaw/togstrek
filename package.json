@@ -7,6 +7,18 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "inventory:squarespace": "tsx scripts/squarespace-inventory.ts",
+    "media:restructure": "tsx scripts/togstrek-restructure-media.ts",
+    "media:fetch-places": "tsx scripts/togstrek-fetch-place-images.ts",
+    "migrate:hiking": "tsx scripts/migrate-squarespace-hiking.ts",
+    "migrate:other-work": "tsx scripts/migrate-squarespace-other-work.ts",
+    "migrate:photography": "tsx scripts/migrate-squarespace-photography.ts",
+    "migrate:places:south-america": "tsx scripts/migrate-squarespace-places-south-america.ts",
+    "migrate:places:antarctica": "tsx scripts/migrate-squarespace-places-antarctica.ts",
+    "fix:photography-mdx": "tsx scripts/fix-photography-mdx-blog-boilerplate.ts",
+    "data:other-work:featured": "tsx scripts/refresh-other-work-section-featured.ts",
+    "r2:upload": "python3 scripts/r2_upload.py",
+    "import:wxr": "tsx scripts/wxr-to-mdx.ts",
     "figma:connect:parse": "figma connect parse --config figma.config.json",
     "figma:connect:publish": "figma connect publish --config figma.config.json"
   },
@@ -31,9 +43,16 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/supercluster": "^7.1.3",
+    "@types/turndown": "^5.0.6",
+    "cheerio": "^1.2.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
+    "fast-xml-parser": "^5.5.9",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "tsx": "^4.21.0",
+    "turndown": "^7.2.2",
+    "turndown-plugin-gfm": "^1.0.2",
+    "typescript": "^5",
+    "yaml": "^2.8.3"
   }
 }

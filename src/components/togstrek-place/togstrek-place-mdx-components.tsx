@@ -1,27 +1,12 @@
-import Image from "next/image";
 import type { MDXComponents } from "mdx/types.js";
-import { Children, isValidElement, type ReactNode } from "react";
 
-/** Paragraphs must not wrap block-level custom components (e.g. figure). */
-function togstrekMdxUnwrapParagraphIfBlockFigure(
-  children: ReactNode,
-): ReactNode | null {
-  const nodes = Children.toArray(children).filter((node) => {
-    if (typeof node === "string") return node.trim() !== "";
-    return true;
-  });
-  if (nodes.length !== 1 || !isValidElement(nodes[0])) return null;
-  const el = nodes[0];
-  const props = el.props as { className?: string };
-  const cn = props.className;
-  if (typeof cn === "string" && cn.includes("togstrek-place-mdx-figure")) {
-    return el;
-  }
-  return null;
-}
+import { TogstrekMdxImageLightbox } from "@/components/togstrek-ui/togstrek-mdx-image-lightbox";
+import { TogstrekMdxParagraph } from "@/components/togstrek-ui/togstrek-mdx-paragraph";
+import { TogstrekMdxPhotoGallery } from "@/components/togstrek-ui/togstrek-mdx-photo-gallery";
 
 /**
- * MDX elements for place pages — semantic HTML, lazy images, design tokens.
+ * MDX map for prose + travel content: place pages, hiking, photography, and
+ * other-work posts (same remark pipeline as `togstrek-mdx-remark-plugins`).
  */
 export function getTogstrekPlaceMdxComponents(): MDXComponents {
   return {
@@ -37,18 +22,7 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
         className="togstrek-place-mdx-h3 mt-[var(--tt-space-8)] font-tt-display text-[length:var(--tt-text-lead)] font-semibold text-tt-text-primary"
       />
     ),
-    p: ({ children, ...rest }) => {
-      const unwrapped = togstrekMdxUnwrapParagraphIfBlockFigure(children);
-      if (unwrapped) return unwrapped;
-      return (
-        <p
-          {...rest}
-          className="togstrek-place-mdx-p mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-body)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary first:mt-0"
-        >
-          {children}
-        </p>
-      );
-    },
+    p: (props) => <TogstrekMdxParagraph {...props} />,
     ul: (props) => (
       <ul
         {...props}
@@ -89,37 +63,16 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
         className="togstrek-place-mdx-hr my-[var(--tt-space-12)] border-tt-border-muted"
       />
     ),
-    img: (props) => {
-      const { src, alt, width, height, className } = props;
-      if (!src || typeof src !== "string") return null;
-      const w =
-        typeof width === "number" ? width : Number.parseInt(String(width), 10);
-      const h =
-        typeof height === "number"
-          ? height
-          : Number.parseInt(String(height), 10);
-      const safeW = Number.isFinite(w) && w > 0 ? w : 1200;
-      const safeH = Number.isFinite(h) && h > 0 ? h : 800;
-      return (
-        <figure className="togstrek-place-mdx-figure my-[var(--tt-space-10)] w-full">
-          <span className="relative block overflow-hidden rounded-[var(--tt-radius-sm)] border border-tt-border-muted bg-tt-surface-muted">
-            <Image
-              src={src}
-              alt={typeof alt === "string" ? alt : ""}
-              width={safeW}
-              height={safeH}
-              sizes="(max-width: 768px) 100vw, min(56rem, 92vw)"
-              loading="lazy"
-              className={`h-auto w-full object-cover ${className ?? ""}`}
-            />
-          </span>
-          {alt ? (
-            <figcaption className="mt-[var(--tt-space-3)] text-center font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary">
-              {alt}
-            </figcaption>
-          ) : null}
-        </figure>
-      );
-    },
+    /** Responsive image grid + lightbox; wrap consecutive `![alt](url)` blocks. */
+    PhotoGallery: (props) => <TogstrekMdxPhotoGallery {...props} />,
+    TogstrekMdxPhotoGallery: (props) => <TogstrekMdxPhotoGallery {...props} />,
+    img: ({ className, ...rest }) => (
+      <TogstrekMdxImageLightbox
+        {...rest}
+        className={["togstrek-place-mdx-figure", className]
+          .filter(Boolean)
+          .join(" ")}
+      />
+    ),
   };
 }

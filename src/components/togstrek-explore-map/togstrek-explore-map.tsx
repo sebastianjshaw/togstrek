@@ -7,10 +7,12 @@ import type { Map as MapLibreMap } from "maplibre-gl";
 import type { ComponentProps } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Map, {
+  Layer,
   type MapRef,
   Marker,
   NavigationControl,
   Popup,
+  Source,
 } from "react-map-gl/maplibre";
 import Supercluster from "supercluster";
 
@@ -44,6 +46,10 @@ const TOGSTREK_MAP_DARK_STYLE = {
     },
   ],
 };
+
+/** Natural Earth 110m countries — `properties.ISO_A2` for MapLibre filters. */
+const TOGSTREK_MAP_NE110_COUNTRIES_GEOJSON =
+  "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson";
 
 type ClusterFeature = GeoJSON.Feature<
   GeoJSON.Point,
@@ -102,7 +108,9 @@ export function TogstrekExploreMap({
   places,
   className = "",
   "aria-label": ariaLabel = "Places on the map",
+  popupCtaLabel = "Open story",
   initialViewState,
+  visitedCountryIso2,
 }: TogstrekExploreMapProps) {
   const mapRef = useRef<MapRef>(null);
   const index = useMemo(() => placesToIndex(places), [places]);
@@ -189,6 +197,21 @@ export function TogstrekExploreMap({
       zoom: 3.4,
     };
 
+  const visitedIso2Codes = useMemo(
+    () =>
+      (visitedCountryIso2 ?? []).filter(
+        (c) => typeof c === "string" && c.length === 2,
+      ),
+    [visitedCountryIso2],
+  );
+
+  const visitedCountryFillFilter:
+    | ["in", ["get", string], ["literal", string[]]]
+    | undefined =
+    visitedIso2Codes.length > 0
+      ? ["in", ["get", "ISO_A2"], ["literal", visitedIso2Codes]]
+      : undefined;
+
   return (
     <div
       className={`togstrek-explore-map relative h-[min(40vh,20rem)] w-full min-h-0 overflow-hidden rounded-[var(--tt-radius-sm)] border border-tt-border-default shadow-[var(--tt-shadow-sm)] sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)] ${className}`}
@@ -206,6 +229,24 @@ export function TogstrekExploreMap({
         onLoad={fitToPlaces}
         reuseMaps
       >
+        {visitedCountryFillFilter ? (
+          <Source
+            id="togstrek-ne-110m-countries"
+            type="geojson"
+            data={TOGSTREK_MAP_NE110_COUNTRIES_GEOJSON}
+          >
+            <Layer
+              id="togstrek-visited-countries-fill"
+              type="fill"
+              paint={{
+                "fill-color": "rgba(227, 25, 55, 0.22)",
+                "fill-outline-color": "rgba(227, 25, 55, 0.42)",
+              }}
+              filter={visitedCountryFillFilter}
+            />
+          </Source>
+        ) : null}
+
         <NavigationControl position="top-right" showCompass={false} />
 
         {clusters.map((feature) => {
@@ -316,7 +357,7 @@ export function TogstrekExploreMap({
                   size="compact"
                   className="w-full"
                 >
-                  Open story
+                  {popupCtaLabel}
                 </TogstrekCtaOutlineAccentLink>
               </div>
             </article>

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { TogstrekPageHero } from "@/components/togstrek-page-hero";
-import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
+import {
+  continentHubHeroQuoteForSlug,
+  TogstrekContinentHubMapSection,
+  TogstrekContinentHubTemplate,
+} from "@/components/togstrek-hub";
 import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
 import {
@@ -15,9 +18,9 @@ import {
   togstrekContinentHubPageMeta,
 } from "@/data/togstrek-continent-hub-meta";
 import { togstrekUn195Countries } from "@/data/togstrek-un195-countries";
+import { formatContinentEyebrow } from "@/lib/togstrek-geo-labels";
 import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
-
-import { TogstrekContinentHubMapSection } from "./continent-hub-map-section";
+import { buildTogstrekVisitedTravelDataset } from "@/lib/togstrek-visited-travel-data";
 
 type PageParams = { continent: string };
 
@@ -55,6 +58,7 @@ export default async function ContinentHubPage({
   }
 
   const meta = togstrekContinentHubPageMeta[continent];
+  const travelData = buildTogstrekVisitedTravelDataset();
   const un195ForContinent = togstrekUn195Countries
     .filter((c) => c.continent === continent)
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -77,91 +81,118 @@ export default async function ContinentHubPage({
   const countriesSectionDescription =
     meta.countriesDescription ?? countriesDescriptionDefault;
 
-  const eyebrow =
-    continent === "north-america"
-      ? "North America"
-      : continent === "south-america"
-        ? "South America"
-        : continent.charAt(0).toUpperCase() + continent.slice(1);
+  const eyebrow = formatContinentEyebrow(continent);
+
+  const mapSection = (
+    <section
+      className="togstrek-continent-hub-map mt-[var(--tt-space-4)]"
+      aria-labelledby={`togstrek-continent-hub-map-heading-${continent}`}
+    >
+      <TogstrekSectionHeader
+        id={`togstrek-continent-hub-map-heading-${continent}`}
+        title="On the map"
+        description={`Live travel progress for ${eyebrow}: coverage against the UN country list, visited country and city counts, and an interactive map that switches between country and city views.`}
+      />
+      <div className="mt-[var(--tt-space-10)]">
+        <TogstrekContinentHubMapSection
+          lockedContinent={continent}
+          data={travelData}
+        />
+      </div>
+    </section>
+  );
+
+  const afterMap =
+    continent === "asia" ? (
+      <section
+        className="togstrek-continent-hub-special-territories mt-[var(--tt-space-20)]"
+        aria-labelledby="togstrek-asia-special-territories-heading"
+      >
+        <TogstrekSectionHeader
+          id="togstrek-asia-special-territories-heading"
+          title="Special territories"
+          description="Places with their own story collections — not counted as separate countries on the UN list."
+        />
+        <ul className="mt-[var(--tt-space-10)] grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {togstrekAsiaSpecialTerritories.map((t) => (
+            <li key={t.href}>
+              <TogstrekLinkCard
+                variant="compact"
+                href={t.href}
+                title={t.label}
+                meta={t.note}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
+    ) : continent === "antarctica" ? (
+      <section
+        className="togstrek-continent-hub-antarctic-places mt-[var(--tt-space-20)]"
+        aria-labelledby="togstrek-antarctica-places-heading"
+      >
+        <TogstrekSectionHeader
+          id="togstrek-antarctica-places-heading"
+          title="Places"
+          description="The UN-style country list does not assign sovereign states here. Expedition stops, channels, harbours, and passages are collected under one Antarctic places hub."
+        />
+        <ul className="mt-[var(--tt-space-10)] grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <li>
+            <TogstrekLinkCard
+              variant="compact"
+              href="/antarctica/antarctic"
+              title="Antarctic places"
+              meta="All stories from the peninsula, islands, and Southern Ocean cruise"
+            />
+          </li>
+        </ul>
+      </section>
+    ) : null;
+
+  const countriesSection = (
+    <section
+      className="togstrek-continent-hub-countries mt-[var(--tt-space-20)]"
+      aria-labelledby={`togstrek-continent-hub-countries-heading-${continent}`}
+    >
+      <TogstrekSectionHeader
+        id={`togstrek-continent-hub-countries-heading-${continent}`}
+        title="Countries"
+        description={countriesSectionDescription}
+      />
+      {un195ForContinent.length > 0 ? (
+        <ul className="mt-[var(--tt-space-10)] grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {un195ForContinent.map((c) => {
+            const href =
+              togstrekCountryHubPathByIso2[c.iso2] ??
+              travelData.countryStoryHrefByIso2[c.iso2];
+            return (
+              <li key={c.iso2}>
+                <TogstrekLinkCard
+                  variant="compact"
+                  href={href}
+                  title={c.name}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
+    </section>
+  );
 
   return (
-    <main className="togstrek-continent-hub w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
-      <TogstrekPageHero
-        variant="landing"
-        imageSrc={meta.heroImageSrc}
-        imageAlt={meta.heroImageAlt}
-        eyebrow={eyebrow}
-        title={meta.title}
-        titleId={`togstrek-continent-hub-title-${continent}`}
-      />
-
-      <TogstrekContentWidth className="py-[var(--tt-space-16)]">
-        <section
-          className="togstrek-continent-hub-map mt-[var(--tt-space-4)]"
-          aria-labelledby={`togstrek-continent-hub-map-heading-${continent}`}
-        >
-          <TogstrekSectionHeader
-            id={`togstrek-continent-hub-map-heading-${continent}`}
-            title="On the map"
-            description={`Live travel progress for ${eyebrow}: coverage against the UN country list, visited country and city counts, and an interactive map that switches between country and city views.`}
-          />
-          <div className="mt-[var(--tt-space-10)]">
-            <TogstrekContinentHubMapSection lockedContinent={continent} />
-          </div>
-        </section>
-
-        {continent === "asia" ? (
-          <section
-            className="togstrek-continent-hub-special-territories mt-[var(--tt-space-20)]"
-            aria-labelledby="togstrek-asia-special-territories-heading"
-          >
-            <TogstrekSectionHeader
-              id="togstrek-asia-special-territories-heading"
-              title="Special territories"
-              description="Places with their own story collections — not counted as separate countries on the UN list."
-            />
-            <ul className="mt-[var(--tt-space-10)] grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {togstrekAsiaSpecialTerritories.map((t) => (
-                <li key={t.href}>
-                  <TogstrekLinkCard
-                    variant="compact"
-                    href={t.href}
-                    title={t.label}
-                    meta={t.note}
-                  />
-                </li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
-
-        <section
-          className="togstrek-continent-hub-countries mt-[var(--tt-space-20)]"
-          aria-labelledby={`togstrek-continent-hub-countries-heading-${continent}`}
-        >
-          <TogstrekSectionHeader
-            id={`togstrek-continent-hub-countries-heading-${continent}`}
-            title="Countries"
-            description={countriesSectionDescription}
-          />
-          {un195ForContinent.length > 0 ? (
-            <ul className="mt-[var(--tt-space-10)] grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {un195ForContinent.map((c) => {
-                const href = togstrekCountryHubPathByIso2[c.iso2];
-                return (
-                  <li key={c.iso2}>
-                    <TogstrekLinkCard
-                      variant="compact"
-                      href={href}
-                      title={c.name}
-                    />
-                  </li>
-                );
-              })}
-            </ul>
-          ) : null}
-        </section>
-      </TogstrekContentWidth>
-    </main>
+    <TogstrekContinentHubTemplate
+      hero={{
+        eyebrow,
+        title: meta.title,
+        titleId: `togstrek-continent-hub-title-${continent}`,
+        imageSrc: meta.heroImageSrc,
+        imageAlt: meta.heroImageAlt,
+        quote: continentHubHeroQuoteForSlug(continent),
+      }}
+      mapSection={mapSection}
+      afterMap={afterMap}
+      countriesSection={countriesSection}
+    />
   );
 }

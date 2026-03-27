@@ -20,6 +20,9 @@
 # production
 /build
 
+# python (R2 upload helper: scripts/r2_upload.py)
+/.venv-r2/
+
 # misc
 .DS_Store
 *.pem
@@ -40,6 +43,9 @@ public/media/originals/**
 
 # vercel
 .vercel
+
+# Local HTTrack / Squarespace mirror (multi‑100MB zips; not for GitHub)
+/TogsTrekBackup/
 
 # typescript
 *.tsbuildinfo

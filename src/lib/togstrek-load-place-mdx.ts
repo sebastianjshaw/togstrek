@@ -4,10 +4,8 @@ import path from "node:path";
 import matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
 import type { ReactNode } from "react";
-import remarkGfm from "remark-gfm";
-import remarkUnwrapImages from "remark-unwrap-images";
-
 import { getTogstrekPlaceMdxComponents } from "@/components/togstrek-place/togstrek-place-mdx-components";
+import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
 import {
   parseTogstrekPlaceFrontmatter,
   type TogstrekPlaceMdxFrontmatter,
@@ -70,7 +68,7 @@ export async function loadTogstrekPlaceMdx(
     options: {
       parseFrontmatter: true,
       mdxOptions: {
-        remarkPlugins: [remarkGfm, remarkUnwrapImages],
+        remarkPlugins: [...togstrekMdxRemarkPlugins],
       },
     },
     components: getTogstrekPlaceMdxComponents(),
@@ -111,4 +109,32 @@ export function discoverTogstrekPlaceSlugs(): {
     }
   }
   return out;
+}
+
+/** Distinct `/{continent}/{country}` pairs that have at least one place MDX file. */
+export function discoverTogstrekCountryHubParams(): {
+  continent: string;
+  country: string;
+}[] {
+  const slugs = discoverTogstrekPlaceSlugs();
+  const seen = new Set<string>();
+  const out: { continent: string; country: string }[] = [];
+  for (const s of slugs) {
+    const key = `${s.continent}\0${s.country}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push({ continent: s.continent, country: s.country });
+  }
+  return out;
+}
+
+/** All place slugs under `content/places/<continent>/<country>/`, sorted by place folder name. */
+export function listTogstrekPlaceSlugsForCountry(
+  continent: string,
+  country: string,
+): { place: string }[] {
+  return discoverTogstrekPlaceSlugs()
+    .filter((s) => s.continent === continent && s.country === country)
+    .map((s) => ({ place: s.place }))
+    .sort((a, b) => a.place.localeCompare(b.place));
 }

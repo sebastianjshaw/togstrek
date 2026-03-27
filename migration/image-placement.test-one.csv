@@ -1,0 +1,5 @@
+# From TogsTrekBackup/togstrek.com/south-america/argentina/buenos-aires.html (og:image).
+# Quick test: npm run media:restructure -- --source ./migration/fixtures/squarespace-mirror --manifest ./migration/image-placement.test-one.csv --out ./migration/cdn-upload-ready-test
+# Full mirror: use --source ./TogsTrekBackup when the real file exists at the same relative path under the backup.
+filename,continent_slug,country_slug,place_slug,source_hint
+20200316+-+TogsTrek+-+5DM37771-HDR43a3.jpg,south-america,argentina,buenos-aires,bac66bee-03f0-4e3c-9875-28558e311c92

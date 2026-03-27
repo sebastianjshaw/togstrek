@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
+import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
 export type TogstrekPageHeroQuote = {
   children: ReactNode;
@@ -14,6 +15,9 @@ export type TogstrekPageHeroProps = {
   variant?: TogstrekPageHeroVariant;
   imageSrc: string;
   imageAlt: string;
+  /** Natural pixel size (e.g. from MDX frontmatter) — preserves aspect on place/article heroes. */
+  imageWidth?: number;
+  imageHeight?: number;
   /** `next/image` priority — landing defaults to true; article defaults to false unless set. */
   imagePriority?: boolean;
   eyebrow: string;
@@ -34,6 +38,8 @@ export function TogstrekPageHero({
   variant = "landing",
   imageSrc,
   imageAlt,
+  imageWidth,
+  imageHeight,
   imagePriority,
   eyebrow,
   title,
@@ -48,17 +54,26 @@ export function TogstrekPageHero({
   const articlePriority = imagePriority === true;
 
   if (variant === "article") {
+    const iw =
+      typeof imageWidth === "number" && imageWidth > 0 ? imageWidth : 2400;
+    const ih =
+      typeof imageHeight === "number" && imageHeight > 0 ? imageHeight : 1000;
+
     return (
       <section
-        className="togstrek-page-hero togstrek-page-hero--article relative w-full overflow-hidden border-b border-tt-border-muted"
+        className="togstrek-page-hero togstrek-page-hero--article relative w-full overflow-hidden border-b border-tt-border-muted bg-tt-surface-base"
         aria-labelledby={titleId}
       >
-        <div className="relative aspect-[21/9] min-h-[min(48vh,22rem)] w-full sm:min-h-[min(40vh,26rem)]">
+        <div
+          className="togstrek-page-hero-article-media relative w-full max-h-[min(72vh,680px)]"
+          style={{ aspectRatio: `${iw} / ${ih}` }}
+        >
           <Image
             src={imageSrc}
             alt={imageAlt}
             fill
             priority={articlePriority}
+            unoptimized={togstrekUnoptimizedRemoteImageInDev(imageSrc)}
             className="object-cover object-center"
             sizes="100vw"
           />
@@ -95,6 +110,7 @@ export function TogstrekPageHero({
           alt={imageAlt}
           fill
           priority={landingPriority}
+          unoptimized={togstrekUnoptimizedRemoteImageInDev(imageSrc)}
           className="object-cover object-center"
           sizes="100vw"
         />

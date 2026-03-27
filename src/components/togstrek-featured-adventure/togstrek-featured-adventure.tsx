@@ -7,6 +7,7 @@ import {
   togstrekCtaOutlineAccentGroupClassName,
 } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 import { togstrekFeaturedAlpineAdventure } from "@/data/togstrek-featured-alpine-adventure";
+import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
 type TogstrekFeaturedAdventureLayout = "media" | "panel";
 
@@ -42,6 +43,7 @@ export function TogstrekFeaturedAdventure({
               src={adventure.imageSrc}
               alt={adventure.imageAlt}
               fill
+              unoptimized={togstrekUnoptimizedRemoteImageInDev(adventure.imageSrc)}
               className="object-cover object-center transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.03]"
               sizes="(max-width:768px) 100vw, min(90rem, 100vw)"
             />

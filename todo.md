@@ -8,11 +8,23 @@
 
 ## Content & migration
 
-- [ ] Write WXR → Markdown/MDX importer (posts, pages, attachments, thumbnails).
-- [ ] Download all images from Squarespace URLs; rewrite `src` to `/media/...` (or R2/S3 when needed).
-- [ ] Strip Squarespace HTML; map galleries to a shared `<Gallery>` MDX component.
+### Squarespace HTTrack backup (`TogsTrekBackup/togstrek.com`)
+
+- [x] **Inventory script** — `npm run inventory:squarespace` runs `scripts/squarespace-inventory.ts` and writes:
+  - `migration/migration-inventory.jsonl` — one JSON record per `.html` (classification, segments, `og:*`, `fullUrl` from Squarespace context).
+  - `migration/path-mapping.template.csv` — same rows + empty `final_*` columns for manual slug decisions.
+- [ ] **Review counts** (from latest inventory run): ~**316** `continent_place_candidate` vs **875** tag / **99** category pages — tag/category are indexes, not place MDX.
+- [ ] **Lock slug rules** — edit `path-mapping.template.csv`: fill `final_continent_slug`, `final_country_slug`, `final_place_slug` for **UK** and any **multi-segment** paths (e.g. collapse `england/greater-london` vs single `london`). Add `notes` for edge cases.
+- [ ] **After slugs are locked** — build HTML → MDX extractor; bulk image download from live Squarespace URLs (backup has few binaries).
+- [ ] **Restructure images for CDN tree** — copy `migration/image-placement.template.csv` → `migration/image-placement.csv`, fill `filename` + `continent_slug` + `country_slug` + `place_slug` (filenames unchanged). Run `npm run media:restructure -- --source <folder-with-images> --manifest migration/image-placement.csv --out migration/cdn-upload-ready`. Use `npm run media:restructure -- --source TogsTrekBackup --discover` to list images under a tree; add `source_hint` when duplicate basenames exist.
+
+### Legacy / general
+
+- [x] **WXR → MDX** — `npm run import:wxr -- --input <export.xml> --out <dir>` runs `scripts/wxr-to-mdx.ts` (posts, pages, `attachments/manifest.json` + `urls.txt`, `_thumbnail_id` → frontmatter `thumbnail`). Fixture: `migration/fixtures/wxr/minimal-export.xml`.
+- [ ] Download all images from Squarespace URLs; rewrite `src` to CDN paths under `{continent}/{country}/{place}/` (see `src/config/togstrek-media.ts`).
+- [ ] Strip Squarespace HTML; map galleries to shared MDX layout wrappers (`togstrek-place-mdx-*`).
 - [ ] Generate `redirects` map for any URL that cannot stay identical.
-- [ ] Add content directory layout: `content/{continent}/{country}/...` and adventure hubs under `content/adventures/`.
+- [ ] Add content directory layout: `content/places/{continent}/{country}/{place}.mdx` (done for Tulum); adventure hubs under `content/adventures/` when ready.
 
 ## Routing & templates
 

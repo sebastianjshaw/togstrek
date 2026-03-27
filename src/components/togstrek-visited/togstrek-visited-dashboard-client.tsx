@@ -132,6 +132,22 @@ export function TogstrekVisitedDashboardClient({
 
   const mapPlaces = mapMode === "countries" ? countryPoints : cityPoints;
 
+  const visitedCountryIso2 = useMemo(() => {
+    const rows =
+      scope === "global"
+        ? data.countryMarkers
+        : data.countryMarkers.filter((p) => p.continent === scope);
+    const seen = new Set<string>();
+    const out: string[] = [];
+    for (const m of rows) {
+      if (m.iso2 && !seen.has(m.iso2)) {
+        seen.add(m.iso2);
+        out.push(m.iso2);
+      }
+    }
+    return out;
+  }, [data.countryMarkers, scope]);
+
   const topCountries = useMemo(() => {
     const rows =
       scope === "global"
@@ -225,6 +241,7 @@ export function TogstrekVisitedDashboardClient({
       <div className="mt-[var(--tt-space-5)]">
         <TogstrekExploreMap
           places={mapPlaces}
+          visitedCountryIso2={visitedCountryIso2}
           aria-label={`${sectionTitle}: ${mapPlaces.length} points`}
         />
       </div>

@@ -3,7 +3,7 @@ import type { TogstrekVisitedContinentId } from "@/lib/togstrek-visited-travel-d
 
 /**
  * Continents served by `src/app/[continent]/page.tsx`.
- * Europe uses the dedicated `/europe` route instead.
+ * Europe uses the dedicated `/europe` route — metadata lives in `togstrekEuropeHubPageMeta`.
  */
 export const TOGSTREK_CONTINENT_HUB_ROUTE_SLUGS = [
   "africa",
@@ -34,6 +34,28 @@ export type TogstrekContinentHubPageMeta = {
   openGraphImages?: TogstrekOgImage[];
   /** Section intro under “Countries” — defaults to UN-list copy when omitted. */
   countriesDescription?: string;
+};
+
+const EUROPE_HUB_HERO_IMAGE =
+  "https://images.squarespace-cdn.com/content/v1/6207d70ece223e42dd9ae587/1676558893598-X9ZAV37ZVOCFSNYWMUSF/22e59112fefb45ea.jpg?format=2500w";
+
+/** Metadata + hero image for `/europe` (same shape as `togstrekContinentHubPageMeta` entries). */
+export const togstrekEuropeHubPageMeta: TogstrekContinentHubPageMeta = {
+  title: "Exploring Europe",
+  description:
+    "The 50 countries who host both the largest and smallest nations in the world — photo essays and travel notes from across Europe.",
+  path: "/europe",
+  heroImageSrc: EUROPE_HUB_HERO_IMAGE,
+  heroImageAlt:
+    "Mountain landscape with snow-capped peaks, rocky terrain, and blue sky, intersected by cables.",
+  openGraphImages: [
+    {
+      url: "https://static1.squarespace.com/static/6207d70ece223e42dd9ae587/t/62430201c259e80324888871/1648558593135/IMG_4140.jpg?format=1500w",
+      width: 1500,
+      height: 1000,
+      alt: "Tog's Trek",
+    },
+  ],
 };
 
 const ogFromHero = (

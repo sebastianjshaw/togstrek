@@ -5,6 +5,50 @@ import { TOGSTREK_REMOTE_IMAGE_PATTERNS } from "./src/config/togstrek-remote-ima
 const mediaHost = getTogstrekMediaHostname();
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/photography",
+        destination: "/other-work",
+        permanent: false,
+      },
+      {
+        source: "/hiking/bohuslden/:path*",
+        destination: "/hiking/bohusleden/:path*",
+        permanent: true,
+      },
+      {
+        source: "/hiking/kungleden/:path*",
+        destination: "/hiking/kungsleden/:path*",
+        permanent: true,
+      },
+      {
+        source: "/hiking/sweden",
+        destination: "/hiking/utvandrarleden",
+        permanent: true,
+      },
+      {
+        source: "/hiking/sweden/utvandraleden",
+        destination: "/hiking/utvandrarleden/utvandraleden",
+        permanent: true,
+      },
+      {
+        source: "/other-work/guides",
+        destination: "/other-work/photography-guides",
+        permanent: true,
+      },
+      {
+        source: "/other-work/model",
+        destination: "/other-work/models",
+        permanent: true,
+      },
+      {
+        source: "/other-work/street",
+        destination: "/other-work/street-photography",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
