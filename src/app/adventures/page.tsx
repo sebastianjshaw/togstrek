@@ -8,7 +8,7 @@ import {
 import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
 
 const ADVENTURES_DESCRIPTION =
-  "Explore the thrilling adventures of a seasoned traveler on Tog's Trek. From walking 443km of Sweden to reaching the ends of the world, discover captivating stories and stunning photography from across the globe.";
+  "Long-form trips on Tog's Trek — from 443km through Sweden to the ends of the world — with the full stories and photography when each page is live.";
 
 const ogImageUrl = togstrekAdventuresImage(TOGSTREK_ADVENTURES_HERO_IMAGE_FILE);
 

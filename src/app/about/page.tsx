@@ -9,11 +9,11 @@ const ABOUT_OG_IMAGE =
 export const metadata: Metadata = buildTogstrekMetadata({
   title: "About",
   description:
-    "Discover my global adventures and photography journey, sharing travel experiences from Africa, Asia, Europe, and beyond.",
+    "Who's behind Tog's Trek — a lifelong traveller's lens on exploration, photography, and the road from Gothenburg to everywhere else.",
   path: "/about",
   openGraphTitle: "About — A Tog's Trek",
   openGraphDescription:
-    "Discover my global adventures and photography journey, sharing travel experiences from Africa, Asia, Europe, and beyond.",
+    "Who's behind Tog's Trek — a lifelong traveller's lens on exploration, photography, and the road from Gothenburg to everywhere else.",
   openGraphImages: [
     {
       url: ABOUT_OG_IMAGE,

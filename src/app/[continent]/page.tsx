@@ -19,6 +19,11 @@ import {
 } from "@/data/togstrek-continent-hub-meta";
 import { togstrekUn195Countries } from "@/data/togstrek-un195-countries";
 import { formatContinentEyebrow } from "@/lib/togstrek-geo-labels";
+import {
+  TOGSTREK_HUB_SPECIAL_TERRITORIES_SECTION_DESCRIPTION,
+  TogstrekHubCountriesListIntro,
+  togstrekHubOnTheMapSectionDescription,
+} from "@/lib/togstrek-hub-section-copy";
 import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
 import { buildTogstrekVisitedTravelDataset } from "@/lib/togstrek-visited-travel-data";
 
@@ -68,14 +73,11 @@ export default async function ContinentHubPage({
   ).length;
 
   const countriesDescriptionDefault = (
-    <>
-      All sovereign states in this region on the UN-style list of 195 (member
-      states, observers, and Guinea-Bissau).{" "}
-      <span className="text-tt-text-primary">
-        {hubCount} of {un195ForContinent.length}
-      </span>{" "}
-      have a hub page so far; others stay on the list for coverage at a glance.
-    </>
+    <TogstrekHubCountriesListIntro
+      regionPhrase="in this region"
+      hubCount={hubCount}
+      total={un195ForContinent.length}
+    />
   );
 
   const countriesSectionDescription =
@@ -91,7 +93,7 @@ export default async function ContinentHubPage({
       <TogstrekSectionHeader
         id={`togstrek-continent-hub-map-heading-${continent}`}
         title="On the map"
-        description={`Live travel progress for ${eyebrow}: coverage against the UN country list, visited country and city counts, and an interactive map that switches between country and city views.`}
+        description={togstrekHubOnTheMapSectionDescription(eyebrow)}
       />
       <div className="mt-[var(--tt-space-10)]">
         <TogstrekContinentHubMapSection
@@ -111,7 +113,7 @@ export default async function ContinentHubPage({
         <TogstrekSectionHeader
           id="togstrek-asia-special-territories-heading"
           title="Special territories"
-          description="Places with their own story collections — not counted as separate countries on the UN list."
+          description={TOGSTREK_HUB_SPECIAL_TERRITORIES_SECTION_DESCRIPTION}
         />
         <ul className="mt-[var(--tt-space-10)] grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {togstrekAsiaSpecialTerritories.map((t) => (

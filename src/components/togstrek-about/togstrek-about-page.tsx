@@ -119,7 +119,7 @@ export function TogstrekAboutPage() {
               working with my father. It was a tiny thing that ran on AA
               batteries and could take perhaps a hundred 640×480 images. I loved
               it, and it was an early example of where photography was moving
-              to, but it was a still a toy.
+              to, but it was still a toy.
             </p>
             <p className="mt-[var(--tt-space-6)] font-tt-body text-[length:var(--tt-text-body)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
               It was almost another ten years before I first got seriously into

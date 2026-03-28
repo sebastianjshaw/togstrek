@@ -18,9 +18,8 @@ export default function MapDemoPage() {
       <TogstrekContentWidth className={TOGSTREK_PAGE_SECTION_Y}>
         <TogstrekPageTitle>Visited map</TogstrekPageTitle>
         <p className="mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-tt-text-secondary">
-          Track coverage by country and city from your actual place content.
-          Switch between global and continent views, then toggle country vs city
-          mapping.
+          Track coverage by country and city from published place stories. Switch
+          between global and continent views, then toggle country vs city mapping.
         </p>
         <div className="mt-[var(--tt-space-10)]">
           <TogstrekVisitedDashboardClient data={data} />

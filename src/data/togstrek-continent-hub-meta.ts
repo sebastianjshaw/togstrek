@@ -43,7 +43,7 @@ const EUROPE_HUB_HERO_IMAGE =
 export const togstrekEuropeHubPageMeta: TogstrekContinentHubPageMeta = {
   title: "Exploring Europe",
   description:
-    "The 50 countries who host both the largest and smallest nations in the world — photo essays and travel notes from across Europe.",
+    "From Alpine ridges to Baltic harbours — photo essays and travel notes across Europe's sovereign states.",
   path: "/europe",
   heroImageSrc: EUROPE_HUB_HERO_IMAGE,
   heroImageAlt:
@@ -70,7 +70,7 @@ export const togstrekContinentHubPageMeta: Record<
   africa: {
     title: "Exploring Africa",
     description:
-      "Travel notes and maps across Africa — coverage against the UN country list, city stories, and an interactive map.",
+      "Deserts, deltas, and city rhythm — field notes and photography from across Africa.",
     path: "/africa",
     heroImageSrc:
       "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=2500&q=80",
@@ -84,7 +84,7 @@ export const togstrekContinentHubPageMeta: Record<
   asia: {
     title: "Exploring Asia",
     description:
-      "From steppes to skylines — maps, UN-style country coverage, and place stories across Asia.",
+      "From steppes to skylines — place stories and images along the world’s widest arc of cultures.",
     path: "/asia",
     heroImageSrc:
       "https://images.unsplash.com/photo-1518509562904-e8efcc9d8e14?w=2500&q=80",
@@ -98,7 +98,7 @@ export const togstrekContinentHubPageMeta: Record<
   "north-america": {
     title: "Exploring North America",
     description:
-      "Coasts, ranges, and cities — travel progress and maps for Canada, the United States, Mexico, and the rest of the region.",
+      "Coasts, ranges, and cities — notes from Canada, the United States, Mexico, and the rest of the region.",
     path: "/north-america",
     heroImageSrc:
       "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=2500&q=80",
@@ -112,7 +112,7 @@ export const togstrekContinentHubPageMeta: Record<
   "south-america": {
     title: "Exploring South America",
     description:
-      "Andes, Amazon, and southern horizons — maps and stories with coverage against the UN country list.",
+      "Andes, Amazon, and southern horizons — stories and frames from the continent’s spine to the sea.",
     path: "/south-america",
     heroImageSrc:
       "https://images.unsplash.com/photo-1504198458649-3128b932f49e?w=2500&q=80",
@@ -126,7 +126,7 @@ export const togstrekContinentHubPageMeta: Record<
   oceania: {
     title: "Exploring Oceania",
     description:
-      "Islands, reefs, and southern skies — place stories and maps across Australia, New Zealand, and the Pacific.",
+      "Islands, reefs, and southern skies — Australia, New Zealand, and the Pacific in notes and photographs.",
     path: "/oceania",
     heroImageSrc:
       "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=2500&q=80",
@@ -140,7 +140,7 @@ export const togstrekContinentHubPageMeta: Record<
   antarctica: {
     title: "Exploring Antarctica",
     description:
-      "Ice, silence, and scale — map and notes for the coldest continent. The UN-style country list does not assign sovereign states here; stories follow coordinates and expeditions.",
+      "Ice, silence, and scale — expedition notes and coordinates where the usual country checklist does not apply.",
     path: "/antarctica",
     heroImageSrc:
       "https://images.unsplash.com/photo-1517707711963-9e0bbac4b7d0?w=2500&q=80",

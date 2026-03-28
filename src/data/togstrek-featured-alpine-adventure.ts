@@ -10,7 +10,7 @@ export const togstrekFeaturedAlpineAdventure = {
     "Mountain landscape with snow-capped peaks, rocky terrain, and blue sky, intersected by cables.",
   title: "2018: Alpine Adventure",
   tagline:
-    "The 50 countries who host both the largest and smallest nations in the world.",
+    "Across Europe with a camera — fjords, capitals, and ridgelines in the same frame.",
   body:
     "Europe is a continent steeped in history, culture, and diverse landscapes. On Tog's Trek we wander cobblestone streets and mountain passes alike — from scenic fjords and Baltic harbours to the buzz of capital cities — with a camera and a notebook.",
   ctaLabel: "Open Alpine Adventure",

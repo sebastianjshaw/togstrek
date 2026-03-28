@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     template: "%s · A Tog's Trek",
   },
   description:
-    "The most exciting journey is the next one… Curious travel guides and photo essays that dig deeper into countries, cities, and hikes.",
+    "The most exciting journey is the next one… Curious travel guides and photo essays that go deeper into countries, cities, hikes, and the stories behind the frame.",
   metadataBase: new URL("https://togstrek.com"),
   manifest: "/site.webmanifest",
   icons: {

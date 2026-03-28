@@ -15,6 +15,11 @@ import {
 import { togstrekEuropeHubPageMeta } from "@/data/togstrek-continent-hub-meta";
 import { togstrekUn195Countries } from "@/data/togstrek-un195-countries";
 import { formatContinentEyebrow } from "@/lib/togstrek-geo-labels";
+import {
+  TOGSTREK_HUB_SPECIAL_TERRITORIES_SECTION_DESCRIPTION,
+  TogstrekHubCountriesListIntro,
+  togstrekHubOnTheMapSectionDescription,
+} from "@/lib/togstrek-hub-section-copy";
 import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
 import { buildTogstrekVisitedTravelDataset } from "@/lib/togstrek-visited-travel-data";
 
@@ -35,7 +40,7 @@ export const metadata: Metadata = buildTogstrekMetadata({
   description: meta.description,
   path: meta.path,
   openGraphDescription:
-    "From Alpine ridges to Baltic towns — stories and images from Tog's Trek across Europe.",
+    "From Alpine ridges to Baltic harbours — photo essays and travel notes across Europe on Tog's Trek.",
   openGraphImages: meta.openGraphImages,
 });
 
@@ -58,7 +63,7 @@ export default function EuropeLandingPage() {
       <TogstrekSectionHeader
         id="togstrek-europe-map-heading"
         title="On the map"
-        description={`Live travel progress for ${eyebrow}: coverage against the UN country list, visited country and city counts, and an interactive map that switches between country and city views.`}
+        description={togstrekHubOnTheMapSectionDescription(eyebrow)}
       />
       <div className="mt-[var(--tt-space-10)]">
         <TogstrekContinentHubMapSection
@@ -77,7 +82,7 @@ export default function EuropeLandingPage() {
       <TogstrekSectionHeader
         id="togstrek-europe-special-territories-heading"
         title="Special territories"
-        description="Places with their own story collections — not counted as separate countries on the UN list."
+        description={TOGSTREK_HUB_SPECIAL_TERRITORIES_SECTION_DESCRIPTION}
       />
       <ul className="mt-[var(--tt-space-10)] grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {togstrekEuropeSpecialTerritories.map((t) => (
@@ -103,15 +108,11 @@ export default function EuropeLandingPage() {
         id="togstrek-europe-countries-heading"
         title="Countries"
         description={
-          <>
-            All sovereign states in Europe on the UN-style list of 195 (member
-            states, observers, and Guinea-Bissau).{" "}
-            <span className="text-tt-text-primary">
-              {europeCountryHubCount} of {europeUn195Countries.length}
-            </span>{" "}
-            have a hub page so far; others stay on the list for coverage at a
-            glance.
-          </>
+          <TogstrekHubCountriesListIntro
+            regionPhrase="in Europe"
+            hubCount={europeCountryHubCount}
+            total={europeUn195Countries.length}
+          />
         }
       />
       <ul className="mt-[var(--tt-space-10)] grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">

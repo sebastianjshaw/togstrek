@@ -44,7 +44,7 @@ export function TogstrekPlacePageTemplate({
           imageWidth={frontmatter.heroImage.width}
           imageHeight={frontmatter.heroImage.height}
           imagePriority={frontmatter.heroImage.priority}
-          eyebrow={place.replace(/-/g, " ")}
+          eyebrow={formatSlugLabel(place)}
           title={frontmatter.title}
           titleId="togstrek-place-hero-title"
         />

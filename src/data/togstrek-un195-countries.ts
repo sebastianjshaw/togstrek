@@ -1,4 +1,9 @@
-/** UN-style sovereign list: 193 member states + Guinea-Bissau (restcountries API omits unMember) + Holy See + Palestine = 195. Names and UN regions via restcountries.com. */
+/**
+ * UN-style sovereign list (195): 193 UN member states + Holy See + Palestine.
+ * Guinea-Bissau is a member state; it stays in this dataset because some API exports
+ * omit `unMember` for it — not a separate category in reader-facing copy.
+ * Names and UN regions via restcountries.com.
+ */
 export type TogstrekUnContinentId =
   | "africa"
   | "antarctica"
