@@ -27,7 +27,9 @@ function expandSegment(d: string): string[] {
     return ["california", d.slice("california-".length)];
   }
   if (d === "texas-dallas") return ["texas", "dallas"];
-  if (d === "ny-new-york") return ["ny", "new-york"];
+  /** US state slug: use full name, not postal abbrev. */
+  if (d === "ny") return ["new-york"];
+  if (d === "ny-new-york") return ["new-york", "new-york"];
   if (d === "new-jersey-scotch-plains") return ["new-jersey", "scotch-plains"];
   if (d === "massachusetts-boston") return ["massachusetts", "boston"];
   return [d];

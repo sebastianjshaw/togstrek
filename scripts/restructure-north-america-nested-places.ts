@@ -40,7 +40,11 @@ function buildMoves(): Move[] {
           "dallas.mdx",
         );
       else if (base === "ny-new-york")
-        toRel = path.join("united-states-of-america", "ny", "new-york.mdx");
+        toRel = path.join(
+          "united-states-of-america",
+          "new-york",
+          "new-york.mdx",
+        );
       if (!toRel) continue;
       const fromAbs = path.join(legacyUsaDir, name);
       const toAbs = path.join(NA, toRel);

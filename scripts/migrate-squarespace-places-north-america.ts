@@ -755,6 +755,18 @@ function listNorthAmericaPlaceHtmlFiles(northAmericaDir: string): string[] {
   return out.sort((a, b) => a.localeCompare(b));
 }
 
+/** `ny` folder in mirrors → state slug `new-york` (same tier as california, texas, …). */
+function normalizeUnitedStatesPlaceSlugSegments(segments: string[]): string[] {
+  if (segments.length < 3 || segments[1] !== "united-states-of-america") {
+    return segments;
+  }
+  return [
+    segments[0]!,
+    segments[1]!,
+    ...segments.slice(2).map((s) => (s === "ny" ? "new-york" : s)),
+  ];
+}
+
 /**
  * Map backup file to `north-america/<country>/…/<place>` (URL segments after continent).
  */
@@ -774,11 +786,20 @@ function htmlPathToNorthAmericaSlugSegments(
   }
 
   if (parts[0] === "texas") {
-    return ["north-america", "united-states-of-america", "texas", ...parts.slice(1)];
+    return normalizeUnitedStatesPlaceSlugSegments([
+      "north-america",
+      "united-states-of-america",
+      "texas",
+      ...parts.slice(1),
+    ]);
   }
 
   if (parts[0] === "usa") {
-    return ["north-america", "united-states-of-america", ...parts.slice(1)];
+    return normalizeUnitedStatesPlaceSlugSegments([
+      "north-america",
+      "united-states-of-america",
+      ...parts.slice(1),
+    ]);
   }
 
   const country = parts[0]!;

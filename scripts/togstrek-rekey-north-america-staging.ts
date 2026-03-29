@@ -45,8 +45,13 @@ function rekeyNorthAmericaDirSegments(dirs: string[]): string[] {
       i++;
       continue;
     }
+    if (d === "ny") {
+      out.push("new-york");
+      i++;
+      continue;
+    }
     if (d === "ny-new-york") {
-      out.push("ny", "new-york");
+      out.push("new-york", "new-york");
       i++;
       continue;
     }

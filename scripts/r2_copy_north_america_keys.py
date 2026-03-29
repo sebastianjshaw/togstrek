@@ -7,7 +7,7 @@ Rewrites under prefix `north-america/`:
   - First path segment `usa` → `united-states-of-america`
   - `california-*` folder → `california/*`
   - `texas-dallas` → `texas/dallas`
-  - `ny-new-york` → `ny/new-york`
+  - `ny-new-york` → `new-york/new-york` (state slug `new-york`, not `ny`)
   - `new-jersey-scotch-plains` → `new-jersey/scotch-plains`
   - `massachusetts-boston` → `massachusetts/boston`
 
@@ -86,6 +86,10 @@ def rekey_dir_segments(dirs: list[str]) -> list[str]:
     i = 1
     while i < len(dirs):
         d = dirs[i]
+        if d == "ny":
+            out.append("new-york")
+            i += 1
+            continue
         if d.startswith("california-") and d != "california":
             out.extend(["california", d[len("california-") :]])
             i += 1
@@ -95,7 +99,7 @@ def rekey_dir_segments(dirs: list[str]) -> list[str]:
             i += 1
             continue
         if d == "ny-new-york":
-            out.extend(["ny", "new-york"])
+            out.extend(["new-york", "new-york"])
             i += 1
             continue
         if d == "new-jersey-scotch-plains":

@@ -85,7 +85,14 @@ export const togstrekNorthAmericaLegacyPlaceRedirects: readonly {
   },
   {
     source: "/north-america/usa/ny-new-york",
-    destination: "/north-america/united-states-of-america/ny/new-york",
+    destination:
+      "/north-america/united-states-of-america/new-york/new-york",
+  },
+  {
+    source:
+      "/north-america/united-states-of-america/ny/new-york",
+    destination:
+      "/north-america/united-states-of-america/new-york/new-york",
   },
   {
     source: "/north-america/usa/texas-dallas",
