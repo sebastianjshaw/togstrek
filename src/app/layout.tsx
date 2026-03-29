@@ -96,13 +96,13 @@ export default function RootLayout({
         <TogstrekJsonLd data={togstrekLayoutJsonLdGraph()} />
         <TogstrekSkipLink />
         <TogstrekSiteHeader />
-        <div
+        <main
           id="togstrek-main"
           className="flex min-h-0 min-w-0 flex-1 flex-col"
           tabIndex={-1}
         >
           {children}
-        </div>
+        </main>
         <TogstrekSiteFooter />
       </body>
     </html>

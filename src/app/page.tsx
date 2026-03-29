@@ -55,7 +55,7 @@ export default function HomePage() {
         }
         actions={
           <>
-            <TogstrekCtaOutlineAccentLink href="/europe" className="sm:min-h-11">
+            <TogstrekCtaOutlineAccentLink href="/#togstrek-region-grid-heading" className="sm:min-h-11">
               Explore regions
             </TogstrekCtaOutlineAccentLink>
             <TogstrekCtaGhostInverseLink href="/about" className="sm:min-h-11">

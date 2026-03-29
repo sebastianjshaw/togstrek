@@ -53,7 +53,7 @@ export const togstrekRegionGridItems: TogstrekRegionGridItem[] = [
   {
     href: "/europe",
     label: "Europe",
-    blurb: "History in every alley — Alps to alleyways.",
+    blurb: "Capitals, Alps, and cobbled streets",
     gradient: "from-[#1f2838] via-[#3d4f6b] to-[#c9a86c]/30",
     imageSrc: mediaPath(
       "/europe/denmark/copenhagen/20160903+-+Copenhagen+-+001-243a3.jpg",

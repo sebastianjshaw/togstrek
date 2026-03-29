@@ -221,7 +221,7 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
   return (
     <Link
       href={href}
-      className={`togstrek-link-card togstrek-link-card--region group relative flex min-h-[var(--tt-region-card-min-height)] flex-col justify-end overflow-hidden border border-tt-border-muted bg-tt-surface-base shadow-[var(--tt-shadow-sm)] transition-[transform,box-shadow,border-color] duration-[var(--tt-duration-normal)] ease-[var(--tt-ease-out)] after:pointer-events-none after:absolute after:inset-0 after:border-[length:var(--tt-border-width-thick)] after:border-transparent after:transition-colors hover:-translate-y-1 hover:shadow-[var(--tt-shadow-elevated)] hover:after:border-tt-accent ${
+      className={`togstrek-link-card togstrek-link-card--region group relative flex min-h-[var(--tt-region-card-min-height)] flex-col justify-end overflow-hidden border border-tt-border-muted bg-tt-surface-base shadow-[var(--tt-shadow-sm)] transition-[transform,box-shadow,border-color] duration-[var(--tt-duration-normal)] ease-[var(--tt-ease-out)] after:pointer-events-none after:absolute after:inset-0 after:border-[length:var(--tt-border-width-thick)] after:border-transparent after:transition-colors hover:-translate-y-1 hover:shadow-[var(--tt-shadow-elevated)] hover:after:border-tt-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-2 ${
         isFeatured ? "lg:min-h-[var(--tt-region-card-featured-min-height)]" : ""
       }`}
     >
@@ -235,7 +235,7 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
             className="object-cover object-center transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.04]"
             sizes={
               isFeatured
-                ? "(max-width:768px) 100vw, min(90rem, 100vw)"
+                ? "(max-width:768px) 100vw, 90rem"
                 : "(max-width:768px) 100vw, 50vw"
             }
           />

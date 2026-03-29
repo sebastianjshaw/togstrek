@@ -45,7 +45,7 @@ export function TogstrekFeaturedAdventure({
               fill
               unoptimized={togstrekUnoptimizedRemoteImageInDev(adventure.imageSrc)}
               className="object-cover object-center transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.03]"
-              sizes="(max-width:768px) 100vw, min(90rem, 100vw)"
+              sizes="(max-width:768px) 100vw, 90rem"
             />
             <div
               className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_92%,transparent)] via-[color-mix(in_srgb,var(--tt-color-ink-strong)_45%,transparent)] to-[color-mix(in_srgb,var(--tt-color-ink-strong)_12%,transparent)]"

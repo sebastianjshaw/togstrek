@@ -167,7 +167,7 @@ export function TogstrekPageHero({
         ) : null}
 
         {lead ? (
-          <div className="togstrek-page-hero-lead max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-inverse/92 [overflow-wrap:anywhere]">
+          <div className="togstrek-page-hero-lead mt-[var(--tt-space-6)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-inverse/92 [overflow-wrap:anywhere]">
             {lead}
           </div>
         ) : null}
