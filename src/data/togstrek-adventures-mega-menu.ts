@@ -15,6 +15,10 @@ export type TogstrekAdventuresMegaFeaturedCard = {
   imageAlt: string;
   width: number;
   height: number;
+  /** Home spotlight tagline (media card) — not shown in the nav mega thumbnails. */
+  spotlightTagline: string;
+  /** Optional; defaults to “Open adventure” on the home spotlight. */
+  spotlightCtaLabel?: string;
 };
 
 export const togstrekAdventuresMegaFeaturedCards: TogstrekAdventuresMegaFeaturedCard[] =
@@ -29,6 +33,9 @@ export const togstrekAdventuresMegaFeaturedCards: TogstrekAdventuresMegaFeatured
         "Mount Kilimanjaro framed by lush green forest with hanging moss.",
       width: 1980,
       height: 1321,
+      spotlightTagline:
+        "Kilimanjaro from rainforest to summit — heat, ice, and the long walk down.",
+      spotlightCtaLabel: "Open The Roof of Africa",
     },
     {
       href: "/adventures/2021-pink-streets-blue-tiles",
@@ -39,6 +46,9 @@ export const togstrekAdventuresMegaFeaturedCards: TogstrekAdventuresMegaFeatured
         "Traditional boats on the Douro River in Porto, Portugal, with hillside buildings and a blue sky in the background.",
       width: 2880,
       height: 1440,
+      spotlightTagline:
+        "Porto in river light — azulejos, wine country edges, and city rhythm.",
+      spotlightCtaLabel: "Open Pink Streets & Blue Tiles",
     },
     {
       href: "/adventures/2020-443-kilometres",
@@ -50,6 +60,9 @@ export const togstrekAdventuresMegaFeaturedCards: TogstrekAdventuresMegaFeatured
         "Tent pitched near a scenic lake with mountains in the background under cloudy skies",
       width: 1920,
       height: 1280,
+      spotlightTagline:
+        "The King’s Trail, hut to hut — Swedish summer as a 443 km line on the map.",
+      spotlightCtaLabel: "Open 443 Kilometres",
     },
   ];
 

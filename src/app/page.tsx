@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { unstable_noStore as noStore } from "next/cache";
 
 import { TogstrekFeaturedAdventure } from "@/components/togstrek-featured-adventure/togstrek-featured-adventure";
 import { TogstrekPageHero } from "@/components/togstrek-page-hero";
@@ -6,6 +7,7 @@ import { TogstrekRegionGrid } from "@/components/togstrek-region-grid";
 import { TogstrekCtaGhostInverseLink } from "@/components/togstrek-ui/togstrek-cta-ghost-inverse-link";
 import { TogstrekCtaOutlineAccentLink } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 import { togstrekSiteLandingHeroImage } from "@/config/togstrek-media";
+import { pickRandomHomeSpotlightAdventure } from "@/lib/togstrek-home-spotlight";
 import {
   buildTogstrekMetadata,
   TOGSTREK_OG_IMAGE_HEIGHT,
@@ -37,6 +39,9 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  noStore();
+  const spotlightAdventure = pickRandomHomeSpotlightAdventure();
+
   return (
     <>
       <TogstrekPageHero
@@ -70,6 +75,7 @@ export default function HomePage() {
       />
       <TogstrekFeaturedAdventure
         layout="media"
+        adventure={spotlightAdventure}
         sectionAriaLabelledBy="togstrek-home-spotlight-heading"
       />
       <TogstrekRegionGrid />

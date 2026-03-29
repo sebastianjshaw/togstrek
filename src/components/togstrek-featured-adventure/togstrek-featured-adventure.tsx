@@ -6,6 +6,7 @@ import {
   TogstrekCtaOutlineAccentLink,
   togstrekCtaAccentSolidGroupClassName,
 } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
+import type { TogstrekFeaturedAdventureContent } from "@/data/togstrek-featured-adventure-content";
 import { togstrekFeaturedAlpineAdventure } from "@/data/togstrek-featured-alpine-adventure";
 import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
@@ -13,8 +14,8 @@ type TogstrekFeaturedAdventureLayout = "media" | "panel";
 
 type TogstrekFeaturedAdventureProps = {
   layout: TogstrekFeaturedAdventureLayout;
-  /** Defaults to shared Alpine adventure content. */
-  adventure?: typeof togstrekFeaturedAlpineAdventure;
+  /** Defaults to Alpine adventure (continent hubs, etc.). */
+  adventure?: TogstrekFeaturedAdventureContent;
   sectionAriaLabelledBy: string;
 };
 

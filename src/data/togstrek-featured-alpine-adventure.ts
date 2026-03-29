@@ -1,6 +1,8 @@
+import type { TogstrekFeaturedAdventureContent } from "@/data/togstrek-featured-adventure-content";
+
 /**
- * Single source for the “Alpine Adventure” feature — home (media card) and
- * continent hubs (panel) should stay in sync.
+ * Single source for the “Alpine Adventure” feature — continent hubs (panel) and
+ * one option in the homepage spotlight pool.
  */
 export const togstrekFeaturedAlpineAdventure = {
   href: "/adventures/2018-alpine-adventure",
@@ -16,4 +18,4 @@ export const togstrekFeaturedAlpineAdventure = {
   ctaLabel: "Open Alpine Adventure",
   kickerHome: "Spotlight",
   kickerHub: "Featured adventure",
-} as const;
+} as const satisfies TogstrekFeaturedAdventureContent;
