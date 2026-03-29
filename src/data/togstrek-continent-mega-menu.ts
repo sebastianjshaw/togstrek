@@ -15,7 +15,7 @@ import {
   discoverTogstrekCountryHubParams,
   listTogstrekPlaceSlugsForCountry,
   loadTogstrekPlaceFrontmatterOnly,
-} from "@/lib/togstrek-load-place-mdx";
+} from "@/lib/togstrek-place-mdx-fs";
 import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import { getIso2ForCountrySlug } from "@/lib/togstrek-visited-travel-data";
 
