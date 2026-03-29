@@ -75,8 +75,9 @@ const ASIA_HUB_HERO =
   "https://media.togstrek.com/hiking/nepal/annapurna/annapurna-day-2/HDR+10+-+Wide+Angle+Mountain+-+00143a3.jpg";
 const NORTH_AMERICA_HUB_HERO =
   "https://media.togstrek.com/north-america/mexico/tulum/Castillo-20221223-0001.jpg";
-const OCEANIA_HUB_HERO =
-  "https://media.togstrek.com/hiking/hoga-kusten/route10/20190606-10+-+Kopmanholmen+-+Entre+Nord-IMG_5450-HDR43a3.jpg";
+const OCEANIA_HUB_HERO = togstrekMediaUrl(
+  "oceania/australia/ballarat/Australia+-+016.webp",
+);
 const ANTARCTICA_HUB_HERO =
   "https://media.togstrek.com/antarctica/antarctic/lamaire-channel/HDR-0003-243a3.jpg";
 
@@ -153,10 +154,10 @@ export const togstrekContinentHubPageMeta: Record<
     path: "/oceania",
     heroImageSrc: OCEANIA_HUB_HERO,
     heroImageAlt:
-      "Rocky coastline and wind-whipped sea along the Höga Kusten trail, Sweden",
+      "Common wombat on dry leaf litter in bush near Ballarat, Australia",
     openGraphImages: ogFromHero(
       OCEANIA_HUB_HERO,
-      "Rocky coastline along the Höga Kusten trail, Sweden",
+      "Common wombat on dry leaf litter in bush near Ballarat, Australia",
     ),
   },
   antarctica: {

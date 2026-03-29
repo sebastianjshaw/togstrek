@@ -39,6 +39,11 @@ const REMOTE_IMAGE_PATTERNS: readonly {
 ];
 
 const mediaHost = getMediaHostnameForNextConfig();
+/** Canonical CDN host for MDX/data URLs — always allow even if `NEXT_PUBLIC_MEDIA_BASE_URL` points elsewhere. */
+const defaultMediaHostname = new URL(DEFAULT_MEDIA_ORIGIN).hostname;
+const mediaImageHosts = Array.from(
+  new Set([mediaHost, defaultMediaHostname].filter(Boolean)),
+);
 
 const nextConfig: NextConfig = {
   /**
@@ -123,11 +128,11 @@ const nextConfig: NextConfig = {
   },
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: mediaHost,
-        pathname: "/**",
-      },
+      ...mediaImageHosts.map((hostname) => ({
+        protocol: "https" as const,
+        hostname,
+        pathname: "/**" as const,
+      })),
       ...REMOTE_IMAGE_PATTERNS.map((p) => ({
         protocol: "https" as const,
         hostname: p.hostname,
