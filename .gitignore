@@ -47,6 +47,9 @@ public/media/originals/**
 # Local HTTrack / Squarespace mirror (multi‑100MB zips; not for GitHub)
 /TogsTrekBackup/
 
+# CDN staging, inventories, fixtures — local only (see scripts/* migrate / r2:upload)
+/migration/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

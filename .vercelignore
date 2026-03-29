@@ -1,4 +1,4 @@
-# Local mirrors / staging — must never ship with serverless traces (see outputFileTracingExcludes).
+# Local mirrors / staging — must never ship with serverless traces (see outputFileTracingExcludes in next.config).
 TogsTrekBackup
-migration
+migration/
 .claude
