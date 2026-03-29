@@ -4,7 +4,7 @@ import Link from "next/link";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 import {
   TogstrekCtaOutlineAccentLink,
-  togstrekCtaOutlineAccentGroupClassName,
+  togstrekCtaAccentSolidGroupClassName,
 } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 import { togstrekFeaturedAlpineAdventure } from "@/data/togstrek-featured-alpine-adventure";
 import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
@@ -65,7 +65,7 @@ export function TogstrekFeaturedAdventure({
                 {adventure.tagline}
               </p>
               <span
-                className={`togstrek-featured-adventure-cta mt-[var(--tt-space-8)] ${togstrekCtaOutlineAccentGroupClassName}`}
+                className={`togstrek-featured-adventure-cta pointer-events-none mt-[var(--tt-space-8)] ${togstrekCtaAccentSolidGroupClassName}`}
               >
                 {adventure.ctaLabel}
               </span>

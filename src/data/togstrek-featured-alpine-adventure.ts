@@ -14,6 +14,6 @@ export const togstrekFeaturedAlpineAdventure = {
   body:
     "Europe is a continent steeped in history, culture, and diverse landscapes. On Tog's Trek we wander cobblestone streets and mountain passes alike — from scenic fjords and Baltic harbours to the buzz of capital cities — with a camera and a notebook.",
   ctaLabel: "Open Alpine Adventure",
-  kickerHome: "Latest adventure",
+  kickerHome: "Spotlight",
   kickerHub: "Featured adventure",
 } as const;

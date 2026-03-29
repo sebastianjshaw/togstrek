@@ -55,7 +55,11 @@ export default function HomePage() {
         }
         actions={
           <>
-            <TogstrekCtaOutlineAccentLink href="/#togstrek-region-grid-heading" className="sm:min-h-11">
+            <TogstrekCtaOutlineAccentLink
+              href="/#togstrek-region-grid-heading"
+              appearance="solid"
+              className="focus-visible:ring-offset-[color-mix(in_srgb,var(--tt-color-ink-strong)_88%,transparent)] sm:min-h-11"
+            >
               Explore regions
             </TogstrekCtaOutlineAccentLink>
             <TogstrekCtaGhostInverseLink href="/about" className="sm:min-h-11">
@@ -66,7 +70,7 @@ export default function HomePage() {
       />
       <TogstrekFeaturedAdventure
         layout="media"
-        sectionAriaLabelledBy="togstrek-home-latest-adventure-heading"
+        sectionAriaLabelledBy="togstrek-home-spotlight-heading"
       />
       <TogstrekRegionGrid />
     </>

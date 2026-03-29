@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type FocusEvent as ReactFocusEvent,
+} from "react";
 
 import { TogstrekSiteHeaderAdventuresMegaPanel } from "@/components/togstrek-site-header-adventures-mega-panel";
 import { TogstrekCtaOutlineAccentLink } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
@@ -152,6 +158,9 @@ export function TogstrekSiteHeaderPrimaryNav({
 }: TogstrekSiteHeaderPrimaryNavProps) {
   const [openMegaKey, setOpenMegaKey] = useState<OpenMegaKey | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const megaNavRef = useRef<HTMLElement | null>(null);
+  const megaPanelRef = useRef<HTMLDivElement | null>(null);
+  const shouldFocusPanelFirstLinkRef = useRef(false);
 
   const cancelClose = useCallback(() => {
     if (closeTimer.current) {
@@ -176,6 +185,29 @@ export function TogstrekSiteHeaderPrimaryNav({
     [cancelClose],
   );
 
+  const onMegaTriggerFocus = useCallback(
+    (e: ReactFocusEvent<HTMLAnchorElement>, id: OpenMegaKey) => {
+      const from = e.relatedTarget;
+      const cameFromPanel =
+        from instanceof Node && megaPanelRef.current?.contains(from);
+      if (!cameFromPanel) {
+        shouldFocusPanelFirstLinkRef.current = true;
+      }
+      openMega(id);
+    },
+    [openMega],
+  );
+
+  const onMegaTriggerBlur = useCallback(
+    (e: ReactFocusEvent<HTMLAnchorElement>) => {
+      const next = e.relatedTarget;
+      if (next instanceof Node && megaPanelRef.current?.contains(next)) return;
+      if (next instanceof Node && megaNavRef.current?.contains(next)) return;
+      scheduleClose();
+    },
+    [scheduleClose],
+  );
+
   const closeMega = useCallback(() => {
     cancelClose();
     setOpenMegaKey(null);
@@ -189,6 +221,32 @@ export function TogstrekSiteHeaderPrimaryNav({
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [openMegaKey, closeMega]);
+
+  useEffect(() => {
+    if (!openMegaKey) return;
+    if (!shouldFocusPanelFirstLinkRef.current) return;
+    shouldFocusPanelFirstLinkRef.current = false;
+    const t = window.setTimeout(() => {
+      const root = megaPanelRef.current;
+      if (!root) return;
+      const first = root.querySelector<HTMLElement>("a[href]");
+      first?.focus();
+    }, 0);
+    return () => window.clearTimeout(t);
+  }, [openMegaKey]);
+
+  useEffect(() => {
+    const el = megaPanelRef.current;
+    if (!el || !openMegaKey) return;
+    const onFocusOut = (e: FocusEvent) => {
+      const next = e.relatedTarget;
+      if (next instanceof Node && el.contains(next)) return;
+      if (next instanceof Node && megaNavRef.current?.contains(next)) return;
+      scheduleClose();
+    };
+    el.addEventListener("focusout", onFocusOut);
+    return () => el.removeEventListener("focusout", onFocusOut);
+  }, [openMegaKey, scheduleClose]);
 
   useEffect(() => () => cancelClose(), [cancelClose]);
 
@@ -206,6 +264,7 @@ export function TogstrekSiteHeaderPrimaryNav({
   return (
     <>
       <nav
+        ref={megaNavRef}
         className="togstrek-site-header-primary-nav-desktop hidden lg:block"
         aria-label="Primary"
       >
@@ -220,6 +279,8 @@ export function TogstrekSiteHeaderPrimaryNav({
               className="text-tt-text-secondary transition-colors duration-[var(--tt-duration-fast)] hover:text-tt-accent"
               aria-expanded={openMegaKey === "adventures"}
               aria-haspopup="true"
+              onFocus={(ev) => onMegaTriggerFocus(ev, "adventures")}
+              onBlur={onMegaTriggerBlur}
             >
               Adventures
             </Link>
@@ -236,6 +297,8 @@ export function TogstrekSiteHeaderPrimaryNav({
                 className="text-tt-text-secondary transition-colors duration-[var(--tt-duration-fast)] hover:text-tt-accent"
                 aria-expanded={openMegaKey === item.continentId}
                 aria-haspopup="true"
+                onFocus={(ev) => onMegaTriggerFocus(ev, item.continentId)}
+                onBlur={onMegaTriggerBlur}
               >
                 {item.label}
               </Link>
@@ -253,6 +316,8 @@ export function TogstrekSiteHeaderPrimaryNav({
                 className="text-tt-text-secondary transition-colors duration-[var(--tt-duration-fast)] hover:text-tt-accent"
                 aria-expanded={openMegaKey === section.key}
                 aria-haspopup="true"
+                onFocus={(ev) => onMegaTriggerFocus(ev, section.key)}
+                onBlur={onMegaTriggerBlur}
               >
                 {section.navLabel}
               </Link>
@@ -262,6 +327,7 @@ export function TogstrekSiteHeaderPrimaryNav({
       </nav>
 
       <div
+        ref={megaPanelRef}
         className={`togstrek-site-header-mega-panel fixed inset-x-0 z-[100] border-b shadow-[var(--tt-shadow-elevated)] transition-[opacity,visibility] duration-[var(--tt-duration-fast)] ease-[var(--tt-ease-out)] ${
           openMegaKey === "adventures"
             ? "border-white/10 bg-tt-surface-inverse"
