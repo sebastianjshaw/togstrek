@@ -38,7 +38,8 @@ export default async function TogstrekHikingIndexPage() {
     notFound();
   }
 
-  const { frontmatter, content } = await loadTogstrekHikingMdx([]);
+  const { frontmatter, content, omitDescriptionLead } =
+    await loadTogstrekHikingMdx([]);
 
   return (
     <TogstrekHikingPageTemplate
@@ -46,6 +47,7 @@ export default async function TogstrekHikingIndexPage() {
       frontmatter={frontmatter}
       mdxContent={content}
       slugSegments={[]}
+      omitDescriptionLead={omitDescriptionLead}
     />
   );
 }

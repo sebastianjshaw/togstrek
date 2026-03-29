@@ -57,17 +57,15 @@ export default async function TogstrekPlacePage({
     notFound();
   }
 
-  const { frontmatter, content } = await loadTogstrekPlaceMdx(
-    continent,
-    country,
-    place,
-  );
+  const { frontmatter, content, omitDescriptionLead } =
+    await loadTogstrekPlaceMdx(continent, country, place);
 
   return (
     <TogstrekPlacePageTemplate
       frontmatter={frontmatter}
       mdxContent={content}
       path={{ continent, country, place }}
+      omitDescriptionLead={omitDescriptionLead}
     />
   );
 }

@@ -39,6 +39,8 @@ type TogstrekHikingPageTemplateProps = {
   mdxContent: ReactNode;
   /** URL segments under `/hiking` (empty on `/hiking` index). */
   slugSegments: string[];
+  /** Hide YAML `description` lead when it duplicates the MDX body opening. */
+  omitDescriptionLead?: boolean;
 };
 
 function TogstrekHikingFallbackTitleHeader({ title }: { title: string }) {
@@ -56,10 +58,13 @@ export function TogstrekHikingPageTemplate({
   frontmatter,
   mdxContent,
   slugSegments,
+  omitDescriptionLead = false,
 }: TogstrekHikingPageTemplateProps) {
   const isHub = variant === "hub";
   const isGroup = variant === "group";
   const isPost = variant === "post";
+  const showDescriptionLead =
+    Boolean(frontmatter.description) && !omitDescriptionLead;
 
   const hubGroupEntries = isHub ? getTogstrekHikingHubGroupEntries() : [];
   const hubStandaloneEntries = isHub
@@ -180,12 +185,20 @@ export function TogstrekHikingPageTemplate({
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
         <TogstrekBreadcrumb items={breadcrumbItems} />
 
-        <p className="togstrek-hiking-lead mt-[var(--tt-space-8)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
-          {frontmatter.description}
-        </p>
+        {showDescriptionLead ? (
+          <p className="togstrek-hiking-lead mt-[var(--tt-space-8)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
+            {frontmatter.description}
+          </p>
+        ) : null}
 
         {isPost && frontmatter.published ? (
-          <p className="mt-[var(--tt-space-4)] font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary">
+          <p
+            className={`font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary ${
+              showDescriptionLead
+                ? "mt-[var(--tt-space-4)]"
+                : "mt-[var(--tt-space-8)]"
+            }`}
+          >
             Published {frontmatter.published}
             {frontmatter.modified
               ? ` · Updated ${frontmatter.modified}`

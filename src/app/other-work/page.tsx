@@ -38,13 +38,15 @@ export default async function TogstrekOtherWorkIndexPage() {
     notFound();
   }
 
-  const { frontmatter, content } = await loadTogstrekOtherWorkMdx([]);
+  const { frontmatter, content, omitDescriptionLead } =
+    await loadTogstrekOtherWorkMdx([]);
 
   return (
     <TogstrekOtherWorkPageTemplate
       frontmatter={frontmatter}
       mdxContent={content}
       slugSegments={[]}
+      omitDescriptionLead={omitDescriptionLead}
     />
   );
 }

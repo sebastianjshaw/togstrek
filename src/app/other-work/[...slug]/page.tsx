@@ -54,13 +54,15 @@ export default async function TogstrekOtherWorkSlugPage({
     notFound();
   }
 
-  const { frontmatter, content } = await loadTogstrekOtherWorkMdx(slug);
+  const { frontmatter, content, omitDescriptionLead } =
+    await loadTogstrekOtherWorkMdx(slug);
 
   return (
     <TogstrekOtherWorkPageTemplate
       frontmatter={frontmatter}
       mdxContent={content}
       slugSegments={slug}
+      omitDescriptionLead={omitDescriptionLead}
     />
   );
 }

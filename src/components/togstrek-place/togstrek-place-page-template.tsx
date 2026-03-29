@@ -15,14 +15,19 @@ type TogstrekPlacePageTemplateProps = {
   frontmatter: TogstrekPlaceMdxFrontmatter;
   mdxContent: ReactNode;
   path: { continent: string; country: string; place: string };
+  /** Hide YAML `description` lead when it duplicates the MDX body opening. */
+  omitDescriptionLead?: boolean;
 };
 
 export function TogstrekPlacePageTemplate({
   frontmatter,
   mdxContent,
   path,
+  omitDescriptionLead = false,
 }: TogstrekPlacePageTemplateProps) {
   const { continent, country, place } = path;
+  const showDescriptionLead =
+    Boolean(frontmatter.description) && !omitDescriptionLead;
 
   const breadcrumbItems = [
     {
@@ -82,12 +87,20 @@ export function TogstrekPlacePageTemplate({
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
         <TogstrekBreadcrumb items={breadcrumbItems} />
 
-        <p className="togstrek-place-lead mt-[var(--tt-space-8)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
-          {frontmatter.description}
-        </p>
+        {showDescriptionLead ? (
+          <p className="togstrek-place-lead mt-[var(--tt-space-8)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
+            {frontmatter.description}
+          </p>
+        ) : null}
 
         {frontmatter.published ? (
-          <p className="mt-[var(--tt-space-4)] font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary">
+          <p
+            className={`font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary ${
+              showDescriptionLead
+                ? "mt-[var(--tt-space-4)]"
+                : "mt-[var(--tt-space-8)]"
+            }`}
+          >
             Published {frontmatter.published}
             {frontmatter.modified
               ? ` · Updated ${frontmatter.modified}`

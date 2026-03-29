@@ -91,25 +91,29 @@ export default async function TogstrekHikingPostPage({
   }
 
   if (route.kind === "post") {
-    const { frontmatter, content } = await loadTogstrekHikingMdx(slug);
+    const { frontmatter, content, omitDescriptionLead } =
+      await loadTogstrekHikingMdx(slug);
     return (
       <TogstrekHikingPageTemplate
         variant="post"
         frontmatter={frontmatter}
         mdxContent={content}
         slugSegments={slug}
+        omitDescriptionLead={omitDescriptionLead}
       />
     );
   }
 
   if (hikingMdxExists(slug)) {
-    const { frontmatter, content } = await loadTogstrekHikingMdx(slug);
+    const { frontmatter, content, omitDescriptionLead } =
+      await loadTogstrekHikingMdx(slug);
     return (
       <TogstrekHikingPageTemplate
         variant="group"
         frontmatter={frontmatter}
         mdxContent={content}
         slugSegments={route.groupSegments}
+        omitDescriptionLead={omitDescriptionLead}
       />
     );
   }

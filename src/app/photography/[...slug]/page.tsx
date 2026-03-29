@@ -54,13 +54,15 @@ export default async function TogstrekPhotographySlugPage({
     notFound();
   }
 
-  const { frontmatter, content } = await loadTogstrekPhotographyMdx(slug);
+  const { frontmatter, content, omitDescriptionLead } =
+    await loadTogstrekPhotographyMdx(slug);
 
   return (
     <TogstrekPhotographyPageTemplate
       frontmatter={frontmatter}
       mdxContent={content}
       slugSegments={slug}
+      omitDescriptionLead={omitDescriptionLead}
     />
   );
 }

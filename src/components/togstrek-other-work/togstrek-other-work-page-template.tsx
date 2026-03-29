@@ -13,14 +13,19 @@ type TogstrekOtherWorkPageTemplateProps = {
   mdxContent: ReactNode;
   /** URL segments under `/other-work` (empty on the hub). */
   slugSegments: string[];
+  /** Hide YAML `description` lead on article pages when it duplicates the body opening. */
+  omitDescriptionLead?: boolean;
 };
 
 export function TogstrekOtherWorkPageTemplate({
   frontmatter,
   mdxContent,
   slugSegments,
+  omitDescriptionLead = false,
 }: TogstrekOtherWorkPageTemplateProps) {
   const isHub = slugSegments.length === 0;
+  const showDescriptionLead =
+    !isHub && Boolean(frontmatter.description) && !omitDescriptionLead;
 
   const breadcrumbItems =
     isHub
@@ -57,14 +62,20 @@ export function TogstrekOtherWorkPageTemplate({
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
         <TogstrekBreadcrumb items={breadcrumbItems} />
 
-        {!isHub ? (
+        {showDescriptionLead ? (
           <p className="togstrek-place-lead mt-[var(--tt-space-8)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
             {frontmatter.description}
           </p>
         ) : null}
 
         {!isHub && frontmatter.published ? (
-          <p className="mt-[var(--tt-space-4)] font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary">
+          <p
+            className={`font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary ${
+              showDescriptionLead
+                ? "mt-[var(--tt-space-4)]"
+                : "mt-[var(--tt-space-8)]"
+            }`}
+          >
             Published {frontmatter.published}
             {frontmatter.modified
               ? ` · Updated ${frontmatter.modified}`

@@ -7,6 +7,7 @@ import type { ReactNode } from "react";
 import { TogstrekOtherWorkHubBody } from "@/components/togstrek-other-work/togstrek-other-work-hub-body";
 import { TogstrekOtherWorkSectionFeatured } from "@/components/togstrek-other-work/togstrek-other-work-section-featured";
 import { getTogstrekOtherWorkMdxComponents } from "@/components/togstrek-other-work/togstrek-other-work-mdx-components";
+import { shouldOmitVisibleDescriptionLead } from "@/lib/togstrek-mdx-description-lead-dedupe";
 import {
   parseTogstrekOtherWorkFrontmatter,
   type TogstrekOtherWorkMdxFrontmatter,
@@ -18,6 +19,7 @@ const OTHER_WORK_ROOT = path.join(process.cwd(), "content", "other-work");
 export type TogstrekOtherWorkMdxResult = {
   frontmatter: TogstrekOtherWorkMdxFrontmatter;
   content: ReactNode;
+  omitDescriptionLead: boolean;
 };
 
 export function otherWorkMdxFilePath(slugSegments: string[]): string {
@@ -67,6 +69,14 @@ export async function loadTogstrekOtherWorkMdx(
   const fp = otherWorkMdxFilePath(slugSegments);
   const source = fs.readFileSync(fp, "utf8");
 
+  const parsed = matter(source);
+  const fmDedupe = parseTogstrekOtherWorkFrontmatter(
+    parsed.data as Record<string, unknown>,
+  );
+  const omitDescriptionLead =
+    slugSegments.length > 0 &&
+    shouldOmitVisibleDescriptionLead(fmDedupe.description, parsed.content);
+
   const baseComponents = getTogstrekOtherWorkMdxComponents();
   const components = {
     ...baseComponents,
@@ -88,7 +98,7 @@ export async function loadTogstrekOtherWorkMdx(
   const fm = rawFm as Record<string, unknown>;
   const frontmatter = parseTogstrekOtherWorkFrontmatter(fm);
 
-  return { frontmatter, content };
+  return { frontmatter, content, omitDescriptionLead };
 }
 
 export function discoverTogstrekOtherWorkSlugLists(): string[][] {

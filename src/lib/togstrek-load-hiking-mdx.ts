@@ -13,11 +13,13 @@ import {
   parseTogstrekHikingFrontmatter,
   type TogstrekHikingMdxFrontmatter,
 } from "@/lib/togstrek-hiking-frontmatter";
+import { shouldOmitVisibleDescriptionLead } from "@/lib/togstrek-mdx-description-lead-dedupe";
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
 
 export type TogstrekHikingMdxResult = {
   frontmatter: TogstrekHikingMdxFrontmatter;
   content: ReactNode;
+  omitDescriptionLead: boolean;
 };
 
 export async function loadTogstrekHikingMdx(
@@ -28,6 +30,10 @@ export async function loadTogstrekHikingMdx(
   const { data, content: mdBody } = matter(source);
   const baseFm = parseTogstrekHikingFrontmatter(data as Record<string, unknown>);
   const frontmatter = mergeTogstrekHikingTrailFactsFromBody(baseFm, mdBody);
+  const omitDescriptionLead = shouldOmitVisibleDescriptionLead(
+    frontmatter.description,
+    mdBody,
+  );
 
   const { content } = await compileMDX({
     source,
@@ -40,7 +46,7 @@ export async function loadTogstrekHikingMdx(
     components: getTogstrekPlaceMdxComponents(),
   });
 
-  return { frontmatter, content };
+  return { frontmatter, content, omitDescriptionLead };
 }
 
 // Re-export FS helpers so existing `@/lib/togstrek-load-hiking-mdx` imports keep working.

@@ -6,6 +6,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import type { ReactNode } from "react";
 import { getTogstrekPlaceMdxComponents } from "@/components/togstrek-place/togstrek-place-mdx-components";
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
+import { shouldOmitVisibleDescriptionLead } from "@/lib/togstrek-mdx-description-lead-dedupe";
 import {
   parseTogstrekOtherWorkFrontmatter,
   type TogstrekOtherWorkMdxFrontmatter,
@@ -16,6 +17,8 @@ const PHOTOGRAPHY_ROOT = path.join(process.cwd(), "content", "photography");
 export type TogstrekPhotographyMdxResult = {
   frontmatter: TogstrekOtherWorkMdxFrontmatter;
   content: ReactNode;
+  /** When true, body already opens with the same copy as `description` — hide the lead. */
+  omitDescriptionLead: boolean;
 };
 
 export function photographyMdxFilePath(slugSegments: string[]): string {
@@ -56,6 +59,15 @@ export async function loadTogstrekPhotographyMdx(
   const fp = photographyMdxFilePath(slugSegments);
   const source = fs.readFileSync(fp, "utf8");
 
+  const parsed = matter(source);
+  const fmDedupe = parseTogstrekOtherWorkFrontmatter(
+    parsed.data as Record<string, unknown>,
+  );
+  const omitDescriptionLead = shouldOmitVisibleDescriptionLead(
+    fmDedupe.description,
+    parsed.content,
+  );
+
   const { content, frontmatter: rawFm } = await compileMDX({
     source,
     options: {
@@ -70,7 +82,7 @@ export async function loadTogstrekPhotographyMdx(
   const fm = rawFm as Record<string, unknown>;
   const frontmatter = parseTogstrekOtherWorkFrontmatter(fm);
 
-  return { frontmatter, content };
+  return { frontmatter, content, omitDescriptionLead };
 }
 
 export function discoverTogstrekPhotographySlugLists(): string[][] {

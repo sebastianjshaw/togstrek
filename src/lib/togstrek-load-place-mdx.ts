@@ -5,6 +5,7 @@ import matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
 import type { ReactNode } from "react";
 import { getTogstrekPlaceMdxComponents } from "@/components/togstrek-place/togstrek-place-mdx-components";
+import { shouldOmitVisibleDescriptionLead } from "@/lib/togstrek-mdx-description-lead-dedupe";
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
 import { togstrekUnCountryNameToUrlSlug } from "@/lib/togstrek-geo-labels";
 import {
@@ -17,6 +18,7 @@ const PLACES_ROOT = path.join(process.cwd(), "content", "places");
 export type TogstrekPlaceMdxResult = {
   frontmatter: TogstrekPlaceMdxFrontmatter;
   content: ReactNode;
+  omitDescriptionLead: boolean;
 };
 
 function placeFilePath(
@@ -64,6 +66,16 @@ export async function loadTogstrekPlaceMdx(
   const fp = placeFilePath(continent, country, place);
   const source = fs.readFileSync(fp, "utf8");
 
+  const parsed = matter(source);
+  const fmDedupe = parseTogstrekPlaceFrontmatter(
+    parsed.data as Record<string, unknown>,
+    { continent, country, place },
+  );
+  const omitDescriptionLead = shouldOmitVisibleDescriptionLead(
+    fmDedupe.description,
+    parsed.content,
+  );
+
   const { content, frontmatter: rawFm } = await compileMDX({
     source,
     options: {
@@ -82,7 +94,7 @@ export async function loadTogstrekPlaceMdx(
     place,
   });
 
-  return { frontmatter, content };
+  return { frontmatter, content, omitDescriptionLead };
 }
 
 /** Discover all `content/places/<continent>/<country>/<place>.mdx` files */
