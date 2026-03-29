@@ -21,7 +21,8 @@ export const togstrekCountryHubPathByIso2: Partial<
   IE: "/ireland",
   IT: "/italy",
   LV: "/latvia",
-  LI: "/liechtenstein",
+  /** Mirror / content folder uses `lichtenstein` (matches MDX + R2 keys). */
+  LI: "/europe/lichtenstein",
   LT: "/lithuania",
   MT: "/malta",
   MC: "/monaco",

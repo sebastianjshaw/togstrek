@@ -67,6 +67,11 @@ const nextConfig: NextConfig = {
         permanent: true as const,
       })),
       {
+        source: "/liechtenstein",
+        destination: "/europe/lichtenstein",
+        permanent: true,
+      },
+      {
         source: "/europe/turkey/galata-tower",
         destination: "/europe/turkiye/istanbul",
         permanent: true,
