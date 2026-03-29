@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import { hikingMdxFilePath } from "@/lib/togstrek-load-hiking-mdx";
+import { hikingMdxFilePath } from "@/lib/togstrek-hiking-content-fs";
 import { otherWorkMdxFilePath } from "@/lib/togstrek-load-other-work-mdx";
 import { photographyMdxFilePath } from "@/lib/togstrek-load-photography-mdx";
 

@@ -16,6 +16,9 @@ import {
   discoverTogstrekHikingSlugParams,
 } from "@/lib/togstrek-load-hiking-mdx";
 
+/** Only prebuilt slugs — keeps the route fully static on Vercel (smaller serverless trace). */
+export const dynamicParams = false;
+
 export async function generateStaticParams(): Promise<{ slug: string[] }[]> {
   return discoverTogstrekHikingSlugParams();
 }

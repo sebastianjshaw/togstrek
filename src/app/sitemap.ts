@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { discoverTogstrekHikingGroupSegmentLists } from "@/lib/togstrek-hiking-groups";
-import { discoverTogstrekHikingSlugLists } from "@/lib/togstrek-load-hiking-mdx";
+import { discoverTogstrekHikingSlugLists } from "@/lib/togstrek-hiking-content-fs";
 import { discoverTogstrekOtherWorkSlugLists } from "@/lib/togstrek-load-other-work-mdx";
 import { discoverTogstrekPhotographySlugLists } from "@/lib/togstrek-load-photography-mdx";
 import {

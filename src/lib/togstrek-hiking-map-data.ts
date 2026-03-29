@@ -3,7 +3,7 @@ import { compareTogstrekHikingPostSlugSegmentsForGroup } from "@/lib/togstrek-hi
 import {
   discoverTogstrekHikingSlugLists,
   loadTogstrekHikingFrontmatterOnly,
-} from "@/lib/togstrek-load-hiking-mdx";
+} from "@/lib/togstrek-hiking-content-fs";
 
 function isValidCoord(lat: number, lng: number): boolean {
   return (

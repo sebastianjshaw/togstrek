@@ -7,7 +7,7 @@ import { discoverTogstrekHikingGroupSegmentLists } from "@/lib/togstrek-hiking-g
 import {
   discoverTogstrekHikingSlugLists,
   loadTogstrekHikingFrontmatterOnly,
-} from "@/lib/togstrek-load-hiking-mdx";
+} from "@/lib/togstrek-hiking-content-fs";
 
 const HIKING_ROOT = path.join(process.cwd(), "content", "hiking");
 
