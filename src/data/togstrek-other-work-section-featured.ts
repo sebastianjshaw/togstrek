@@ -456,7 +456,7 @@ export const TOGSTREK_OTHER_WORK_SECTION_FEATURED: Record<
   {
     "title": "Ella De Vine",
     "href": "/photography/models/ella-de-vine",
-    "imageSrc": "https://media.togstrek.com/other-work/models/20101121-_JS_4063-4063.jpg",
+    "imageSrc": "https://media.togstrek.com/other-work/models/ella-de-vine/20101121-_JS_4063-406343a3.webp",
     "date": "2010-11-21"
   },
   {

@@ -67,8 +67,8 @@ export const togstrekOtherWorkHubSections: TogstrekOtherWorkHubSection[] = [
   {
     href: "/other-work/models",
     label: "Models & Fashion",
-    imageSrc: `${M}/other-work/models/20101121-_JS_4063-4063.jpg`,
-    imageAlt: "Models & Fashion",
+    imageSrc: `${M}/other-work/models/ella-de-vine/20101121-_JS_4063-406343a3.webp`,
+    imageAlt: "Ella De Vine — studio portrait, Models & Fashion",
   },
   {
     href: "/other-work/music",

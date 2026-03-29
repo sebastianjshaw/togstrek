@@ -104,5 +104,9 @@ export const togstrekRegionGridItems: TogstrekRegionGridItem[] = [
     label: "Other Work",
     blurb: "Beyond travel",
     gradient: "from-[#1a1420] via-[#2a2230] to-[#8880a0]/35",
+    imageSrc: mediaPath(
+      "other-work/models/ella-de-vine/20101121-_JS_4063-406343a3.webp",
+    ),
+    imageAlt: "Ella De Vine — studio portrait, Models & Fashion",
   },
 ];
