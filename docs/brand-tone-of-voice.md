@@ -23,6 +23,7 @@ Guidance for site copy, metadata, and MDX. Use this when writing new pages or re
 
 - **UN-style list of 195:** In user-facing copy, describe it as **193 UN member states plus the Holy See and Palestine as permanent observers** — not ad hoc country names pulled from data quirks.
 - **Place pages:** Hero eyebrow should use human-readable labels (`formatSlugLabel`), not raw URL slugs.
+- **Visited map / stats:** Use **Places Visited** (and *place* / *places* in map copy), not “cities visited”, so Antarctic and non-city stories read correctly.
 - **Adventures archive:** Tiles may link to stories that are not yet migrated; the section description should stay honest about that.
 
 ## Known gaps (fill when you can)
@@ -47,7 +48,7 @@ Guidance for site copy, metadata, and MDX. Use this when writing new pages or re
 
 ## Reference snippets
 
-- **Home lead (baseline):** Curious travel guides and photo essays that go deeper — countries, cities, hikes, and the stories behind the frame.
+- **Home lead (baseline):** Curious travel guides and photo essays that go deeper — countries, places, hikes, and the stories behind the frame.
 - **Map section (continents):** Shared helper `togstrekHubOnTheMapSectionDescription` in `src/lib/togstrek-hub-section-copy.tsx`.
 - **Countries list intro:** Shared `TogstrekHubCountriesListIntro` for consistent UN 195 wording.
 

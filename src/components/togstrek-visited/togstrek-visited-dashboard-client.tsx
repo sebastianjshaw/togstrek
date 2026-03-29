@@ -106,8 +106,8 @@ export function TogstrekVisitedDashboardClient({
       title: row.countryLabel,
       excerpt:
         row.citiesVisited === 1
-          ? "1 city story in this country."
-          : `${row.citiesVisited} city stories in this country.`,
+          ? "1 place story in this country."
+          : `${row.citiesVisited} place stories in this country.`,
       longitude: row.longitude,
       latitude: row.latitude,
     }));
@@ -198,13 +198,13 @@ export function TogstrekVisitedDashboardClient({
           `${summary.totalCountries} total`,
         )}
         {statCard("Coverage", formatPercent(summary.coveragePercent))}
-        {statCard("Cities visited", `${summary.visitedCities}`)}
+        {statCard("Places Visited", `${summary.visitedCities}`)}
         {statCard(
           "Map mode",
-          mapMode === "countries" ? "Countries" : "Cities",
+          mapMode === "countries" ? "Countries" : "Places",
           mapMode === "countries"
             ? "Aggregated by country centroid"
-            : "All city/place stories",
+            : "All place stories",
         )}
       </div>
 
@@ -233,7 +233,7 @@ export function TogstrekVisitedDashboardClient({
                 : "bg-tt-surface-base text-tt-text-primary hover:text-tt-accent"
             }`}
           >
-            Cities
+            Places
           </button>
         </div>
       </div>
@@ -263,7 +263,8 @@ export function TogstrekVisitedDashboardClient({
               >
                 <span className="text-tt-text-primary">{c.countryLabel}</span>
                 <span className="font-semibold text-tt-text-secondary">
-                  {c.citiesVisited} {c.citiesVisited === 1 ? "city" : "cities"}
+                  {c.citiesVisited}{" "}
+                  {c.citiesVisited === 1 ? "place" : "places"}
                 </span>
               </li>
             ))}

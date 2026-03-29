@@ -1,14 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, Geist_Mono, Syne } from "next/font/google";
 import "./globals.css";
+import { TogstrekJsonLd } from "@/components/togstrek-seo/togstrek-json-ld";
 import { TogstrekSiteFooter } from "@/components/togstrek-site-footer";
 import { TogstrekSiteHeader } from "@/components/togstrek-site-header";
 import { TogstrekSkipLink } from "@/components/togstrek-skip-link";
+import { getTogstrekMediaBaseUrl } from "@/config/togstrek-media";
+import { togstrekLayoutJsonLdGraph } from "@/lib/togstrek-json-ld";
 
+/** Display face only uses semibold (600), bold (700), extrabold (800) in components. */
 const fontSyne = Syne({
   variable: "--font-tt-syne",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["600", "700", "800"],
 });
 
 const fontDmSans = DM_Sans({
@@ -35,7 +39,7 @@ export const metadata: Metadata = {
     template: "%s · A Tog's Trek",
   },
   description:
-    "The most exciting journey is the next one… Curious travel guides and photo essays that go deeper into countries, cities, hikes, and the stories behind the frame.",
+    "The most exciting journey is the next one… Curious travel guides and photo essays that go deeper into countries, places, hikes, and the stories behind the frame.",
   metadataBase: new URL("https://togstrek.com"),
   manifest: "/site.webmanifest",
   icons: {
@@ -51,7 +55,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "A Tog's Trek",
     description:
-      "Curious travel guides and photo essays — countries, cities, hikes, and the stories behind the frame.",
+      "Curious travel guides and photo essays — countries, places, hikes, and the stories behind the frame.",
     locale: "en_GB",
     type: "website",
   },
@@ -62,12 +66,34 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const mediaOrigin = getTogstrekMediaBaseUrl();
+
   return (
     <html
       lang="en-GB"
       className={`${fontSyne.variable} ${fontDmSans.variable} ${fontGeistMono.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="preconnect" href={mediaOrigin} crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href={mediaOrigin} />
+        <link
+          rel="preconnect"
+          href="https://images.squarespace-cdn.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://static1.squarespace.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://images.unsplash.com"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="flex min-h-full min-w-0 flex-col overflow-x-clip font-tt-body">
+        <TogstrekJsonLd data={togstrekLayoutJsonLdGraph()} />
         <TogstrekSkipLink />
         <TogstrekSiteHeader />
         <div

@@ -1,11 +1,13 @@
 import type { ReactNode } from "react";
 
 import { TogstrekPageHero } from "@/components/togstrek-page-hero";
+import { TogstrekJsonLd } from "@/components/togstrek-seo/togstrek-json-ld";
 import { TogstrekBreadcrumb } from "@/components/togstrek-ui/togstrek-breadcrumb";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
 import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
 import { formatSlugLabel } from "@/lib/togstrek-geo-labels";
+import { togstrekPlacePageJsonLdGraph } from "@/lib/togstrek-json-ld";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 import type { TogstrekPlaceMdxFrontmatter } from "@/lib/togstrek-place-frontmatter";
 
@@ -34,8 +36,27 @@ export function TogstrekPlacePageTemplate({
     { label: frontmatter.title },
   ];
 
+  const placePath = `/${continent}/${country}/${place}`;
+
+  const placeBreadcrumbItems = [
+    { name: formatSlugLabel(continent), path: `/${continent}` },
+    { name: formatSlugLabel(country), path: `/${continent}/${country}` },
+    { name: frontmatter.title, path: placePath },
+  ];
+
   return (
     <main className="togstrek-place-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+      <TogstrekJsonLd
+        data={togstrekPlacePageJsonLdGraph({
+          name: frontmatter.title,
+          description: frontmatter.description,
+          urlPath: placePath,
+          latitude: frontmatter.lat,
+          longitude: frontmatter.lng,
+          imageUrl: frontmatter.heroImage?.src,
+          breadcrumb: placeBreadcrumbItems,
+        })}
+      />
       {frontmatter.heroImage ? (
         <TogstrekPageHero
           variant="article"

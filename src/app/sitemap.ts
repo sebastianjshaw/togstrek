@@ -8,6 +8,13 @@ import {
   discoverTogstrekCountryHubParams,
   discoverTogstrekPlaceSlugs,
 } from "@/lib/togstrek-load-place-mdx";
+import {
+  togstrekSitemapLastModifiedForCountryHub,
+  togstrekSitemapLastModifiedForHiking,
+  togstrekSitemapLastModifiedForOtherWork,
+  togstrekSitemapLastModifiedForPhotography,
+  togstrekSitemapLastModifiedForPlace,
+} from "@/lib/togstrek-sitemap-last-modified";
 import { getTogstrekSiteOrigin } from "@/lib/togstrek-site-url";
 
 type SitemapChangeFrequency = NonNullable<
@@ -30,36 +37,51 @@ const STATIC_PATHS: {
     { path: "/south-america", priority: 0.85, changeFrequency: "weekly" },
     { path: "/oceania", priority: 0.85, changeFrequency: "weekly" },
     { path: "/antarctica", priority: 0.85, changeFrequency: "weekly" },
+    { path: "/contact", priority: 0.55, changeFrequency: "yearly" },
+    { path: "/copyright", priority: 0.45, changeFrequency: "yearly" },
   ];
+
+function withOptionalLastModified(
+  entry: MetadataRoute.Sitemap[number],
+  lastModified: Date | undefined,
+): MetadataRoute.Sitemap[number] {
+  if (!lastModified) return entry;
+  return { ...entry, lastModified };
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = getTogstrekSiteOrigin();
-  const lastModified = new Date();
 
   const staticEntries: MetadataRoute.Sitemap = STATIC_PATHS.map(
     ({ path, priority, changeFrequency }) => ({
       url: path === "/" ? `${base}/` : `${base}${path}`,
-      lastModified,
       changeFrequency,
       priority,
     }),
   );
 
   const countryHubEntries: MetadataRoute.Sitemap =
-    discoverTogstrekCountryHubParams().map(({ continent, country }) => ({
-      url: `${base}/${continent}/${country}`,
-      lastModified,
-      changeFrequency: "monthly" as const,
-      priority: 0.74,
-    }));
+    discoverTogstrekCountryHubParams().map(({ continent, country }) =>
+      withOptionalLastModified(
+        {
+          url: `${base}/${continent}/${country}`,
+          changeFrequency: "monthly" as const,
+          priority: 0.74,
+        },
+        togstrekSitemapLastModifiedForCountryHub(continent, country),
+      ),
+    );
 
   const placeEntries: MetadataRoute.Sitemap = discoverTogstrekPlaceSlugs().map(
-    ({ continent, country, place }) => ({
-      url: `${base}/${continent}/${country}/${place}`,
-      lastModified,
-      changeFrequency: "monthly" as const,
-      priority: 0.75,
-    }),
+    ({ continent, country, place }) =>
+      withOptionalLastModified(
+        {
+          url: `${base}/${continent}/${country}/${place}`,
+          changeFrequency: "monthly" as const,
+          priority: 0.75,
+        },
+        togstrekSitemapLastModifiedForPlace(continent, country, place),
+      ),
   );
 
   const hikingSlugKey = (segments: string[]) => JSON.stringify(segments);
@@ -74,36 +96,46 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const hikingEntries: MetadataRoute.Sitemap = [...hikingSlugSet].map(
     (key) => {
       const segments = JSON.parse(key) as string[];
-      return {
-        url:
-          segments.length === 0
-            ? `${base}/hiking`
-            : `${base}/hiking/${segments.join("/")}`,
-        lastModified,
-        changeFrequency: "monthly" as const,
-        priority: segments.length === 0 ? 0.85 : 0.72,
-      };
+      return withOptionalLastModified(
+        {
+          url:
+            segments.length === 0
+              ? `${base}/hiking`
+              : `${base}/hiking/${segments.join("/")}`,
+          changeFrequency: "monthly" as const,
+          priority: segments.length === 0 ? 0.85 : 0.72,
+        },
+        togstrekSitemapLastModifiedForHiking(segments),
+      );
     },
   );
 
   const otherWorkEntries: MetadataRoute.Sitemap =
-    discoverTogstrekOtherWorkSlugLists().map((segments) => ({
-      url:
-        segments.length === 0
-          ? `${base}/other-work`
-          : `${base}/other-work/${segments.join("/")}`,
-      lastModified,
-      changeFrequency: "monthly" as const,
-      priority: segments.length === 0 ? 0.84 : 0.7,
-    }));
+    discoverTogstrekOtherWorkSlugLists().map((segments) =>
+      withOptionalLastModified(
+        {
+          url:
+            segments.length === 0
+              ? `${base}/other-work`
+              : `${base}/other-work/${segments.join("/")}`,
+          changeFrequency: "monthly" as const,
+          priority: segments.length === 0 ? 0.84 : 0.7,
+        },
+        togstrekSitemapLastModifiedForOtherWork(segments),
+      ),
+    );
 
   const photographyEntries: MetadataRoute.Sitemap =
-    discoverTogstrekPhotographySlugLists().map((segments) => ({
-      url: `${base}/photography/${segments.join("/")}`,
-      lastModified,
-      changeFrequency: "monthly" as const,
-      priority: 0.68,
-    }));
+    discoverTogstrekPhotographySlugLists().map((segments) =>
+      withOptionalLastModified(
+        {
+          url: `${base}/photography/${segments.join("/")}`,
+          changeFrequency: "monthly" as const,
+          priority: 0.68,
+        },
+        togstrekSitemapLastModifiedForPhotography(segments),
+      ),
+    );
 
   return [
     ...staticEntries,

@@ -8,9 +8,34 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/europe/turkey/galata-tower",
+        destination: "/europe/turkiye/istanbul",
+        permanent: true,
+      },
+      {
+        source: "/europe/turkey",
+        destination: "/europe/turkiye",
+        permanent: true,
+      },
+      {
+        source: "/europe/turkey/:path*",
+        destination: "/europe/turkiye/:path*",
+        permanent: true,
+      },
+      {
         source: "/photography",
         destination: "/other-work",
         permanent: false,
+      },
+      {
+        source: "/hiking/bohusleden/etapp-2-stensjn-skats",
+        destination: "/hiking/bohusleden/etapp-02-stensjon-to-skatas",
+        permanent: true,
+      },
+      {
+        source: "/hiking/bohusleden/etapp03-skatas-to-kasjon",
+        destination: "/hiking/bohusleden/etapp-03-skatas-to-kasjon",
+        permanent: true,
       },
       {
         source: "/hiking/bohuslden/:path*",

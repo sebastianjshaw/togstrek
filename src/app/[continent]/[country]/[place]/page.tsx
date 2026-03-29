@@ -33,7 +33,6 @@ export async function generateMetadata({
     description: fm.description,
     path,
     type: "article",
-    openGraphTitle: `${fm.title} — A Tog's Trek`,
     openGraphDescription: fm.description,
     openGraphImages: fm.heroImage
       ? [

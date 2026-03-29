@@ -61,3 +61,28 @@ export function TogstrekCtaOutlineAccentLink({
     />
   );
 }
+
+export type TogstrekCtaOutlineAccentExternalLinkProps = Omit<
+  ComponentProps<"a">,
+  "className"
+> & {
+  className?: string;
+  interaction?: TogstrekCtaOutlineAccentInteraction;
+  size?: TogstrekCtaOutlineAccentSize;
+};
+
+/** Same outline CTA as `TogstrekCtaOutlineAccentLink` for external `https:` targets. */
+export function TogstrekCtaOutlineAccentExternalLink({
+  className,
+  interaction = "hover",
+  size = "default",
+  ...props
+}: TogstrekCtaOutlineAccentExternalLinkProps) {
+  const built = buildTogstrekCtaOutlineAccentClassName({ interaction, size });
+  return (
+    <a
+      {...props}
+      className={className ? `${built} ${className}` : built}
+    />
+  );
+}

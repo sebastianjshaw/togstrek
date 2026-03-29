@@ -1,18 +1,47 @@
+import type { Metadata } from "next";
+
 import { TogstrekFeaturedAdventure } from "@/components/togstrek-featured-adventure/togstrek-featured-adventure";
 import { TogstrekPageHero } from "@/components/togstrek-page-hero";
 import { TogstrekRegionGrid } from "@/components/togstrek-region-grid";
 import { TogstrekCtaGhostInverseLink } from "@/components/togstrek-ui/togstrek-cta-ghost-inverse-link";
 import { TogstrekCtaOutlineAccentLink } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
+import { togstrekSiteLandingHeroImage } from "@/config/togstrek-media";
+import {
+  buildTogstrekMetadata,
+  TOGSTREK_OG_IMAGE_HEIGHT,
+  TOGSTREK_OG_IMAGE_WIDTH,
+  TOGSTREK_SITE_NAME,
+} from "@/lib/togstrek-metadata";
 
-const TOGSTREK_HERO_IMAGE =
-  "https://images.squarespace-cdn.com/content/v1/6207d70ece223e42dd9ae587/1648486443947-NE59SWBOO1XR2W3MHJ97/IMG_4140.jpg?format=2500w";
+const homeHero = togstrekSiteLandingHeroImage();
+
+export const metadata: Metadata = {
+  ...buildTogstrekMetadata({
+    title: TOGSTREK_SITE_NAME,
+    description:
+      "The most exciting journey is the next one… Curious travel guides and photo essays that go deeper into countries, places, hikes, and the stories behind the frame.",
+    path: "/",
+    openGraphTitle: TOGSTREK_SITE_NAME,
+    openGraphDescription:
+      "Curious travel guides and photo essays — countries, places, hikes, and the stories behind the frame.",
+    openGraphImages: [
+      {
+        url: homeHero.src,
+        width: TOGSTREK_OG_IMAGE_WIDTH,
+        height: TOGSTREK_OG_IMAGE_HEIGHT,
+        alt: homeHero.alt,
+      },
+    ],
+  }),
+  title: { absolute: TOGSTREK_SITE_NAME },
+};
 
 export default function HomePage() {
   return (
     <>
       <TogstrekPageHero
-        imageSrc={TOGSTREK_HERO_IMAGE}
-        imageAlt="Landscape photograph from Tog's Trek"
+        imageSrc={homeHero.src}
+        imageAlt={homeHero.alt}
         eyebrow="Travel · Photography · Photo essays"
         title="The most exciting journey is the next one…"
         titleId="togstrek-home-hero-heading"
@@ -21,7 +50,7 @@ export default function HomePage() {
         lead={
           <p>
             Curious travel guides and photo essays that go deeper — countries,
-            cities, hikes, and the stories behind the frame.
+            places, hikes, and the stories behind the frame.
           </p>
         }
         actions={

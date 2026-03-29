@@ -9,6 +9,10 @@ export type TogstrekHikingMdxFrontmatter = {
   lat?: number;
   lng?: number;
   heroImage?: TogstrekImageAsset;
+  /** Optional YAML overrides; otherwise parsed from **Distance** / **Difficulty** / **Transport** in the MDX body when present. */
+  trailDistanceKm?: number;
+  trailDifficulty?: string;
+  trailTransport?: string;
 };
 
 function parseHeroImage(raw: unknown): TogstrekImageAsset | undefined {
@@ -51,6 +55,12 @@ export function parseTogstrekHikingFrontmatter(
   const modified = typeof raw.modified === "string" ? raw.modified : undefined;
   const lat = typeof raw.lat === "number" ? raw.lat : undefined;
   const lng = typeof raw.lng === "number" ? raw.lng : undefined;
+  const trailDistanceKm =
+    typeof raw.trailDistanceKm === "number" ? raw.trailDistanceKm : undefined;
+  const trailDifficulty =
+    typeof raw.trailDifficulty === "string" ? raw.trailDifficulty.trim() : undefined;
+  const trailTransport =
+    typeof raw.trailTransport === "string" ? raw.trailTransport.trim() : undefined;
 
   return {
     title: title.trim(),
@@ -60,5 +70,8 @@ export function parseTogstrekHikingFrontmatter(
     lat,
     lng,
     heroImage: parseHeroImage(raw.heroImage),
+    trailDistanceKm,
+    trailDifficulty,
+    trailTransport,
   };
 }

@@ -5,6 +5,7 @@ import {
   continentHubHeroQuoteForSlug,
   TogstrekContinentHubMapSection,
   TogstrekContinentHubTemplate,
+  TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK,
 } from "@/components/togstrek-hub";
 import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
@@ -12,13 +13,22 @@ import {
   togstrekAsiaSpecialTerritories,
   togstrekCountryHubPathByIso2,
 } from "@/data/togstrek-country-hub-paths";
+import { togstrekCountryHubListQuoteByIso2 } from "@/data/togstrek-country-hub-list-quotes";
 import {
   isTogstrekContinentHubRouteSlug,
   TOGSTREK_CONTINENT_HUB_ROUTE_SLUGS,
   togstrekContinentHubPageMeta,
 } from "@/data/togstrek-continent-hub-meta";
 import { togstrekUn195Countries } from "@/data/togstrek-un195-countries";
-import { formatContinentEyebrow } from "@/lib/togstrek-geo-labels";
+import {
+  formatContinentEyebrow,
+  truncateDescription,
+} from "@/lib/togstrek-geo-labels";
+import {
+  listTogstrekPlaceSlugsForCountry,
+  loadTogstrekPlaceFrontmatterOnly,
+  pickTogstrekCountryHubTileHeroFromPlaces,
+} from "@/lib/togstrek-load-place-mdx";
 import {
   TOGSTREK_HUB_SPECIAL_TERRITORIES_SECTION_DESCRIPTION,
   TogstrekHubCountriesListIntro,
@@ -64,6 +74,12 @@ export default async function ContinentHubPage({
 
   const meta = togstrekContinentHubPageMeta[continent];
   const travelData = buildTogstrekVisitedTravelDataset();
+
+  const antarcticPlaceRows =
+    continent === "antarctica"
+      ? listTogstrekPlaceSlugsForCountry("antarctica", "antarctic")
+      : [];
+
   const un195ForContinent = togstrekUn195Countries
     .filter((c) => c.continent === continent)
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -136,51 +152,78 @@ export default async function ContinentHubPage({
         <TogstrekSectionHeader
           id="togstrek-antarctica-places-heading"
           title="Places"
-          description="The UN-style country list does not assign sovereign states here. Expedition stops, channels, harbours, and passages are collected under one Antarctic places hub."
+          description="There are no sovereign states on the UN list for this continent. Each card opens a story — expedition stops, channels, harbours, and passages around the peninsula and Southern Ocean."
         />
-        <ul className="mt-[var(--tt-space-10)] grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <li>
-            <TogstrekLinkCard
-              variant="compact"
-              href="/antarctica/antarctic"
-              title="Antarctic places"
-              meta="All stories from the peninsula, islands, and Southern Ocean cruise"
-            />
-          </li>
-        </ul>
-      </section>
-    ) : null;
-
-  const countriesSection = (
-    <section
-      className="togstrek-continent-hub-countries mt-[var(--tt-space-20)]"
-      aria-labelledby={`togstrek-continent-hub-countries-heading-${continent}`}
-    >
-      <TogstrekSectionHeader
-        id={`togstrek-continent-hub-countries-heading-${continent}`}
-        title="Countries"
-        description={countriesSectionDescription}
-      />
-      {un195ForContinent.length > 0 ? (
-        <ul className="mt-[var(--tt-space-10)] grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {un195ForContinent.map((c) => {
-            const href =
-              togstrekCountryHubPathByIso2[c.iso2] ??
-              travelData.countryStoryHrefByIso2[c.iso2];
+        <ul className="togstrek-continent-hub-antarctic-places-grid mt-[var(--tt-space-10)] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {antarcticPlaceRows.map(({ place }) => {
+            const fm = loadTogstrekPlaceFrontmatterOnly(
+              "antarctica",
+              "antarctic",
+              place,
+            );
+            const href = `/antarctica/antarctic/${place}`;
             return (
-              <li key={c.iso2}>
+              <li
+                key={place}
+                className="togstrek-continent-hub-antarctic-places-item min-h-[var(--tt-region-card-min-height)] min-w-0"
+              >
                 <TogstrekLinkCard
-                  variant="compact"
+                  variant="region"
                   href={href}
-                  title={c.name}
+                  title={fm.title}
+                  description={truncateDescription(fm.description)}
+                  gradient={TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK}
+                  imageSrc={fm.heroImage?.src}
+                  imageAlt={fm.heroImage?.alt}
                 />
               </li>
             );
           })}
         </ul>
-      ) : null}
-    </section>
-  );
+      </section>
+    ) : null;
+
+  const countriesSection =
+    continent === "antarctica" ? null : (
+      <section
+        className="togstrek-continent-hub-countries mt-[var(--tt-space-20)]"
+        aria-labelledby={`togstrek-continent-hub-countries-heading-${continent}`}
+      >
+        <TogstrekSectionHeader
+          id={`togstrek-continent-hub-countries-heading-${continent}`}
+          title="Countries"
+          description={countriesSectionDescription}
+        />
+        {un195ForContinent.length > 0 ? (
+          <ul className="togstrek-continent-hub-countries-grid mt-[var(--tt-space-10)] grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-2 xl:grid-cols-3">
+            {un195ForContinent.map((c) => {
+              const href =
+                togstrekCountryHubPathByIso2[c.iso2] ??
+                travelData.countryStoryHrefByIso2[c.iso2];
+              const quote = togstrekCountryHubListQuoteByIso2[c.iso2];
+              const tileHero = pickTogstrekCountryHubTileHeroFromPlaces({
+                continentSlug: continent,
+                unCountryName: c.name,
+                hubHref: href,
+              });
+              return (
+                <li key={c.iso2} className="min-w-0">
+                  <TogstrekLinkCard
+                    variant="compact"
+                    href={href}
+                    title={c.name}
+                    quote={quote}
+                    size="comfortable"
+                    imageSrc={tileHero?.src}
+                    imageAlt={tileHero?.alt}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        ) : null}
+      </section>
+    );
 
   return (
     <TogstrekContinentHubTemplate

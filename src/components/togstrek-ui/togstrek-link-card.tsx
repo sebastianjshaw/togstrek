@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
+
 type TogstrekLinkCardRegionProps = {
   variant: "region";
   href: string;
@@ -18,6 +20,13 @@ type TogstrekLinkCardCompactProps = {
   title: string;
   /** Secondary line (e.g. special territory note). */
   meta?: string;
+  /** Optional context line under the title (e.g. country hub page quote). */
+  quote?: string;
+  /** Larger padding and type — continent hub country grid. */
+  size?: "default" | "comfortable";
+  /** Optional header photo (e.g. first place hero on country hub tiles). */
+  imageSrc?: string;
+  imageAlt?: string;
 };
 
 export type TogstrekLinkCardProps =
@@ -25,7 +34,71 @@ export type TogstrekLinkCardProps =
   | TogstrekLinkCardCompactProps;
 
 const togstrekLinkCardCompactBaseClass =
-  "togstrek-link-card togstrek-link-card--compact flex min-h-12 border px-4 py-3 font-tt-body text-[length:var(--tt-text-small)] transition-colors";
+  "togstrek-link-card togstrek-link-card--compact flex border font-tt-body transition-colors";
+
+const togstrekLinkCardCompactSizeClass: Record<
+  NonNullable<TogstrekLinkCardCompactProps["size"]>,
+  string
+> = {
+  default: "min-h-12 px-4 py-3 text-[length:var(--tt-text-small)]",
+  comfortable:
+    "min-h-[5.25rem] px-5 py-4 text-[length:var(--tt-text-body)] sm:min-h-[5.75rem] sm:px-6 sm:py-5",
+};
+
+const togstrekLinkCardCompactBodyPaddingClass: Record<
+  NonNullable<TogstrekLinkCardCompactProps["size"]>,
+  string
+> = {
+  default: "px-4 py-3 text-[length:var(--tt-text-small)]",
+  comfortable: "px-5 py-4 sm:px-6 sm:py-5 text-[length:var(--tt-text-body)]",
+};
+
+function TogstrekLinkCardCompactText({
+  title,
+  quote,
+  meta,
+  size,
+  titleTone,
+}: {
+  title: string;
+  quote?: string;
+  meta?: string;
+  size: NonNullable<TogstrekLinkCardCompactProps["size"]>;
+  titleTone: "linked" | "static";
+}) {
+  const titleClass =
+    titleTone === "linked"
+      ? "font-semibold text-tt-text-primary"
+      : "font-semibold";
+  const quoteClass =
+    size === "comfortable"
+      ? "text-[length:var(--tt-text-small)]"
+      : "text-[length:var(--tt-text-overline)]";
+  const quoteColor =
+    titleTone === "linked" ? "text-tt-text-secondary" : "";
+
+  return (
+    <>
+      <span className={titleClass}>{title}</span>
+      {quote ? (
+        <span
+          className={`mt-2 block max-w-prose font-tt-body italic leading-[var(--tt-leading-relaxed)] ${quoteClass} ${quoteColor}`}
+        >
+          {quote}
+        </span>
+      ) : null}
+      {meta ? (
+        <span
+          className={`text-[length:var(--tt-text-overline)] leading-snug ${
+            titleTone === "linked" ? "text-tt-text-tertiary" : ""
+          } ${quote ? "mt-2" : "mt-1"}`}
+        >
+          {meta}
+        </span>
+      ) : null}
+    </>
+  );
+}
 
 /**
  * Shared interactive tile language: region “Where to” cards and hub list rows
@@ -33,38 +106,102 @@ const togstrekLinkCardCompactBaseClass =
  */
 export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
   if (props.variant === "compact") {
-    const { href, title, meta } = props;
-    const linkedLayout = meta
+    const {
+      href,
+      title,
+      meta,
+      quote,
+      size = "default",
+      imageSrc,
+      imageAlt,
+    } = props;
+    const sizeClass = togstrekLinkCardCompactSizeClass[size];
+    const bodyPadClass = togstrekLinkCardCompactBodyPaddingClass[size];
+    const stacked = Boolean(meta || quote);
+    const linkedLayout = stacked
       ? "flex flex-col justify-center"
       : "flex items-center";
+    const hasHeaderImage = Boolean(imageSrc);
+
+    if (hasHeaderImage) {
+      const imageBlock = (
+        <div className="togstrek-link-card-compact-header-image relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-tt-surface-muted">
+          <Image
+            src={imageSrc!}
+            alt={imageAlt ?? ""}
+            fill
+            unoptimized={togstrekUnoptimizedRemoteImageInDev(imageSrc!)}
+            className="object-cover object-center transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.03]"
+            sizes="(max-width:768px) 100vw, (max-width:1280px) 50vw, 33vw"
+          />
+        </div>
+      );
+      const body = (
+        <div
+          className={`togstrek-link-card-compact-body flex min-h-0 flex-col justify-center ${bodyPadClass}`}
+        >
+          <TogstrekLinkCardCompactText
+            title={title}
+            quote={quote}
+            meta={meta}
+            size={size}
+            titleTone={href ? "linked" : "static"}
+          />
+        </div>
+      );
+
+      if (href) {
+        return (
+          <Link
+            href={href}
+            className={`${togstrekLinkCardCompactBaseClass} togstrek-link-card--compact-linked togstrek-link-card--compact-has-header-image group flex-col overflow-hidden border-tt-border-muted bg-tt-surface-base p-0 text-tt-text-secondary hover:border-tt-accent hover:text-tt-accent`}
+          >
+            {imageBlock}
+            {body}
+          </Link>
+        );
+      }
+
+      return (
+        <span
+          className={`${togstrekLinkCardCompactBaseClass} togstrek-link-card--compact-static togstrek-link-card--compact-has-header-image group flex flex-col overflow-hidden border-tt-border-muted/60 bg-tt-surface-muted/80 p-0 text-tt-text-tertiary`}
+          title="No hub page yet"
+        >
+          {imageBlock}
+          {body}
+        </span>
+      );
+    }
 
     if (href) {
       return (
         <Link
           href={href}
-          className={`${togstrekLinkCardCompactBaseClass} togstrek-link-card--compact-linked ${linkedLayout} border-tt-border-muted bg-tt-surface-base text-tt-text-secondary hover:border-tt-accent hover:text-tt-accent`}
+          className={`${togstrekLinkCardCompactBaseClass} ${sizeClass} togstrek-link-card--compact-linked ${linkedLayout} border-tt-border-muted bg-tt-surface-base text-tt-text-secondary hover:border-tt-accent hover:text-tt-accent`}
         >
-          <span className="font-semibold text-tt-text-primary">{title}</span>
-          {meta ? (
-            <span className="mt-1 text-[length:var(--tt-text-overline)] leading-snug text-tt-text-tertiary">
-              {meta}
-            </span>
-          ) : null}
+          <TogstrekLinkCardCompactText
+            title={title}
+            quote={quote}
+            meta={meta}
+            size={size}
+            titleTone="linked"
+          />
         </Link>
       );
     }
 
     return (
       <span
-        className={`${togstrekLinkCardCompactBaseClass} togstrek-link-card--compact-static ${linkedLayout} cursor-default border-tt-border-muted/60 bg-tt-surface-muted/80 text-tt-text-tertiary`}
+        className={`${togstrekLinkCardCompactBaseClass} ${sizeClass} togstrek-link-card--compact-static ${linkedLayout} cursor-default border-tt-border-muted/60 bg-tt-surface-muted/80 text-tt-text-tertiary`}
         title="No hub page yet"
       >
-        <span className="font-semibold">{title}</span>
-        {meta ? (
-          <span className="mt-1 text-[length:var(--tt-text-overline)] leading-snug">
-            {meta}
-          </span>
-        ) : null}
+        <TogstrekLinkCardCompactText
+          title={title}
+          quote={quote}
+          meta={meta}
+          size={size}
+          titleTone="static"
+        />
       </span>
     );
   }
@@ -94,6 +231,7 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
             src={imageSrc}
             alt={imageAlt ?? ""}
             fill
+            unoptimized={togstrekUnoptimizedRemoteImageInDev(imageSrc)}
             className="object-cover object-center transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.04]"
             sizes={
               isFeatured

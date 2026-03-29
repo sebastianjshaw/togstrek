@@ -1,5 +1,6 @@
 import type { MDXComponents } from "mdx/types.js";
 
+import { TOGSTREK_BODY_LINK_CLASSNAME } from "@/components/togstrek-ui/togstrek-body-link";
 import { TogstrekMdxImageLightbox } from "@/components/togstrek-ui/togstrek-mdx-image-lightbox";
 import { TogstrekMdxParagraph } from "@/components/togstrek-ui/togstrek-mdx-paragraph";
 import { TogstrekMdxPhotoGallery } from "@/components/togstrek-ui/togstrek-mdx-photo-gallery";
@@ -42,7 +43,7 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
         <a
           href={href}
           {...rest}
-          className="togstrek-place-mdx-a text-tt-accent underline decoration-tt-accent/30 underline-offset-2 transition-colors hover:decoration-tt-accent"
+          className={`togstrek-place-mdx-a ${TOGSTREK_BODY_LINK_CLASSNAME}`}
           {...(external
             ? { target: "_blank", rel: "noopener noreferrer" }
             : {})}

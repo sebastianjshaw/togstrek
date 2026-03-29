@@ -6,15 +6,18 @@ import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-i
 
 type TogstrekHikingHubGroupListProps = {
   entries: TogstrekHikingHubEntry[];
+  /** Link affordance under the card (e.g. multi-day hub vs single report). */
+  ctaLabel?: string;
 };
 
 export function TogstrekHikingHubGroupList({
   entries,
+  ctaLabel = "View hike →",
 }: TogstrekHikingHubGroupListProps) {
   if (entries.length === 0) return null;
 
   return (
-    <ul className="togstrek-hiking-hub-group-list mt-[var(--tt-space-14)] grid list-none grid-cols-1 gap-[var(--tt-space-8)] p-0 sm:grid-cols-2 lg:grid-cols-3">
+    <ul className="togstrek-hiking-hub-group-list grid list-none grid-cols-1 gap-[var(--tt-space-8)] p-0 sm:grid-cols-2 lg:grid-cols-3">
       {entries.map((entry) => (
         <li key={entry.href} className="min-w-0">
           <Link
@@ -48,7 +51,7 @@ export function TogstrekHikingHubGroupList({
                 {entry.description}
               </p>
               <span className="togstrek-hiking-hub-group-card-cta mt-[var(--tt-space-5)] font-tt-body text-[length:var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-overline)] text-tt-text-tertiary group-hover:text-tt-accent">
-                View hike →
+                {ctaLabel}
               </span>
             </div>
           </Link>

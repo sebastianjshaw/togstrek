@@ -5,7 +5,11 @@ import {
   TOGSTREK_ADVENTURES_HERO_IMAGE_FILE,
   togstrekAdventuresImage,
 } from "@/data/togstrek-adventures-page";
-import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
+import {
+  buildTogstrekMetadata,
+  TOGSTREK_OG_IMAGE_HEIGHT,
+  TOGSTREK_OG_IMAGE_WIDTH,
+} from "@/lib/togstrek-metadata";
 
 const ADVENTURES_DESCRIPTION =
   "Long-form trips on Tog's Trek — from 443km through Sweden to the ends of the world — with the full stories and photography when each page is live.";
@@ -16,14 +20,13 @@ export const metadata: Metadata = buildTogstrekMetadata({
   title: "Exploration & Adventure",
   description: ADVENTURES_DESCRIPTION,
   path: "/adventures",
-  openGraphTitle: "Exploration & Adventure — A Tog's Trek",
   openGraphDescription: ADVENTURES_DESCRIPTION,
   openGraphImages: [
     {
       url: ogImageUrl,
-      width: 1500,
-      height: 1000,
-      alt: "Gentoo penguins — A Tog's Trek",
+      width: TOGSTREK_OG_IMAGE_WIDTH,
+      height: TOGSTREK_OG_IMAGE_HEIGHT,
+      alt: "Gentoo penguins standing on dark rocky ground near the shore.",
     },
   ],
 });

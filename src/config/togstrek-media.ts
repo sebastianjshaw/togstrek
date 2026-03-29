@@ -46,6 +46,27 @@ export function togstrekMediaUrl(path: string): string {
 }
 
 /**
+ * Author photograph on your CDN — replaces legacy Squarespace `IMG_4140` URLs for
+ * home hero, OG images, and the Europe hub (so `next/image` can optimise).
+ */
+export const TOGSTREK_SITE_LANDING_HERO_MEDIA_PATH =
+  "hiking/_hub/03+-+Alesjaure+to+Tjaktja-000743a3.jpg" as const;
+
+export function togstrekSiteLandingHeroImage(): {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+} {
+  return {
+    src: togstrekMediaUrl(TOGSTREK_SITE_LANDING_HERO_MEDIA_PATH),
+    width: 1500,
+    height: 1000,
+    alt: "Hiking trail in mountain landscape — Kungsleden, Sweden",
+  };
+}
+
+/**
  * Example stub paths for **Tulum** (one city). Replace host via
  * `NEXT_PUBLIC_MEDIA_BASE_URL` or swap filenames when files exist on CDN.
  * Convention: `{continent}/{country}/{place}/{basename}-{variant}.jpg`

@@ -19,7 +19,6 @@ export async function generateMetadata(): Promise<Metadata> {
     description: fm.description,
     path: "/other-work",
     type: "website",
-    openGraphTitle: `${fm.title} — A Tog's Trek`,
     openGraphDescription: fm.description,
     openGraphImages: fm.heroImage
       ? [

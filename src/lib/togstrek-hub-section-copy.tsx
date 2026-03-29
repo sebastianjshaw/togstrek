@@ -7,11 +7,11 @@ import type { ReactNode } from "react";
 
 /** “On the map” section body — used on Europe and all dynamic continent hubs. */
 export function togstrekHubOnTheMapSectionDescription(eyebrow: string): string {
-  return `Live travel progress for ${eyebrow}: coverage against the UN country list, visited country and city counts, and an interactive map that switches between country and city views.`;
+  return `Where ${eyebrow} lives on my map — how many countries already have a hub, how many place stories are live, and a chart you can flip between country view and individual pins.`;
 }
 
 export const TOGSTREK_HUB_SPECIAL_TERRITORIES_SECTION_DESCRIPTION =
-  "Places with their own story collections — not counted as separate countries on the UN list.";
+  "Territories with their own story collections — listed here so you can open them quickly; they don’t count as extra countries in the regional totals.";
 
 export type TogstrekHubCountriesListIntroProps = {
   /** e.g. “in Europe” vs “in this region”. */
@@ -21,8 +21,8 @@ export type TogstrekHubCountriesListIntroProps = {
 };
 
 /**
- * Intro paragraph under the “Countries” heading (UN 195 list + hub coverage counts).
- * Wording matches the dataset in `togstrek-un195-countries.ts` (193 members + Holy See + Palestine).
+ * Intro paragraph under the “Countries” heading — warm copy; counts still match
+ * the sovereign-state set in `togstrek-un195-countries.ts`.
  */
 export function TogstrekHubCountriesListIntro({
   regionPhrase,
@@ -31,12 +31,13 @@ export function TogstrekHubCountriesListIntro({
 }: TogstrekHubCountriesListIntroProps): ReactNode {
   return (
     <>
-      All sovereign states {regionPhrase} on the UN-style list of 195 (193 member
-      states, plus the Holy See and Palestine as permanent observers).{" "}
+      Every country {regionPhrase} that I track on the site is listed below — one
+      steady roll-call so the map and the numbers tell the same story.{" "}
       <span className="text-tt-text-primary">
         {hubCount} of {total}
       </span>{" "}
-      have a hub page so far; others stay on the list for coverage at a glance.
+      already open to a hub with published guides; the rest stay on the list so
+      you can see what I haven’t written yet.
     </>
   );
 }

@@ -24,8 +24,8 @@ export type TogstrekContinentHubTemplateProps = {
   mapSection: ReactNode;
   /** Optional block between map and countries (e.g. Asia special territories). */
   afterMap?: ReactNode;
-  /** “Countries” block (header + grid). */
-  countriesSection: ReactNode;
+  /** “Countries” block (header + grid). Omit for hubs with no country list (e.g. Antarctica). */
+  countriesSection?: ReactNode;
 };
 
 /**

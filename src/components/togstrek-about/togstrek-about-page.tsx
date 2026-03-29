@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { TogstrekBodyLink } from "@/components/togstrek-ui/togstrek-body-link";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 
 const COLLAGE_ACTIVITY_SRC =
@@ -11,20 +12,21 @@ const COLLAGE_TRAVEL_SRC =
 export function TogstrekAboutPage() {
   return (
     <main className="togstrek-about-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+      {/* Custom dark hero (radial accents) — not `TogstrekPageHero`; mirrors eyebrow / rule / `TogstrekContentWidth` patterns there. */}
       <section
-        className="togstrek-about-hero relative isolate overflow-hidden border-b border-white/[0.08] bg-[#06040a] text-white"
+        className="togstrek-about-hero relative isolate overflow-hidden border-b border-tt-border-on-inverse bg-tt-surface-inverse text-tt-text-inverse"
         aria-labelledby="togstrek-about-hero-heading"
       >
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_55%_at_50%_-15%,rgba(227,25,55,0.22),transparent_58%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_55%_at_50%_-15%,color-mix(in_srgb,var(--tt-color-accent)_22%,transparent),transparent_58%)]"
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_100%_30%,rgba(255,255,255,0.07),transparent_52%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_100%_30%,color-mix(in_srgb,var(--tt-color-text-inverse)_7%,transparent),transparent_52%)]"
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/50 to-transparent"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_50%,transparent)] to-transparent"
           aria-hidden
         />
 
@@ -37,11 +39,11 @@ export function TogstrekAboutPage() {
             id="togstrek-about-hero-heading"
             className="mt-[var(--tt-space-8)] font-tt-display font-extrabold leading-[0.92] tracking-[var(--tt-tracking-tight)] [text-wrap:balance]"
           >
-            <span className="block text-[clamp(2.4rem,7.5vw,5.75rem)] text-white">
+            <span className="block text-[clamp(2.4rem,7.5vw,5.75rem)] text-tt-text-inverse">
               Exploration is not{" "}
-              <span className="text-white/55">just travelling.</span>
+              <span className="text-tt-text-inverse/88">just travelling.</span>
             </span>
-            <span className="togstrek-about-hero-subline mt-[0.45em] block max-w-[min(38rem,100%)] text-[clamp(1.2rem,3.2vw,2.35rem)] font-semibold leading-[1.18] text-white/82">
+            <span className="togstrek-about-hero-subline mt-[0.45em] block max-w-[min(38rem,100%)] text-[clamp(1.2rem,3.2vw,2.35rem)] font-semibold leading-[1.18] text-tt-text-inverse/92">
               It’s how you look at the world, how you try new things, and how
               you learn.
             </span>
@@ -52,7 +54,7 @@ export function TogstrekAboutPage() {
             aria-hidden
           />
 
-          <p className="mt-[var(--tt-space-8)] max-w-[42ch] font-tt-body text-[length:var(--tt-text-small)] font-medium uppercase tracking-[var(--tt-tracking-wide)] text-white/40">
+          <p className="mt-[var(--tt-space-8)] max-w-[42ch] font-tt-body text-[length:var(--tt-text-small)] font-medium uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-inverse/90">
             Sebastian Shaw — Gothenburg · travel &amp; photography
           </p>
         </TogstrekContentWidth>
@@ -127,12 +129,9 @@ export function TogstrekAboutPage() {
               holiday with me that I&apos;d borrowed from a friend and fell in
               love with the art of travel. (You can even read the realisation
               here:{" "}
-              <a
-                href="https://togstrek.com/blog/galata-tower"
-                className="text-tt-accent underline decoration-tt-accent/30 underline-offset-2 transition-colors hover:decoration-tt-accent"
-              >
+              <TogstrekBodyLink href="/europe/turkiye/istanbul">
                 Galata Tower
-              </a>
+              </TogstrekBodyLink>
               ) Previously, I&apos;d been living with a talented amateur
               photographer and had not really taken a hand in shooting, except
               for the occasional snap. Ever since I visited Istanbul, I&apos;ve
@@ -160,25 +159,14 @@ export function TogstrekAboutPage() {
               Happy travels,
             </p>
             <p className="mt-[var(--tt-space-4)] font-tt-body text-[length:var(--tt-text-body)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
-              <a
-                href="https://togstrek.com/contact"
-                className="text-tt-accent underline decoration-tt-accent/30 underline-offset-2 transition-colors hover:decoration-tt-accent"
-              >
-                Contact me
-              </a>{" "}
-              for more info.
+              <TogstrekBodyLink href="/contact">Contact me</TogstrekBodyLink>{" "}
+              for more info — or read{" "}
+              <TogstrekBodyLink href="/copyright">
+                usage & copyright
+              </TogstrekBodyLink>{" "}
+              if you want to quote a photograph.
             </p>
           </div>
-
-          <p className="mt-[var(--tt-space-12)] text-center font-tt-body text-[length:var(--tt-text-small)] italic text-tt-text-tertiary">
-            All images © 1980–2023 TogsTrek.{" "}
-            <a
-              href="https://togstrek.com/copyright"
-              className="text-tt-accent underline decoration-tt-accent/30 underline-offset-2 transition-colors hover:decoration-tt-accent"
-            >
-              All rights reserved
-            </a>
-          </p>
         </TogstrekContentWidth>
       </section>
     </main>

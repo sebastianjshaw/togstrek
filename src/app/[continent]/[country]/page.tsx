@@ -12,7 +12,10 @@ import {
   formatSlugLabel,
   truncateDescription,
 } from "@/lib/togstrek-geo-labels";
-import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
+import {
+  buildTogstrekDefaultOpenGraphTitle,
+  buildTogstrekMetadata,
+} from "@/lib/togstrek-metadata";
 import {
   discoverTogstrekCountryHubParams,
   listTogstrekPlaceSlugsForCountry,
@@ -38,13 +41,36 @@ export async function generateMetadata({
   }
   const countryLabel = formatSlugLabel(country);
   const path = `/${continent}/${country}`;
+
+  const placeTitles = places.slice(0, 5).map(({ place }) =>
+    loadTogstrekPlaceFrontmatterOnly(continent, country, place).title,
+  );
+  const listed = placeTitles.slice(0, 3).join(", ");
+  const moreCount = places.length - 3;
+  const morePhrase =
+    moreCount <= 0
+      ? ""
+      : moreCount === 1
+        ? " — plus one more place"
+        : ` — plus ${moreCount} more places`;
+  const description = truncateDescription(
+    places.length === 1
+      ? `${countryLabel} travel guide: ${listed}. Photos, maps, and field notes for planning a visit.`
+      : `${countryLabel} travel guides covering ${listed}${morePhrase}. Photos, maps, and on-the-ground notes for each place.`,
+    165,
+  );
+  const ogDescription = truncateDescription(
+    `${countryLabel}: ${listed}${places.length > 3 ? ` and ${places.length - 3} more` : ""}. Practical place guides with photography.`,
+    200,
+  );
+
   return buildTogstrekMetadata({
     title: countryLabel,
-    description: `Place stories and photos from ${countryLabel} on Tog's Trek.`,
+    description,
     path,
     type: "website",
-    openGraphTitle: `${countryLabel} — A Tog's Trek`,
-    openGraphDescription: `Stories from ${countryLabel}.`,
+    openGraphTitle: buildTogstrekDefaultOpenGraphTitle(countryLabel),
+    openGraphDescription: ogDescription,
   });
 }
 
@@ -115,7 +141,8 @@ export default async function TogstrekCountryHubPage({
       ]}
       map={{
         title: "Map",
-        description: "Pins use coordinates from each place’s frontmatter.",
+        description:
+          "Each pin sits where that place’s story is anchored — the latitude and longitude saved with the write-up.",
         mapHeadingId: "togstrek-country-hub-map-heading",
         children: (
           <TogstrekCountryHubMap

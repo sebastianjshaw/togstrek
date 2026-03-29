@@ -34,6 +34,12 @@
     transparent
   );
   --tt-color-border-accent: var(--tt-color-accent);
+  /** Hairline on dark / inverse surfaces (about hero, editorial bands). */
+  --tt-color-border-on-inverse: color-mix(
+    in srgb,
+    var(--tt-color-text-inverse) 10%,
+    transparent
+  );
   --tt-color-overlay-scrim: color-mix(
     in srgb,
     var(--tt-color-ink-strong) 55%,

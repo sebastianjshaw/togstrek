@@ -3,6 +3,10 @@ import {
   loadTogstrekPlaceFrontmatterOnly,
 } from "@/lib/togstrek-load-place-mdx";
 import {
+  formatSlugLabel,
+  togstrekUnCountryNameToUrlSlug,
+} from "@/lib/togstrek-geo-labels";
+import {
   togstrekUn195Countries,
   type TogstrekUnContinentId,
 } from "@/data/togstrek-un195-countries";
@@ -82,36 +86,27 @@ const CONTINENT_LABELS: Record<TogstrekVisitedContinentId, string> = {
   antarctica: "Antarctica",
 };
 
-function slugToLabel(slug: string): string {
-  return slug
-    .split("-")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-}
-
 function percent(visited: number, total: number): number {
   if (total <= 0) return 0;
   return Math.round((visited / total) * 1000) / 10;
 }
 
-/** Match URL `countrySlug` folders to UN English names (e.g. Ecuador → ecuador). */
-function unCountryNameToUrlSlug(name: string): string {
-  return name
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
+/** URL slugs that do not match `togstrekUnCountryNameToUrlSlug(UN name)` but map to an ISO2 row. */
+const TOGSTREK_COUNTRY_SLUG_ISO2: Record<string, string> = {
+  turkiye: "TR",
+  turkey: "TR",
+};
 
 function resolveIso2ForCountrySlug(
   continent: TogstrekVisitedContinentId,
   countrySlug: string,
 ): string | undefined {
+  const mapped = TOGSTREK_COUNTRY_SLUG_ISO2[countrySlug.toLowerCase()];
+  if (mapped) return mapped;
   const row = togstrekUn195Countries.find(
     (c) =>
       c.continent === continent &&
-      unCountryNameToUrlSlug(c.name) === countrySlug,
+      togstrekUnCountryNameToUrlSlug(c.name) === countrySlug,
   );
   return row?.iso2;
 }
@@ -198,7 +193,7 @@ export function buildTogstrekVisitedTravelDataset(): TogstrekVisitedTravelDatase
         id: key,
         continent: value.continent,
         countrySlug: value.countrySlug,
-        countryLabel: slugToLabel(value.countrySlug),
+        countryLabel: formatSlugLabel(value.countrySlug),
         citiesVisited: value.citiesVisited,
         href: countryHubHref,
         latitude: value.sumLat / value.coordsCount,

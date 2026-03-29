@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { TogstrekHikingPageTemplate } from "@/components/togstrek-hiking/togstrek-hiking-page-template";
+import {
+  getTogstrekAboutPathAbsolute,
+  TOGSTREK_AUTHOR_NAME,
+} from "@/lib/togstrek-author";
 import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
 import { buildSyntheticGroupFrontmatter } from "@/lib/togstrek-hiking-hub-entries";
 import {
@@ -36,7 +40,7 @@ export async function generateMetadata({
       description: fm.description,
       path,
       type: "article",
-      openGraphTitle: `${fm.title} — A Tog's Trek`,
+      authors: [{ name: TOGSTREK_AUTHOR_NAME, url: getTogstrekAboutPathAbsolute() }],
       openGraphDescription: fm.description,
       openGraphImages: fm.heroImage
         ? [
@@ -68,7 +72,6 @@ export async function generateMetadata({
     description,
     path,
     type: "website",
-    openGraphTitle: `${title} — A Tog's Trek`,
     openGraphDescription: description,
   });
 }

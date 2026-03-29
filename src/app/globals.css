@@ -17,6 +17,7 @@
   --color-tt-border-default: var(--tt-color-border-default);
   --color-tt-border-muted: var(--tt-color-border-muted);
   --color-tt-border-accent: var(--tt-color-border-accent);
+  --color-tt-border-on-inverse: var(--tt-color-border-on-inverse);
 
   --font-tt-display: var(--tt-font-display);
   --font-tt-body: var(--tt-font-body);

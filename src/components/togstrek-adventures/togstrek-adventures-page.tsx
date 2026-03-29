@@ -1,6 +1,6 @@
 import { TogstrekPageHero } from "@/components/togstrek-page-hero";
+import { TogstrekCtaOutlineAccentExternalLink } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
-import { togstrekCtaOutlineAccentClassName } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 import { TogstrekEditorialMediaCard } from "@/components/togstrek-ui/togstrek-editorial-media-card";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
 import {
@@ -40,14 +40,14 @@ export function TogstrekAdventuresPage() {
             <span className="text-tt-accent">World</span>.
           </h2>
           <div className="mt-[var(--tt-space-10)] flex justify-center">
-            <a
+            <TogstrekCtaOutlineAccentExternalLink
               href="https://www.blurb.com/user/shawsolution"
               target="_blank"
               rel="noopener noreferrer"
-              className={`togstrek-adventures-page-outline-btn ${togstrekCtaOutlineAccentClassName} text-center text-[length:var(--tt-text-overline)] font-tt-display leading-snug tracking-[var(--tt-tracking-overline)]`}
+              className="togstrek-adventures-page-outline-btn text-center text-[length:var(--tt-text-overline)] font-tt-display leading-snug tracking-[var(--tt-tracking-overline)]"
             >
               Buy the Books
-            </a>
+            </TogstrekCtaOutlineAccentExternalLink>
           </div>
           <TogstrekSectionHeader
             id="togstrek-adventures-archive-heading"
@@ -61,7 +61,7 @@ export function TogstrekAdventuresPage() {
                 <TogstrekEditorialMediaCard
                   href={item.href}
                   imageSrc={togstrekAdventuresImage(item.imageFile)}
-                  imageAlt=""
+                  imageAlt={item.imageAlt}
                   overline="Adventure"
                   title={item.title}
                   microCtaLabel="Open the story"

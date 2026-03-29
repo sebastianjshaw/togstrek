@@ -1,4 +1,5 @@
 import type { TogstrekMapPlace } from "@/components/togstrek-explore-map/types";
+import { compareTogstrekHikingPostSlugSegmentsForGroup } from "@/lib/togstrek-hiking-hub-entries";
 import {
   discoverTogstrekHikingSlugLists,
   loadTogstrekHikingFrontmatterOnly,
@@ -53,7 +54,21 @@ export function buildTogstrekHikingMapPlacesForGroup(
   if (groupSegments.length === 0) return [];
 
   const prefix = `/hiking/${groupSegments.join("/")}`;
-  return buildTogstrekHikingMapPlaces().filter(
-    (p) => p.href.startsWith(`${prefix}/`),
+  const places = buildTogstrekHikingMapPlaces().filter((p) =>
+    p.href.startsWith(`${prefix}/`),
   );
+
+  function hrefToSegments(href: string): string[] {
+    return href.replace(/^\/hiking\/?/, "").split("/").filter(Boolean);
+  }
+
+  places.sort((pA, pB) =>
+    compareTogstrekHikingPostSlugSegmentsForGroup(
+      hrefToSegments(pA.href),
+      hrefToSegments(pB.href),
+      groupSegments,
+    ),
+  );
+
+  return places;
 }

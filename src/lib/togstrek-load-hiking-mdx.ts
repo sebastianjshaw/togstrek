@@ -6,6 +6,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import type { ReactNode } from "react";
 import { getTogstrekPlaceMdxComponents } from "@/components/togstrek-place/togstrek-place-mdx-components";
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
+import { extractTogstrekHikingTrailFactsFromMarkdown } from "@/lib/togstrek-hiking-trail-facts";
 import {
   parseTogstrekHikingFrontmatter,
   type TogstrekHikingMdxFrontmatter,
@@ -16,6 +17,19 @@ import {
 } from "@/lib/togstrek-hiking-groups";
 
 const HIKING_ROOT = path.join(process.cwd(), "content", "hiking");
+
+function mergeTogstrekHikingTrailFactsFromBody(
+  fm: TogstrekHikingMdxFrontmatter,
+  markdownBody: string,
+): TogstrekHikingMdxFrontmatter {
+  const ex = extractTogstrekHikingTrailFactsFromMarkdown(markdownBody);
+  return {
+    ...fm,
+    trailDistanceKm: fm.trailDistanceKm ?? ex.distanceKm,
+    trailDifficulty: fm.trailDifficulty ?? ex.difficulty,
+    trailTransport: fm.trailTransport ?? ex.transport,
+  };
+}
 
 export type TogstrekHikingMdxResult = {
   frontmatter: TogstrekHikingMdxFrontmatter;
@@ -91,8 +105,9 @@ export function loadTogstrekHikingFrontmatterOnly(
 ): TogstrekHikingMdxFrontmatter {
   const fp = hikingMdxFilePath(slugSegments);
   const raw = fs.readFileSync(fp, "utf8");
-  const { data } = matter(raw);
-  return parseTogstrekHikingFrontmatter(data as Record<string, unknown>);
+  const { data, content } = matter(raw);
+  const fm = parseTogstrekHikingFrontmatter(data as Record<string, unknown>);
+  return mergeTogstrekHikingTrailFactsFromBody(fm, content);
 }
 
 export async function loadTogstrekHikingMdx(
@@ -100,8 +115,11 @@ export async function loadTogstrekHikingMdx(
 ): Promise<TogstrekHikingMdxResult> {
   const fp = hikingMdxFilePath(slugSegments);
   const source = fs.readFileSync(fp, "utf8");
+  const { data, content: mdBody } = matter(source);
+  const baseFm = parseTogstrekHikingFrontmatter(data as Record<string, unknown>);
+  const frontmatter = mergeTogstrekHikingTrailFactsFromBody(baseFm, mdBody);
 
-  const { content, frontmatter: rawFm } = await compileMDX({
+  const { content } = await compileMDX({
     source,
     options: {
       parseFrontmatter: true,
@@ -111,9 +129,6 @@ export async function loadTogstrekHikingMdx(
     },
     components: getTogstrekPlaceMdxComponents(),
   });
-
-  const fm = rawFm as Record<string, unknown>;
-  const frontmatter = parseTogstrekHikingFrontmatter(fm);
 
   return { frontmatter, content };
 }

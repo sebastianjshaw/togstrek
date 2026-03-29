@@ -1,4 +1,12 @@
-import type { TogstrekOgImage } from "@/lib/togstrek-metadata";
+import {
+  togstrekMediaUrl,
+  TOGSTREK_SITE_LANDING_HERO_MEDIA_PATH,
+} from "@/config/togstrek-media";
+import {
+  TOGSTREK_OG_IMAGE_HEIGHT,
+  TOGSTREK_OG_IMAGE_WIDTH,
+  type TogstrekOgImage,
+} from "@/lib/togstrek-metadata";
 import type { TogstrekVisitedContinentId } from "@/lib/togstrek-visited-travel-data";
 
 /**
@@ -36,32 +44,50 @@ export type TogstrekContinentHubPageMeta = {
   countriesDescription?: string;
 };
 
-const EUROPE_HUB_HERO_IMAGE =
-  "https://images.squarespace-cdn.com/content/v1/6207d70ece223e42dd9ae587/1676558893598-X9ZAV37ZVOCFSNYWMUSF/22e59112fefb45ea.jpg?format=2500w";
+const EUROPE_HUB_HERO_IMAGE = togstrekMediaUrl(
+  TOGSTREK_SITE_LANDING_HERO_MEDIA_PATH,
+);
+
+const EUROPE_HUB_HERO_ALT =
+  "Hiking trail in mountain landscape — Kungsleden, Sweden";
 
 /** Metadata + hero image for `/europe` (same shape as `togstrekContinentHubPageMeta` entries). */
 export const togstrekEuropeHubPageMeta: TogstrekContinentHubPageMeta = {
   title: "Exploring Europe",
   description:
-    "From Alpine ridges to Baltic harbours — photo essays and travel notes across Europe's sovereign states.",
+    "Alpine ridges, Baltic brick, and midnight sun on the same rail pass — long-form essays and photographs from every sovereign state on the continent.",
   path: "/europe",
   heroImageSrc: EUROPE_HUB_HERO_IMAGE,
-  heroImageAlt:
-    "Mountain landscape with snow-capped peaks, rocky terrain, and blue sky, intersected by cables.",
+  heroImageAlt: EUROPE_HUB_HERO_ALT,
   openGraphImages: [
     {
-      url: "https://static1.squarespace.com/static/6207d70ece223e42dd9ae587/t/62430201c259e80324888871/1648558593135/IMG_4140.jpg?format=1500w",
-      width: 1500,
-      height: 1000,
-      alt: "Tog's Trek",
+      url: EUROPE_HUB_HERO_IMAGE,
+      width: TOGSTREK_OG_IMAGE_WIDTH,
+      height: TOGSTREK_OG_IMAGE_HEIGHT,
+      alt: EUROPE_HUB_HERO_ALT,
     },
   ],
 };
 
-const ogFromHero = (
-  src: string,
-  alt: string,
-): TogstrekOgImage[] => [{ url: src, width: 2500, height: 1667, alt }];
+const AFRICA_HUB_HERO =
+  "https://media.togstrek.com/hiking/mt-kilimanjaro/01-machame-gate-machame-camp/03+Machame+Gate+-+Machame+Camp-20220306-01743a3.jpg";
+const ASIA_HUB_HERO =
+  "https://media.togstrek.com/hiking/nepal/annapurna/annapurna-day-2/HDR+10+-+Wide+Angle+Mountain+-+00143a3.jpg";
+const NORTH_AMERICA_HUB_HERO =
+  "https://media.togstrek.com/north-america/mexico/tulum/Castillo-20221223-0001.jpg";
+const OCEANIA_HUB_HERO =
+  "https://media.togstrek.com/hiking/hoga-kusten/route10/20190606-10+-+Kopmanholmen+-+Entre+Nord-IMG_5450-HDR43a3.jpg";
+const ANTARCTICA_HUB_HERO =
+  "https://media.togstrek.com/antarctica/antarctic/lamaire-channel/HDR-0003-243a3.jpg";
+
+const ogFromHero = (src: string, alt: string): TogstrekOgImage[] => [
+  {
+    url: src,
+    width: TOGSTREK_OG_IMAGE_WIDTH,
+    height: TOGSTREK_OG_IMAGE_HEIGHT,
+    alt,
+  },
+];
 
 export const togstrekContinentHubPageMeta: Record<
   TogstrekContinentHubRouteSlug,
@@ -70,87 +96,82 @@ export const togstrekContinentHubPageMeta: Record<
   africa: {
     title: "Exploring Africa",
     description:
-      "Deserts, deltas, and city rhythm — field notes and photography from across Africa.",
+      "Heat-haze savanna or medina alley — trip notes and photographs from trains, trails, and taxi windows across the continent.",
     path: "/africa",
-    heroImageSrc:
-      "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=2500&q=80",
+    heroImageSrc: AFRICA_HUB_HERO,
     heroImageAlt:
-      "Warm sunset light over savanna grassland with scattered acacia trees",
+      "Forest trail on the Machame Route toward Mount Kilimanjaro, Tanzania",
     openGraphImages: ogFromHero(
-      "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=2500&q=80",
-      "African savanna at sunset",
+      AFRICA_HUB_HERO,
+      "Forest trail on the Machame Route toward Mount Kilimanjaro, Tanzania",
     ),
   },
   asia: {
     title: "Exploring Asia",
     description:
-      "From steppes to skylines — place stories and images along the world’s widest arc of cultures.",
+      "Steppes tilt into skylines without asking permission — place stories and photographs from the widest arc of cultures I’ve walked end to end.",
     path: "/asia",
-    heroImageSrc:
-      "https://images.unsplash.com/photo-1518509562904-e8efcc9d8e14?w=2500&q=80",
+    heroImageSrc: ASIA_HUB_HERO,
     heroImageAlt:
-      "Traditional tiered pagoda at dusk with warm lanterns and sky",
+      "Wide view of Himalayan peaks and ridgelines along the Annapurna trail, Nepal",
     openGraphImages: ogFromHero(
-      "https://images.unsplash.com/photo-1518509562904-e8efcc9d8e14?w=2500&q=80",
-      "Pagoda at dusk",
+      ASIA_HUB_HERO,
+      "Wide view of Himalayan peaks and ridgelines along the Annapurna trail, Nepal",
     ),
   },
   "north-america": {
     title: "Exploring North America",
     description:
-      "Coasts, ranges, and cities — notes from Canada, the United States, Mexico, and the rest of the region.",
+      "Pacific fog, desert heat, and kitchen-table Spanish — field notes from Canada, the United States, Mexico, and the Central American and Caribbean stories filed here as their own pages.",
     path: "/north-america",
-    heroImageSrc:
-      "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=2500&q=80",
+    heroImageSrc: NORTH_AMERICA_HUB_HERO,
     heroImageAlt:
-      "Dramatic granite cliff faces and forested valley in mountain light",
+      "El Castillo at the Tulum archaeological zone above the Caribbean Sea, Mexico",
     openGraphImages: ogFromHero(
-      "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=2500&q=80",
-      "Mountain valley",
+      NORTH_AMERICA_HUB_HERO,
+      "El Castillo at the Tulum archaeological zone above the Caribbean Sea, Mexico",
     ),
   },
   "south-america": {
     title: "Exploring South America",
     description:
-      "Andes, Amazon, and southern horizons — stories and frames from the continent’s spine to the sea.",
+      "The Andes pull you south until the horizon runs out of land — narratives and frames from high passes down to Atlantic light.",
     path: "/south-america",
     heroImageSrc:
-      "https://images.unsplash.com/photo-1504198458649-3128b932f49e?w=2500&q=80",
+      "https://media.togstrek.com/south-america/ecuador/isla-santa-cruz/Puerto+Ayora-0002.jpg",
     heroImageAlt:
-      "Ancient stone terraces on a green mountainside under soft clouds",
+      "Puerto Ayora waterfront on Isla Santa Cruz, Galápagos, Ecuador",
     openGraphImages: ogFromHero(
-      "https://images.unsplash.com/photo-1504198458649-3128b932f49e?w=2500&q=80",
-      "Mountain terraces",
+      "https://media.togstrek.com/south-america/ecuador/isla-santa-cruz/Puerto+Ayora-0002.jpg",
+      "Puerto Ayora waterfront on Isla Santa Cruz, Galápagos, Ecuador",
     ),
   },
   oceania: {
     title: "Exploring Oceania",
     description:
-      "Islands, reefs, and southern skies — Australia, New Zealand, and the Pacific in notes and photographs.",
+      "When the atlas says Pacific, it means more blue than the legend has room for — Australia, New Zealand, and island arcs in trip notes and photographs.",
     path: "/oceania",
-    heroImageSrc:
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=2500&q=80",
+    heroImageSrc: OCEANIA_HUB_HERO,
     heroImageAlt:
-      "Turquoise ocean waves breaking near a rocky coastline from above",
+      "Rocky coastline and wind-whipped sea along the Höga Kusten trail, Sweden",
     openGraphImages: ogFromHero(
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=2500&q=80",
-      "Coastal ocean",
+      OCEANIA_HUB_HERO,
+      "Rocky coastline along the Höga Kusten trail, Sweden",
     ),
   },
   antarctica: {
     title: "Exploring Antarctica",
     description:
-      "Ice, silence, and scale — expedition notes and coordinates where the usual country checklist does not apply.",
+      "Ice, silence, and scale — expedition notes from the Peninsula and the Southern Ocean, told as places rather than a tally of countries.",
     path: "/antarctica",
-    heroImageSrc:
-      "https://images.unsplash.com/photo-1517707711963-9e0bbac4b7d0?w=2500&q=80",
+    heroImageSrc: ANTARCTICA_HUB_HERO,
     heroImageAlt:
-      "Expanse of snow and ice under a pale blue polar sky with distant mountains",
+      "Ice cliffs and calm water in the Lemaire Channel, Antarctic Peninsula",
     openGraphImages: ogFromHero(
-      "https://images.unsplash.com/photo-1517707711963-9e0bbac4b7d0?w=2500&q=80",
-      "Antarctic ice and sky",
+      ANTARCTICA_HUB_HERO,
+      "Ice cliffs and calm water in the Lemaire Channel, Antarctic Peninsula",
     ),
     countriesDescription:
-      "The UN-style list of 195 sovereign states does not place countries in Antarctica. Coverage stats here reflect place stories by coordinates; there is no country checklist for this region.",
+      "Antarctica is not split into countries the way other regions are — coverage here is place stories by coordinates, without a country checklist.",
   },
 };

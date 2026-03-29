@@ -19,7 +19,7 @@ export function TogstrekHikingMapSection({
     variant === "hub" ? "Where these hikes are" : "Stages on this trail";
   const blurb =
     variant === "hub"
-      ? "Pins use coordinates from each trail report. Zoom in to explore clusters."
+      ? "Where these hikes go. Pins mark each trail report by coordinates — zoom in to untangle the clusters."
       : "Coordinates from each stage’s frontmatter.";
 
   return (

@@ -6,6 +6,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import type { ReactNode } from "react";
 import { getTogstrekPlaceMdxComponents } from "@/components/togstrek-place/togstrek-place-mdx-components";
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
+import { togstrekUnCountryNameToUrlSlug } from "@/lib/togstrek-geo-labels";
 import {
   parseTogstrekPlaceFrontmatter,
   type TogstrekPlaceMdxFrontmatter,
@@ -137,4 +138,46 @@ export function listTogstrekPlaceSlugsForCountry(
     .filter((s) => s.continent === continent && s.country === country)
     .map((s) => ({ place: s.place }))
     .sort((a, b) => a.place.localeCompare(b.place));
+}
+
+/**
+ * Country folder slug from a hub `href` (`/denmark` or `/south-america/ecuador`).
+ */
+export function parseTogstrekCountryHubHrefToCountrySlug(
+  continentSlug: string,
+  href: string | undefined,
+): string | undefined {
+  if (!href) return undefined;
+  const parts = href.split("/").filter(Boolean);
+  if (parts.length === 1) return parts[0];
+  if (parts.length >= 2 && parts[0] === continentSlug) return parts[1];
+  return undefined;
+}
+
+/**
+ * First place hero under the country content folder (sorted by place slug) — for continent hub tiles.
+ */
+export function pickTogstrekCountryHubTileHeroFromPlaces(options: {
+  continentSlug: string;
+  unCountryName: string;
+  hubHref: string | undefined;
+}): { src: string; alt: string } | undefined {
+  const { continentSlug, unCountryName, hubHref } = options;
+  const fromHref = parseTogstrekCountryHubHrefToCountrySlug(
+    continentSlug,
+    hubHref,
+  );
+  const countrySlug = fromHref ?? togstrekUnCountryNameToUrlSlug(unCountryName);
+  const places = listTogstrekPlaceSlugsForCountry(continentSlug, countrySlug);
+  for (const { place } of places) {
+    const fm = loadTogstrekPlaceFrontmatterOnly(
+      continentSlug,
+      countrySlug,
+      place,
+    );
+    if (fm.heroImage?.src) {
+      return { src: fm.heroImage.src, alt: fm.heroImage.alt };
+    }
+  }
+  return undefined;
 }
