@@ -2,6 +2,7 @@ import {
   discoverTogstrekPlaceSlugs,
   loadTogstrekPlaceFrontmatterOnly,
 } from "@/lib/togstrek-load-place-mdx";
+import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import {
   formatSlugLabel,
   togstrekUnCountryNameToUrlSlug,
@@ -95,6 +96,10 @@ function percent(visited: number, total: number): number {
 const TOGSTREK_COUNTRY_SLUG_ISO2: Record<string, string> = {
   turkiye: "TR",
   turkey: "TR",
+  /** Matches place content folder + hub slug (UN auto-slug is `united-states`). */
+  "united-states-of-america": "US",
+  /** Legacy short slug → same ISO2 for maps / visited. */
+  usa: "US",
 };
 
 function resolveIso2ForCountrySlug(
@@ -143,7 +148,8 @@ export function buildTogstrekVisitedTravelDataset(): TogstrekVisitedTravelDatase
   for (const s of placeSlugs) {
     const fm = loadTogstrekPlaceFrontmatterOnly(s.continent, s.country, s.place);
     const continent = fm.continentSlug as TogstrekVisitedContinentId;
-    const placeHref = `/${s.continent}/${s.country}/${s.place}`;
+    const placeTail = togstrekPlacePathFromSegments(s.place);
+    const placeHref = `/${s.continent}/${s.country}/${placeTail}`;
     const key = `${continent}:${fm.countrySlug}`;
 
     const set = countrySets.get(continent) ?? new Set<string>();

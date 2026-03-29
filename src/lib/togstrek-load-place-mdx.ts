@@ -12,8 +12,19 @@ import {
   parseTogstrekPlaceFrontmatter,
   type TogstrekPlaceMdxFrontmatter,
 } from "@/lib/togstrek-place-frontmatter";
+import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 
 const PLACES_ROOT = path.join(process.cwd(), "content", "places");
+
+export type TogstrekPlaceSlugParams = {
+  continent: string;
+  country: string;
+  /**
+   * Segments after `/{continent}/{country}/`: optional admin tier + leaf place.
+   * Admin tier = state | county | district | län (same level); e.g. `['copenhagen']` or `['california','los-angeles']`.
+   */
+  place: string[];
+};
 
 export type TogstrekPlaceMdxResult = {
   frontmatter: TogstrekPlaceMdxFrontmatter;
@@ -21,20 +32,22 @@ export type TogstrekPlaceMdxResult = {
   omitDescriptionLead: boolean;
 };
 
-function placeFilePath(
+function placeMdxFilePath(
   continent: string,
   country: string,
-  place: string,
+  placeSegments: string[],
 ): string {
-  return path.join(PLACES_ROOT, continent, country, `${place}.mdx`);
+  return (
+    path.join(PLACES_ROOT, continent, country, ...placeSegments) + ".mdx"
+  );
 }
 
 export function togstrekPlaceMdxExists(
   continent: string,
   country: string,
-  place: string,
+  placeSegments: string[],
 ): boolean {
-  const fp = placeFilePath(continent, country, place);
+  const fp = placeMdxFilePath(continent, country, placeSegments);
   try {
     return fs.statSync(fp).isFile();
   } catch {
@@ -46,30 +59,31 @@ export function togstrekPlaceMdxExists(
 export function loadTogstrekPlaceFrontmatterOnly(
   continent: string,
   country: string,
-  place: string,
+  placeSegments: string[],
 ): TogstrekPlaceMdxFrontmatter {
-  const fp = placeFilePath(continent, country, place);
+  const fp = placeMdxFilePath(continent, country, placeSegments);
   const raw = fs.readFileSync(fp, "utf8");
   const { data } = matter(raw);
   return parseTogstrekPlaceFrontmatter(data as Record<string, unknown>, {
     continent,
     country,
-    place,
+    placePath: togstrekPlacePathFromSegments(placeSegments),
   });
 }
 
 export async function loadTogstrekPlaceMdx(
   continent: string,
   country: string,
-  place: string,
+  placeSegments: string[],
 ): Promise<TogstrekPlaceMdxResult> {
-  const fp = placeFilePath(continent, country, place);
+  const fp = placeMdxFilePath(continent, country, placeSegments);
   const source = fs.readFileSync(fp, "utf8");
 
   const parsed = matter(source);
+  const placePath = togstrekPlacePathFromSegments(placeSegments);
   const fmDedupe = parseTogstrekPlaceFrontmatter(
     parsed.data as Record<string, unknown>,
-    { continent, country, place },
+    { continent, country, placePath },
   );
   const omitDescriptionLead = shouldOmitVisibleDescriptionLead(
     fmDedupe.description,
@@ -91,34 +105,52 @@ export async function loadTogstrekPlaceMdx(
   const frontmatter = parseTogstrekPlaceFrontmatter(fm, {
     continent,
     country,
-    place,
+    placePath,
   });
 
   return { frontmatter, content, omitDescriptionLead };
 }
 
-/** Discover all `content/places/<continent>/<country>/<place>.mdx` files */
-export function discoverTogstrekPlaceSlugs(): {
-  continent: string;
-  country: string;
-  place: string;
-}[] {
+function collectMdxFilesUnderCountryDir(
+  countryDir: string,
+  continent: string,
+  country: string,
+  out: TogstrekPlaceSlugParams[],
+): void {
+  function walk(currentDir: string): void {
+    let entries: fs.Dirent[];
+    try {
+      entries = fs.readdirSync(currentDir, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const ent of entries) {
+      const full = path.join(currentDir, ent.name);
+      if (ent.isDirectory()) {
+        walk(full);
+      } else if (ent.isFile() && ent.name.toLowerCase().endsWith(".mdx")) {
+        const rel = path.relative(countryDir, full).replace(/\\/g, "/");
+        const withoutExt = rel.replace(/\.mdx$/i, "");
+        const segments = withoutExt.split("/").filter(Boolean);
+        if (segments.length === 0) continue;
+        out.push({ continent, country, place: segments });
+      }
+    }
+  }
+  walk(countryDir);
+}
+
+/** Discover all place MDX files under `content/places/<continent>/<country>/` (any nesting depth). */
+export function discoverTogstrekPlaceSlugs(): TogstrekPlaceSlugParams[] {
   if (!fs.existsSync(PLACES_ROOT)) return [];
-  const out: { continent: string; country: string; place: string }[] = [];
+  const out: TogstrekPlaceSlugParams[] = [];
   for (const continent of fs.readdirSync(PLACES_ROOT)) {
     const cDir = path.join(PLACES_ROOT, continent);
     if (!fs.statSync(cDir).isDirectory()) continue;
     for (const country of fs.readdirSync(cDir)) {
       const coDir = path.join(cDir, country);
       if (!fs.statSync(coDir).isDirectory()) continue;
-      for (const file of fs.readdirSync(coDir)) {
-        if (!file.endsWith(".mdx")) continue;
-        out.push({
-          continent,
-          country,
-          place: file.replace(/\.mdx$/, ""),
-        });
-      }
+      collectMdxFilesUnderCountryDir(coDir, continent, country, out);
     }
   }
   return out;
@@ -131,25 +163,29 @@ export function discoverTogstrekCountryHubParams(): {
 }[] {
   const slugs = discoverTogstrekPlaceSlugs();
   const seen = new Set<string>();
-  const out: { continent: string; country: string }[] = [];
+  const result: { continent: string; country: string }[] = [];
   for (const s of slugs) {
     const key = `${s.continent}\0${s.country}`;
     if (seen.has(key)) continue;
     seen.add(key);
-    out.push({ continent: s.continent, country: s.country });
+    result.push({ continent: s.continent, country: s.country });
   }
-  return out;
+  return result;
 }
 
-/** All place slugs under `content/places/<continent>/<country>/`, sorted by place folder name. */
+/** All place slug lists under `content/places/<continent>/<country>/`, sorted by joined path. */
 export function listTogstrekPlaceSlugsForCountry(
   continent: string,
   country: string,
-): { place: string }[] {
+): { place: string[] }[] {
   return discoverTogstrekPlaceSlugs()
     .filter((s) => s.continent === continent && s.country === country)
     .map((s) => ({ place: s.place }))
-    .sort((a, b) => a.place.localeCompare(b.place));
+    .sort((a, b) =>
+      a.place.join("/").localeCompare(b.place.join("/"), undefined, {
+        sensitivity: "base",
+      }),
+    );
 }
 
 /**
@@ -167,7 +203,7 @@ export function parseTogstrekCountryHubHrefToCountrySlug(
 }
 
 /**
- * First place hero under the country content folder (sorted by place slug) — for continent hub tiles.
+ * First place hero under the country content folder (sorted by place path) — for continent hub tiles.
  */
 export function pickTogstrekCountryHubTileHeroFromPlaces(options: {
   continentSlug: string;

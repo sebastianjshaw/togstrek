@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+import { togstrekNorthAmericaLegacyPlaceRedirects } from "./src/data/togstrek-north-america-legacy-place-redirects";
+
 const DEFAULT_MEDIA_ORIGIN = "https://media.togstrek.com";
 
 /** Hostname for `images.remotePatterns` — keep in sync with `getTogstrekMediaHostname()` in `src/config/togstrek-media.ts`. */
@@ -59,6 +61,11 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      ...togstrekNorthAmericaLegacyPlaceRedirects.map((r) => ({
+        source: r.source,
+        destination: r.destination,
+        permanent: true as const,
+      })),
       {
         source: "/europe/turkey/galata-tower",
         destination: "/europe/turkiye/istanbul",

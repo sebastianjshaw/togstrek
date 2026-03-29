@@ -72,18 +72,21 @@ function listNorthAmericaMdxFiles(): string[] {
   return out.sort((a, b) => a.localeCompare(b));
 }
 
-/** `.../north-america/mexico/tulum.mdx` → { country: mexico, place: tulum } */
+/** `.../north-america/<country>/….mdx` (any nesting under country) → country + place path segments. */
 function countryPlaceFromMdxPath(mdxAbs: string): {
   country: string;
-  place: string;
+  placeSegments: string[];
 } | null {
   const rel = path.relative(PLACES_NA, mdxAbs).replace(/\\/g, "/");
   const parts = rel.split("/").filter(Boolean);
-  if (parts.length !== 2 || !parts[1]!.endsWith(".mdx")) return null;
-  return {
-    country: parts[0]!,
-    place: path.basename(parts[1]!, ".mdx"),
-  };
+  if (parts.length < 2) return null;
+  const last = parts[parts.length - 1]!;
+  if (!last.endsWith(".mdx")) return null;
+  const country = parts[0]!;
+  const middle = parts.slice(1, -1);
+  const leaf = path.basename(last, ".mdx");
+  const placeSegments = [...middle, leaf];
+  return { country, placeSegments };
 }
 
 function normalizeSquarespaceFetchUrl(raw: string): string {
@@ -216,7 +219,7 @@ async function processOneMdx(
   const urls = collectSquarespaceImageUrls(raw);
   if (urls.length === 0) return { ok: 0, fail: 0 };
 
-  const destDir = path.join(outRoot, loc.country, loc.place);
+  const destDir = path.join(outRoot, loc.country, ...loc.placeSegments);
   const usedNames = new Set<string>();
 
   type Job = {
@@ -232,7 +235,8 @@ async function processOneMdx(
     const fetchUrl = normalizeSquarespaceFetchUrl(exact);
     const base = basenameForUrl(fetchUrl);
     const { filename } = uniqueDestBasename(base, usedNames);
-    const publicUrl = `${MEDIA_PUBLIC_BASE}/${loc.country}/${loc.place}/${filename}`;
+    const placeTail = loc.placeSegments.join("/");
+    const publicUrl = `${MEDIA_PUBLIC_BASE}/${loc.country}/${placeTail}/${filename}`;
     byExact.set(exact, { exactInFile: exact, fetchUrl, filename, publicUrl });
   }
 

@@ -11,7 +11,9 @@ export type TogstrekPlaceMdxFrontmatter = {
   description: string;
   continentSlug: string;
   countrySlug: string;
+  /** Optional; when set, should match the first segment of `placeSlug` when a tier exists (state/county/district/län — same level). */
   divisionSlug?: string;
+  /** Full path after `countrySlug` in the URL (e.g. `copenhagen` or `california/los-angeles`). */
   placeSlug: string;
   lat?: number;
   lng?: number;
@@ -102,7 +104,7 @@ function parsePoiGroups(raw: unknown): TogstrekPlaceMdxPoiGroup[] | undefined {
  */
 export function parseTogstrekPlaceFrontmatter(
   raw: Record<string, unknown>,
-  url: { continent: string; country: string; place: string },
+  url: { continent: string; country: string; placePath: string },
 ): TogstrekPlaceMdxFrontmatter {
   const title = raw.title;
   const description = raw.description;
@@ -124,8 +126,8 @@ export function parseTogstrekPlaceFrontmatter(
   if (typeof countrySlug !== "string" || countrySlug !== url.country) {
     throw new Error(`Frontmatter: countrySlug must match URL (${url.country})`);
   }
-  if (typeof placeSlug !== "string" || placeSlug !== url.place) {
-    throw new Error(`Frontmatter: placeSlug must match URL (${url.place})`);
+  if (typeof placeSlug !== "string" || placeSlug !== url.placePath) {
+    throw new Error(`Frontmatter: placeSlug must match URL (${url.placePath})`);
   }
 
   const divisionSlug =

@@ -15,38 +15,51 @@ function statMtime(filePath: string): Date | undefined {
   }
 }
 
-/** `content/places/<continent>/<country>/<place>.mdx` */
+/** `content/places/<continent>/<country>/…/<place>.mdx` (nested place path allowed). */
 export function togstrekSitemapLastModifiedForPlace(
   continent: string,
   country: string,
-  place: string,
+  placeSegments: string[],
 ): Date | undefined {
   return statMtime(
-    path.join(PLACES_ROOT, continent, country, `${place}.mdx`),
+    path.join(PLACES_ROOT, continent, country, ...placeSegments) + ".mdx",
   );
 }
 
-/** Latest mtime among place MDX files in the country folder (hub page). */
+function maxMtimeMdxUnderDir(dir: string): number {
+  let maxMs = 0;
+  function walk(current: string): void {
+    let entries: fs.Dirent[];
+    try {
+      entries = fs.readdirSync(current, { withFileTypes: true });
+    } catch {
+      return;
+    }
+    for (const ent of entries) {
+      const full = path.join(current, ent.name);
+      if (ent.isDirectory()) {
+        walk(full);
+      } else if (ent.isFile() && ent.name.toLowerCase().endsWith(".mdx")) {
+        try {
+          const ms = fs.statSync(full).mtimeMs;
+          if (ms > maxMs) maxMs = ms;
+        } catch {
+          /* continue */
+        }
+      }
+    }
+  }
+  walk(dir);
+  return maxMs;
+}
+
+/** Latest mtime among place MDX files under the country folder (hub page), any depth. */
 export function togstrekSitemapLastModifiedForCountryHub(
   continent: string,
   country: string,
 ): Date | undefined {
   const dir = path.join(PLACES_ROOT, continent, country);
-  let maxMs = 0;
-  try {
-    for (const name of fs.readdirSync(dir)) {
-      if (!name.endsWith(".mdx")) continue;
-      const fp = path.join(dir, name);
-      try {
-        const ms = fs.statSync(fp).mtimeMs;
-        if (ms > maxMs) maxMs = ms;
-      } catch {
-        /* continue */
-      }
-    }
-  } catch {
-    return undefined;
-  }
+  const maxMs = maxMtimeMdxUnderDir(dir);
   return maxMs > 0 ? new Date(maxMs) : undefined;
 }
 

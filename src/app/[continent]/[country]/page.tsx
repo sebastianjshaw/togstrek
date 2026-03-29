@@ -22,6 +22,7 @@ import {
   listTogstrekPlaceSlugsForCountry,
   loadTogstrekPlaceFrontmatterOnly,
 } from "@/lib/togstrek-load-place-mdx";
+import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import { getIso2ForCountrySlug } from "@/lib/togstrek-visited-travel-data";
 
 type PageParams = { continent: string; country: string };
@@ -101,9 +102,10 @@ export default async function TogstrekCountryHubPage({
 
   for (const { place } of placeRows) {
     const fm = loadTogstrekPlaceFrontmatterOnly(continent, country, place);
-    const href = `/${continent}/${country}/${place}`;
+    const placeTail = togstrekPlacePathFromSegments(place);
+    const href = `/${continent}/${country}/${placeTail}`;
     cards.push({
-      key: place,
+      key: placeTail,
       href,
       title: fm.title,
       description: truncateDescription(fm.description),
@@ -112,7 +114,7 @@ export default async function TogstrekCountryHubPage({
     });
     if (typeof fm.lat === "number" && typeof fm.lng === "number") {
       mapPlaces.push({
-        id: `${continent}-${country}-${place}`,
+        id: `${continent}-${country}-${placeTail.replace(/\//g, "-")}`,
         href,
         title: fm.title,
         excerpt: fm.description,

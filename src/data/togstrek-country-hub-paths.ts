@@ -40,6 +40,7 @@ export const togstrekCountryHubPathByIso2: Partial<
   AR: "/south-america/argentina",
   CO: "/south-america/colombia",
   EC: "/south-america/ecuador",
+  US: "/north-america/united-states-of-america",
 };
 
 export type TogstrekSpecialTerritoryHub = {

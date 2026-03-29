@@ -15,6 +15,7 @@ import {
   togstrekSitemapLastModifiedForPhotography,
   togstrekSitemapLastModifiedForPlace,
 } from "@/lib/togstrek-sitemap-last-modified";
+import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import { getTogstrekSiteOrigin } from "@/lib/togstrek-site-url";
 
 type SitemapChangeFrequency = NonNullable<
@@ -73,15 +74,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     );
 
   const placeEntries: MetadataRoute.Sitemap = discoverTogstrekPlaceSlugs().map(
-    ({ continent, country, place }) =>
-      withOptionalLastModified(
+    ({ continent, country, place }) => {
+      const tail = togstrekPlacePathFromSegments(place);
+      return withOptionalLastModified(
         {
-          url: `${base}/${continent}/${country}/${place}`,
+          url: `${base}/${continent}/${country}/${tail}`,
           changeFrequency: "monthly" as const,
           priority: 0.75,
         },
         togstrekSitemapLastModifiedForPlace(continent, country, place),
-      ),
+      );
+    },
   );
 
   const hikingSlugKey = (segments: string[]) => JSON.stringify(segments);

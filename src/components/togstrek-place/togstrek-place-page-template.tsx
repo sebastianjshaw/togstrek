@@ -7,6 +7,7 @@ import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-
 import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
 import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
 import { formatSlugLabel } from "@/lib/togstrek-geo-labels";
+import { togstrekPlaceLeafSegment, togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import { togstrekPlacePageJsonLdGraph } from "@/lib/togstrek-json-ld";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 import type { TogstrekPlaceMdxFrontmatter } from "@/lib/togstrek-place-frontmatter";
@@ -14,7 +15,7 @@ import type { TogstrekPlaceMdxFrontmatter } from "@/lib/togstrek-place-frontmatt
 type TogstrekPlacePageTemplateProps = {
   frontmatter: TogstrekPlaceMdxFrontmatter;
   mdxContent: ReactNode;
-  path: { continent: string; country: string; place: string };
+  path: { continent: string; country: string; placeSegments: string[] };
   /** Hide YAML `description` lead when it duplicates the MDX body opening. */
   omitDescriptionLead?: boolean;
 };
@@ -25,7 +26,9 @@ export function TogstrekPlacePageTemplate({
   path,
   omitDescriptionLead = false,
 }: TogstrekPlacePageTemplateProps) {
-  const { continent, country, place } = path;
+  const { continent, country, placeSegments } = path;
+  const placePathTail = togstrekPlacePathFromSegments(placeSegments);
+  const placeLeaf = togstrekPlaceLeafSegment(placeSegments);
   const showDescriptionLead =
     Boolean(frontmatter.description) && !omitDescriptionLead;
 
@@ -41,7 +44,7 @@ export function TogstrekPlacePageTemplate({
     { label: frontmatter.title },
   ];
 
-  const placePath = `/${continent}/${country}/${place}`;
+  const placePath = `/${continent}/${country}/${placePathTail}`;
 
   const placeBreadcrumbItems = [
     { name: formatSlugLabel(continent), path: `/${continent}` },
@@ -70,7 +73,7 @@ export function TogstrekPlacePageTemplate({
           imageWidth={frontmatter.heroImage.width}
           imageHeight={frontmatter.heroImage.height}
           imagePriority={frontmatter.heroImage.priority}
-          eyebrow={formatSlugLabel(place)}
+          eyebrow={formatSlugLabel(placeLeaf)}
           title={frontmatter.title}
           titleId="togstrek-place-hero-title"
         />

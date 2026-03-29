@@ -8,9 +8,11 @@ import {
   loadTogstrekPlaceFrontmatterOnly,
   loadTogstrekPlaceMdx,
   togstrekPlaceMdxExists,
+  type TogstrekPlaceSlugParams,
 } from "@/lib/togstrek-load-place-mdx";
+import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 
-type PageParams = { continent: string; country: string; place: string };
+type PageParams = TogstrekPlaceSlugParams;
 
 export async function generateStaticParams(): Promise<PageParams[]> {
   return discoverTogstrekPlaceSlugs();
@@ -22,11 +24,11 @@ export async function generateMetadata({
   params: Promise<PageParams>;
 }): Promise<Metadata> {
   const { continent, country, place } = await params;
-  if (!togstrekPlaceMdxExists(continent, country, place)) {
+  if (place.length === 0 || !togstrekPlaceMdxExists(continent, country, place)) {
     return { title: "Place" };
   }
   const fm = loadTogstrekPlaceFrontmatterOnly(continent, country, place);
-  const path = `/${continent}/${country}/${place}`;
+  const path = `/${continent}/${country}/${togstrekPlacePathFromSegments(place)}`;
 
   return buildTogstrekMetadata({
     title: fm.title,
@@ -53,7 +55,7 @@ export default async function TogstrekPlacePage({
   params: Promise<PageParams>;
 }) {
   const { continent, country, place } = await params;
-  if (!togstrekPlaceMdxExists(continent, country, place)) {
+  if (place.length === 0 || !togstrekPlaceMdxExists(continent, country, place)) {
     notFound();
   }
 
@@ -64,7 +66,7 @@ export default async function TogstrekPlacePage({
     <TogstrekPlacePageTemplate
       frontmatter={frontmatter}
       mdxContent={content}
-      path={{ continent, country, place }}
+      path={{ continent, country, placeSegments: place }}
       omitDescriptionLead={omitDescriptionLead}
     />
   );

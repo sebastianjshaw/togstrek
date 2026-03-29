@@ -1,12 +1,13 @@
 /**
  * Migrate Squarespace HTTrack North America place HTML to
- * `content/places/north-america/<country>/<place>.mdx` and copy images to
- * `migration/cdn-upload-ready/north-america/<country>/<place>/` for CDN upload
+ * `content/places/north-america/<country>/…/<place>.mdx` (nested paths when the mirror
+ * has subfolders, e.g. `usa/california/san-francisco.html`) and copy images to
+ * `migration/cdn-upload-ready/north-america/...` for CDN upload
  * (public URLs: `https://media.togstrek.com/north-america/...`).
  *
- * Backup layout varies: `mexico/tulum.html`, nested `usa/california/san-francisco.html`
- * (→ place slug `california-san-francisco`), flat `orlando.html` (→ `usa/orlando`),
- * `texas/dallas.html` (→ `usa/texas-dallas`). Skips `tag/`, `category/`, `_https_`.
+ * Backup layout: `mexico/tulum.html`, `usa/california/san-francisco.html`,
+ * root `orlando.html` (→ `usa/orlando.mdx`), `texas/dallas.html` (→ `usa/texas/dallas.mdx`).
+ * Skips `tag/`, `category/`, `_https_`.
  *
  * Usage:
  *   npx tsx scripts/migrate-squarespace-places-north-america.ts --dry-run
@@ -547,9 +548,9 @@ function migrateOnePlacePage(args: {
   byBase: Map<string, string[]>;
   turndown: TurndownService;
 }): void {
-  if (args.slugSegments.length !== 3) {
+  if (args.slugSegments.length < 3 || args.slugSegments[0] !== "north-america") {
     console.warn(
-      `Skip (expected continent/country/place): ${args.slugSegments.join("/")}`,
+      `Skip (expected north-america/<country>/…): ${args.slugSegments.join("/")}`,
     );
     return;
   }
@@ -663,7 +664,7 @@ function migrateOnePlacePage(args: {
 
   const continentSlug = args.slugSegments[0]!;
   const countrySlug = args.slugSegments[1]!;
-  const placeSlug = args.slugSegments[2]!;
+  const placeSlug = args.slugSegments.slice(2).join("/");
 
   const fm: Record<string, unknown> = {
     title,
@@ -755,8 +756,7 @@ function listNorthAmericaPlaceHtmlFiles(northAmericaDir: string): string[] {
 }
 
 /**
- * Map backup file to `north-america/<country>/<place>` (three URL segments).
- * Nested paths use hyphen-joined subfolders for `place` (e.g. california-san-francisco).
+ * Map backup file to `north-america/<country>/…/<place>` (URL segments after continent).
  */
 function htmlPathToNorthAmericaSlugSegments(
   northAmericaDir: string,
@@ -767,20 +767,22 @@ function htmlPathToNorthAmericaSlugSegments(
   const parts = without.split("/").filter(Boolean);
 
   if (parts.length === 1 && parts[0] === "orlando") {
-    return ["north-america", "usa", "orlando"];
+    return ["north-america", "united-states-of-america", "orlando"];
   }
   if (parts.length === 1) {
     return null;
   }
 
   if (parts[0] === "texas") {
-    const rest = parts.slice(1).join("-");
-    return ["north-america", "usa", rest ? `texas-${rest}` : "texas-page"];
+    return ["north-america", "united-states-of-america", "texas", ...parts.slice(1)];
+  }
+
+  if (parts[0] === "usa") {
+    return ["north-america", "united-states-of-america", ...parts.slice(1)];
   }
 
   const country = parts[0]!;
-  const placeSlug = parts.slice(1).join("-");
-  return ["north-america", country, placeSlug];
+  return ["north-america", country, ...parts.slice(1)];
 }
 
 function main(): void {
@@ -826,11 +828,7 @@ function main(): void {
       northAmericaDir,
       htmlAbs,
     );
-    if (
-      !slugSegments ||
-      slugSegments.length !== 3 ||
-      slugSegments[0] !== "north-america"
-    ) {
+    if (!slugSegments || slugSegments[0] !== "north-america") {
       console.warn(`Skip unexpected path: ${posix(path.relative(northAmericaDir, htmlAbs))}`);
       continue;
     }
