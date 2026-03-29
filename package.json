@@ -22,6 +22,7 @@
     "migrate:photography": "tsx scripts/migrate-squarespace-photography.ts",
     "migrate:places:south-america": "tsx scripts/migrate-squarespace-places-south-america.ts",
     "migrate:places:north-america": "tsx scripts/migrate-squarespace-places-north-america.ts",
+    "migrate:places:europe": "tsx scripts/migrate-squarespace-places-europe.ts",
     "migrate:places:antarctica": "tsx scripts/migrate-squarespace-places-antarctica.ts",
     "fix:photography-mdx": "tsx scripts/fix-photography-mdx-blog-boilerplate.ts",
     "data:other-work:featured": "tsx scripts/refresh-other-work-section-featured.ts",
