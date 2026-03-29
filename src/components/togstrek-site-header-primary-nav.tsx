@@ -148,13 +148,16 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
 export type TogstrekSiteHeaderPrimaryNavProps = {
   megaMenuNavLinks: TogstrekMegaMenuNavLinks;
   megaMenuTaglines: Record<TogstrekNavMegaContinentId, string>;
-  adventureLinks: { href: string; label: string }[];
+  adventureLinksByContinent: Record<
+    TogstrekNavMegaContinentId,
+    { href: string; label: string }[]
+  >;
 };
 
 export function TogstrekSiteHeaderPrimaryNav({
   megaMenuNavLinks,
   megaMenuTaglines,
-  adventureLinks,
+  adventureLinksByContinent,
 }: TogstrekSiteHeaderPrimaryNavProps) {
   const [openMegaKey, setOpenMegaKey] = useState<OpenMegaKey | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -254,11 +257,6 @@ export function TogstrekSiteHeaderPrimaryNav({
     (c) => c.continentId === openMegaKey,
   );
 
-  const continentAside: TogstrekSectionMegaAside = {
-    heading: "Adventures",
-    links: adventureLinks,
-  };
-
   const panelVisible = openMegaKey !== null;
 
   return (
@@ -351,7 +349,11 @@ export function TogstrekSiteHeaderPrimaryNav({
             links={megaMenuNavLinks[openContinentItem.continentId]}
             ctaLabel={`Explore ${openContinentItem.label}`}
             ctaHref={openContinentItem.href}
-            aside={continentAside}
+            aside={{
+              heading: "Adventures",
+              links:
+                adventureLinksByContinent[openContinentItem.continentId],
+            }}
             emptyStateMessage="Country hubs are on the way — open the region page for the full introduction."
             asideHeadingId="togstrek-site-header-mega-aside-continent"
             onNavigate={closeMega}

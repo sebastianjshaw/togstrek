@@ -40,9 +40,10 @@ const togstrekLinkCardCompactSizeClass: Record<
   NonNullable<TogstrekLinkCardCompactProps["size"]>,
   string
 > = {
-  default: "min-h-12 px-4 py-3 text-[length:var(--tt-text-small)]",
+  default:
+    "min-h-12 w-full min-w-0 flex-1 px-4 py-3 text-[length:var(--tt-text-small)]",
   comfortable:
-    "min-h-[5.25rem] px-5 py-4 text-[length:var(--tt-text-body)] sm:min-h-[5.75rem] sm:px-6 sm:py-5",
+    "min-h-[5.25rem] w-full min-w-0 flex-1 px-5 py-4 text-[length:var(--tt-text-body)] sm:min-h-[5.75rem] sm:px-6 sm:py-5",
 };
 
 const togstrekLinkCardCompactBodyPaddingClass: Record<
@@ -82,7 +83,7 @@ function TogstrekLinkCardCompactText({
       <span className={titleClass}>{title}</span>
       {quote ? (
         <span
-          className={`mt-2 block max-w-prose font-tt-body italic leading-[var(--tt-leading-relaxed)] ${quoteClass} ${quoteColor}`}
+          className={`mt-2 block max-w-prose whitespace-pre-line font-tt-body italic leading-[var(--tt-leading-relaxed)] ${quoteClass} ${quoteColor}`}
         >
           {quote}
         </span>
@@ -138,7 +139,7 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
       );
       const body = (
         <div
-          className={`togstrek-link-card-compact-body flex min-h-0 flex-col justify-center ${bodyPadClass}`}
+          className={`togstrek-link-card-compact-body flex min-h-0 flex-1 flex-col justify-center ${bodyPadClass}`}
         >
           <TogstrekLinkCardCompactText
             title={title}
@@ -154,7 +155,7 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
         return (
           <Link
             href={href}
-            className={`${togstrekLinkCardCompactBaseClass} togstrek-link-card--compact-linked togstrek-link-card--compact-has-header-image group flex-col overflow-hidden border-tt-border-muted bg-tt-surface-base p-0 text-tt-text-secondary hover:border-tt-accent hover:text-tt-accent`}
+            className={`${togstrekLinkCardCompactBaseClass} togstrek-link-card--compact-linked togstrek-link-card--compact-has-header-image group min-h-0 w-full flex-1 flex-col overflow-hidden border-tt-border-muted bg-tt-surface-base p-0 text-tt-text-secondary hover:border-tt-accent hover:text-tt-accent`}
           >
             {imageBlock}
             {body}
@@ -164,7 +165,7 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
 
       return (
         <span
-          className={`${togstrekLinkCardCompactBaseClass} togstrek-link-card--compact-static togstrek-link-card--compact-has-header-image group flex flex-col overflow-hidden border-tt-border-muted/60 bg-tt-surface-muted/80 p-0 text-tt-text-tertiary`}
+          className={`${togstrekLinkCardCompactBaseClass} togstrek-link-card--compact-static togstrek-link-card--compact-has-header-image group min-h-0 w-full flex-1 flex-col overflow-hidden border-tt-border-muted/60 bg-tt-surface-muted/80 p-0 text-tt-text-tertiary`}
           title="No hub page yet"
         >
           {imageBlock}
@@ -177,7 +178,7 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
       return (
         <Link
           href={href}
-          className={`${togstrekLinkCardCompactBaseClass} ${sizeClass} togstrek-link-card--compact-linked ${linkedLayout} border-tt-border-muted bg-tt-surface-base text-tt-text-secondary hover:border-tt-accent hover:text-tt-accent`}
+          className={`${togstrekLinkCardCompactBaseClass} ${sizeClass} togstrek-link-card--compact-linked min-h-0 ${linkedLayout} border-tt-border-muted bg-tt-surface-base text-tt-text-secondary hover:border-tt-accent hover:text-tt-accent`}
         >
           <TogstrekLinkCardCompactText
             title={title}
@@ -192,7 +193,7 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
 
     return (
       <span
-        className={`${togstrekLinkCardCompactBaseClass} ${sizeClass} togstrek-link-card--compact-static ${linkedLayout} cursor-default border-tt-border-muted/60 bg-tt-surface-muted/80 text-tt-text-tertiary`}
+        className={`${togstrekLinkCardCompactBaseClass} ${sizeClass} togstrek-link-card--compact-static min-h-0 ${linkedLayout} cursor-default border-tt-border-muted/60 bg-tt-surface-muted/80 text-tt-text-tertiary`}
         title="No hub page yet"
       >
         <TogstrekLinkCardCompactText

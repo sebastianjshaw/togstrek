@@ -37,6 +37,9 @@ export const togstrekCountryHubPathByIso2: Partial<
   CH: "/switzerland",
   UA: "/ukraine",
   GB: "/united-kingdom",
+  AR: "/south-america/argentina",
+  CO: "/south-america/colombia",
+  EC: "/south-america/ecuador",
 };
 
 export type TogstrekSpecialTerritoryHub = {

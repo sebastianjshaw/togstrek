@@ -71,8 +71,8 @@ export const togstrekContinentMegaMenuTaglines: Record<
   other: "",
 };
 
-/** Featured trips shown in the mega menu “Adventures” column (shared across continents). */
-export const togstrekMegaMenuAdventureLinks: { href: string; label: string }[] =
+/** Default featured trip in the continent mega menu “Adventures” aside (most regions). */
+const togstrekMegaMenuDefaultAdventureLinks: { href: string; label: string }[] =
   [
     { href: "/adventures", label: "All adventures" },
     {
@@ -80,6 +80,35 @@ export const togstrekMegaMenuAdventureLinks: { href: string; label: string }[] =
       label: "2018: Alpine Adventure",
     },
   ];
+
+/** South America mega menu aside — highlights the Patagonia / end-of-world trip. */
+const togstrekMegaMenuSouthAmericaAdventureLinks: {
+  href: string;
+  label: string;
+}[] = [
+  { href: "/adventures", label: "All adventures" },
+  {
+    href: "/adventures/2020-the-end-of-the-world",
+    label: "2020: The End of the World",
+  },
+];
+
+export type TogstrekMegaMenuAdventureLink = { href: string; label: string };
+
+/** Per-continent “Adventures” links in the primary nav continent mega panels. */
+export function buildTogstrekMegaMenuAdventureLinksByContinent(): Record<
+  TogstrekNavMegaContinentId,
+  TogstrekMegaMenuAdventureLink[]
+> {
+  return Object.fromEntries(
+    togstrekContinentNavMegaItems.map((item) => [
+      item.continentId,
+      item.continentId === "south-america"
+        ? togstrekMegaMenuSouthAmericaAdventureLinks
+        : togstrekMegaMenuDefaultAdventureLinks,
+    ]),
+  ) as Record<TogstrekNavMegaContinentId, TogstrekMegaMenuAdventureLink[]>;
+}
 
 export type TogstrekMegaMenuNavLinks = Record<
   TogstrekNavMegaContinentId,

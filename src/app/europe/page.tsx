@@ -12,7 +12,7 @@ import {
   togstrekCountryHubPathByIso2,
   togstrekEuropeSpecialTerritories,
 } from "@/data/togstrek-country-hub-paths";
-import { togstrekCountryHubListQuoteByIso2 } from "@/data/togstrek-country-hub-list-quotes";
+import { getTogstrekCountryHubTileQuote } from "@/data/togstrek-country-hub-list-quotes";
 import { togstrekEuropeHubPageMeta } from "@/data/togstrek-continent-hub-meta";
 import { togstrekUn195Countries } from "@/data/togstrek-un195-countries";
 import { formatContinentEyebrow } from "@/lib/togstrek-geo-labels";
@@ -117,19 +117,22 @@ export default function EuropeLandingPage() {
           />
         }
       />
-      <ul className="togstrek-continent-hub-countries-grid mt-[var(--tt-space-10)] grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-2 xl:grid-cols-3">
+      <ul className="togstrek-continent-hub-countries-grid mt-[var(--tt-space-10)] grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-2 xl:grid-cols-3">
         {europeUn195Countries.map((c) => {
           const href =
             togstrekCountryHubPathByIso2[c.iso2] ??
             travelData.countryStoryHrefByIso2[c.iso2];
-          const quote = togstrekCountryHubListQuoteByIso2[c.iso2];
+          const quote = getTogstrekCountryHubTileQuote(c.iso2);
           const tileHero = pickTogstrekCountryHubTileHeroFromPlaces({
             continentSlug: continent,
             unCountryName: c.name,
             hubHref: href,
           });
           return (
-            <li key={c.iso2} className="min-w-0">
+            <li
+              key={c.iso2}
+              className="togstrek-continent-hub-countries-item flex min-h-0 min-w-0 flex-col"
+            >
               <TogstrekLinkCard
                 variant="compact"
                 href={href}

@@ -12,6 +12,7 @@ import {
   formatSlugLabel,
   truncateDescription,
 } from "@/lib/togstrek-geo-labels";
+import { togstrekCountryHubHeaderQuoteByIso2 } from "@/data/togstrek-country-hub-list-quotes";
 import {
   buildTogstrekDefaultOpenGraphTitle,
   buildTogstrekMetadata,
@@ -125,6 +126,10 @@ export default async function TogstrekCountryHubPage({
 
   const iso2 = getIso2ForCountrySlug(continent, country);
   const visitedCountryIso2 = iso2 ? [iso2] : undefined;
+  const headerQuote =
+    iso2 !== undefined
+      ? togstrekCountryHubHeaderQuoteByIso2[iso2]
+      : undefined;
 
   return (
     <TogstrekCountryHubTemplate
@@ -135,6 +140,7 @@ export default async function TogstrekCountryHubPage({
           Place stories in {countryLabel} ({continentLabel}).
         </>
       }
+      headerQuote={headerQuote}
       breadcrumbItems={[
         { href: `/${continent}`, label: continentLabel },
         { label: countryLabel },

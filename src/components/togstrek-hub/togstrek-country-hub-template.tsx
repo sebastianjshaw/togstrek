@@ -30,6 +30,8 @@ export type TogstrekCountryHubTemplateProps = {
   countryLabel: string;
   /** Short line under the H1 (e.g. “Place stories in …”). */
   lead: ReactNode;
+  /** Optional pull-quote under the lead (e.g. attributed line for select countries). */
+  headerQuote?: { body: string; attribution: string };
   breadcrumbItems: TogstrekBreadcrumbItem[];
   map: TogstrekCountryHubMapSlotProps;
   places: TogstrekCountryHubPlacesSlotProps;
@@ -45,6 +47,7 @@ export function TogstrekCountryHubTemplate({
   titleId,
   countryLabel,
   lead,
+  headerQuote,
   breadcrumbItems,
   map,
   places,
@@ -57,6 +60,16 @@ export function TogstrekCountryHubTemplate({
           <p className="mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
             {lead}
           </p>
+          {headerQuote ? (
+            <figure className="togstrek-country-hub-header-quote mt-[var(--tt-space-8)] max-w-[min(36rem,100%)]">
+              <blockquote className="font-tt-display text-[clamp(1.05rem,1.5vw+0.5rem,1.35rem)] font-semibold leading-[var(--tt-leading-snug)] text-tt-text-primary [overflow-wrap:anywhere]">
+                {headerQuote.body}
+              </blockquote>
+              <figcaption className="mt-[var(--tt-space-3)] font-tt-body text-[length:var(--tt-text-small)] italic text-tt-text-secondary">
+                — {headerQuote.attribution}
+              </figcaption>
+            </figure>
+          ) : null}
         </TogstrekContentWidth>
       </header>
 
