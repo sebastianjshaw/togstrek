@@ -3,6 +3,9 @@
  * migrate pages; paths follow `/hiking/...` and `/other-work/...`.
  */
 
+import type { TogstrekContinentMegaMenuFeaturedAdventure } from "@/data/togstrek-continent-mega-menu";
+import { togstrekAdventuresImage } from "@/data/togstrek-adventures-page";
+
 export type TogstrekSectionMegaKey = "hiking" | "other-work";
 
 export type TogstrekSectionMegaAside = {
@@ -10,6 +13,11 @@ export type TogstrekSectionMegaAside = {
   /** When set, the aside heading is a link (e.g. Adventures → /adventures). */
   headingHref?: `/${string}`;
   links: { href: string; label: string }[];
+  /**
+   * Optional image card (same pattern as continent mega “Adventures” column).
+   * When set, `links` in the aside are usually empty.
+   */
+  featuredAdventure?: TogstrekContinentMegaMenuFeaturedAdventure | null;
 };
 
 export type TogstrekSectionMegaMenuDefinition = {
@@ -50,6 +58,13 @@ export const togstrekHikingMegaMenu: TogstrekSectionMegaMenuDefinition = {
     heading: "Adventures",
     headingHref: "/adventures",
     links: [],
+    featuredAdventure: {
+      href: "/adventures/2020-443-kilometres",
+      title: "2020: 443 Kilometres",
+      imageSrc: togstrekAdventuresImage("4c7643df7dfce0dc.jpeg"),
+      imageAlt:
+        "Forest path and lakeshore along a long Swedish section hike",
+    },
   },
   emptyStateMessage:
     "Trail pages are on the way — open Hiking for the full introduction.",

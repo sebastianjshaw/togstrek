@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
+    "dev:fresh": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\" && next dev --webpack",
+    "dev:turbo": "next dev --turbopack",
+    "dev:turbo:fresh": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\" && next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

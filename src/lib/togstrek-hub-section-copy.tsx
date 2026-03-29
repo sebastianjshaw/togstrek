@@ -41,3 +41,24 @@ export function TogstrekHubCountriesListIntro({
     </>
   );
 }
+
+/**
+ * Shown under the main countries intro when the hub splits “has content” from
+ * the long UN remainder (low coverage continents).
+ */
+export function TogstrekHubCountriesPrioritizedLayoutHint({
+  missingCount,
+}: {
+  missingCount: number;
+}): ReactNode {
+  return (
+    <span className="togstrek-hub-countries-prioritized-layout-hint block pt-[var(--tt-space-4)] text-[length:var(--tt-text-small)] text-tt-text-secondary">
+      Countries with a hub or place pages are listed first. The other{" "}
+      <span className="font-medium text-tt-text-primary">{missingCount}</span>{" "}
+      sit under &ldquo;Open full list of countries&rdquo; — expand it for the
+      complete UN set (including countries that already have guides), aligned
+      with the map totals, without scrolling past dozens of tiles to find what
+      you can read today.
+    </span>
+  );
+}

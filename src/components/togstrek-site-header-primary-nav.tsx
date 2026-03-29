@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import {
   useCallback,
@@ -11,7 +12,10 @@ import {
 
 import { TogstrekSiteHeaderAdventuresMegaPanel } from "@/components/togstrek-site-header-adventures-mega-panel";
 import { TogstrekCtaOutlineAccentLink } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
-import type { TogstrekMegaMenuNavLinks } from "@/data/togstrek-continent-mega-menu";
+import type {
+  TogstrekContinentMegaMenuFeaturedAdventure,
+  TogstrekMegaMenuNavLinks,
+} from "@/data/togstrek-continent-mega-menu";
 import {
   togstrekContinentNavMegaItems,
   type TogstrekNavMegaContinentId,
@@ -23,9 +27,9 @@ import {
 import {
   togstrekSectionMegaMenuByKey,
   togstrekSectionMegaMenuList,
-  type TogstrekSectionMegaAside,
   type TogstrekSectionMegaKey,
 } from "@/data/togstrek-section-mega-menu";
+import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
 const MEGA_CLOSE_MS = 200;
 
@@ -39,6 +43,13 @@ type OpenMegaKey =
   | TogstrekNavMegaContinentId
   | TogstrekSectionMegaKey
   | "adventures";
+
+type TogstrekSiteHeaderMegaPanelAside = {
+  heading: string;
+  headingHref?: `/${string}`;
+  links?: { href: string; label: string }[];
+  featuredAdventure?: TogstrekContinentMegaMenuFeaturedAdventure | null;
+};
 
 function TogstrekSiteHeaderMegaMenuPanelBase({
   panelHeading,
@@ -56,13 +67,13 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
   links: { href: string; label: string }[];
   ctaLabel: string;
   ctaHref: string;
-  aside: TogstrekSectionMegaAside;
+  aside: TogstrekSiteHeaderMegaPanelAside;
   emptyStateMessage: string;
   asideHeadingId: string;
   onNavigate: () => void;
 }) {
   return (
-    <div className="togstrek-site-header-mega-panel-inner mx-auto grid max-w-[var(--tt-layout-max-wide)] gap-10 px-[var(--tt-layout-gutter)] py-[var(--tt-space-10)] lg:grid-cols-[minmax(0,1fr)_min(14rem,28%)] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_min(16rem,26%)]">
+    <div className="togstrek-site-header-mega-panel-inner mx-auto grid max-w-[var(--tt-layout-max-wide)] gap-10 px-[var(--tt-layout-gutter)] py-[var(--tt-space-10)] lg:grid-cols-[minmax(0,1fr)_min(20rem,34%)] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_min(22rem,30%)]">
       <div className="togstrek-site-header-mega-panel-main min-w-0">
         <p className="font-tt-display text-[clamp(1.75rem,3.5vw,2.75rem)] font-extrabold uppercase leading-[var(--tt-leading-tight)] tracking-[var(--tt-tracking-tight)] text-tt-text-primary [overflow-wrap:anywhere]">
           {panelHeading}
@@ -125,9 +136,48 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
             aside.heading
           )}
         </h2>
-        {aside.links.length > 0 ? (
+        {aside.featuredAdventure !== undefined ? (
+          <div className="togstrek-site-header-mega-panel-aside-continent-adventure mt-[var(--tt-space-6)]">
+            {aside.featuredAdventure === null ? (
+              <p className="max-w-[28ch] font-tt-body text-[length:var(--tt-text-small)] leading-snug text-tt-text-secondary">
+                No single trip highlighted for this region yet — open all
+                adventures for the full archive.
+              </p>
+            ) : (
+              <Link
+                href={aside.featuredAdventure.href}
+                onClick={onNavigate}
+                className="togstrek-site-header-mega-panel-aside-adventure-card group block"
+              >
+                <div className="togstrek-site-header-mega-panel-aside-adventure-image relative aspect-[4/3] w-full overflow-hidden rounded-[var(--tt-radius-sm)] border border-tt-border-muted bg-tt-surface-muted">
+                  <Image
+                    src={aside.featuredAdventure.imageSrc}
+                    alt={aside.featuredAdventure.imageAlt}
+                    fill
+                    sizes="(max-width: 1024px) 40vw, 22rem"
+                    unoptimized={togstrekUnoptimizedRemoteImageInDev(
+                      aside.featuredAdventure.imageSrc,
+                    )}
+                    className="object-cover transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.02]"
+                  />
+                </div>
+                <p className="mt-[var(--tt-space-4)] font-tt-display text-[length:var(--tt-text-lead)] font-semibold leading-snug text-tt-text-primary transition-colors group-hover:text-tt-accent [overflow-wrap:anywhere]">
+                  {aside.featuredAdventure.title}
+                </p>
+              </Link>
+            )}
+            <Link
+              href="/adventures"
+              onClick={onNavigate}
+              className="togstrek-site-header-mega-panel-aside-all-adventures-link mt-[var(--tt-space-6)] inline-block font-tt-body text-[length:var(--tt-text-small)] font-semibold text-tt-accent underline-offset-2 transition-colors hover:underline"
+            >
+              All adventures →
+            </Link>
+          </div>
+        ) : null}
+        {(aside.links?.length ?? 0) > 0 ? (
           <ul className="mt-[var(--tt-space-6)] space-y-2">
-            {aside.links.map((a) => (
+            {(aside.links ?? []).map((a) => (
               <li key={a.href}>
                 <Link
                   href={a.href}
@@ -148,16 +198,16 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
 export type TogstrekSiteHeaderPrimaryNavProps = {
   megaMenuNavLinks: TogstrekMegaMenuNavLinks;
   megaMenuTaglines: Record<TogstrekNavMegaContinentId, string>;
-  adventureLinksByContinent: Record<
+  megaMenuFeaturedAdventureByContinent: Record<
     TogstrekNavMegaContinentId,
-    { href: string; label: string }[]
+    TogstrekContinentMegaMenuFeaturedAdventure | null
   >;
 };
 
 export function TogstrekSiteHeaderPrimaryNav({
   megaMenuNavLinks,
   megaMenuTaglines,
-  adventureLinksByContinent,
+  megaMenuFeaturedAdventureByContinent,
 }: TogstrekSiteHeaderPrimaryNavProps) {
   const [openMegaKey, setOpenMegaKey] = useState<OpenMegaKey | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -351,10 +401,17 @@ export function TogstrekSiteHeaderPrimaryNav({
             ctaHref={openContinentItem.href}
             aside={{
               heading: "Adventures",
-              links:
-                adventureLinksByContinent[openContinentItem.continentId],
+              headingHref: "/adventures",
+              featuredAdventure:
+                megaMenuFeaturedAdventureByContinent[
+                  openContinentItem.continentId
+                ],
             }}
-            emptyStateMessage="Country hubs are on the way — open the region page for the full introduction."
+            emptyStateMessage={
+              openContinentItem.continentId === "antarctica"
+                ? "Antarctic place stories are on the way — open Antarctica for maps and the full introduction."
+                : "Country hubs are on the way — open the region page for the full introduction."
+            }
             asideHeadingId="togstrek-site-header-mega-aside-continent"
             onNavigate={closeMega}
           />
@@ -424,18 +481,6 @@ export function TogstrekSiteHeaderPrimaryNav({
             </li>
             {togstrekContinentNavMegaItems.map((c) => {
               const sub = megaMenuNavLinks[c.continentId];
-              if (sub.length === 0) {
-                return (
-                  <li key={c.href}>
-                    <Link
-                      href={c.href}
-                      className="block min-h-11 rounded-[var(--tt-radius-sm)] px-3 py-3 text-[var(--tt-text-small)] leading-snug text-tt-text-secondary transition-colors hover:bg-tt-surface-muted hover:text-tt-accent sm:py-2.5"
-                    >
-                      {c.label}
-                    </Link>
-                  </li>
-                );
-              }
               return (
                 <li key={c.href} className="min-w-0">
                   <details className="togstrek-site-header-mobile-continent rounded-[var(--tt-radius-sm)]">
@@ -466,6 +511,38 @@ export function TogstrekSiteHeaderPrimaryNav({
                           </Link>
                         </li>
                       ))}
+                      <li className="border-t border-tt-border-muted pt-1">
+                        <p className="px-2 pb-1 pt-2 font-tt-display text-[0.65rem] font-semibold uppercase tracking-wide text-tt-text-tertiary">
+                          Adventures
+                        </p>
+                        {(() => {
+                          const feat =
+                            megaMenuFeaturedAdventureByContinent[
+                              c.continentId
+                            ];
+                          if (feat === null) {
+                            return (
+                              <p className="px-2 pb-2 text-[length:var(--tt-text-small)] leading-snug text-tt-text-tertiary">
+                                No featured trip for this region yet.
+                              </p>
+                            );
+                          }
+                          return (
+                            <Link
+                              href={feat.href}
+                              className="block min-h-10 rounded-[var(--tt-radius-sm)] px-2 py-2 text-[var(--tt-text-small)] font-semibold text-tt-text-secondary [overflow-wrap:anywhere] hover:bg-tt-surface-base hover:text-tt-accent"
+                            >
+                              {feat.title}
+                            </Link>
+                          );
+                        })()}
+                        <Link
+                          href="/adventures"
+                          className="block min-h-10 rounded-[var(--tt-radius-sm)] px-2 py-2 text-[var(--tt-text-small)] text-tt-accent [overflow-wrap:anywhere] hover:bg-tt-surface-base hover:underline"
+                        >
+                          All adventures →
+                        </Link>
+                      </li>
                     </ul>
                   </details>
                 </li>
@@ -501,6 +578,33 @@ export function TogstrekSiteHeaderPrimaryNav({
                         </Link>
                       </li>
                     ))}
+                    {section.key === "hiking"
+                      ? (() => {
+                          const hikeFeat =
+                            togstrekSectionMegaMenuByKey.hiking.aside
+                              .featuredAdventure;
+                          if (!hikeFeat) return null;
+                          return (
+                            <li className="border-t border-tt-border-muted pt-1">
+                              <p className="px-2 pb-1 pt-2 font-tt-display text-[0.65rem] font-semibold uppercase tracking-wide text-tt-text-tertiary">
+                                Adventures
+                              </p>
+                              <Link
+                                href={hikeFeat.href}
+                                className="block min-h-10 rounded-[var(--tt-radius-sm)] px-2 py-2 text-[var(--tt-text-small)] font-semibold text-tt-text-secondary [overflow-wrap:anywhere] hover:bg-tt-surface-base hover:text-tt-accent"
+                              >
+                                {hikeFeat.title}
+                              </Link>
+                              <Link
+                                href="/adventures"
+                                className="block min-h-10 rounded-[var(--tt-radius-sm)] px-2 py-2 text-[var(--tt-text-small)] text-tt-accent [overflow-wrap:anywhere] hover:bg-tt-surface-base hover:underline"
+                              >
+                                All adventures →
+                              </Link>
+                            </li>
+                          );
+                        })()
+                      : null}
                   </ul>
                 </details>
               </li>

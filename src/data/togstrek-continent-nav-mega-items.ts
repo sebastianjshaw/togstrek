@@ -1,9 +1,17 @@
-import type { TogstrekUnContinentId } from "@/data/togstrek-un195-countries";
+/** Continents that appear in the primary nav mega menu (not `other`). */
+export type TogstrekNavMegaContinentId =
+  | "africa"
+  | "antarctica"
+  | "asia"
+  | "europe"
+  | "north-america"
+  | "oceania"
+  | "south-america";
 
 export type TogstrekContinentNavMegaItem = {
   href: `/${string}`;
   label: string;
-  continentId: TogstrekUnContinentId;
+  continentId: TogstrekNavMegaContinentId;
 };
 
 export const togstrekContinentNavMegaItems: readonly TogstrekContinentNavMegaItem[] =
@@ -24,6 +32,3 @@ export const togstrekContinentNavMegaItems: readonly TogstrekContinentNavMegaIte
       continentId: "south-america",
     },
   ];
-
-export type TogstrekNavMegaContinentId =
-  (typeof togstrekContinentNavMegaItems)[number]["continentId"];

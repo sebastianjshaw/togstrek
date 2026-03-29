@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { TogstrekSiteHeaderPrimaryNav } from "@/components/togstrek-site-header-primary-nav";
 import {
-  buildTogstrekMegaMenuAdventureLinksByContinent,
+  buildTogstrekMegaMenuFeaturedAdventureByContinent,
   buildTogstrekMegaMenuLinksForNavContinents,
   getTogstrekContinentMegaMenuTaglinesForNav,
 } from "@/data/togstrek-continent-mega-menu";
@@ -12,8 +12,8 @@ const togstrekHeaderMegaMenuNavLinks =
   buildTogstrekMegaMenuLinksForNavContinents();
 const togstrekHeaderMegaMenuTaglines =
   getTogstrekContinentMegaMenuTaglinesForNav();
-const togstrekHeaderMegaMenuAdventureLinksByContinent =
-  buildTogstrekMegaMenuAdventureLinksByContinent();
+const togstrekHeaderMegaMenuFeaturedAdventureByContinent =
+  buildTogstrekMegaMenuFeaturedAdventureByContinent();
 
 export function TogstrekSiteHeader() {
   return (
@@ -39,7 +39,9 @@ export function TogstrekSiteHeader() {
         <TogstrekSiteHeaderPrimaryNav
           megaMenuNavLinks={togstrekHeaderMegaMenuNavLinks}
           megaMenuTaglines={togstrekHeaderMegaMenuTaglines}
-          adventureLinksByContinent={togstrekHeaderMegaMenuAdventureLinksByContinent}
+          megaMenuFeaturedAdventureByContinent={
+            togstrekHeaderMegaMenuFeaturedAdventureByContinent
+          }
         />
       </div>
     </header>

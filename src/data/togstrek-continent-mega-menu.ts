@@ -1,57 +1,83 @@
 import {
-  togstrekAsiaSpecialTerritories,
-  togstrekCountryHubPathByIso2,
-  togstrekEuropeSpecialTerritories,
-} from "@/data/togstrek-country-hub-paths";
-import {
   togstrekContinentNavMegaItems,
   type TogstrekNavMegaContinentId,
 } from "@/data/togstrek-continent-nav-mega-items";
 import {
+  togstrekAdventuresImage,
+  togstrekAdventuresPortfolioGrid,
+} from "@/data/togstrek-adventures-page";
+import {
   type TogstrekUnContinentId,
   togstrekUn195Countries,
 } from "@/data/togstrek-un195-countries";
+import { formatSlugLabel } from "@/lib/togstrek-geo-labels";
+import {
+  discoverTogstrekCountryHubParams,
+  listTogstrekPlaceSlugsForCountry,
+  loadTogstrekPlaceFrontmatterOnly,
+} from "@/lib/togstrek-load-place-mdx";
+import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
+import { getIso2ForCountrySlug } from "@/lib/togstrek-visited-travel-data";
 
-/** Optional display names for hubs where the site label differs from UN/common English (e.g. Czechia → Czech Republic). */
+/** Optional display names when the site label differs from UN/common English. */
 const hubMenuDisplayNameByIso2: Partial<Record<string, string>> = {
   CZ: "Czech Republic",
 };
 
-const specialTerritoriesByContinent: Partial<
-  Record<TogstrekUnContinentId, { href: string; label: string }[]>
-> = {
-  europe: togstrekEuropeSpecialTerritories.map((t) => ({
-    href: t.href,
-    label: t.label,
-  })),
-  asia: togstrekAsiaSpecialTerritories.map((t) => ({
-    href: t.href,
-    label: t.label,
-  })),
-};
+function countryLabelForContinentMegaMenu(
+  continent: string,
+  countrySlug: string,
+): string {
+  const iso2 = getIso2ForCountrySlug(continent, countrySlug);
+  if (iso2) {
+    const row = togstrekUn195Countries.find((c) => c.iso2 === iso2);
+    if (row) {
+      return hubMenuDisplayNameByIso2[iso2] ?? row.name;
+    }
+  }
+  return formatSlugLabel(countrySlug);
+}
 
 /**
- * Hub links for the mega menu: derived from `togstrekCountryHubPathByIso2`
- * (only routes you have configured) plus special-territory hubs for that
- * continent. Adding a new ISO → path entry updates the menu automatically.
+ * Mega menu links: every country hub and Antarctic place that has MDX under
+ * `content/places/…` (canonical URLs `/{continent}/{country}/…`).
  */
 export function getTogstrekContinentMegaMenuLinks(
   continentId: TogstrekUnContinentId,
 ): { href: string; label: string }[] {
-  const fromHubs: { href: string; label: string }[] = [];
-
-  for (const [iso2, href] of Object.entries(togstrekCountryHubPathByIso2)) {
-    if (!href) continue;
-    const row = togstrekUn195Countries.find((c) => c.iso2 === iso2);
-    if (row?.continent !== continentId) continue;
-    const label = hubMenuDisplayNameByIso2[iso2] ?? row.name;
-    fromHubs.push({ href, label });
+  if (continentId === "antarctica") {
+    const rows = listTogstrekPlaceSlugsForCountry("antarctica", "antarctic");
+    return rows
+      .map(({ place }) => {
+        const tail = togstrekPlacePathFromSegments(place);
+        const fm = loadTogstrekPlaceFrontmatterOnly(
+          "antarctica",
+          "antarctic",
+          place,
+        );
+        return {
+          href: `/antarctica/antarctic/${tail}`,
+          label: fm.title,
+        };
+      })
+      .sort((a, b) =>
+        a.label.localeCompare(b.label, undefined, { sensitivity: "base" }),
+      );
   }
 
-  const specials = specialTerritoriesByContinent[continentId] ?? [];
-  return [...fromHubs, ...specials].sort((a, b) =>
-    a.label.localeCompare(b.label),
-  );
+  const byHref = new Map<string, string>();
+
+  for (const { continent, country } of discoverTogstrekCountryHubParams()) {
+    if (continent !== continentId) continue;
+    const href = `/${continent}/${country}`;
+    byHref.set(href, countryLabelForContinentMegaMenu(continent, country));
+  }
+
+  return [...byHref.entries()]
+    .map(([href, label]) => ({ href, label }))
+    .sort((a, b) =>
+      a.label.localeCompare(b.label, undefined, { sensitivity: "base" }),
+    );
 }
 
 export const togstrekContinentMegaMenuTaglines: Record<
@@ -71,43 +97,71 @@ export const togstrekContinentMegaMenuTaglines: Record<
   other: "",
 };
 
-/** Default featured trip in the continent mega menu “Adventures” aside (most regions). */
-const togstrekMegaMenuDefaultAdventureLinks: { href: string; label: string }[] =
-  [
-    { href: "/adventures", label: "All adventures" },
-    {
-      href: "/adventures/2018-alpine-adventure",
-      label: "2018: Alpine Adventure",
-    },
-  ];
-
-/** South America mega menu aside — highlights the Patagonia / end-of-world trip. */
-const togstrekMegaMenuSouthAmericaAdventureLinks: {
+/** Single featured long-form trip per continent (right column of the mega panel). */
+export type TogstrekContinentMegaMenuFeaturedAdventure = {
   href: string;
-  label: string;
-}[] = [
-  { href: "/adventures", label: "All adventures" },
-  {
-    href: "/adventures/2020-the-end-of-the-world",
-    label: "2020: The End of the World",
-  },
-];
+  title: string;
+  imageSrc: string;
+  imageAlt: string;
+};
 
-export type TogstrekMegaMenuAdventureLink = { href: string; label: string };
-
-/** Per-continent “Adventures” links in the primary nav continent mega panels. */
-export function buildTogstrekMegaMenuAdventureLinksByContinent(): Record<
+/**
+ * Portfolio href for each nav continent — `null` when no trip is highlighted
+ * (e.g. Oceania).
+ */
+const togstrekContinentMegaMenuFeaturedAdventureHrefByContinent: Record<
   TogstrekNavMegaContinentId,
-  TogstrekMegaMenuAdventureLink[]
+  string | null
+> = {
+  africa: "/adventures/2022-the-roof-of-africa",
+  antarctica: "/adventures/2020-the-end-of-the-world",
+  asia: "/adventures/2018-bedouin-stars",
+  europe: "/adventures/2023-hulduflk",
+  "north-america": "/adventures/2022-ruins-of-central-america",
+  oceania: null,
+  "south-america": "/adventures/2019-chasing-the-beagle",
+};
+
+function togstrekAdventurePortfolioRowByHref(
+  href: string,
+): (typeof togstrekAdventuresPortfolioGrid)[number] | undefined {
+  return togstrekAdventuresPortfolioGrid.find((p) => p.href === href);
+}
+
+/** Image + title for the continent mega menu “Adventures” aside. */
+export function buildTogstrekMegaMenuFeaturedAdventureByContinent(): Record<
+  TogstrekNavMegaContinentId,
+  TogstrekContinentMegaMenuFeaturedAdventure | null
 > {
   return Object.fromEntries(
-    togstrekContinentNavMegaItems.map((item) => [
-      item.continentId,
-      item.continentId === "south-america"
-        ? togstrekMegaMenuSouthAmericaAdventureLinks
-        : togstrekMegaMenuDefaultAdventureLinks,
-    ]),
-  ) as Record<TogstrekNavMegaContinentId, TogstrekMegaMenuAdventureLink[]>;
+    togstrekContinentNavMegaItems.map((item) => {
+      const path =
+        togstrekContinentMegaMenuFeaturedAdventureHrefByContinent[
+          item.continentId
+        ];
+      if (!path) {
+        return [item.continentId, null] as const;
+      }
+      const row = togstrekAdventurePortfolioRowByHref(path);
+      if (!row) {
+        throw new Error(
+          `togstrek-continent-mega-menu: missing portfolio row for ${path}`,
+        );
+      }
+      return [
+        item.continentId,
+        {
+          href: row.href,
+          title: row.title,
+          imageSrc: togstrekAdventuresImage(row.imageFile),
+          imageAlt: row.imageAlt,
+        } satisfies TogstrekContinentMegaMenuFeaturedAdventure,
+      ] as const;
+    }),
+  ) as Record<
+    TogstrekNavMegaContinentId,
+    TogstrekContinentMegaMenuFeaturedAdventure | null
+  >;
 }
 
 export type TogstrekMegaMenuNavLinks = Record<

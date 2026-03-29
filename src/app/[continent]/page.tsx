@@ -3,17 +3,14 @@ import { notFound } from "next/navigation";
 
 import {
   continentHubHeroQuoteForSlug,
+  TogstrekContinentHubCountriesSection,
   TogstrekContinentHubMapSection,
   TogstrekContinentHubTemplate,
   TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK,
 } from "@/components/togstrek-hub";
 import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
-import {
-  togstrekAsiaSpecialTerritories,
-  togstrekCountryHubPathByIso2,
-} from "@/data/togstrek-country-hub-paths";
-import { getTogstrekCountryHubTileQuote } from "@/data/togstrek-country-hub-list-quotes";
+import { togstrekAsiaSpecialTerritories } from "@/data/togstrek-country-hub-paths";
 import {
   isTogstrekContinentHubRouteSlug,
   TOGSTREK_CONTINENT_HUB_ROUTE_SLUGS,
@@ -27,12 +24,10 @@ import {
 import {
   listTogstrekPlaceSlugsForCountry,
   loadTogstrekPlaceFrontmatterOnly,
-  pickTogstrekCountryHubTileHeroFromPlaces,
 } from "@/lib/togstrek-load-place-mdx";
 import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import {
   TOGSTREK_HUB_SPECIAL_TERRITORIES_SECTION_DESCRIPTION,
-  TogstrekHubCountriesListIntro,
   togstrekHubOnTheMapSectionDescription,
 } from "@/lib/togstrek-hub-section-copy";
 import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
@@ -84,21 +79,6 @@ export default async function ContinentHubPage({
   const un195ForContinent = togstrekUn195Countries
     .filter((c) => c.continent === continent)
     .sort((a, b) => a.name.localeCompare(b.name));
-
-  const hubCount = un195ForContinent.filter(
-    (c) => togstrekCountryHubPathByIso2[c.iso2],
-  ).length;
-
-  const countriesDescriptionDefault = (
-    <TogstrekHubCountriesListIntro
-      regionPhrase="in this region"
-      hubCount={hubCount}
-      total={un195ForContinent.length}
-    />
-  );
-
-  const countriesSectionDescription =
-    meta.countriesDescription ?? countriesDescriptionDefault;
 
   const eyebrow = formatContinentEyebrow(continent);
 
@@ -187,47 +167,14 @@ export default async function ContinentHubPage({
 
   const countriesSection =
     continent === "antarctica" ? null : (
-      <section
-        className="togstrek-continent-hub-countries mt-[var(--tt-space-20)]"
-        aria-labelledby={`togstrek-continent-hub-countries-heading-${continent}`}
-      >
-        <TogstrekSectionHeader
-          id={`togstrek-continent-hub-countries-heading-${continent}`}
-          title="Countries"
-          description={countriesSectionDescription}
-        />
-        {un195ForContinent.length > 0 ? (
-          <ul className="togstrek-continent-hub-countries-grid mt-[var(--tt-space-10)] grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-2 xl:grid-cols-3">
-            {un195ForContinent.map((c) => {
-              const href =
-                togstrekCountryHubPathByIso2[c.iso2] ??
-                travelData.countryStoryHrefByIso2[c.iso2];
-              const quote = getTogstrekCountryHubTileQuote(c.iso2);
-              const tileHero = pickTogstrekCountryHubTileHeroFromPlaces({
-                continentSlug: continent,
-                unCountryName: c.name,
-                hubHref: href,
-              });
-              return (
-                <li
-                  key={c.iso2}
-                  className="togstrek-continent-hub-countries-item flex min-h-0 min-w-0 flex-col"
-                >
-                  <TogstrekLinkCard
-                    variant="compact"
-                    href={href}
-                    title={c.name}
-                    quote={quote}
-                    size="comfortable"
-                    imageSrc={tileHero?.src}
-                    imageAlt={tileHero?.alt}
-                  />
-                </li>
-              );
-            })}
-          </ul>
-        ) : null}
-      </section>
+      <TogstrekContinentHubCountriesSection
+        continent={continent}
+        unCountries={un195ForContinent}
+        travelData={travelData}
+        regionPhrase="in this region"
+        sectionHeadingId={`togstrek-continent-hub-countries-heading-${continent}`}
+        description={meta.countriesDescription}
+      />
     );
 
   return (
