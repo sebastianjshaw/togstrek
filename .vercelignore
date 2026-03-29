@@ -1,0 +1,4 @@
+# Local mirrors / staging — must never ship with serverless traces (see outputFileTracingExcludes).
+TogsTrekBackup
+migration
+.claude

@@ -3,7 +3,10 @@ import type { Metadata } from "next";
 import { TogstrekAboutPage } from "@/components/togstrek-about/togstrek-about-page";
 import { TogstrekJsonLd } from "@/components/togstrek-seo/togstrek-json-ld";
 import { togstrekSiteLandingHeroImage } from "@/config/togstrek-media";
-import { togstrekAboutPersonJsonLd } from "@/lib/togstrek-json-ld";
+import {
+  TOGSTREK_ABOUT_PAGE_DESCRIPTION,
+  togstrekAboutPageJsonLd,
+} from "@/lib/togstrek-json-ld";
 import {
   buildTogstrekMetadata,
   TOGSTREK_OG_IMAGE_HEIGHT,
@@ -14,11 +17,9 @@ const aboutOgHero = togstrekSiteLandingHeroImage();
 
 export const metadata: Metadata = buildTogstrekMetadata({
   title: "About",
-  description:
-    "Who's behind Tog's Trek — a lifelong traveller's lens on exploration, photography, and the road from Gothenburg to everywhere else.",
+  description: TOGSTREK_ABOUT_PAGE_DESCRIPTION,
   path: "/about",
-  openGraphDescription:
-    "Who's behind Tog's Trek — a lifelong traveller's lens on exploration, photography, and the road from Gothenburg to everywhere else.",
+  openGraphDescription: TOGSTREK_ABOUT_PAGE_DESCRIPTION,
   openGraphImages: [
     {
       url: aboutOgHero.src,
@@ -32,7 +33,7 @@ export const metadata: Metadata = buildTogstrekMetadata({
 export default function AboutRoutePage() {
   return (
     <>
-      <TogstrekJsonLd data={togstrekAboutPersonJsonLd()} />
+      <TogstrekJsonLd data={togstrekAboutPageJsonLd()} />
       <TogstrekAboutPage />
     </>
   );

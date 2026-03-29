@@ -59,23 +59,6 @@ export function togstrekLayoutJsonLdGraph(): Record<string, unknown> {
   };
 }
 
-/** @deprecated Prefer `togstrekLayoutJsonLdGraph` (includes Person). */
-export function togstrekWebSiteJsonLd(): Record<string, unknown> {
-  const origin = getTogstrekSiteOrigin().replace(/\/+$/, "");
-  return {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: SITE_NAME,
-    url: `${origin}/`,
-    description: SITE_DESCRIPTION,
-    publisher: {
-      "@type": "Organization",
-      name: SITE_NAME,
-      url: `${origin}/`,
-    },
-  };
-}
-
 function togstrekAbsoluteUrl(path: string): string {
   const origin = getTogstrekSiteOrigin().replace(/\/+$/, "");
   const p = path.startsWith("/") ? path : `/${path}`;
@@ -403,9 +386,29 @@ export function togstrekHikingHubOrGroupJsonLdGraph(input: {
   };
 }
 
-export function togstrekAboutPersonJsonLd(): Record<string, unknown> {
+/** Shared with `/about` metadata and `togstrekAboutPageJsonLd`. */
+export const TOGSTREK_ABOUT_PAGE_DESCRIPTION =
+  "Who's behind Tog's Trek — a lifelong traveller's lens on exploration, photography, and the road from Gothenburg to everywhere else.";
+
+/**
+ * `AboutPage` for `/about` — links to the canonical `Person` from `togstrekLayoutJsonLdGraph` by `@id`
+ * (no second full `Person` node on the page).
+ */
+export function togstrekAboutPageJsonLd(): Record<string, unknown> {
+  const origin = getTogstrekSiteOrigin().replace(/\/+$/, "");
+  const aboutUrl = getTogstrekAboutPathAbsolute();
+  const personId = getTogstrekAuthorPersonId();
+  const page: Record<string, unknown> = {
+    "@type": "AboutPage",
+    "@id": `${aboutUrl}#webpage`,
+    name: "About",
+    url: aboutUrl,
+    description: TOGSTREK_ABOUT_PAGE_DESCRIPTION,
+    isPartOf: { "@id": `${origin}/#website` },
+    mainEntity: { "@id": personId },
+  };
   return {
     "@context": "https://schema.org",
-    ...buildTogstrekPersonNode(),
+    "@graph": [page],
   };
 }

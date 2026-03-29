@@ -18,7 +18,7 @@ export function getTogstrekMediaBaseUrl(): string {
   return raw.replace(/\/+$/, "");
 }
 
-/** Hostname for `next.config` `images.remotePatterns` (derived from base URL). */
+/** Hostname for `next.config` `images.remotePatterns` — duplicated in `next.config.ts` (no `src/` import). */
 export function getTogstrekMediaHostname(): string {
   const raw = process.env.NEXT_PUBLIC_MEDIA_BASE_URL;
   if (raw?.trim()) {

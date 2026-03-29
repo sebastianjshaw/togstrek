@@ -1,10 +1,57 @@
 import type { NextConfig } from "next";
-import { getTogstrekMediaHostname } from "./src/config/togstrek-media";
-import { TOGSTREK_REMOTE_IMAGE_PATTERNS } from "./src/config/togstrek-remote-image-hosts";
 
-const mediaHost = getTogstrekMediaHostname();
+const DEFAULT_MEDIA_ORIGIN = "https://media.togstrek.com";
+
+/** Hostname for `images.remotePatterns` — keep in sync with `getTogstrekMediaHostname()` in `src/config/togstrek-media.ts`. */
+function getMediaHostnameForNextConfig(): string {
+  const raw = process.env.NEXT_PUBLIC_MEDIA_BASE_URL?.trim();
+  if (raw) {
+    try {
+      return new URL(raw).hostname;
+    } catch {
+      /* fall through */
+    }
+  }
+  try {
+    return new URL(DEFAULT_MEDIA_ORIGIN).hostname;
+  } catch {
+    return "media.togstrek.com";
+  }
+}
+
+/** Keep in sync with `src/config/togstrek-remote-image-hosts.ts`. */
+const REMOTE_IMAGE_PATTERNS: readonly {
+  hostname: string;
+  pathname: string;
+}[] = [
+  {
+    hostname: "images.squarespace-cdn.com",
+    pathname: "/content/**",
+  },
+  {
+    hostname: "static1.squarespace.com",
+    pathname: "/static/**",
+  },
+  {
+    hostname: "images.unsplash.com",
+    pathname: "/**",
+  },
+];
+
+const mediaHost = getMediaHostnameForNextConfig();
 
 const nextConfig: NextConfig = {
+  /**
+   * Prevent @vercel/nft from following huge local-only trees (HTTrack mirror, CDN staging).
+   * Key `*` attaches to the main server trace (`next-server`); see Next `collect-build-traces`.
+   */
+  outputFileTracingExcludes: {
+    "*": [
+      "**/TogsTrekBackup/**",
+      "**/migration/**",
+      "**/.claude/**",
+    ],
+  },
   async redirects() {
     return [
       {
@@ -81,7 +128,7 @@ const nextConfig: NextConfig = {
         hostname: mediaHost,
         pathname: "/**",
       },
-      ...TOGSTREK_REMOTE_IMAGE_PATTERNS.map((p) => ({
+      ...REMOTE_IMAGE_PATTERNS.map((p) => ({
         protocol: "https" as const,
         hostname: p.hostname,
         pathname: p.pathname,
