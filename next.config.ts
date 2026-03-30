@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 
+import { TOGSTREK_EUROPE_LEGACY_FLAT_HUB_SLUGS } from "./src/data/togstrek-country-hub-paths";
 import { togstrekNorthAmericaLegacyPlaceRedirects } from "./src/data/togstrek-north-america-legacy-place-redirects";
 
 const DEFAULT_MEDIA_ORIGIN = "https://media.togstrek.com";
@@ -66,6 +67,16 @@ const nextConfig: NextConfig = {
         destination: r.destination,
         permanent: true as const,
       })),
+      ...TOGSTREK_EUROPE_LEGACY_FLAT_HUB_SLUGS.map((slug) => ({
+        source: `/${slug}`,
+        destination: `/europe/${slug}`,
+        permanent: true as const,
+      })),
+      {
+        source: "/svalbard",
+        destination: "/europe/norway/svalbard/longyearbyen",
+        permanent: true,
+      },
       {
         source: "/liechtenstein",
         destination: "/europe/lichtenstein",

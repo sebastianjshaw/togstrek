@@ -1,48 +1,87 @@
 /**
- * Root slug paths for country hubs that already exist on the site.
- * Keys are ISO 3166-1 alpha-2. Extend per continent as pages are migrated.
+ * Canonical paths for country hubs that already exist on the site.
+ * Keys are ISO 3166-1 alpha-2. European hubs use `/europe/{country}` (see `app/[continent]/[country]`).
  */
 export const togstrekCountryHubPathByIso2: Partial<
   Record<string, `/${string}`>
 > = {
-  AT: "/austria",
-  BA: "/bosnia-and-herzegovina",
-  BG: "/bulgaria",
-  HR: "/croatia",
-  CZ: "/czech-republic",
-  DK: "/denmark",
-  EE: "/estonia",
-  FI: "/finland",
-  FR: "/france",
-  DE: "/germany",
-  GR: "/greece",
-  HU: "/hungary",
-  IS: "/iceland",
-  IE: "/ireland",
-  IT: "/italy",
-  LV: "/latvia",
+  AT: "/europe/austria",
+  BA: "/europe/bosnia-and-herzegovina",
+  BG: "/europe/bulgaria",
+  HR: "/europe/croatia",
+  CZ: "/europe/czech-republic",
+  DK: "/europe/denmark",
+  EE: "/europe/estonia",
+  FI: "/europe/finland",
+  FR: "/europe/france",
+  DE: "/europe/germany",
+  GR: "/europe/greece",
+  HU: "/europe/hungary",
+  IS: "/europe/iceland",
+  IE: "/europe/ireland",
+  IT: "/europe/italy",
+  LV: "/europe/latvia",
   /** Mirror / content folder uses `lichtenstein` (matches MDX + R2 keys). */
   LI: "/europe/lichtenstein",
-  LT: "/lithuania",
-  MT: "/malta",
-  MC: "/monaco",
-  NL: "/netherlands",
-  NO: "/norway",
-  PT: "/portugal",
-  RO: "/romania",
-  RU: "/russia",
-  RS: "/serbia",
-  SK: "/slovakia",
-  ES: "/spain",
-  SE: "/sweden",
-  CH: "/switzerland",
-  UA: "/ukraine",
-  GB: "/united-kingdom",
+  LT: "/europe/lithuania",
+  MT: "/europe/malta",
+  MC: "/europe/monaco",
+  NL: "/europe/netherlands",
+  NO: "/europe/norway",
+  PT: "/europe/portugal",
+  RO: "/europe/romania",
+  RU: "/europe/russia",
+  RS: "/europe/serbia",
+  SK: "/europe/slovakia",
+  ES: "/europe/spain",
+  SE: "/europe/sweden",
+  CH: "/europe/switzerland",
+  TR: "/europe/turkiye",
+  UA: "/europe/ukraine",
+  GB: "/europe/united-kingdom",
   AR: "/south-america/argentina",
   CO: "/south-america/colombia",
   EC: "/south-america/ecuador",
   US: "/north-america/united-states-of-america",
 };
+
+/**
+ * Old one-segment hub URLs (`/{slug}`) now served at `/europe/{slug}`.
+ * Used for permanent redirects in `next.config.ts`.
+ */
+export const TOGSTREK_EUROPE_LEGACY_FLAT_HUB_SLUGS: readonly string[] = [
+  "austria",
+  "bosnia-and-herzegovina",
+  "bulgaria",
+  "croatia",
+  "czech-republic",
+  "denmark",
+  "estonia",
+  "finland",
+  "france",
+  "germany",
+  "greece",
+  "hungary",
+  "iceland",
+  "ireland",
+  "italy",
+  "latvia",
+  "lithuania",
+  "malta",
+  "monaco",
+  "netherlands",
+  "norway",
+  "portugal",
+  "romania",
+  "russia",
+  "serbia",
+  "slovakia",
+  "spain",
+  "sweden",
+  "switzerland",
+  "ukraine",
+  "united-kingdom",
+];
 
 export type TogstrekSpecialTerritoryHub = {
   href: `/${string}`;
@@ -52,12 +91,12 @@ export type TogstrekSpecialTerritoryHub = {
 
 const togstrekEuropeSpecialTerritoriesUnsorted: TogstrekSpecialTerritoryHub[] = [
   {
-    href: "/svalbard",
+    href: "/europe/norway/svalbard/longyearbyen",
     label: "Svalbard",
     note: "Arctic archipelago, Norway",
   },
   {
-    href: "/ladonia",
+    href: "/europe/sweden",
     label: "Ladonia",
     note: "Micronation, Swedish coast",
   },
