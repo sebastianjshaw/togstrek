@@ -3,20 +3,21 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import {
-  togstrekAdventuresMegaFeaturedCards,
-  togstrekAdventuresMegaTagline,
-} from "@/data/togstrek-adventures-mega-menu";
+import type { TogstrekAdventuresMegaFeaturedCard } from "@/data/togstrek-adventures-mega-menu";
 
 const CARD_IMAGE_WRAP =
-  "togstrek-site-header-adventures-mega-card-image relative aspect-[4/3] w-full overflow-hidden rounded-[2.5rem] border border-white/15";
+  "togstrek-site-header-adventures-mega-card-image relative aspect-[4/3] w-full overflow-hidden rounded-none border border-white/15";
 
 type TogstrekSiteHeaderAdventuresMegaPanelProps = {
   onNavigate: () => void;
+  featuredCards: TogstrekAdventuresMegaFeaturedCard[];
+  tagline: string;
 };
 
 export function TogstrekSiteHeaderAdventuresMegaPanel({
   onNavigate,
+  featuredCards,
+  tagline,
 }: TogstrekSiteHeaderAdventuresMegaPanelProps) {
   return (
     <div className="togstrek-site-header-adventures-mega-panel mx-auto max-w-[var(--tt-layout-max-wide)] px-[var(--tt-layout-gutter)] py-[var(--tt-space-10)] text-tt-text-inverse">
@@ -25,7 +26,7 @@ export function TogstrekSiteHeaderAdventuresMegaPanel({
       </h2>
 
       <ul className="mt-[var(--tt-space-8)] grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-6 lg:gap-8">
-        {togstrekAdventuresMegaFeaturedCards.map((card) => (
+        {featuredCards.map((card) => (
           <li key={card.href} className="min-w-0">
             <Link
               href={card.href}
@@ -60,7 +61,7 @@ export function TogstrekSiteHeaderAdventuresMegaPanel({
       </div>
 
       <p className="mt-[var(--tt-space-8)] max-w-[52ch] font-tt-body text-[length:var(--tt-text-small)] font-bold uppercase leading-snug tracking-[var(--tt-tracking-wide)] text-tt-text-inverse/95">
-        {togstrekAdventuresMegaTagline}
+        {tagline}
       </p>
     </div>
   );

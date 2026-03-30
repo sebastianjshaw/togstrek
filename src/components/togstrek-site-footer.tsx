@@ -3,7 +3,7 @@ import Link from "next/link";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 
 const togstrekSiteFooterNavLinkClassName =
-  "font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary underline-offset-2 transition-colors hover:text-tt-accent hover:underline";
+  "rounded-sm font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary underline-offset-2 transition-colors hover:text-tt-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-2 focus-visible:ring-offset-tt-surface-base";
 
 export function TogstrekSiteFooter() {
   return (
@@ -33,6 +33,15 @@ export function TogstrekSiteFooter() {
           </span>
           <Link href="/photography" className={togstrekSiteFooterNavLinkClassName}>
             Photography
+          </Link>
+          <span
+            className="select-none text-[length:var(--tt-text-small)] text-tt-text-tertiary/80"
+            aria-hidden
+          >
+            ·
+          </span>
+          <Link href="/search" className={togstrekSiteFooterNavLinkClassName}>
+            Search
           </Link>
           <span
             className="select-none text-[length:var(--tt-text-small)] text-tt-text-tertiary/80"

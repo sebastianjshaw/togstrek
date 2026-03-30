@@ -6,10 +6,11 @@ import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section
 import {
   TOGSTREK_ADVENTURES_HERO_IMAGE_FILE,
   togstrekAdventuresImage,
-  togstrekAdventuresPortfolioGrid,
 } from "@/data/togstrek-adventures-page";
+import { listSortedTogstrekAdventureArchiveItems } from "@/lib/togstrek-adventure-content-fs";
 
 export function TogstrekAdventuresPage() {
+  const adventureArchive = listSortedTogstrekAdventureArchiveItems();
   const heroSrc = togstrekAdventuresImage(TOGSTREK_ADVENTURES_HERO_IMAGE_FILE);
 
   return (
@@ -53,14 +54,14 @@ export function TogstrekAdventuresPage() {
             id="togstrek-adventures-archive-heading"
             className="mt-[var(--tt-space-20)]"
             title="All adventure stories"
-            description="Every long-form trip on the original site, in chronological order — open a tile for the full story when that page is live."
+            description="Every long-form trip on the original site, in chronological order — open a tile for the full story."
           />
           <ul className="togstrek-adventures-page-archive-grid mt-[var(--tt-space-12)] grid grid-cols-1 gap-[var(--tt-space-10)] sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-3">
-            {togstrekAdventuresPortfolioGrid.map((item) => (
+            {adventureArchive.map((item) => (
               <li key={item.href} className="min-w-0">
                 <TogstrekEditorialMediaCard
                   href={item.href}
-                  imageSrc={togstrekAdventuresImage(item.imageFile)}
+                  imageSrc={item.imageSrc}
                   imageAlt={item.imageAlt}
                   overline="Adventure"
                   title={item.title}

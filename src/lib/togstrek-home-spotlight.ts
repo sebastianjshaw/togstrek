@@ -1,7 +1,5 @@
-import {
-  togstrekAdventuresMegaFeaturedCards,
-  type TogstrekAdventuresMegaFeaturedCard,
-} from "@/data/togstrek-adventures-mega-menu";
+import { togstrekAdventuresMegaFeaturedCards } from "@/data/togstrek-adventures-mega-menu-cards";
+import type { TogstrekAdventuresMegaFeaturedCard } from "@/data/togstrek-adventures-mega-menu";
 import type { TogstrekFeaturedAdventureContent } from "@/data/togstrek-featured-adventure-content";
 import { togstrekFeaturedAlpineAdventure } from "@/data/togstrek-featured-alpine-adventure";
 

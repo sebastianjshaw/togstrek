@@ -7,6 +7,10 @@ import {
   buildTogstrekMegaMenuLinksForNavContinents,
   getTogstrekContinentMegaMenuTaglinesForNav,
 } from "@/data/togstrek-continent-mega-menu";
+import { togstrekAdventuresMegaFeaturedCards } from "@/data/togstrek-adventures-mega-menu-cards";
+import {
+  togstrekAdventuresMegaTagline,
+} from "@/data/togstrek-adventures-mega-menu";
 
 const togstrekHeaderMegaMenuNavLinks =
   buildTogstrekMegaMenuLinksForNavContinents();
@@ -42,6 +46,8 @@ export function TogstrekSiteHeader() {
           megaMenuFeaturedAdventureByContinent={
             togstrekHeaderMegaMenuFeaturedAdventureByContinent
           }
+          adventuresMegaFeaturedCards={togstrekAdventuresMegaFeaturedCards}
+          adventuresMegaTagline={togstrekAdventuresMegaTagline}
         />
       </div>
     </header>

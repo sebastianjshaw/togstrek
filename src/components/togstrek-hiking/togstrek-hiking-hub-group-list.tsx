@@ -22,7 +22,7 @@ export function TogstrekHikingHubGroupList({
         <li key={entry.href} className="min-w-0">
           <Link
             href={entry.href}
-            className="togstrek-hiking-hub-group-card group flex h-full flex-col overflow-hidden rounded-lg border border-tt-border-muted bg-tt-surface-base shadow-[0_1px_0_rgba(0,0,0,0.04)] transition-[border-color,box-shadow] hover:border-tt-border-default hover:shadow-[0_12px_40px_-24px_rgba(0,0,0,0.35)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tt-accent"
+            className="togstrek-hiking-hub-group-card group flex h-full flex-col overflow-hidden rounded-none border border-tt-border-muted bg-tt-surface-base shadow-[0_1px_0_rgba(0,0,0,0.04)] transition-[border-color,box-shadow] hover:border-tt-border-default hover:shadow-[0_12px_40px_-24px_rgba(0,0,0,0.35)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-tt-accent"
           >
             <div className="togstrek-hiking-hub-group-card-media relative aspect-[3/2] w-full overflow-hidden bg-tt-surface-muted">
               {entry.heroImage ? (

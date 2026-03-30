@@ -16,6 +16,7 @@ const MDX_P_CLASS =
 /** Paragraphs must not wrap block-level custom components (e.g. figure). */
 function unwrapIfSingleBlockFigure(children: ReactNode): ReactNode | null {
   const nodes = Children.toArray(children).filter((node) => {
+    if (node == null) return false;
     if (typeof node === "string") return node.trim() !== "";
     return true;
   });

@@ -2,6 +2,13 @@
  * Canonical paths for country hubs that already exist on the site.
  * Keys are ISO 3166-1 alpha-2. European hubs use `/europe/{country}` (see `app/[continent]/[country]`).
  */
+/** Optional card title on continent hubs when it should differ from the UN English name (e.g. Türkiye). */
+export const togstrekCountryHubTileTitleByIso2: Partial<
+  Record<string, string>
+> = {
+  TR: "Türkiye",
+};
+
 export const togstrekCountryHubPathByIso2: Partial<
   Record<string, `/${string}`>
 > = {

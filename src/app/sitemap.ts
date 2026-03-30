@@ -17,6 +17,9 @@ import {
 } from "@/lib/togstrek-sitemap-last-modified";
 import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import { getTogstrekSiteOrigin } from "@/lib/togstrek-site-url";
+import { discoverEnglandCountyHubParams } from "@/lib/togstrek-england-counties";
+import { discoverTogstrekUkNationHubParams } from "@/lib/togstrek-uk-nations";
+import { listSortedTogstrekAdventureArchiveItems } from "@/lib/togstrek-adventure-content-fs";
 
 type SitemapChangeFrequency = NonNullable<
   MetadataRoute.Sitemap[number]["changeFrequency"]
@@ -40,6 +43,7 @@ const STATIC_PATHS: {
     { path: "/antarctica", priority: 0.85, changeFrequency: "weekly" },
     { path: "/contact", priority: 0.55, changeFrequency: "yearly" },
     { path: "/copyright", priority: 0.45, changeFrequency: "yearly" },
+    { path: "/search", priority: 0.65, changeFrequency: "monthly" },
   ];
 
 function withOptionalLastModified(
@@ -60,6 +64,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority,
     }),
   );
+
+  const adventureStoryEntries: MetadataRoute.Sitemap =
+    listSortedTogstrekAdventureArchiveItems().map((item) => ({
+      url: `${base}${item.href}`,
+      changeFrequency: "yearly" as const,
+      priority: 0.72,
+    }));
 
   const countryHubEntries: MetadataRoute.Sitemap =
     discoverTogstrekCountryHubParams().map(({ continent, country }) =>
@@ -86,6 +97,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       );
     },
   );
+
+  const ukNationHubEntries: MetadataRoute.Sitemap =
+    discoverTogstrekUkNationHubParams().map(({ continent, country, place }) =>
+      withOptionalLastModified(
+        {
+          url: `${base}/${continent}/${country}/${place[0]}`,
+          changeFrequency: "monthly" as const,
+          priority: 0.73,
+        },
+        togstrekSitemapLastModifiedForCountryHub(continent, country),
+      ),
+    );
+
+  const englandCountyHubEntries: MetadataRoute.Sitemap =
+    discoverEnglandCountyHubParams().map(({ continent, country, place }) =>
+      withOptionalLastModified(
+        {
+          url: `${base}/${continent}/${country}/${place.join("/")}`,
+          changeFrequency: "monthly" as const,
+          priority: 0.72,
+        },
+        togstrekSitemapLastModifiedForCountryHub(continent, country),
+      ),
+    );
 
   const hikingSlugKey = (segments: string[]) => JSON.stringify(segments);
   const hikingSlugSet = new Set<string>();
@@ -142,7 +177,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...staticEntries,
+    ...adventureStoryEntries,
     ...countryHubEntries,
+    ...ukNationHubEntries,
+    ...englandCountyHubEntries,
     ...placeEntries,
     ...hikingEntries,
     ...otherWorkEntries,

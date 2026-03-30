@@ -1,13 +1,20 @@
+import { togstrekMediaUrl } from "@/config/togstrek-media";
 import type { TogstrekFeaturedAdventureContent } from "@/data/togstrek-featured-adventure-content";
+import {
+  adventureMdxExists,
+  loadTogstrekAdventureFrontmatterOnly,
+} from "@/lib/togstrek-adventure-content-fs";
+
+const ALPINE_SLUG = "2018-alpine-adventure";
 
 /**
  * Single source for the “Alpine Adventure” feature — continent hubs (panel) and
- * one option in the homepage spotlight pool.
+ * one option in the homepage spotlight pool. Copy and hero come from MDX when
+ * `content/adventures/2018-alpine-adventure.mdx` exists.
  */
-export const togstrekFeaturedAlpineAdventure = {
+const FALLBACK: TogstrekFeaturedAdventureContent = {
   href: "/adventures/2018-alpine-adventure",
-  imageSrc:
-    "https://images.squarespace-cdn.com/content/v1/6207d70ece223e42dd9ae587/1676558893598-X9ZAV37ZVOCFSNYWMUSF/22e59112fefb45ea.jpg?format=2500w",
+  imageSrc: togstrekMediaUrl("adventures/22e59112fefb45ea.jpg"),
   imageAlt:
     "Mountain landscape with snow-capped peaks, rocky terrain, and blue sky, intersected by cables.",
   title: "2018: Alpine Adventure",
@@ -18,4 +25,26 @@ export const togstrekFeaturedAlpineAdventure = {
   ctaLabel: "Open Alpine Adventure",
   kickerHome: "Spotlight",
   kickerHub: "Featured adventure",
-} as const satisfies TogstrekFeaturedAdventureContent;
+};
+
+function buildFeaturedAlpine(): TogstrekFeaturedAdventureContent {
+  if (!adventureMdxExists(ALPINE_SLUG)) {
+    return FALLBACK;
+  }
+  const fm = loadTogstrekAdventureFrontmatterOnly(ALPINE_SLUG);
+  const hero = fm.heroImage;
+  return {
+    href: `/adventures/${ALPINE_SLUG}`,
+    imageSrc: hero?.src ?? FALLBACK.imageSrc,
+    imageAlt: hero?.alt ?? FALLBACK.imageAlt,
+    title: fm.title,
+    tagline: FALLBACK.tagline,
+    body: FALLBACK.body,
+    ctaLabel: FALLBACK.ctaLabel,
+    kickerHome: FALLBACK.kickerHome,
+    kickerHub: FALLBACK.kickerHub,
+  };
+}
+
+export const togstrekFeaturedAlpineAdventure: TogstrekFeaturedAdventureContent =
+  buildFeaturedAlpine();

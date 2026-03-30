@@ -7,6 +7,10 @@ import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-
 import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
 import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
 import { formatSlugLabel } from "@/lib/togstrek-geo-labels";
+import {
+  buildTogstrekPlaceBreadcrumbJsonLdItems,
+  buildTogstrekPlaceBreadcrumbUiItems,
+} from "@/lib/togstrek-place-breadcrumb";
 import { togstrekPlaceLeafSegment, togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import { togstrekPlacePageJsonLdGraph } from "@/lib/togstrek-json-ld";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
@@ -32,25 +36,22 @@ export function TogstrekPlacePageTemplate({
   const showDescriptionLead =
     Boolean(frontmatter.description) && !omitDescriptionLead;
 
-  const breadcrumbItems = [
-    {
-      href: `/${continent}`,
-      label: formatSlugLabel(continent),
-    },
-    {
-      href: `/${continent}/${country}`,
-      label: formatSlugLabel(country),
-    },
-    { label: frontmatter.title },
-  ];
-
   const placePath = `/${continent}/${country}/${placePathTail}`;
 
-  const placeBreadcrumbItems = [
-    { name: formatSlugLabel(continent), path: `/${continent}` },
-    { name: formatSlugLabel(country), path: `/${continent}/${country}` },
-    { name: frontmatter.title, path: placePath },
-  ];
+  const breadcrumbItems = buildTogstrekPlaceBreadcrumbUiItems(
+    continent,
+    country,
+    placeSegments,
+    frontmatter.title,
+  );
+
+  const placeBreadcrumbItems = buildTogstrekPlaceBreadcrumbJsonLdItems(
+    continent,
+    country,
+    placeSegments,
+    frontmatter.title,
+    placePath,
+  );
 
   return (
     <main className="togstrek-place-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">

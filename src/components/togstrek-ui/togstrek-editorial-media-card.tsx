@@ -3,7 +3,8 @@ import Link from "next/link";
 
 /**
  * Editorial media card — design spec: `docs/design-system.md` (lift, scrims, micro-CTA).
- * Tokens: `--tt-radius-editorial-xl`, `--tt-editorial-accent-bar-height`, `--tt-duration-slower`.
+ * Tokens: `--tt-editorial-accent-bar-height`, `--tt-duration-slower`.
+ * Image frame uses sharp corners site-wide.
  */
 export type TogstrekEditorialMediaCardProps = {
   href: string;
@@ -31,7 +32,7 @@ export function TogstrekEditorialMediaCard({
   className,
 }: TogstrekEditorialMediaCardProps) {
   const rootClass = [
-    "togstrek-editorial-media-card group relative block rounded-[length:var(--tt-radius-editorial-xl)] outline-none",
+    "togstrek-editorial-media-card group relative block rounded-none outline-none",
     "focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-4 focus-visible:ring-offset-tt-surface-base",
     className,
   ]
@@ -39,7 +40,7 @@ export function TogstrekEditorialMediaCard({
     .join(" ");
 
   const frameClass = [
-    "togstrek-editorial-media-card-frame relative aspect-[3/2] overflow-hidden rounded-[length:var(--tt-radius-editorial-xl)] bg-tt-surface-muted",
+    "togstrek-editorial-media-card-frame relative aspect-[3/2] overflow-hidden rounded-none bg-tt-surface-muted",
     "shadow-[var(--tt-shadow-sm)] ring-1 ring-tt-border-muted",
     "transition-[transform,box-shadow,ring-color] duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] will-change-transform",
     "group-hover:-translate-y-2 group-hover:shadow-[var(--tt-shadow-elevated)] group-hover:ring-tt-accent/40",
@@ -50,7 +51,7 @@ export function TogstrekEditorialMediaCard({
     <Link href={href} className={rootClass}>
       <div className={frameClass}>
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[length:var(--tt-editorial-accent-bar-height)] origin-left scale-x-0 rounded-t-[length:var(--tt-radius-editorial-xl)] bg-gradient-to-r from-tt-accent via-tt-accent/80 to-transparent transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-x-100 motion-reduce:scale-x-100 motion-reduce:group-hover:scale-x-100"
+          className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[length:var(--tt-editorial-accent-bar-height)] origin-left scale-x-0 rounded-none bg-gradient-to-r from-tt-accent via-tt-accent/80 to-transparent transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-x-100 motion-reduce:scale-x-100 motion-reduce:group-hover:scale-x-100"
           aria-hidden
         />
         <Image

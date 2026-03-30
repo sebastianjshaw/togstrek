@@ -35,8 +35,8 @@ export function formatContinentEyebrow(continentSlug: string): string {
   return continentSlug.charAt(0).toUpperCase() + continentSlug.slice(1);
 }
 
-export function truncateDescription(text: string, max = 140): string {
-  const t = text.trim();
+export function truncateDescription(text: string | undefined, max = 140): string {
+  const t = (text ?? "").trim();
   if (t.length <= max) return t;
   return `${t.slice(0, Math.max(0, max - 1))}…`;
 }

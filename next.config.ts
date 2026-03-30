@@ -98,6 +98,16 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/asia/turkey",
+        destination: "/europe/turkiye",
+        permanent: true,
+      },
+      {
+        source: "/asia/turkey/:path*",
+        destination: "/europe/turkiye/:path*",
+        permanent: true,
+      },
+      {
         source: "/photography",
         destination: "/other-work",
         permanent: false,

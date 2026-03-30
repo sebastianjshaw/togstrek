@@ -1,9 +1,13 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import type { TogstrekMapPlace } from "@/components/togstrek-explore-map";
+import {
+  countryMarkersToMapPlaces,
+  countryMarkersToVisitedIso2,
+} from "@/lib/togstrek-visited-map-helpers";
 import type {
   TogstrekVisitedContinentId,
   TogstrekVisitedTravelDataset,
@@ -16,7 +20,7 @@ const TogstrekExploreMap = dynamic(
     ssr: false,
     loading: () => (
       <div
-        className="flex h-[min(40vh,20rem)] items-center justify-center rounded-[var(--tt-radius-sm)] border border-tt-border-muted bg-tt-surface-muted font-tt-body text-tt-text-secondary sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)]"
+        className="flex h-[min(40vh,20rem)] items-center justify-center rounded-none border border-tt-border-muted bg-tt-surface-muted font-tt-body text-tt-text-secondary sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)]"
         role="status"
       >
         Loading map…
@@ -40,7 +44,7 @@ function formatPercent(value: number): string {
 
 function statCard(label: string, value: string, emphasis?: string) {
   return (
-    <article className="rounded-[var(--tt-radius-sm)] border border-tt-border-muted bg-tt-surface-muted px-4 py-4">
+    <article className="rounded-none border border-tt-border-muted bg-tt-surface-muted px-4 py-4">
       <p className="font-tt-body text-[length:var(--tt-text-overline)] font-semibold uppercase tracking-[var(--tt-tracking-overline)] text-tt-text-tertiary">
         {label}
       </p>
@@ -63,6 +67,12 @@ export function TogstrekVisitedDashboardClient({
 }: TogstrekVisitedDashboardClientProps) {
   const [scope, setScope] = useState<ScopeMode>(lockedContinent ?? "global");
   const [mapMode, setMapMode] = useState<MapMode>("countries");
+
+  useEffect(() => {
+    if (lockedContinent) {
+      setScope(lockedContinent);
+    }
+  }, [lockedContinent]);
 
   const availableContinents = data.continents.filter((c) => c.totalCountries > 0);
 
@@ -100,17 +110,7 @@ export function TogstrekVisitedDashboardClient({
       scope === "global"
         ? data.countryMarkers
         : data.countryMarkers.filter((p) => p.continent === scope);
-    return rows.map((row) => ({
-      id: `country-${row.id}`,
-      href: row.href,
-      title: row.countryLabel,
-      excerpt:
-        row.citiesVisited === 1
-          ? "1 place story in this country."
-          : `${row.citiesVisited} place stories in this country.`,
-      longitude: row.longitude,
-      latitude: row.latitude,
-    }));
+    return countryMarkersToMapPlaces(rows);
   }, [data.countryMarkers, scope]);
 
   const cityPoints = useMemo<TogstrekMapPlace[]>(() => {
@@ -137,15 +137,7 @@ export function TogstrekVisitedDashboardClient({
       scope === "global"
         ? data.countryMarkers
         : data.countryMarkers.filter((p) => p.continent === scope);
-    const seen = new Set<string>();
-    const out: string[] = [];
-    for (const m of rows) {
-      if (m.iso2 && !seen.has(m.iso2)) {
-        seen.add(m.iso2);
-        out.push(m.iso2);
-      }
-    }
-    return out;
+    return countryMarkersToVisitedIso2(rows);
   }, [data.countryMarkers, scope]);
 
   const topCountries = useMemo(() => {
@@ -246,7 +238,7 @@ export function TogstrekVisitedDashboardClient({
         />
       </div>
 
-      <div className="mt-[var(--tt-space-6)] rounded-[var(--tt-radius-sm)] border border-tt-border-muted bg-tt-surface-muted px-4 py-4">
+      <div className="mt-[var(--tt-space-6)] rounded-none border border-tt-border-muted bg-tt-surface-muted px-4 py-4">
         <p className="font-tt-display text-[length:var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-primary">
           Most explored countries in this view
         </p>

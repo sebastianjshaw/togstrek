@@ -205,6 +205,41 @@ export function togstrekHikingArticleJsonLd(input: {
   return o;
 }
 
+/** Article + BreadcrumbList for long-form adventure stories (`/adventures/…`). */
+export function togstrekAdventureStoryJsonLdGraph(input: {
+  headline: string;
+  description: string;
+  urlPath: string;
+  datePublished?: string;
+  dateModified?: string;
+  imageUrl?: string;
+  breadcrumb: { name: string; path: string }[];
+}): Record<string, unknown> {
+  const pageUrl = togstrekAbsoluteUrl(input.urlPath);
+  const origin = getTogstrekSiteOrigin().replace(/\/+$/, "");
+  const personId = getTogstrekAuthorPersonId();
+  const article: Record<string, unknown> = {
+    "@type": "Article",
+    "@id": `${pageUrl}#article`,
+    headline: input.headline,
+    description: input.description,
+    url: pageUrl,
+    author: { "@id": personId },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: `${origin}/`,
+    },
+  };
+  if (input.datePublished) article.datePublished = input.datePublished;
+  if (input.dateModified) article.dateModified = input.dateModified;
+  if (input.imageUrl) article.image = [input.imageUrl];
+  return {
+    "@context": "https://schema.org",
+    "@graph": [article, togstrekBreadcrumbListSchema(input.breadcrumb)],
+  };
+}
+
 function togstrekTrailPropertyValues(input: {
   trailDistanceKm?: number;
   trailDifficulty?: string;

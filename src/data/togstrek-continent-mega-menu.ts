@@ -2,10 +2,7 @@ import {
   togstrekContinentNavMegaItems,
   type TogstrekNavMegaContinentId,
 } from "@/data/togstrek-continent-nav-mega-items";
-import {
-  togstrekAdventuresImage,
-  togstrekAdventuresPortfolioGrid,
-} from "@/data/togstrek-adventures-page";
+import { findTogstrekAdventureArchiveItemByHref } from "@/lib/togstrek-adventure-content-fs";
 import {
   type TogstrekUnContinentId,
   togstrekUn195Countries,
@@ -122,10 +119,8 @@ const togstrekContinentMegaMenuFeaturedAdventureHrefByContinent: Record<
   "south-america": "/adventures/2019-chasing-the-beagle",
 };
 
-function togstrekAdventurePortfolioRowByHref(
-  href: string,
-): (typeof togstrekAdventuresPortfolioGrid)[number] | undefined {
-  return togstrekAdventuresPortfolioGrid.find((p) => p.href === href);
+function togstrekAdventurePortfolioRowByHref(href: string) {
+  return findTogstrekAdventureArchiveItemByHref(href);
 }
 
 /** Image + title for the continent mega menu “Adventures” aside. */
@@ -153,7 +148,7 @@ export function buildTogstrekMegaMenuFeaturedAdventureByContinent(): Record<
         {
           href: row.href,
           title: row.title,
-          imageSrc: togstrekAdventuresImage(row.imageFile),
+          imageSrc: row.imageSrc,
           imageAlt: row.imageAlt,
         } satisfies TogstrekContinentMegaMenuFeaturedAdventure,
       ] as const;

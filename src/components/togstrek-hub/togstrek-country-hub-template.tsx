@@ -33,6 +33,8 @@ export type TogstrekCountryHubTemplateProps = {
   /** Optional pull-quote under the lead (e.g. attributed line for select countries). */
   headerQuote?: { body: string; attribution: string };
   breadcrumbItems: TogstrekBreadcrumbItem[];
+  /** Optional block after breadcrumb, before the map (e.g. UK nation cards). */
+  beforeMapSlot?: ReactNode;
   map: TogstrekCountryHubMapSlotProps;
   places: TogstrekCountryHubPlacesSlotProps;
 };
@@ -49,6 +51,7 @@ export function TogstrekCountryHubTemplate({
   lead,
   headerQuote,
   breadcrumbItems,
+  beforeMapSlot,
   map,
   places,
 }: TogstrekCountryHubTemplateProps) {
@@ -76,8 +79,14 @@ export function TogstrekCountryHubTemplate({
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
         <TogstrekBreadcrumb items={breadcrumbItems} />
 
+        {beforeMapSlot ? (
+          <div className="togstrek-country-hub-before-map mt-[var(--tt-space-10)]">
+            {beforeMapSlot}
+          </div>
+        ) : null}
+
         <section
-          className="togstrek-country-hub-map-section mt-[var(--tt-space-10)]"
+          className={`togstrek-country-hub-map-section ${beforeMapSlot ? "mt-[var(--tt-space-16)]" : "mt-[var(--tt-space-10)]"}`}
           aria-labelledby={map.mapHeadingId}
         >
           <TogstrekSectionHeader

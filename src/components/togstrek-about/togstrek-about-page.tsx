@@ -76,8 +76,8 @@ export function TogstrekAboutPage() {
           </p>
           <p className="mt-[var(--tt-space-4)] max-w-[52ch] font-tt-body text-[length:var(--tt-text-lead)] font-semibold leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
             By the time I was 18, I&apos;d lived in the UK, the USA, Singapore,
-            the Netherlands and Nigeria. I&apos;ve never stopped, and so by the
-            end of 2021, I&apos;ve visited 62 countries at least once.
+            the Netherlands and Nigeria. I&apos;ve never stopped moving and by the
+            end of 2025, I&apos;d visited 74 countries and special territories at least once.
           </p>
           <p className="mt-[var(--tt-space-6)] max-w-[52ch] font-tt-body text-[length:var(--tt-text-lead)] font-semibold leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
             I&apos;ve been asked,{" "}
@@ -162,7 +162,7 @@ export function TogstrekAboutPage() {
               <TogstrekBodyLink href="/contact">Contact me</TogstrekBodyLink>{" "}
               for more info — or read{" "}
               <TogstrekBodyLink href="/copyright">
-                usage & copyright
+                Usage & copyright
               </TogstrekBodyLink>{" "}
               if you want to quote a photograph.
             </p>

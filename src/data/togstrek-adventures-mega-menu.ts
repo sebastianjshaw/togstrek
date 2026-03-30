@@ -1,12 +1,18 @@
 /**
  * Featured adventure cards for the primary nav “Adventures” mega menu (desktop + mobile).
+ *
+ * Card data is built on the server from `listSortedTogstrekAdventureArchiveItems()` — see
+ * `togstrek-adventures-mega-menu-cards.ts`. This module stays client-safe (no `fs`).
  */
 
-import { togstrekMediaUrl } from "@/config/togstrek-media";
-
-function togstrekAdventuresMegaImage(filename: string): string {
-  return togstrekMediaUrl(`adventures/${filename}`);
-}
+/** Shape expected from the adventure archive (matches `TogstrekAdventureArchiveItem`). */
+export type TogstrekAdventuresMegaPortfolioRow = {
+  href: string;
+  title: string;
+  imageSrc: string;
+  imageAlt: string;
+  published?: string;
+};
 
 export type TogstrekAdventuresMegaFeaturedCard = {
   href: `/${string}`;
@@ -21,51 +27,65 @@ export type TogstrekAdventuresMegaFeaturedCard = {
   spotlightCtaLabel?: string;
 };
 
-export const togstrekAdventuresMegaFeaturedCards: TogstrekAdventuresMegaFeaturedCard[] =
-  [
+/** Optional dimensions + copy for spotlight; keyed by adventure href. */
+const MEGA_CARD_META: Partial<
+  Record<
+    string,
     {
-      href: "/adventures/2022-the-roof-of-africa",
-      title: "2022: The Roof of Africa",
-      imageSrc: togstrekAdventuresMegaImage(
-        "01-Mweka-Camp-Mweka-Gate-003A3115-868.jpg",
-      ),
-      imageAlt:
-        "Mount Kilimanjaro framed by lush green forest with hanging moss.",
-      width: 1980,
-      height: 1321,
-      spotlightTagline:
-        "Kilimanjaro from rainforest to summit — heat, ice, and the long walk down.",
-      spotlightCtaLabel: "Open The Roof of Africa",
-    },
-    {
-      href: "/adventures/2021-pink-streets-blue-tiles",
-      title: "2021: Pink Streets & Blue Tiles",
-      imageSrc:
-        "https://images.squarespace-cdn.com/content/v1/6207d70ece223e42dd9ae587/1644686266006-D6LQC5CR3X9ZPONM7RXG/eebabc2b99d71eff.jpg",
-      imageAlt:
-        "Traditional boats on the Douro River in Porto, Portugal, with hillside buildings and a blue sky in the background.",
-      width: 2880,
-      height: 1440,
-      spotlightTagline:
-        "Porto in river light — azulejos, wine country edges, and city rhythm.",
-      spotlightCtaLabel: "Open Pink Streets & Blue Tiles",
-    },
-    {
-      href: "/adventures/2020-443-kilometres",
-      title: "2020: 443 Kilometres",
-      imageSrc: togstrekAdventuresMegaImage(
-        "03-Alesjaure-to-Tjaktja-0007.jpg",
-      ),
-      imageAlt:
-        "Tent pitched near a scenic lake with mountains in the background under cloudy skies",
-      width: 1920,
-      height: 1280,
-      spotlightTagline:
-        "The King’s Trail, hut to hut — Swedish summer as a 443 km line on the map.",
-      spotlightCtaLabel: "Open 443 Kilometres",
-    },
-  ];
+      width: number;
+      height: number;
+      spotlightTagline: string;
+      spotlightCtaLabel: string;
+    }
+  >
+> = {
+  "/adventures/2023-hulduflk": {
+    width: 1920,
+    height: 1280,
+    spotlightTagline:
+      "Iceland’s waterfalls, hidden folk tales, and the long light of summer on the road.",
+    spotlightCtaLabel: "Open Huldufólk",
+  },
+  "/adventures/2022-ruins-of-central-america": {
+    width: 1920,
+    height: 1280,
+    spotlightTagline:
+      "Maya cities and jungle-shaded plazas from Mexico to the highlands.",
+    spotlightCtaLabel: "Open Ruins of Central America",
+  },
+  "/adventures/2022-the-roof-of-africa": {
+    width: 1980,
+    height: 1321,
+    spotlightTagline:
+      "Kilimanjaro from rainforest to summit — heat, ice, and the long walk down.",
+    spotlightCtaLabel: "Open The Roof of Africa",
+  },
+};
+
+/**
+ * Top three entries from an archive list already sorted newest-first
+ * (`listSortedTogstrekAdventureArchiveItems`).
+ */
+export function buildTogstrekAdventuresMegaFeaturedCards(
+  archiveSortedNewestFirst: readonly TogstrekAdventuresMegaPortfolioRow[],
+): TogstrekAdventuresMegaFeaturedCard[] {
+  const topThree = archiveSortedNewestFirst.slice(0, 3);
+
+  return topThree.map((item) => {
+    const meta = MEGA_CARD_META[item.href];
+    return {
+      href: item.href as `/${string}`,
+      title: item.title,
+      imageSrc: item.imageSrc,
+      imageAlt: item.imageAlt,
+      width: meta?.width ?? 1920,
+      height: meta?.height ?? 1280,
+      spotlightTagline: meta?.spotlightTagline ?? item.title,
+      spotlightCtaLabel: meta?.spotlightCtaLabel ?? "Open adventure",
+    };
+  });
+}
 
 /** Short line below the featured cards (matches legacy Squarespace mega content). */
 export const togstrekAdventuresMegaTagline =
-  "Sometimes my travels are bigger and deserve more attention. I’ve walked 443km of Sweden and been to the ends of the world.";
+  "Sometimes my travels are bigger and deserve more attention — from Iceland’s falls to Maya plazas and the roof of Africa.";

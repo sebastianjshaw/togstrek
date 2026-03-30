@@ -3,7 +3,7 @@
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./togstrek-explore-map.css";
 
-import type { Map as MapLibreMap } from "maplibre-gl";
+import type { FilterSpecification, Map as MapLibreMap } from "maplibre-gl";
 import type { ComponentProps } from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Map, {
@@ -47,7 +47,10 @@ const TOGSTREK_MAP_DARK_STYLE = {
   ],
 };
 
-/** Natural Earth 110m countries — `properties.ISO_A2` for MapLibre filters. */
+/**
+ * Natural Earth 110m admin-0 countries. Some rows use `ISO_A2: "-99"` and put
+ * real alpha-2 codes on `WB_A2` and/or `ISO_A2_EH` (e.g. France, Norway).
+ */
 const TOGSTREK_MAP_NE110_COUNTRIES_GEOJSON =
   "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson";
 
@@ -115,6 +118,12 @@ export function TogstrekExploreMap({
   const mapRef = useRef<MapRef>(null);
   const index = useMemo(() => placesToIndex(places), [places]);
 
+  /** Remount Map when points change so `onLoad` refits — avoids effect/fitBounds loops with `onMoveEnd`. */
+  const placesFitKey = useMemo(
+    () => places.map((p) => `${p.id}:${p.longitude}:${p.latitude}`).join("|"),
+    [places],
+  );
+
   const [bounds, setBounds] = useState<[number, number, number, number]>([
     -20, 35, 45, 72,
   ]);
@@ -152,6 +161,10 @@ export function TogstrekExploreMap({
     );
   }, [places]);
 
+  useEffect(() => {
+    setSelected(null);
+  }, [placesFitKey]);
+
   const onClusterClick = useCallback(
     (clusterId: number, lng: number, lat: number) => {
       const expansion = index.getClusterExpansionZoom(clusterId);
@@ -182,7 +195,7 @@ export function TogstrekExploreMap({
   if (places.length === 0) {
     return (
       <div
-        className={`togstrek-explore-map-empty rounded-[var(--tt-radius-sm)] border border-tt-border-muted bg-tt-surface-muted px-6 py-12 text-center font-tt-body text-tt-text-secondary ${className}`}
+        className={`togstrek-explore-map-empty rounded-none border border-tt-border-muted bg-tt-surface-muted px-6 py-12 text-center font-tt-body text-tt-text-secondary ${className}`}
         role="status"
       >
         No places to show on the map yet.
@@ -205,20 +218,24 @@ export function TogstrekExploreMap({
     [visitedCountryIso2],
   );
 
-  const visitedCountryFillFilter:
-    | ["in", ["get", string], ["literal", string[]]]
-    | undefined =
+  const visitedCountryFillFilter: FilterSpecification | undefined =
     visitedIso2Codes.length > 0
-      ? ["in", ["get", "ISO_A2"], ["literal", visitedIso2Codes]]
+      ? [
+          "any",
+          ["in", ["get", "ISO_A2"], ["literal", visitedIso2Codes]],
+          ["in", ["get", "WB_A2"], ["literal", visitedIso2Codes]],
+          ["in", ["get", "ISO_A2_EH"], ["literal", visitedIso2Codes]],
+        ]
       : undefined;
 
   return (
     <div
-      className={`togstrek-explore-map relative h-[min(40vh,20rem)] w-full min-h-0 overflow-hidden rounded-[var(--tt-radius-sm)] border border-tt-border-default shadow-[var(--tt-shadow-sm)] sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)] ${className}`}
+      className={`togstrek-explore-map relative h-[min(40vh,20rem)] w-full min-h-0 overflow-hidden rounded-none border border-tt-border-default shadow-[var(--tt-shadow-sm)] sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)] ${className}`}
       role="region"
       aria-label={ariaLabel}
     >
       <Map
+        key={placesFitKey}
         ref={mapRef}
         initialViewState={startView}
         mapStyle={
@@ -227,7 +244,6 @@ export function TogstrekExploreMap({
         style={{ width: "100%", height: "100%" }}
         onMoveEnd={onMoveEnd}
         onLoad={fitToPlaces}
-        reuseMaps
       >
         {visitedCountryFillFilter ? (
           <Source

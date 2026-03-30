@@ -7,6 +7,7 @@ import { TogstrekSiteHeader } from "@/components/togstrek-site-header";
 import { TogstrekSkipLink } from "@/components/togstrek-skip-link";
 import { getTogstrekMediaBaseUrl } from "@/config/togstrek-media";
 import { togstrekLayoutJsonLdGraph } from "@/lib/togstrek-json-ld";
+import { getTogstrekSiteOrigin } from "@/lib/togstrek-site-url";
 
 /** Display face only uses semibold (600), bold (700), extrabold (800) in components. */
 const fontSyne = Syne({
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
   },
   description:
     "The most exciting journey is the next one… Curious travel guides and photo essays that go deeper into countries, places, hikes, and the stories behind the frame.",
-  metadataBase: new URL("https://togstrek.com"),
+  metadataBase: new URL(getTogstrekSiteOrigin()),
   manifest: "/site.webmanifest",
   icons: {
     icon: [
@@ -96,13 +97,14 @@ export default function RootLayout({
         <TogstrekJsonLd data={togstrekLayoutJsonLdGraph()} />
         <TogstrekSkipLink />
         <TogstrekSiteHeader />
-        <main
+        {/* Single <main> per route lives in page templates; wrapper is for skip-link target only. */}
+        <div
           id="togstrek-main"
           className="flex min-h-0 min-w-0 flex-1 flex-col"
           tabIndex={-1}
         >
           {children}
-        </main>
+        </div>
         <TogstrekSiteFooter />
       </body>
     </html>

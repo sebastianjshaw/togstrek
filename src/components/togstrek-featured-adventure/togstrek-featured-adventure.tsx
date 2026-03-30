@@ -10,6 +10,20 @@ import type { TogstrekFeaturedAdventureContent } from "@/data/togstrek-featured-
 import { togstrekFeaturedAlpineAdventure } from "@/data/togstrek-featured-alpine-adventure";
 import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
+function TogstrekFeaturedAdventureCtaLabelText({
+  adventure,
+}: {
+  adventure: TogstrekFeaturedAdventureContent;
+}) {
+  const short = adventure.ctaLabelMobile ?? "Open adventure";
+  return (
+    <>
+      <span className="sm:hidden">{short}</span>
+      <span className="hidden sm:inline">{adventure.ctaLabel}</span>
+    </>
+  );
+}
+
 type TogstrekFeaturedAdventureLayout = "media" | "panel";
 
 type TogstrekFeaturedAdventureProps = {
@@ -68,7 +82,7 @@ export function TogstrekFeaturedAdventure({
               <span
                 className={`togstrek-featured-adventure-cta pointer-events-none mt-[var(--tt-space-8)] ${togstrekCtaAccentSolidGroupClassName}`}
               >
-                {adventure.ctaLabel}
+                <TogstrekFeaturedAdventureCtaLabelText adventure={adventure} />
               </span>
             </div>
           </Link>
@@ -79,30 +93,45 @@ export function TogstrekFeaturedAdventure({
 
   return (
     <section
-      className="togstrek-featured-adventure togstrek-featured-adventure--panel border border-tt-border-muted bg-tt-surface-muted p-6 sm:p-8"
+      className="togstrek-featured-adventure togstrek-featured-adventure--panel overflow-hidden border border-tt-border-muted bg-tt-surface-muted"
       aria-labelledby={sectionAriaLabelledBy}
     >
-      <p className="font-tt-display text-[length:var(--tt-text-overline)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-accent">
-        {kicker}
-      </p>
-      <h2
-        id={sectionAriaLabelledBy}
-        className="mt-[var(--tt-space-3)] font-tt-display text-[length:var(--tt-text-title)] font-bold text-tt-text-primary"
-      >
-        {adventure.title}
-      </h2>
-      <p className="mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-secondary">
-        {adventure.tagline}
-      </p>
-      <p className="mt-[var(--tt-space-6)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
-        {adventure.body}
-      </p>
-      <TogstrekCtaOutlineAccentLink
-        href={adventure.href}
-        className="mt-[var(--tt-space-8)]"
-      >
-        {adventure.ctaLabel}
-      </TogstrekCtaOutlineAccentLink>
+      <div className="togstrek-featured-adventure-panel-grid grid grid-cols-1 md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] md:items-stretch md:gap-0">
+        <div className="togstrek-featured-adventure-panel-image-wrap relative order-1 aspect-[16/10] min-h-[12.5rem] w-full border-b border-tt-border-muted md:order-2 md:aspect-auto md:min-h-[min(22rem,42vh)] md:border-b-0 md:border-l md:border-tt-border-muted">
+          <Image
+            src={adventure.imageSrc}
+            alt={adventure.imageAlt}
+            fill
+            unoptimized={togstrekUnoptimizedRemoteImageInDev(adventure.imageSrc)}
+            className="object-cover object-center"
+            sizes="(max-width:768px) 100vw, 42vw"
+          />
+        </div>
+        <div className="togstrek-featured-adventure-panel-copy order-2 flex flex-col justify-center p-6 sm:p-8 md:order-1">
+          <p className="font-tt-display text-[length:var(--tt-text-overline)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-accent">
+            {kicker}
+          </p>
+          <h2
+            id={sectionAriaLabelledBy}
+            className="mt-[var(--tt-space-3)] font-tt-display text-[length:var(--tt-text-title)] font-bold text-tt-text-primary"
+          >
+            {adventure.title}
+          </h2>
+          <p className="mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-secondary">
+            {adventure.tagline}
+          </p>
+          <p className="mt-[var(--tt-space-6)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
+            {adventure.body}
+          </p>
+          <TogstrekCtaOutlineAccentLink
+            href={adventure.href}
+            className="togstrek-featured-adventure-panel-cta mt-[var(--tt-space-8)] max-sm:whitespace-normal max-sm:py-2.5"
+            aria-label={adventure.ctaLabel}
+          >
+            <TogstrekFeaturedAdventureCtaLabelText adventure={adventure} />
+          </TogstrekCtaOutlineAccentLink>
+        </div>
+      </div>
     </section>
   );
 }

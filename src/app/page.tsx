@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { unstable_noStore as noStore } from "next/cache";
 
 import { TogstrekFeaturedAdventure } from "@/components/togstrek-featured-adventure/togstrek-featured-adventure";
+import { TogstrekHomeVisitedMapSection } from "@/components/togstrek-home/togstrek-home-visited-map-section";
 import { TogstrekPageHero } from "@/components/togstrek-page-hero";
 import { TogstrekRegionGrid } from "@/components/togstrek-region-grid";
 import { TogstrekCtaGhostInverseLink } from "@/components/togstrek-ui/togstrek-cta-ghost-inverse-link";
@@ -78,6 +79,7 @@ export default function HomePage() {
         adventure={spotlightAdventure}
         sectionAriaLabelledBy="togstrek-home-spotlight-heading"
       />
+      <TogstrekHomeVisitedMapSection />
       <TogstrekRegionGrid />
     </>
   );

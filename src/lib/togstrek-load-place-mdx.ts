@@ -79,20 +79,6 @@ export async function loadTogstrekPlaceMdx(
 }
 
 /**
- * Country folder slug from a hub `href` (`/denmark` or `/south-america/ecuador`).
- */
-export function parseTogstrekCountryHubHrefToCountrySlug(
-  continentSlug: string,
-  href: string | undefined,
-): string | undefined {
-  if (!href) return undefined;
-  const parts = href.split("/").filter(Boolean);
-  if (parts.length === 1) return parts[0];
-  if (parts.length >= 2 && parts[0] === continentSlug) return parts[1];
-  return undefined;
-}
-
-/**
  * First place hero under the country content folder (sorted by place path) — for continent hub tiles.
  */
 export function pickTogstrekCountryHubTileHeroFromPlaces(options: {
@@ -101,15 +87,28 @@ export function pickTogstrekCountryHubTileHeroFromPlaces(options: {
   hubHref: string | undefined;
 }): { src: string; alt: string } | undefined {
   const { continentSlug, unCountryName, hubHref } = options;
-  const fromHref = parseTogstrekCountryHubHrefToCountrySlug(
-    continentSlug,
-    hubHref,
+
+  /** Content folder may differ from the hub’s continent (e.g. TR listed under Asia but stories live under `/europe/turkiye`). */
+  let contentContinent = continentSlug;
+  let countrySlug = togstrekUnCountryNameToUrlSlug(unCountryName);
+
+  if (hubHref) {
+    const parts = hubHref.split("/").filter(Boolean);
+    if (parts.length >= 2) {
+      contentContinent = parts[0]!;
+      countrySlug = parts[1]!;
+    } else if (parts.length === 1) {
+      countrySlug = parts[0]!;
+    }
+  }
+
+  const places = listTogstrekPlaceSlugsForCountry(
+    contentContinent,
+    countrySlug,
   );
-  const countrySlug = fromHref ?? togstrekUnCountryNameToUrlSlug(unCountryName);
-  const places = listTogstrekPlaceSlugsForCountry(continentSlug, countrySlug);
   for (const { place } of places) {
     const fm = loadTogstrekPlaceFrontmatterOnly(
-      continentSlug,
+      contentContinent,
       countrySlug,
       place,
     );

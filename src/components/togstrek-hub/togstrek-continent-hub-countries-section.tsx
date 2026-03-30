@@ -2,7 +2,10 @@ import type { ReactNode } from "react";
 
 import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
-import { togstrekCountryHubPathByIso2 } from "@/data/togstrek-country-hub-paths";
+import {
+  togstrekCountryHubPathByIso2,
+  togstrekCountryHubTileTitleByIso2,
+} from "@/data/togstrek-country-hub-paths";
 import { getTogstrekCountryHubTileQuote } from "@/data/togstrek-country-hub-list-quotes";
 import type { TogstrekUn195Country } from "@/data/togstrek-un195-countries";
 import {
@@ -26,6 +29,9 @@ function togstrekContinentHubCountryListItems(
       unCountryName: c.name,
       hubHref: href,
     });
+    const tileTitle =
+      togstrekCountryHubTileTitleByIso2[c.iso2] ?? c.name;
+
     return (
       <li
         key={c.iso2}
@@ -34,7 +40,7 @@ function togstrekContinentHubCountryListItems(
         <TogstrekLinkCard
           variant="compact"
           href={href}
-          title={c.name}
+          title={tileTitle}
           quote={quote}
           size="comfortable"
           imageSrc={tileHero?.src}

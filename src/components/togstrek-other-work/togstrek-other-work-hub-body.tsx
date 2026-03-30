@@ -27,9 +27,9 @@ export function TogstrekOtherWorkHubBody() {
           <Link
             key={item.href}
             href={item.href}
-            className="togstrek-other-work-hub-section-card group block rounded-[var(--tt-radius-sm)] border border-tt-border-muted bg-tt-surface-base p-1.5 outline-none transition hover:border-tt-border-accent focus-visible:ring-2 focus-visible:ring-tt-accent sm:p-2"
+            className="togstrek-other-work-hub-section-card group block rounded-none border border-tt-border-muted bg-tt-surface-base p-1.5 outline-none transition hover:border-tt-border-accent focus-visible:ring-2 focus-visible:ring-tt-accent sm:p-2"
           >
-            <div className="togstrek-other-work-hub-section-card-media relative aspect-[4/3] w-full overflow-hidden rounded-[calc(var(--tt-radius-sm)-2px)] bg-tt-surface-muted">
+            <div className="togstrek-other-work-hub-section-card-media relative aspect-[4/3] w-full overflow-hidden rounded-none bg-tt-surface-muted">
               <Image
                 src={item.imageSrc}
                 alt={item.imageAlt}

@@ -5,6 +5,7 @@ import {
   TogstrekCountryHubTemplate,
   TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK,
 } from "@/components/togstrek-hub/togstrek-country-hub-template";
+import { TogstrekUkNationsStrip } from "@/components/togstrek-hub/togstrek-uk-nations-strip";
 import { TogstrekCountryHubMap } from "@/components/togstrek-place/togstrek-country-hub-map";
 import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import type { TogstrekMapPlace } from "@/components/togstrek-explore-map/types";
@@ -133,6 +134,8 @@ export default async function TogstrekCountryHubPage({
       ? togstrekCountryHubHeaderQuoteByIso2[iso2]
       : undefined;
 
+  const isUnitedKingdom = country === "united-kingdom";
+
   return (
     <TogstrekCountryHubTemplate
       titleId="togstrek-country-hub-title"
@@ -147,6 +150,7 @@ export default async function TogstrekCountryHubPage({
         { href: `/${continent}`, label: continentLabel },
         { label: countryLabel },
       ]}
+      beforeMapSlot={isUnitedKingdom ? <TogstrekUkNationsStrip /> : undefined}
       map={{
         title: "Map",
         description:
@@ -161,9 +165,10 @@ export default async function TogstrekCountryHubPage({
         ),
       }}
       places={{
-        title: "Places",
-        description:
-          "Open a story — photos, maps, and notes from each location.",
+        title: isUnitedKingdom ? "All places" : "Places",
+        description: isUnitedKingdom
+          ? "Every place story in the United Kingdom — open a card for photos, maps, and notes."
+          : "Open a story — photos, maps, and notes from each location.",
         placesHeadingId: "togstrek-country-hub-places-heading",
         children: (
           <>

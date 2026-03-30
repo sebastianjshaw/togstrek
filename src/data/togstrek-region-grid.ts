@@ -26,12 +26,21 @@ export const togstrekRegionGridItems: TogstrekRegionGridItem[] = [
     label: "Adventures",
     blurb: "Longer trips & focused stories",
     gradient: "from-[#1a1420] via-[#2d1f28] to-[#e31937]/40",
+    imageSrc: mediaPath(
+      "adventures/20230731-Goðafoss+Waterfall-20230731-003A1664-HDR.jpg",
+    ),
+    imageAlt:
+      "Goðafoss waterfall plunging into a gorge, spray rising over basalt cliffs, Iceland",
   },
   {
     href: "/africa",
     label: "Africa",
     blurb: "Deserts, cities, wildlife",
     gradient: "from-[#3d2914] via-[#6b3a1a] to-[#1a1420]",
+    imageSrc: mediaPath(
+      "/africa/tanzania/ngorongoro-crater/DxO-20220316-0004.jpg",
+    ),
+    imageAlt: "Ngorongoro Crater landscape with zebra, Tanzania",
   },
   {
     href: "/antarctica",
@@ -49,6 +58,8 @@ export const togstrekRegionGridItems: TogstrekRegionGridItem[] = [
     label: "Asia",
     blurb: "Temples to skylines",
     gradient: "from-[#1a1420] via-[#4a1538] to-[#e31937]/35",
+    imageSrc: mediaPath("/asia/nepal/bhaktapur/HDR+3-001.jpg"),
+    imageAlt: "Bhaktapur temple architecture and courtyard, Nepal",
   },
   {
     href: "/europe",
@@ -98,6 +109,11 @@ export const togstrekRegionGridItems: TogstrekRegionGridItem[] = [
     label: "Hiking",
     blurb: "Trails & treks",
     gradient: "from-[#1b2a1e] via-[#2f4a32] to-[#8fbc8f]/25",
+    imageSrc: mediaPath(
+      "/hiking/mt-kilimanjaro/03-shira-camp-barranco-camp/05+Sunset-20220308-02743a3.jpg",
+    ),
+    imageAlt:
+      "Sunset light on Mount Kilimanjaro between Shira Camp and Barranco Camp",
   },
   {
     href: "/other-work",

@@ -20,10 +20,7 @@ import {
   togstrekContinentNavMegaItems,
   type TogstrekNavMegaContinentId,
 } from "@/data/togstrek-continent-nav-mega-items";
-import {
-  togstrekAdventuresMegaFeaturedCards,
-  togstrekAdventuresMegaTagline,
-} from "@/data/togstrek-adventures-mega-menu";
+import type { TogstrekAdventuresMegaFeaturedCard } from "@/data/togstrek-adventures-mega-menu";
 import {
   togstrekSectionMegaMenuByKey,
   togstrekSectionMegaMenuList,
@@ -32,6 +29,18 @@ import {
 import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
 const MEGA_CLOSE_MS = 200;
+
+/** Associates desktop mega triggers with the dropdown panel for assistive tech. */
+const HEADER_MEGA_PANEL_ID = "togstrek-site-header-mega-panel";
+
+const TT_FOCUS_RING_HEADER =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-2 focus-visible:ring-offset-tt-surface-base rounded-sm";
+
+const TT_FOCUS_RING_MOBILE_SUMMARY = `${TT_FOCUS_RING_HEADER} rounded-[var(--tt-radius-sm)]`;
+
+const DESKTOP_MEGA_TRIGGER_CLASS =
+  "text-tt-text-secondary transition-colors duration-[var(--tt-duration-fast)] hover:text-tt-accent " +
+  TT_FOCUS_RING_HEADER;
 
 function isSectionMegaKey(
   key: OpenMegaKey,
@@ -149,7 +158,7 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
                 onClick={onNavigate}
                 className="togstrek-site-header-mega-panel-aside-adventure-card group block"
               >
-                <div className="togstrek-site-header-mega-panel-aside-adventure-image relative aspect-[4/3] w-full overflow-hidden rounded-[var(--tt-radius-sm)] border border-tt-border-muted bg-tt-surface-muted">
+                <div className="togstrek-site-header-mega-panel-aside-adventure-image relative aspect-[4/3] w-full overflow-hidden rounded-none border border-tt-border-muted bg-tt-surface-muted">
                   <Image
                     src={aside.featuredAdventure.imageSrc}
                     alt={aside.featuredAdventure.imageAlt}
@@ -202,12 +211,16 @@ export type TogstrekSiteHeaderPrimaryNavProps = {
     TogstrekNavMegaContinentId,
     TogstrekContinentMegaMenuFeaturedAdventure | null
   >;
+  adventuresMegaFeaturedCards: TogstrekAdventuresMegaFeaturedCard[];
+  adventuresMegaTagline: string;
 };
 
 export function TogstrekSiteHeaderPrimaryNav({
   megaMenuNavLinks,
   megaMenuTaglines,
   megaMenuFeaturedAdventureByContinent,
+  adventuresMegaFeaturedCards,
+  adventuresMegaTagline,
 }: TogstrekSiteHeaderPrimaryNavProps) {
   const [openMegaKey, setOpenMegaKey] = useState<OpenMegaKey | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -324,9 +337,10 @@ export function TogstrekSiteHeaderPrimaryNav({
           >
             <Link
               href="/adventures"
-              className="text-tt-text-secondary transition-colors duration-[var(--tt-duration-fast)] hover:text-tt-accent"
+              className={DESKTOP_MEGA_TRIGGER_CLASS}
               aria-expanded={openMegaKey === "adventures"}
               aria-haspopup="true"
+              aria-controls={HEADER_MEGA_PANEL_ID}
               onFocus={(ev) => onMegaTriggerFocus(ev, "adventures")}
               onBlur={onMegaTriggerBlur}
             >
@@ -342,9 +356,10 @@ export function TogstrekSiteHeaderPrimaryNav({
             >
               <Link
                 href={item.href}
-                className="text-tt-text-secondary transition-colors duration-[var(--tt-duration-fast)] hover:text-tt-accent"
+                className={DESKTOP_MEGA_TRIGGER_CLASS}
                 aria-expanded={openMegaKey === item.continentId}
                 aria-haspopup="true"
+                aria-controls={HEADER_MEGA_PANEL_ID}
                 onFocus={(ev) => onMegaTriggerFocus(ev, item.continentId)}
                 onBlur={onMegaTriggerBlur}
               >
@@ -361,9 +376,10 @@ export function TogstrekSiteHeaderPrimaryNav({
             >
               <Link
                 href={section.navHref}
-                className="text-tt-text-secondary transition-colors duration-[var(--tt-duration-fast)] hover:text-tt-accent"
+                className={DESKTOP_MEGA_TRIGGER_CLASS}
                 aria-expanded={openMegaKey === section.key}
                 aria-haspopup="true"
+                aria-controls={HEADER_MEGA_PANEL_ID}
                 onFocus={(ev) => onMegaTriggerFocus(ev, section.key)}
                 onBlur={onMegaTriggerBlur}
               >
@@ -376,6 +392,9 @@ export function TogstrekSiteHeaderPrimaryNav({
 
       <div
         ref={megaPanelRef}
+        id={HEADER_MEGA_PANEL_ID}
+        role="region"
+        aria-hidden={!panelVisible}
         className={`togstrek-site-header-mega-panel fixed inset-x-0 z-[100] border-b shadow-[var(--tt-shadow-elevated)] transition-[opacity,visibility] duration-[var(--tt-duration-fast)] ease-[var(--tt-ease-out)] ${
           openMegaKey === "adventures"
             ? "border-white/10 bg-tt-surface-inverse"
@@ -390,7 +409,11 @@ export function TogstrekSiteHeaderPrimaryNav({
         onMouseLeave={scheduleClose}
       >
         {openMegaKey === "adventures" ? (
-          <TogstrekSiteHeaderAdventuresMegaPanel onNavigate={closeMega} />
+          <TogstrekSiteHeaderAdventuresMegaPanel
+            onNavigate={closeMega}
+            featuredCards={adventuresMegaFeaturedCards}
+            tagline={adventuresMegaTagline}
+          />
         ) : null}
         {openContinentItem ? (
           <TogstrekSiteHeaderMegaMenuPanelBase
@@ -437,14 +460,14 @@ export function TogstrekSiteHeaderPrimaryNav({
       </div>
 
       <details className="togstrek-site-header-mobile-nav relative shrink-0 lg:hidden">
-        <summary className="flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-[var(--tt-radius-sm)] border border-tt-border-default px-3 font-tt-display text-[var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-primary touch-manipulation [&::-webkit-details-marker]:hidden">
+        <summary className={`flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-[var(--tt-radius-sm)] border border-tt-border-default px-3 font-tt-display text-[var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-primary touch-manipulation [&::-webkit-details-marker]:hidden ${TT_FOCUS_RING_MOBILE_SUMMARY}`}>
           Menu
         </summary>
         <div className="absolute right-0 z-[var(--tt-z-dropdown)] mt-2 w-[min(calc(100vw-2*var(--tt-layout-gutter)),22rem)] max-w-[calc(100vw-1rem)] border border-tt-border-default bg-tt-surface-base py-2 shadow-[var(--tt-shadow-elevated)]">
           <ul className="flex max-h-[min(75vh,36rem)] flex-col gap-0.5 overflow-y-auto overscroll-contain px-2">
             <li className="min-w-0">
               <details className="togstrek-site-header-mobile-adventures-mega rounded-[var(--tt-radius-sm)]">
-                <summary className="cursor-pointer list-none px-3 py-2 font-tt-display text-[var(--tt-text-small)] font-semibold text-tt-text-primary [&::-webkit-details-marker]:hidden">
+                <summary className={`cursor-pointer list-none px-3 py-2 font-tt-display text-[var(--tt-text-small)] font-semibold text-tt-text-primary [&::-webkit-details-marker]:hidden ${TT_FOCUS_RING_MOBILE_SUMMARY}`}>
                   <span className="flex min-h-9 items-center justify-between gap-2">
                     Adventures
                     <span className="text-tt-text-tertiary" aria-hidden>
@@ -461,7 +484,7 @@ export function TogstrekSiteHeaderPrimaryNav({
                       See all adventures →
                     </Link>
                   </li>
-                  {togstrekAdventuresMegaFeaturedCards.map((card) => (
+                  {adventuresMegaFeaturedCards.map((card) => (
                     <li key={card.href}>
                       <Link
                         href={card.href}
@@ -473,7 +496,7 @@ export function TogstrekSiteHeaderPrimaryNav({
                   ))}
                   <li className="px-2 py-2">
                     <p className="text-[length:0.7rem] font-semibold uppercase leading-snug tracking-wide text-tt-text-tertiary [overflow-wrap:anywhere]">
-                      {togstrekAdventuresMegaTagline}
+                      {adventuresMegaTagline}
                     </p>
                   </li>
                 </ul>
@@ -484,7 +507,7 @@ export function TogstrekSiteHeaderPrimaryNav({
               return (
                 <li key={c.href} className="min-w-0">
                   <details className="togstrek-site-header-mobile-continent rounded-[var(--tt-radius-sm)]">
-                    <summary className="cursor-pointer list-none px-3 py-2 font-tt-display text-[var(--tt-text-small)] font-semibold text-tt-text-primary [&::-webkit-details-marker]:hidden">
+                    <summary className={`cursor-pointer list-none px-3 py-2 font-tt-display text-[var(--tt-text-small)] font-semibold text-tt-text-primary [&::-webkit-details-marker]:hidden ${TT_FOCUS_RING_MOBILE_SUMMARY}`}>
                       <span className="flex min-h-9 items-center justify-between gap-2">
                         {c.label}
                         <span className="text-tt-text-tertiary" aria-hidden>
@@ -551,7 +574,7 @@ export function TogstrekSiteHeaderPrimaryNav({
             {togstrekSectionMegaMenuList.map((section) => (
               <li key={section.key} className="min-w-0">
                 <details className="togstrek-site-header-mobile-section-mega rounded-[var(--tt-radius-sm)]">
-                  <summary className="cursor-pointer list-none px-3 py-2 font-tt-display text-[var(--tt-text-small)] font-semibold text-tt-text-primary [&::-webkit-details-marker]:hidden">
+                  <summary className={`cursor-pointer list-none px-3 py-2 font-tt-display text-[var(--tt-text-small)] font-semibold text-tt-text-primary [&::-webkit-details-marker]:hidden ${TT_FOCUS_RING_MOBILE_SUMMARY}`}>
                     <span className="flex min-h-9 items-center justify-between gap-2">
                       {section.navLabel}
                       <span className="text-tt-text-tertiary" aria-hidden>
