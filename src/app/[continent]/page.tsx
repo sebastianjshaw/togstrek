@@ -8,9 +8,13 @@ import {
   TogstrekContinentHubTemplate,
   TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK,
 } from "@/components/togstrek-hub";
+import { TogstrekFeaturedAdventure } from "@/components/togstrek-featured-adventure/togstrek-featured-adventure";
 import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
-import { togstrekAsiaSpecialTerritories } from "@/data/togstrek-country-hub-paths";
+import {
+  togstrekAsiaSpecialTerritories,
+  togstrekEuropeSpecialTerritories,
+} from "@/data/togstrek-country-hub-paths";
 import {
   isTogstrekContinentHubRouteSlug,
   TOGSTREK_CONTINENT_HUB_ROUTE_SLUGS,
@@ -82,13 +86,23 @@ export default async function ContinentHubPage({
 
   const eyebrow = formatContinentEyebrow(continent);
 
+  const europeMapHeadingId = "togstrek-europe-map-heading";
+  const mapSectionHeadingId =
+    continent === "europe"
+      ? europeMapHeadingId
+      : `togstrek-continent-hub-map-heading-${continent}`;
+  const mapSectionTopMarginClass =
+    continent === "europe"
+      ? "mt-[var(--tt-space-20)]"
+      : "mt-[var(--tt-space-4)]";
+
   const mapSection = (
     <section
-      className="togstrek-continent-hub-map mt-[var(--tt-space-4)]"
-      aria-labelledby={`togstrek-continent-hub-map-heading-${continent}`}
+      className={`togstrek-continent-hub-map ${mapSectionTopMarginClass}`}
+      aria-labelledby={mapSectionHeadingId}
     >
       <TogstrekSectionHeader
-        id={`togstrek-continent-hub-map-heading-${continent}`}
+        id={mapSectionHeadingId}
         title="On the map"
         description={togstrekHubOnTheMapSectionDescription(eyebrow)}
       />
@@ -102,7 +116,30 @@ export default async function ContinentHubPage({
   );
 
   const afterMap =
-    continent === "asia" ? (
+    continent === "europe" ? (
+      <section
+        className="togstrek-continent-hub-special-territories mt-[var(--tt-space-20)]"
+        aria-labelledby="togstrek-europe-special-territories-heading"
+      >
+        <TogstrekSectionHeader
+          id="togstrek-europe-special-territories-heading"
+          title="Special territories"
+          description={TOGSTREK_HUB_SPECIAL_TERRITORIES_SECTION_DESCRIPTION}
+        />
+        <ul className="mt-[var(--tt-space-10)] grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {togstrekEuropeSpecialTerritories.map((t) => (
+            <li key={t.href}>
+              <TogstrekLinkCard
+                variant="compact"
+                href={t.href}
+                title={t.label}
+                meta={t.note}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
+    ) : continent === "asia" ? (
       <section
         className="togstrek-continent-hub-special-territories mt-[var(--tt-space-20)]"
         aria-labelledby="togstrek-asia-special-territories-heading"
@@ -171,11 +208,23 @@ export default async function ContinentHubPage({
         continent={continent}
         unCountries={un195ForContinent}
         travelData={travelData}
-        regionPhrase="in this region"
-        sectionHeadingId={`togstrek-continent-hub-countries-heading-${continent}`}
+        regionPhrase={continent === "europe" ? "in Europe" : "in this region"}
+        sectionHeadingId={
+          continent === "europe"
+            ? "togstrek-europe-countries-heading"
+            : `togstrek-continent-hub-countries-heading-${continent}`
+        }
         description={meta.countriesDescription}
       />
     );
+
+  const beforeContent =
+    continent === "europe" ? (
+      <TogstrekFeaturedAdventure
+        layout="panel"
+        sectionAriaLabelledBy="togstrek-europe-adventure-heading"
+      />
+    ) : undefined;
 
   return (
     <TogstrekContinentHubTemplate
@@ -187,6 +236,7 @@ export default async function ContinentHubPage({
         imageAlt: meta.heroImageAlt,
         quote: continentHubHeroQuoteForSlug(continent),
       }}
+      beforeContent={beforeContent}
       mapSection={mapSection}
       afterMap={afterMap}
       countriesSection={countriesSection}

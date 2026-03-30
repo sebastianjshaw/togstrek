@@ -11,11 +11,13 @@ import type { TogstrekVisitedContinentId } from "@/lib/togstrek-visited-travel-d
 
 /**
  * Continents served by `src/app/[continent]/page.tsx`.
- * Europe uses the dedicated `/europe` route — metadata lives in `togstrekEuropeHubPageMeta`.
+ * `/europe` uses this dynamic route so `/europe/{country}` and place URLs resolve under
+ * `app/[continent]/[country]` (a static `app/europe/page.tsx` would block those segments).
  */
 export const TOGSTREK_CONTINENT_HUB_ROUTE_SLUGS = [
   "africa",
   "asia",
+  "europe",
   "north-america",
   "south-america",
   "oceania",
@@ -94,6 +96,7 @@ export const togstrekContinentHubPageMeta: Record<
   TogstrekContinentHubRouteSlug,
   TogstrekContinentHubPageMeta
 > = {
+  europe: togstrekEuropeHubPageMeta,
   africa: {
     title: "Exploring Africa",
     description:
