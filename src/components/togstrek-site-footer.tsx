@@ -7,7 +7,10 @@ const togstrekSiteFooterNavLinkClassName =
 
 export function TogstrekSiteFooter() {
   return (
-    <footer className="togstrek-site-footer border-t border-tt-border-muted bg-tt-surface-base py-[max(var(--tt-space-12),env(safe-area-inset-bottom))]">
+    <footer
+      className="togstrek-site-footer border-t border-tt-border-muted bg-tt-surface-base py-[max(var(--tt-space-12),env(safe-area-inset-bottom))]"
+      data-pagefind-ignore
+    >
       <TogstrekContentWidth max="content">
         <nav
           className="togstrek-site-footer-nav flex flex-wrap items-center justify-center gap-x-4 gap-y-2 sm:gap-x-6"

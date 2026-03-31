@@ -17,32 +17,58 @@ export const metadata: Metadata = buildTogstrekMetadata({
 
 export default function SearchPage() {
   return (
-    <main className="togstrek-search-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      className="togstrek-search-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+      data-pagefind-ignore
+    >
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
-        <TogstrekPageTitle id="togstrek-search-title">Search</TogstrekPageTitle>
-        <p className="togstrek-search-lead mt-[var(--tt-space-8)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
-          {SEARCH_DESCRIPTION}
-        </p>
-        {process.env.NODE_ENV === "development" ? (
-          <p className="togstrek-search-dev-hint mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary">
-            Local dev: run{" "}
-            <code className="rounded bg-tt-surface-muted px-1 py-0.5 font-mono text-[0.9em]">
-              npm run build
-            </code>{" "}
-            (or{" "}
-            <code className="rounded bg-tt-surface-muted px-1 py-0.5 font-mono text-[0.9em]">
-              npm run pagefind:index
-            </code>{" "}
-            after a build) so{" "}
-            <code className="rounded bg-tt-surface-muted px-1 py-0.5 font-mono text-[0.9em]">
-              public/pagefind
-            </code>{" "}
-            exists, then reload.
+        <header className="togstrek-search-header">
+          <TogstrekPageTitle id="togstrek-search-title">Search</TogstrekPageTitle>
+          <p className="togstrek-search-lead mt-[var(--tt-space-8)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
+            {SEARCH_DESCRIPTION}
           </p>
-        ) : null}
-        <div className="togstrek-search-pagefind-mount mt-[var(--tt-space-10)] max-w-[min(42rem,100%)]">
-          <TogstrekPagefindUi />
-        </div>
+
+          <div className="togstrek-search-suggestions mt-[var(--tt-space-8)] max-w-[min(48rem,100%)] rounded-[var(--tt-radius-lg)] border border-tt-border-muted bg-tt-surface-muted/60 px-[var(--tt-space-6)] py-[var(--tt-space-6)]">
+            <p className="font-tt-body text-[length:var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-tertiary">
+              Try searching for
+            </p>
+            <ul className="mt-[var(--tt-space-4)] flex flex-wrap gap-2">
+              {[
+                "Kungsleden",
+                "Istanbul",
+                "Tulum",
+                "Bohusleden",
+                "street photography",
+                "Svalbard",
+              ].map((term) => (
+                <li key={term}>
+                  <span className="togstrek-search-suggestion inline-flex items-center rounded-full border border-tt-border-muted bg-tt-surface-base px-3 py-1 font-tt-body text-[length:var(--tt-text-small)] text-tt-text-secondary">
+                    {term}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-[var(--tt-space-4)] max-w-[72ch] font-tt-body text-[length:var(--tt-text-small)] leading-[var(--tt-leading-relaxed)] text-tt-text-tertiary">
+              Results open instantly and work entirely on this site — no accounts,
+              no tracking pixels, no external search engine required.
+            </p>
+          </div>
+        </header>
+
+        <section
+          className="togstrek-search-pagefind-section mt-[var(--tt-space-10)]"
+          aria-labelledby="togstrek-search-ui-heading"
+        >
+          <h2
+            id="togstrek-search-ui-heading"
+            className="sr-only"
+          >
+            Search the site
+          </h2>
+          <div className="togstrek-search-pagefind-mount max-w-[min(46rem,100%)] rounded-[var(--tt-radius-xl)] border border-tt-border-muted bg-tt-surface-base px-[var(--tt-space-6)] py-[var(--tt-space-6)] shadow-[0_18px_60px_-40px_color-mix(in_srgb,var(--tt-color-ink-strong)_28%,transparent)]">
+            <TogstrekPagefindUi />
+          </div>
+        </section>
       </TogstrekContentWidth>
     </main>
   );

@@ -44,7 +44,7 @@ export default function HomePage() {
   const spotlightAdventure = pickRandomHomeSpotlightAdventure();
 
   return (
-    <>
+    <div data-pagefind-ignore>
       <TogstrekPageHero
         imageSrc={homeHero.src}
         imageAlt={homeHero.alt}
@@ -81,6 +81,6 @@ export default function HomePage() {
       />
       <TogstrekHomeVisitedMapSection />
       <TogstrekRegionGrid />
-    </>
+    </div>
   );
 }

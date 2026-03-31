@@ -21,7 +21,10 @@ const togstrekHeaderMegaMenuFeaturedAdventureByContinent =
 
 export function TogstrekSiteHeader() {
   return (
-    <header className="togstrek-site-header sticky top-0 z-50 border-b border-tt-border-muted bg-tt-surface-base/90 backdrop-blur-md">
+    <header
+      className="togstrek-site-header sticky top-0 z-50 border-b border-tt-border-muted bg-tt-surface-base/90 backdrop-blur-md"
+      data-pagefind-ignore
+    >
       <div className="togstrek-site-header-inner mx-auto flex h-[var(--tt-layout-header-height)] max-w-[var(--tt-layout-max-wide)] items-center justify-between gap-2 px-[var(--tt-layout-gutter)] sm:gap-4">
         <Link
           href="/"
