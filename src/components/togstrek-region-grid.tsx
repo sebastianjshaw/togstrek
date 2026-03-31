@@ -19,12 +19,14 @@ export function TogstrekRegionGrid() {
 
         <ul className="mt-[var(--tt-space-12)] grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-7 lg:gap-8">
           {togstrekRegionGridItems.map((region) => {
-            const isFeatured = Boolean(region.featured);
+            const spanFullWidth = Boolean(
+              region.featured || region.fullWidth,
+            );
 
             return (
               <li
                 key={region.href}
-                className={`min-w-0 ${isFeatured ? "md:col-span-2" : ""}`}
+                className={`min-w-0 ${spanFullWidth ? "md:col-span-2" : ""}`}
               >
                 <TogstrekLinkCard
                   variant="region"

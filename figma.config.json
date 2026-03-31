@@ -1,6 +1,14 @@
 {
   "codeConnect": {
-    "include": ["src/**/*.figma.tsx", "src/components/togstrek-ui/**/*.tsx"],
-    "exclude": ["**/*.test.ts", "**/*.test.tsx"]
+    "include": [
+      "src/**/*.figma.tsx",
+      "src/components/togstrek-ui/**/*.tsx",
+      "src/components/togstrek-featured-adventure/**/*.tsx",
+      "src/components/togstrek-region-grid.tsx"
+    ],
+    "exclude": ["**/*.test.ts", "**/*.test.tsx"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }

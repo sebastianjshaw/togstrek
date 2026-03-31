@@ -11,7 +11,10 @@ export type TogstrekRegionGridItem = {
   gradient: string;
   imageSrc?: string;
   imageAlt?: string;
+  /** Full-width row on md+ plus hero typography (Europe). */
   featured?: boolean;
+  /** Full-width row on md+ without featured hero styles (Other Work). */
+  fullWidth?: boolean;
 };
 
 function mediaPath(pathAfterHost: string): string {
@@ -124,5 +127,6 @@ export const togstrekRegionGridItems: TogstrekRegionGridItem[] = [
       "other-work/models/ella-de-vine/20101121-_JS_4063-406343a3.webp",
     ),
     imageAlt: "Ella De Vine — studio portrait, Models & Fashion",
+    fullWidth: true,
   },
 ];

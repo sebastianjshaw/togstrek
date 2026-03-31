@@ -4,6 +4,10 @@ import Image from "next/image";
 import { memo, useEffect, useId } from "react";
 
 import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
+import {
+  isLikelyCameraExifCaption,
+  isLikelyOpaqueIdFilenameAlt,
+} from "@/lib/togstrek-mdx-image-caption";
 
 import { useTogstrekMdxPhotoGallery } from "./togstrek-mdx-photo-gallery";
 import { useTogstrekMdxLightbox } from "./togstrek-mdx-lightbox-scope";
@@ -28,8 +32,22 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
   const inPhotoGallery = useTogstrekMdxPhotoGallery();
   const instanceId = useId();
 
-  const altText = typeof alt === "string" ? alt : "";
+  const altText = typeof alt === "string" ? alt.trim() : "";
   if (!src || typeof src !== "string") return null;
+
+  const isExifCaption = altText.length > 0 && isLikelyCameraExifCaption(altText);
+  const isOpaqueFilenameAlt =
+    altText.length > 0 &&
+    !isExifCaption &&
+    isLikelyOpaqueIdFilenameAlt(altText);
+  /** When alt is EXIF-only, keep `<img alt="">` and expose the line in `<figcaption>` (avoids duplicating long tech strings for AT). */
+  const imageAltForImg = isExifCaption
+    ? ""
+    : isOpaqueFilenameAlt
+      ? "Photograph"
+      : altText.length > 0
+        ? altText
+        : "Photograph";
 
   const w =
     typeof width === "number" ? width : Number.parseInt(String(width), 10);
@@ -40,14 +58,30 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
   const safeW = Number.isFinite(w) && w > 0 ? w : 1200;
   const safeH = Number.isFinite(h) && h > 0 ? h : 800;
 
+  const lightboxCaptionAlt = isExifCaption
+    ? altText
+    : isOpaqueFilenameAlt
+      ? "Photograph"
+      : altText || "Photograph";
+
   useEffect(() => {
     if (!ctx) return;
-    return ctx.register({ id: instanceId, src, alt: altText });
-  }, [ctx, instanceId, src, altText]);
+    return ctx.register({
+      id: instanceId,
+      src,
+      alt: lightboxCaptionAlt,
+    });
+  }, [ctx, instanceId, src, lightboxCaptionAlt]);
 
   const onOpen = () => {
     if (ctx) ctx.open(instanceId);
   };
+
+  const zoomAriaLabel = !altText
+    ? "View larger image"
+    : isExifCaption || isOpaqueFilenameAlt
+      ? "View larger photograph"
+      : `View larger: ${altText}`;
 
   return (
     <figure
@@ -57,12 +91,12 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
         type="button"
         onClick={onOpen}
         className="togstrek-mdx-image-lightbox-trigger group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left outline-none focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-2 focus-visible:ring-offset-tt-surface-base"
-        aria-label={altText ? `View larger: ${altText}` : "View larger image"}
+        aria-label={zoomAriaLabel}
       >
         <span className="togstrek-place-mdx-figure-frame relative block overflow-hidden rounded-none border border-tt-border-muted bg-tt-surface-muted">
           <Image
             src={src}
-            alt={altText}
+            alt={imageAltForImg}
             width={safeW}
             height={safeH}
             sizes={
@@ -76,9 +110,10 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
           />
         </span>
       </button>
-      {altText ? (
+      {altText && (isExifCaption || !isOpaqueFilenameAlt) ? (
         <figcaption
-          className={`mt-[var(--tt-space-3)] text-center font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary ${inPhotoGallery ? "line-clamp-2" : ""}`}
+          className={`togstrek-mdx-image-caption mt-[var(--tt-space-3)] text-center font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary ${isExifCaption ? "togstrek-mdx-image-caption--exif font-mono text-[0.85em] leading-snug tracking-tight text-tt-text-tertiary/95" : ""} ${inPhotoGallery ? "line-clamp-2" : ""}`}
+          {...(!isExifCaption ? { "aria-hidden": true } : {})}
         >
           {altText}
         </figcaption>
