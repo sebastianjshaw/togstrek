@@ -88,6 +88,15 @@ export default async function TogstrekCountryHubPage({
     notFound();
   }
 
+  const isUnitedKingdom = country === "united-kingdom";
+
+  // If a country has nested place pages (e.g. `svalbard/longyearbyen`) and also a
+  // top-level hub at the parent segment (e.g. `svalbard`), prefer the hub card
+  // and hide its children from the country grid to avoid duplicate clutter.
+  const topLevelHubs = new Set(
+    placeRows.filter((r) => r.place.length === 1).map((r) => r.place[0]!),
+  );
+
   const continentLabel = formatSlugLabel(continent);
   const countryLabel = formatSlugLabel(country);
 
@@ -102,6 +111,9 @@ export default async function TogstrekCountryHubPage({
   }[] = [];
 
   for (const { place } of placeRows) {
+    if (!isUnitedKingdom && place.length > 1 && topLevelHubs.has(place[0]!)) {
+      continue;
+    }
     const fm = loadTogstrekPlaceFrontmatterOnly(continent, country, place);
     const placeTail = togstrekPlacePathFromSegments(place);
     const href = `/${continent}/${country}/${placeTail}`;
@@ -133,8 +145,6 @@ export default async function TogstrekCountryHubPage({
     iso2 !== undefined
       ? togstrekCountryHubHeaderQuoteByIso2[iso2]
       : undefined;
-
-  const isUnitedKingdom = country === "united-kingdom";
 
   return (
     <TogstrekCountryHubTemplate

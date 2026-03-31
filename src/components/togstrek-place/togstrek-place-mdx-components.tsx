@@ -1,6 +1,8 @@
 import type { MDXComponents } from "mdx/types.js";
 
+import { TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK } from "@/components/togstrek-hub/togstrek-country-hub-template";
 import { TOGSTREK_BODY_LINK_CLASSNAME } from "@/components/togstrek-ui/togstrek-body-link";
+import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import { TogstrekMdxImageLightbox } from "@/components/togstrek-ui/togstrek-mdx-image-lightbox";
 import { TogstrekMdxParagraph } from "@/components/togstrek-ui/togstrek-mdx-paragraph";
 import { TogstrekMdxPhotoGallery } from "@/components/togstrek-ui/togstrek-mdx-photo-gallery";
@@ -67,6 +69,43 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
     /** Responsive image grid + lightbox; wrap consecutive `![alt](url)` blocks. */
     PhotoGallery: (props) => <TogstrekMdxPhotoGallery {...props} />,
     TogstrekMdxPhotoGallery: (props) => <TogstrekMdxPhotoGallery {...props} />,
+    TogstrekMdxCardGrid: ({ className, ...rest }) => (
+      <div
+        {...rest}
+        className={[
+          "togstrek-place-mdx-card-grid mt-[var(--tt-space-6)] grid max-w-[min(58rem,100%)] grid-cols-1 gap-4 sm:grid-cols-2",
+          className,
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      />
+    ),
+    TogstrekMdxPlaceCard: ({
+      href,
+      title,
+      description,
+      imageSrc,
+      imageAlt,
+    }: {
+      href?: string;
+      title?: string;
+      description?: string;
+      imageSrc?: string;
+      imageAlt?: string;
+    }) => {
+      if (!href || !title || !description) return null;
+      return (
+        <TogstrekLinkCard
+          variant="region"
+          href={href}
+          title={title}
+          description={description}
+          gradient={TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK}
+          imageSrc={imageSrc}
+          imageAlt={imageAlt}
+        />
+      );
+    },
     img: ({ className, ...rest }) => (
       <TogstrekMdxImageLightbox
         {...rest}
