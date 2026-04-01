@@ -7,6 +7,7 @@ import { discoverTogstrekPhotographySlugLists } from "@/lib/togstrek-load-photog
 import {
   discoverTogstrekCountryHubParams,
   discoverTogstrekPlaceSlugs,
+  loadTogstrekPlaceFrontmatterOnly,
 } from "@/lib/togstrek-load-place-mdx";
 import {
   togstrekSitemapLastModifiedForCountryHub,
@@ -84,8 +85,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ),
     );
 
-  const placeEntries: MetadataRoute.Sitemap = discoverTogstrekPlaceSlugs().map(
-    ({ continent, country, place }) => {
+  const placeEntries: MetadataRoute.Sitemap = discoverTogstrekPlaceSlugs()
+    .filter(
+      ({ continent, country, place }) =>
+        !loadTogstrekPlaceFrontmatterOnly(continent, country, place).draft,
+    )
+    .map(({ continent, country, place }) => {
       const tail = togstrekPlacePathFromSegments(place);
       return withOptionalLastModified(
         {
@@ -95,8 +100,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
         togstrekSitemapLastModifiedForPlace(continent, country, place),
       );
-    },
-  );
+    });
 
   const ukNationHubEntries: MetadataRoute.Sitemap =
     discoverTogstrekUkNationHubParams().map(({ continent, country, place }) =>

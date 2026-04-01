@@ -54,7 +54,10 @@ export function TogstrekPlacePageTemplate({
   );
 
   return (
-    <main className="togstrek-place-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      className="togstrek-place-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+      {...(frontmatter.draft ? { "data-pagefind-ignore": true } : {})}
+    >
       <TogstrekJsonLd
         data={togstrekPlacePageJsonLdGraph({
           name: frontmatter.title,

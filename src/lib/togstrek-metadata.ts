@@ -32,6 +32,7 @@ export function buildTogstrekMetadata(input: {
   openGraphImages?: TogstrekOgImage[];
   /** Visible author metadata (e.g. hiking posts). */
   authors?: Metadata["authors"];
+  robots?: Metadata["robots"];
 }): Metadata {
   const ogTitle =
     input.openGraphTitle ?? buildTogstrekDefaultOpenGraphTitle(input.title);
@@ -67,6 +68,7 @@ export function buildTogstrekMetadata(input: {
   return {
     title: input.title,
     description: input.description,
+    ...(input.robots !== undefined ? { robots: input.robots } : {}),
     ...(authorsList.length > 0 ? { authors: authorsList } : {}),
     openGraph: {
       title: ogTitle,

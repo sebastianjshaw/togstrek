@@ -19,6 +19,8 @@ export type TogstrekPlaceMdxFrontmatter = {
   lng?: number;
   published?: string;
   modified?: string;
+  /** When true: `noindex`, omitted from sitemap, excluded from Pagefind. Page still builds for preview. */
+  draft?: boolean;
   heroImage?: TogstrekImageAsset;
   /** Optional POI lists — structured metadata (e.g. future search / JSON-LD); narrative stays in MDX */
   poiGroups?: TogstrekPlaceMdxPoiGroup[];
@@ -137,6 +139,7 @@ export function parseTogstrekPlaceFrontmatter(
   const published =
     typeof raw.published === "string" ? raw.published : undefined;
   const modified = typeof raw.modified === "string" ? raw.modified : undefined;
+  const draft = raw.draft === true;
 
   return {
     title: title.trim(),
@@ -149,6 +152,7 @@ export function parseTogstrekPlaceFrontmatter(
     lng,
     published,
     modified,
+    draft: draft || undefined,
     heroImage: parseHeroImage(raw.heroImage),
     poiGroups: parsePoiGroups(raw.poiGroups),
   };

@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     template: "%s · A Tog's Trek",
   },
   description:
-    "The most exciting journey is the next one… Curious travel guides and photo essays that go deeper into countries, places, hikes, and the stories behind the frame.",
+    "Personal travel photography and stories — countries, places, trails, and what happened before and after the shutter. Field notes from A Tog's Trek.",
   metadataBase: new URL(getTogstrekSiteOrigin()),
   manifest: "/site.webmanifest",
   icons: {
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "A Tog's Trek",
     description:
-      "Curious travel guides and photo essays — countries, places, hikes, and the stories behind the frame.",
+      "Photo essays and travel notes from a photographer: regions, cities, hikes, and family trips — with the pictures to prove it.",
     locale: "en_GB",
     type: "website",
   },

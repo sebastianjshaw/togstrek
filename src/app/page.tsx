@@ -22,11 +22,11 @@ export const metadata: Metadata = {
   ...buildTogstrekMetadata({
     title: TOGSTREK_SITE_NAME,
     description:
-      "The most exciting journey is the next one… Curious travel guides and photo essays that go deeper into countries, places, hikes, and the stories behind the frame.",
+      "The most exciting journey is the next one. Travel photography, place guides, and personal essays — countries, trails, cities, and the stories behind the frame.",
     path: "/",
     openGraphTitle: TOGSTREK_SITE_NAME,
     openGraphDescription:
-      "Curious travel guides and photo essays — countries, places, hikes, and the stories behind the frame.",
+      "Travel photography and personal essays from the road: regions, places, hikes, and what the camera caught.",
     openGraphImages: [
       {
         url: homeHero.src,
@@ -55,8 +55,8 @@ export default function HomePage() {
         showAccentRule
         lead={
           <p>
-            Curious travel guides and photo essays that go deeper — countries,
-            places, hikes, and the stories behind the frame.
+            Place guides and photo essays from real trips — countries, trails,
+            cities, and the stories behind the frame.
           </p>
         }
         actions={

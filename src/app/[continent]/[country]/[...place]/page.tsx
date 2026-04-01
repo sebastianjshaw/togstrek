@@ -108,6 +108,9 @@ export async function generateMetadata({
           },
         ]
       : undefined,
+    ...(fm.draft
+      ? { robots: { index: false, follow: true } }
+      : {}),
   });
 }
 
