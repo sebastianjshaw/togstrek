@@ -22,8 +22,9 @@ export function continentHubHeroQuoteForSlug(
         attribution: "Peter Carey",
         children: (
           <>
-            <span className="text-tt-accent">Australia</span> is my lens.
-            I can&apos;t see the world any other way.
+            <span className="text-tt-accent">Australia</span>
+            {" "}
+            is my lens. I can&apos;t see the world any other way.
           </>
         ),
       };
@@ -32,7 +33,7 @@ export function continentHubHeroQuoteForSlug(
         attribution: "Pliny the Elder",
         children: (
           <>
-            There is always something new out of{" "}
+            There is always something new out of{"\u00A0"}
             <span className="text-tt-accent">Africa</span>.
           </>
         ),
@@ -42,9 +43,10 @@ export function continentHubHeroQuoteForSlug(
         attribution: "Mark Hoppus",
         children: (
           <>
-            <span className="text-tt-accent">Antarctica</span> is otherworldly,
-            like nothing I&apos;ve ever seen before. Stark, cold, beautiful
-            desolation.
+            <span className="text-tt-accent">Antarctica</span>
+            {" "}
+            is otherworldly, like nothing I&apos;ve ever seen before. Stark,
+            cold, beautiful desolation.
           </>
         ),
       };
@@ -54,8 +56,10 @@ export function continentHubHeroQuoteForSlug(
         children: (
           <>
             Those of us lucky enough to fall in love with{" "}
-            <span className="text-tt-accent">Asia</span> know that it&apos;s an
-            affair that&apos;s as long as it is resonant.
+            <span className="text-tt-accent">Asia</span>
+            {" "}
+            know that it&apos;s an affair that&apos;s as long as it is
+            resonant.
           </>
         ),
       };
