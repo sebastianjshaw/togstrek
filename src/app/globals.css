@@ -27,28 +27,15 @@
 }
 
 @keyframes togstrek-hero-ken-burns {
-  from {
-    transform: scale(1);
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.05);
   }
-  to {
-    transform: scale(1.06);
+  100% {
+    transform: translate3d(-1.25%, -0.6%, 0) scale(1.12);
   }
 }
 
 @layer components {
-  /**
-   * Landing hero — slow drift so large photography feels alive (respects reduced motion).
-   */
-  .togstrek-page-hero--landing .togstrek-page-hero-media-ken-burns {
-    will-change: transform;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .togstrek-page-hero--landing .togstrek-page-hero-media-ken-burns {
-      animation: togstrek-hero-ken-burns 32s ease-in-out infinite alternate;
-    }
-  }
-
   /**
    * MDX / long-form article wrapper — typography lives on elements
    * (e.g. `.togstrek-place-mdx-p`); this marks the prose subtree for theming.
@@ -404,5 +391,23 @@
       transparent
     );
     color: var(--tt-color-text-primary);
+  }
+}
+
+/*
+ * Landing hero Ken Burns — outside @layer so this animation isn’t overridden by
+ * Tailwind’s layer ordering. Scale + slight pan reads clearly at ~22s per leg;
+ * `prefers-reduced-motion: reduce` disables motion entirely.
+ */
+.togstrek-page-hero--landing .togstrek-page-hero-media-ken-burns {
+  transform-origin: 48% 42%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .togstrek-page-hero--landing .togstrek-page-hero-media-ken-burns {
+    will-change: transform;
+    animation: togstrek-hero-ken-burns 22s ease-in-out infinite alternate;
   }
 }

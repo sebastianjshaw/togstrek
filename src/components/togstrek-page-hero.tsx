@@ -6,7 +6,8 @@ import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-i
 
 export type TogstrekPageHeroQuote = {
   children: ReactNode;
-  attribution: string;
+  /** Omit when the line is site voice / unsigned. */
+  attribution?: string;
 };
 
 export type TogstrekPageHeroVariant = "landing" | "article";
@@ -96,6 +97,18 @@ export function TogstrekPageHero({
               >
                 {title}
               </h1>
+              {quote ? (
+                <figure className="togstrek-page-hero-quote togstrek-page-hero-quote--article mt-[var(--tt-space-6)] max-w-[min(36rem,100%)]">
+                  <blockquote className="font-tt-display text-[clamp(1rem,1.5vw+0.65rem,1.35rem)] font-semibold leading-[var(--tt-leading-snug)] text-tt-text-inverse [overflow-wrap:anywhere]">
+                    {quote.children}
+                  </blockquote>
+                  {quote.attribution?.trim() ? (
+                    <figcaption className="mt-[var(--tt-space-2)] font-tt-body text-[length:var(--tt-text-small)] italic text-tt-text-inverse/88">
+                      — {quote.attribution.trim()}
+                    </figcaption>
+                  ) : null}
+                </figure>
+              ) : null}
             </TogstrekContentWidth>
           </div>
         </div>
@@ -170,9 +183,11 @@ export function TogstrekPageHero({
             <blockquote className="font-tt-display text-[clamp(1.05rem,2vw+0.55rem,1.65rem)] font-semibold leading-[var(--tt-leading-snug)] text-tt-text-inverse [overflow-wrap:anywhere]">
               {quote.children}
             </blockquote>
-            <figcaption className="mt-[var(--tt-space-3)] font-tt-body text-[length:var(--tt-text-small)] italic text-tt-text-inverse/88">
-              — {quote.attribution}
-            </figcaption>
+            {quote.attribution?.trim() ? (
+              <figcaption className="mt-[var(--tt-space-3)] font-tt-body text-[length:var(--tt-text-small)] italic text-tt-text-inverse/88">
+                — {quote.attribution.trim()}
+              </figcaption>
+            ) : null}
           </figure>
         ) : null}
 

@@ -9,6 +9,9 @@ export type TogstrekOtherWorkMdxFrontmatter = {
   lat?: number;
   lng?: number;
   heroImage?: TogstrekImageAsset;
+  /** Optional pull quote below the title on the hub hero (landing variant). */
+  heroQuote?: string;
+  heroQuoteAttribution?: string;
 };
 
 function parseHeroImage(raw: unknown): TogstrekImageAsset | undefined {
@@ -51,6 +54,12 @@ export function parseTogstrekOtherWorkFrontmatter(
   const modified = typeof raw.modified === "string" ? raw.modified : undefined;
   const lat = typeof raw.lat === "number" ? raw.lat : undefined;
   const lng = typeof raw.lng === "number" ? raw.lng : undefined;
+  const heroQuote =
+    typeof raw.heroQuote === "string" ? raw.heroQuote.trim() : undefined;
+  const heroQuoteAttribution =
+    typeof raw.heroQuoteAttribution === "string"
+      ? raw.heroQuoteAttribution.trim()
+      : undefined;
 
   return {
     title: title.trim(),
@@ -60,5 +69,7 @@ export function parseTogstrekOtherWorkFrontmatter(
     lat,
     lng,
     heroImage: parseHeroImage(raw.heroImage),
+    heroQuote: heroQuote || undefined,
+    heroQuoteAttribution: heroQuoteAttribution || undefined,
   };
 }

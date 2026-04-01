@@ -6,6 +6,7 @@ import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-
 import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
 import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
+import type { TogstrekPageHeroQuote } from "@/components/togstrek-page-hero";
 import type { TogstrekOtherWorkMdxFrontmatter } from "@/lib/togstrek-other-work-frontmatter";
 
 type TogstrekOtherWorkPageTemplateProps = {
@@ -26,6 +27,16 @@ export function TogstrekOtherWorkPageTemplate({
   const isHub = slugSegments.length === 0;
   const showDescriptionLead =
     !isHub && Boolean(frontmatter.description) && !omitDescriptionLead;
+
+  const hubHeroQuote: TogstrekPageHeroQuote | undefined =
+    isHub && frontmatter.heroQuote
+      ? {
+          children: frontmatter.heroQuote,
+          ...(frontmatter.heroQuoteAttribution
+            ? { attribution: frontmatter.heroQuoteAttribution }
+            : {}),
+        }
+      : undefined;
 
   const breadcrumbItems =
     isHub
@@ -48,6 +59,7 @@ export function TogstrekOtherWorkPageTemplate({
           eyebrow={isHub ? "Portfolio" : "Other work"}
           title={frontmatter.title}
           titleId="togstrek-other-work-hero-title"
+          quote={hubHeroQuote}
         />
       ) : (
         <header className="togstrek-other-work-header border-b border-tt-border-muted bg-tt-surface-muted">

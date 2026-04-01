@@ -57,7 +57,7 @@ export function TogstrekHikingHubHero({
           <TogstrekContentWidth className="py-[max(var(--tt-space-12),env(safe-area-inset-top))] pb-[max(var(--tt-space-14),env(safe-area-inset-bottom))]">
             <h2 className="togstrek-hiking-hub-hero-quote max-w-[min(40rem,100%)] font-tt-display text-[clamp(1.35rem,2.6vw+0.6rem,2.35rem)] font-semibold leading-[var(--tt-leading-snug)] text-tt-text-inverse [text-shadow:0_2px_28px_rgba(0,0,0,0.45)]">
               Returning home is the most difficult part of long-distance{" "}
-              <span className="text-tt-accent">hiking</span>; You have grown
+              <span className="text-tt-accent">hiking</span>; you have grown
               outside the puzzle and your piece no longer fits.
             </h2>
             <p className="togstrek-hiking-hub-hero-attribution mt-[var(--tt-space-5)] font-tt-body text-[length:var(--tt-text-body)] italic text-tt-text-inverse/90 [text-shadow:0_1px_18px_rgba(0,0,0,0.4)]">
