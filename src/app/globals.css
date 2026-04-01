@@ -26,7 +26,29 @@
   --spacing-tt-gutter: var(--tt-layout-gutter);
 }
 
+@keyframes togstrek-hero-ken-burns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
 @layer components {
+  /**
+   * Landing hero — slow drift so large photography feels alive (respects reduced motion).
+   */
+  .togstrek-page-hero--landing .togstrek-page-hero-media-ken-burns {
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .togstrek-page-hero--landing .togstrek-page-hero-media-ken-burns {
+      animation: togstrek-hero-ken-burns 32s ease-in-out infinite alternate;
+    }
+  }
+
   /**
    * MDX / long-form article wrapper — typography lives on elements
    * (e.g. `.togstrek-place-mdx-p`); this marks the prose subtree for theming.
@@ -90,7 +112,7 @@
   }
 
   .togstrek-mdx-photo-gallery-wrap .togstrek-place-mdx-figure .togstrek-place-mdx-figure-frame {
-    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--tt-shadow-photo-deep);
   }
 
   .togstrek-place-mdx-photo-pair-wrap {
@@ -108,7 +130,7 @@
   .togstrek-place-mdx-photo-pair-wrap
     .togstrek-place-mdx-figure
     .togstrek-place-mdx-figure-frame {
-    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--tt-shadow-photo-deep);
   }
 
   .togstrek-place-mdx-photo-triptych-wrap {
@@ -130,7 +152,7 @@
     position: relative;
     aspect-ratio: 4 / 3;
     overflow: hidden;
-    box-shadow: 0 16px 40px -18px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--tt-shadow-photo);
   }
 
   .togstrek-place-mdx-photo-mosaic-five-wrap {
@@ -153,7 +175,7 @@
     aspect-ratio: 16 / 9;
     max-height: min(72vh, 560px);
     overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--tt-shadow-photo-deep);
   }
 
   .togstrek-place-mdx-photo-mosaic-five-quad {
@@ -183,7 +205,7 @@
     position: relative;
     display: block;
     overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--tt-shadow-photo-deep);
   }
 
   .togstrek-place-mdx-photo-castle-split-wrap {
@@ -216,7 +238,7 @@
     aspect-ratio: 3 / 4;
     max-height: min(70vh, 640px);
     overflow: hidden;
-    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--tt-shadow-photo-deep);
   }
 
   .togstrek-place-mdx-photo-castle-split-wrap
@@ -313,6 +335,39 @@
   .togstrek-skip-link:focus-visible {
     outline: 2px solid var(--tt-color-accent);
     outline-offset: 2px;
+  }
+
+  /**
+   * Inline MDX images — mat + lift; hover/focus deepens shadow and nudges scale (motion-aware).
+   */
+  .togstrek-place-mdx-figure-frame.togstrek-place-mdx-figure-frame--elevated {
+    border-radius: var(--tt-radius-photo);
+    box-shadow: var(--tt-shadow-photo);
+    transition: box-shadow var(--tt-duration-normal) var(--tt-ease-out);
+  }
+
+  .togstrek-mdx-image-lightbox-trigger:hover
+    .togstrek-place-mdx-figure-frame--elevated,
+  .togstrek-mdx-image-lightbox-trigger:focus-visible
+    .togstrek-place-mdx-figure-frame--elevated {
+    box-shadow: var(--tt-shadow-photo-hover);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .togstrek-mdx-image-lightbox-trigger
+      .togstrek-place-mdx-figure-frame--elevated
+      img {
+      transition: transform var(--tt-duration-slow) var(--tt-ease-out);
+    }
+
+    .togstrek-mdx-image-lightbox-trigger:hover
+      .togstrek-place-mdx-figure-frame--elevated
+      img,
+    .togstrek-mdx-image-lightbox-trigger:focus-visible
+      .togstrek-place-mdx-figure-frame--elevated
+      img {
+      transform: scale(1.015);
+    }
   }
 }
 

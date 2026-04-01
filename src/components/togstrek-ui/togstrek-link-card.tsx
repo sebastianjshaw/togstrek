@@ -222,7 +222,7 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
   return (
     <Link
       href={href}
-      className={`togstrek-link-card togstrek-link-card--region group relative flex min-h-[var(--tt-region-card-min-height)] flex-col justify-end overflow-hidden border border-tt-border-muted bg-tt-surface-base shadow-[var(--tt-shadow-sm)] transition-[transform,box-shadow,border-color] duration-[var(--tt-duration-normal)] ease-[var(--tt-ease-out)] after:pointer-events-none after:absolute after:inset-0 after:border-[length:var(--tt-border-width-thick)] after:border-transparent after:transition-colors hover:-translate-y-1 hover:shadow-[var(--tt-shadow-elevated)] hover:after:border-tt-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-2 ${
+      className={`togstrek-link-card togstrek-link-card--region group relative flex min-h-[var(--tt-region-card-min-height)] flex-col justify-end overflow-hidden rounded-[var(--tt-radius-editorial-xl)] border border-tt-border-muted bg-tt-surface-base shadow-[var(--tt-shadow-photo)] transition-[transform,box-shadow,border-color] duration-[var(--tt-duration-normal)] ease-[var(--tt-ease-out)] after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:border-[length:var(--tt-border-width-thick)] after:border-transparent after:transition-colors hover:-translate-y-1 hover:shadow-[var(--tt-shadow-photo-hover)] hover:after:border-tt-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-2 ${
         isFeatured ? "lg:min-h-[var(--tt-region-card-featured-min-height)]" : ""
       }`}
     >

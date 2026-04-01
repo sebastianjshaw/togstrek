@@ -101,6 +101,8 @@
   --tt-radius-none: 0;
   --tt-radius-sm: 2px;
   --tt-radius-md: 4px;
+  /** MDX inline figures — barely-there radius reads like a print mat. */
+  --tt-radius-photo: 3px;
 
   /* —— Stroke —— */
   --tt-border-width-hairline: 1px;
@@ -112,6 +114,16 @@
     color-mix(in srgb, var(--tt-color-ink-strong) 12%, transparent);
   --tt-shadow-elevated: 0 18px 48px
     color-mix(in srgb, var(--tt-color-ink-strong) 22%, transparent);
+  /** Photography / MDX frames — layered depth (ambient + contact + hairline highlight). */
+  --tt-shadow-photo: 0 1px 0 color-mix(in srgb, var(--tt-color-white) 18%, transparent),
+    0 12px 32px -8px color-mix(in srgb, var(--tt-color-ink-strong) 35%, transparent),
+    0 28px 56px -20px color-mix(in srgb, var(--tt-color-ink-strong) 28%, transparent);
+  --tt-shadow-photo-deep: 0 1px 0 color-mix(in srgb, var(--tt-color-white) 14%, transparent),
+    0 18px 40px -12px color-mix(in srgb, var(--tt-color-ink-strong) 42%, transparent),
+    0 40px 72px -24px color-mix(in srgb, var(--tt-color-ink-strong) 32%, transparent);
+  --tt-shadow-photo-hover: 0 1px 0 color-mix(in srgb, var(--tt-color-white) 22%, transparent),
+    0 20px 48px -10px color-mix(in srgb, var(--tt-color-ink-strong) 48%, transparent),
+    0 48px 80px -28px color-mix(in srgb, var(--tt-color-ink-strong) 38%, transparent);
 
   /* —— Motion —— */
   --tt-ease-out: cubic-bezier(0.16, 1, 0.3, 1);

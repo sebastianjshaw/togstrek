@@ -65,7 +65,7 @@ export function TogstrekPageHero({
         aria-labelledby={titleId}
       >
         <div
-          className="togstrek-page-hero-article-media relative w-full max-h-[min(72vh,680px)]"
+          className="togstrek-page-hero-article-media relative w-full max-h-[min(76vh,720px)]"
           style={{ aspectRatio: `${iw} / ${ih}` }}
         >
           <Image
@@ -78,7 +78,11 @@ export function TogstrekPageHero({
             sizes="100vw"
           />
           <div
-            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_78%,transparent)] via-transparent to-transparent"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_82%,transparent)] via-[color-mix(in_srgb,var(--tt-color-ink-strong)_8%,transparent)] to-transparent"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_55%,transparent)] to-transparent"
             aria-hidden
           />
           <div className="absolute inset-x-0 bottom-0 z-[1] [text-shadow:0_2px_20px_rgba(0,0,0,0.55)]">
@@ -104,22 +108,28 @@ export function TogstrekPageHero({
       className="togstrek-page-hero togstrek-page-hero--landing relative flex min-h-[min(88dvh,920px)] flex-col justify-end overflow-hidden border-b border-tt-border-muted sm:min-h-[min(92dvh,920px)]"
       aria-labelledby={titleId}
     >
-      <div className="togstrek-page-hero-media absolute inset-0">
-        <Image
-          src={imageSrc}
-          alt={imageAlt}
-          fill
-          priority={landingPriority}
-          unoptimized={togstrekUnoptimizedRemoteImageInDev(imageSrc)}
-          className="object-cover object-center"
-          sizes="100vw"
-        />
+      <div className="togstrek-page-hero-media absolute inset-0 overflow-hidden">
+        <div className="togstrek-page-hero-media-ken-burns absolute inset-0">
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            fill
+            priority={landingPriority}
+            unoptimized={togstrekUnoptimizedRemoteImageInDev(imageSrc)}
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+        </div>
         <div
           className="absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_88%,transparent)] via-[color-mix(in_srgb,var(--tt-color-ink-strong)_35%,transparent)] to-[color-mix(in_srgb,var(--tt-color-ink-strong)_18%,transparent)]"
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_60%_at_50%_50%,rgba(0,0,0,0.42)_0%,transparent_68%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_95%_65%_at_50%_42%,rgba(0,0,0,0.38)_0%,transparent_62%)]"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_120%_80%_at_50%_100%,rgba(0,0,0,0.22)_0%,transparent_55%)]"
           aria-hidden
         />
         {stripTexture ? (

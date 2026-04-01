@@ -93,7 +93,7 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
         className="togstrek-mdx-image-lightbox-trigger group block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left outline-none focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-2 focus-visible:ring-offset-tt-surface-base"
         aria-label={zoomAriaLabel}
       >
-        <span className="togstrek-place-mdx-figure-frame relative block overflow-hidden rounded-none border border-tt-border-muted bg-tt-surface-muted">
+        <span className="togstrek-place-mdx-figure-frame togstrek-place-mdx-figure-frame--elevated relative block overflow-hidden border border-tt-border-muted/90 bg-tt-surface-muted">
           <Image
             src={src}
             alt={imageAltForImg}
