@@ -94,8 +94,14 @@ function percent(visited: number, total: number): number {
 
 /** URL slugs that do not match `togstrekUnCountryNameToUrlSlug(UN name)` but map to an ISO2 row. */
 const TOGSTREK_COUNTRY_SLUG_ISO2: Record<string, string> = {
+  /** Hub slug vs UN member name `Czechia`. */
+  "czech-republic": "CZ",
   /** Squarespace / HTTrack folder spelling vs UN slug `liechtenstein`. */
   lichtenstein: "LI",
+  /** Place hub uses `antarctica/antarctic/…`; UN list has no separate row. */
+  antarctic: "AQ",
+  /** Hong Kong SAR — not a separate UN row in our list. */
+  "hong-kong": "HK",
   turkiye: "TR",
   turkey: "TR",
   /** Matches place content folder + hub slug (UN auto-slug is `united-states`). */
