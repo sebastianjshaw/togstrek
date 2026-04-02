@@ -1,9 +1,13 @@
 import Link from "next/link";
 
+import { TogstrekThemeToggle } from "@/components/togstrek-theme-toggle";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 
 const togstrekSiteFooterNavLinkClassName =
   "rounded-sm font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary underline-offset-2 transition-colors hover:text-tt-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-2 focus-visible:ring-offset-tt-surface-base";
+
+const togstrekSiteFooterThemeToggleClassName =
+  "togstrek-site-footer-theme-toggle inline-flex min-h-10 items-center justify-center gap-2 px-2 text-tt-text-tertiary transition-colors duration-[var(--tt-duration-fast)] hover:text-tt-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-2 focus-visible:ring-offset-tt-surface-base rounded-sm";
 
 export function TogstrekSiteFooter() {
   return (
@@ -55,6 +59,13 @@ export function TogstrekSiteFooter() {
           <Link href="/copyright" className={togstrekSiteFooterNavLinkClassName}>
             Usage & copyright
           </Link>
+          <span
+            className="select-none text-[length:var(--tt-text-small)] text-tt-text-tertiary/80"
+            aria-hidden
+          >
+            ·
+          </span>
+          <TogstrekThemeToggle className={togstrekSiteFooterThemeToggleClassName} />
         </nav>
         <p className="mt-[var(--tt-space-6)] text-center font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary [overflow-wrap:anywhere]">
           Unless noted, photographs and text © Sebastian Shaw

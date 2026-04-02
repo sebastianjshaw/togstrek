@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { DM_Sans, Geist_Mono, Syne } from "next/font/google";
 import "./globals.css";
 import { TogstrekGoogleAnalytics } from "@/components/togstrek-google-analytics";
+import { TogstrekThemeInitScript } from "@/components/togstrek-theme-init-script";
 import { TogstrekJsonLd } from "@/components/togstrek-seo/togstrek-json-ld";
 import { TogstrekSiteFooter } from "@/components/togstrek-site-footer";
 import { TogstrekSiteHeader } from "@/components/togstrek-site-header";
@@ -76,6 +77,7 @@ export default function RootLayout({
       className={`${fontSyne.variable} ${fontDmSans.variable} ${fontGeistMono.variable} h-full antialiased`}
     >
       <head>
+        <TogstrekThemeInitScript />
         <link rel="preconnect" href={mediaOrigin} crossOrigin="anonymous" />
         <link rel="dns-prefetch" href={mediaOrigin} />
         <link

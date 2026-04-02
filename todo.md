@@ -48,7 +48,7 @@
 
 ## Nice-to-have later
 
-- [ ] Dark theme toggle (tokens already have `[data-theme="dark"]` hook).
+- [x] Dark theme toggle (tokens already have `[data-theme="dark"]` hook).
 
 
 ## Done
