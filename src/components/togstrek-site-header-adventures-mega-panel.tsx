@@ -6,7 +6,7 @@ import Link from "next/link";
 import type { TogstrekAdventuresMegaFeaturedCard } from "@/data/togstrek-adventures-mega-menu";
 
 const CARD_IMAGE_WRAP =
-  "togstrek-site-header-adventures-mega-card-image relative aspect-[4/3] w-full overflow-hidden rounded-none border border-white/15";
+  "togstrek-site-header-adventures-mega-card-image relative aspect-[4/3] w-full overflow-hidden rounded-[var(--tt-radius-photo)] border border-white/15";
 
 type TogstrekSiteHeaderAdventuresMegaPanelProps = {
   onNavigate: () => void;

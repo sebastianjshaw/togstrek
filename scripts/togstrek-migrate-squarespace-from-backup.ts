@@ -27,6 +27,13 @@
  *
  * After (without --upload):
  *   npm run r2:upload -- --source migration/cdn-upload-ready --prefix "" --skip-existing
+ *
+ * Each run writes `migration/migrate-report.json`: missing backup URLs, copy failures,
+ * and which source files reference each URL (for fixing gaps).
+ *
+ * After staging + R2 upload, point MDX at the CDN without re-reading the backup:
+ *   npm run media:rewrite-squarespace-to-cdn
+ * (same URL→path rules as this script; see `togstrek-rewrite-squarespace-urls-to-media.ts`.)
  */
 
 import * as fs from "node:fs";
@@ -56,6 +63,7 @@ const CDN_EXPORT_SUFFIXES = [
 
 const CONTENT_DIR = path.join(REPO_ROOT, "content");
 const DEFAULT_OUT = path.join(REPO_ROOT, "migration", "cdn-upload-ready");
+const MIGRATE_REPORT_JSON = path.join(REPO_ROOT, "migration", "migrate-report.json");
 const ABOUT_TSX = path.join(
   REPO_ROOT,
   "src",
@@ -63,6 +71,10 @@ const ABOUT_TSX = path.join(
   "togstrek-about",
   "togstrek-about-page.tsx",
 );
+
+function relRepo(absPath: string): string {
+  return path.relative(REPO_ROOT, absPath).replace(/\\/g, "/");
+}
 
 function resolvePathUserArg(p: string): string {
   const t = p.trim();
@@ -554,6 +566,83 @@ function pickUniqueFilename(
   return out;
 }
 
+type FileReplaceRef = { file: string; normalized: string };
+
+type MigrateCopyFailure = {
+  normalized: string;
+  sourceTried: string;
+  destAbsolute: string;
+  error: string;
+};
+
+function filesReferencingNormalized(
+  rep: FileReplaceRef[],
+  n: string,
+): string[] {
+  const s = new Set<string>();
+  for (const fr of rep) {
+    if (fr.normalized === n) s.add(relRepo(fr.file));
+  }
+  return [...s].sort();
+}
+
+function writeMigrateReport(opts: {
+  dryRun: boolean;
+  backupRoot: string;
+  outRoot: string;
+  sourceFilesCount: number;
+  uniqueResolved: number;
+  missingCount: number;
+  missingByUrl: Map<string, Set<string>>;
+  fileReplacements: FileReplaceRef[];
+  stagedOkCount?: number;
+  copyFailures?: MigrateCopyFailure[];
+}): void {
+  const missingInBackup = [...opts.missingByUrl.entries()]
+    .map(([normalizedUrl, files]) => ({
+      normalizedUrl,
+      referencedFrom: [...files].sort(),
+    }))
+    .sort((a, b) => a.normalizedUrl.localeCompare(b.normalizedUrl));
+
+  const copyFailed = (opts.copyFailures ?? []).map((cf) => ({
+    normalizedUrl: cf.normalized,
+    sourceTried: cf.sourceTried,
+    destRelative: relRepo(cf.destAbsolute),
+    error: cf.error,
+    referencedFrom: filesReferencingNormalized(opts.fileReplacements, cf.normalized),
+  }));
+
+  const report: Record<string, unknown> = {
+    schemaVersion: 1,
+    generatedAt: new Date().toISOString(),
+    mode: opts.dryRun ? "dry-run" : "run",
+    backupRoot: path.resolve(opts.backupRoot),
+    stagingRoot: relRepo(opts.outRoot),
+    summary: {
+      sourceFilesScanned: opts.sourceFilesCount,
+      uniqueUrlsResolved: opts.uniqueResolved,
+      missingInBackup: opts.missingCount,
+      ...(!opts.dryRun
+        ? {
+            stagedOk: opts.stagedOkCount ?? 0,
+            copyFailed: opts.copyFailures?.length ?? 0,
+          }
+        : {}),
+    },
+    missingInBackup,
+    copyFailed,
+  };
+
+  fs.mkdirSync(path.dirname(MIGRATE_REPORT_JSON), { recursive: true });
+  fs.writeFileSync(
+    MIGRATE_REPORT_JSON,
+    JSON.stringify(report, null, 2) + "\n",
+    "utf8",
+  );
+  console.log(`\nReport: ${relRepo(MIGRATE_REPORT_JSON)}`);
+}
+
 function runR2Upload(outRoot: string): void {
   const venvPy = path.join(REPO_ROOT, ".venv", "bin", "python3");
   const py = fs.existsSync(venvPy) ? venvPy : "python3";
@@ -634,6 +723,15 @@ function main(): void {
 
   type FileReplace = { file: string; exact: string; normalized: string };
   const fileReplacements: FileReplace[] = [];
+  const missingBackupByUrl = new Map<string, Set<string>>();
+  function recordMissing(normalizedUrl: string, filePath: string): void {
+    let set = missingBackupByUrl.get(normalizedUrl);
+    if (!set) {
+      set = new Set();
+      missingBackupByUrl.set(normalizedUrl, set);
+    }
+    set.add(relRepo(filePath));
+  }
   let missingBackup = 0;
 
   for (const file of sourceFiles) {
@@ -646,8 +744,9 @@ function main(): void {
         const srcPath = resolveBackupFile(backupRoot, normalized, byHostBasename);
         if (!srcPath) {
           console.warn(
-            `[missing backup] ${normalized}\n  referenced from ${path.relative(REPO_ROOT, file)}`,
+            `[missing backup] ${normalized}\n  referenced from ${relRepo(file)}`,
           );
+          recordMissing(normalized, file);
           missingBackup++;
           continue;
         }
@@ -690,12 +789,23 @@ function main(): void {
       );
     }
     console.log("\n[dry-run] No writes. Drop --dry-run to copy + rewrite.");
+    writeMigrateReport({
+      dryRun: true,
+      backupRoot,
+      outRoot,
+      sourceFilesCount: sourceFiles.length,
+      uniqueResolved: urlAssignment.size,
+      missingCount: missingBackup,
+      missingByUrl: missingBackupByUrl,
+      fileReplacements,
+    });
     process.exit(missingBackup > 0 ? 1 : 0);
   }
 
   fs.mkdirSync(outRoot, { recursive: true });
   /** Normalized URL staged successfully (dest existed or copy succeeded). */
   const stagedOk = new Set<string>();
+  const copyFailureDetails: MigrateCopyFailure[] = [];
   for (const [normalized, a] of urlAssignment) {
     const dest = path.join(outRoot, a.relDir, a.filename);
     fs.mkdirSync(path.dirname(dest), { recursive: true });
@@ -709,8 +819,15 @@ function main(): void {
       console.log(`[copy] ${a.relDir}/${a.filename}`);
       stagedOk.add(normalized);
     } catch (e) {
+      const errMsg = e instanceof Error ? e.message : String(e);
+      copyFailureDetails.push({
+        normalized,
+        sourceTried: realSrc,
+        destAbsolute: dest,
+        error: errMsg,
+      });
       console.warn(
-        `[copy failed] ${a.relDir}/${a.filename}\n  from: ${a.srcPath}\n  ${e instanceof Error ? e.message : String(e)}`,
+        `[copy failed] ${a.relDir}/${a.filename}\n  from: ${a.srcPath}\n  ${errMsg}`,
       );
     }
   }
@@ -768,6 +885,19 @@ function main(): void {
       `\nUpload: npm run r2:upload -- --source migration/cdn-upload-ready --prefix "" --skip-existing\n(or: npm run media:migrate-squarespace-backup -- --upload)`,
     );
   }
+
+  writeMigrateReport({
+    dryRun: false,
+    backupRoot,
+    outRoot,
+    sourceFilesCount: sourceFiles.length,
+    uniqueResolved: urlAssignment.size,
+    missingCount: missingBackup,
+    missingByUrl: missingBackupByUrl,
+    fileReplacements,
+    stagedOkCount: stagedOk.size,
+    copyFailures: copyFailureDetails,
+  });
 
   process.exit(missingBackup > 0 || copyFailed > 0 ? 1 : 0);
 }

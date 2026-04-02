@@ -89,9 +89,20 @@ function collectMdxFilesUnderCountryDir(
   walk(countryDir);
 }
 
+/**
+ * In-memory scan cache — `listTogstrekPlaceSlugsForCountry` used to call `discoverTogstrekPlaceSlugs`
+ * on every country row (hundreds of full-tree walks per hub). Restart the dev server after adding
+ * new place MDX so this cache refreshes.
+ */
+let discoverTogstrekPlaceSlugsCache: TogstrekPlaceSlugParams[] | undefined;
+
 /** Discover all place MDX files under `content/places/<continent>/<country>/` (any nesting depth). */
 export function discoverTogstrekPlaceSlugs(): TogstrekPlaceSlugParams[] {
-  if (!fs.existsSync(PLACES_ROOT)) return [];
+  if (discoverTogstrekPlaceSlugsCache) return discoverTogstrekPlaceSlugsCache;
+  if (!fs.existsSync(PLACES_ROOT)) {
+    discoverTogstrekPlaceSlugsCache = [];
+    return discoverTogstrekPlaceSlugsCache;
+  }
   const out: TogstrekPlaceSlugParams[] = [];
   for (const continent of fs.readdirSync(PLACES_ROOT)) {
     const cDir = path.join(PLACES_ROOT, continent);
@@ -102,6 +113,7 @@ export function discoverTogstrekPlaceSlugs(): TogstrekPlaceSlugParams[] {
       collectMdxFilesUnderCountryDir(coDir, continent, country, out);
     }
   }
+  discoverTogstrekPlaceSlugsCache = out;
   return out;
 }
 

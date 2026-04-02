@@ -101,7 +101,10 @@
   --tt-radius-none: 0;
   --tt-radius-sm: 2px;
   --tt-radius-md: 4px;
-  /** MDX inline figures — barely-there radius reads like a print mat. */
+  /**
+   * Bordered image tiles (MDX figures, hub cards, mega menus, featured blocks).
+   * Barely-there radius — one consistent “print mat” across the site.
+   */
   --tt-radius-photo: 3px;
 
   /* —— Stroke —— */
@@ -140,6 +143,7 @@
    * Editorial media card — interactive image tile with type on photo,
    * lift + elevated shadow, accent ring, top sweep bar, scrims, micro-CTA.
    * Spec: docs/design-system.md (Editorial media card & micro-CTA).
+   * Image frames in code use `--tt-radius-photo`; this token is reserved for rare large-radius UI.
    */
   --tt-radius-editorial-xl: 1.75rem;
   --tt-editorial-accent-bar-height: 3px;

@@ -29,7 +29,7 @@
 
 ## Routing & templates
 
-- [ ] Inconsistent use of round and sharp edges on image boxes.
+- [X] Inconsistent use of round and sharp edges on image boxes.
 
 ## Search & SEO
 

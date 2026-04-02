@@ -52,7 +52,7 @@ export function TogstrekFeaturedAdventure({
         <TogstrekContentWidth>
           <Link
             href={adventure.href}
-            className="togstrek-featured-adventure-card group relative flex min-h-[min(52vw,20rem)] w-full flex-col justify-end overflow-hidden rounded-[var(--tt-radius-editorial-xl)] border border-tt-border-muted bg-tt-surface-base text-left shadow-[var(--tt-shadow-photo)] transition-[transform,box-shadow,border-color] duration-[var(--tt-duration-normal)] ease-[var(--tt-ease-out)] after:pointer-events-none after:absolute after:inset-0 after:z-[2] after:rounded-[inherit] after:border-[length:var(--tt-border-width-thick)] after:border-transparent after:transition-colors hover:-translate-y-1 hover:shadow-[var(--tt-shadow-photo-hover)] hover:after:border-tt-accent sm:min-h-[min(42vw,24rem)] md:aspect-[2.2/1] md:min-h-[min(36vh,26rem)]"
+            className="togstrek-featured-adventure-card group relative flex min-h-[min(52vw,20rem)] w-full flex-col justify-end overflow-hidden rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-base text-left shadow-[var(--tt-shadow-photo)] transition-[transform,box-shadow,border-color] duration-[var(--tt-duration-normal)] ease-[var(--tt-ease-out)] after:pointer-events-none after:absolute after:inset-0 after:z-[2] after:rounded-[inherit] after:border-[length:var(--tt-border-width-thick)] after:border-transparent after:transition-colors hover:-translate-y-1 hover:shadow-[var(--tt-shadow-photo-hover)] hover:after:border-tt-accent sm:min-h-[min(42vw,24rem)] md:aspect-[2.2/1] md:min-h-[min(36vh,26rem)]"
           >
             <Image
               src={adventure.imageSrc}
@@ -93,7 +93,7 @@ export function TogstrekFeaturedAdventure({
 
   return (
     <section
-      className="togstrek-featured-adventure togstrek-featured-adventure--panel overflow-hidden rounded-[var(--tt-radius-editorial-xl)] border border-tt-border-muted bg-tt-surface-muted shadow-[var(--tt-shadow-photo)]"
+      className="togstrek-featured-adventure togstrek-featured-adventure--panel overflow-hidden rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted shadow-[var(--tt-shadow-photo)]"
       aria-labelledby={sectionAriaLabelledBy}
     >
       <div className="togstrek-featured-adventure-panel-grid grid grid-cols-1 md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] md:items-stretch md:gap-0">

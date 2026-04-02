@@ -14,7 +14,7 @@ const TogstrekExploreMap = dynamic(
     ssr: false,
     loading: () => (
       <div
-        className="togstrek-home-visited-map-loading flex h-[min(40vh,20rem)] items-center justify-center rounded-none border border-tt-border-muted bg-tt-surface-muted font-tt-body text-tt-text-secondary sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)]"
+        className="togstrek-home-visited-map-loading flex h-[min(40vh,20rem)] items-center justify-center rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted font-tt-body text-tt-text-secondary sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)]"
         role="status"
       >
         Loading map…
@@ -44,7 +44,7 @@ function togstrekHomeVisitedMapStatCard(
 ) {
   return (
     <article
-      className="togstrek-home-visited-map-stat-card rounded-none border border-tt-border-muted bg-tt-surface-muted px-3 py-3 sm:px-4 sm:py-4"
+      className="togstrek-home-visited-map-stat-card rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted px-3 py-3 sm:px-4 sm:py-4"
       aria-label={subline ? `${label}: ${value}. ${subline}` : `${label}: ${value}`}
     >
       <p className="font-tt-body text-[length:var(--tt-text-overline)] font-semibold uppercase tracking-[var(--tt-tracking-overline)] text-tt-text-tertiary">

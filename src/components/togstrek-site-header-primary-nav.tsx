@@ -158,7 +158,7 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
                 onClick={onNavigate}
                 className="togstrek-site-header-mega-panel-aside-adventure-card group block"
               >
-                <div className="togstrek-site-header-mega-panel-aside-adventure-image relative aspect-[4/3] w-full overflow-hidden rounded-none border border-tt-border-muted bg-tt-surface-muted">
+                <div className="togstrek-site-header-mega-panel-aside-adventure-image relative aspect-[4/3] w-full overflow-hidden rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted">
                   <Image
                     src={aside.featuredAdventure.imageSrc}
                     alt={aside.featuredAdventure.imageAlt}

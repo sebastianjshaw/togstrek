@@ -60,7 +60,7 @@ export function TogstrekAdventureFeaturedPlace({
   );
 
   return (
-    <article className="togstrek-adventure-featured-place-card flex min-w-0 flex-col overflow-hidden border border-tt-border-muted bg-tt-surface-base shadow-[var(--tt-shadow-sm)] transition-[box-shadow,transform] duration-[var(--tt-duration-normal)] ease-[var(--tt-ease-out)] [overflow-wrap:anywhere] hover:-translate-y-0.5 hover:shadow-[var(--tt-shadow-elevated)]">
+    <article className="togstrek-adventure-featured-place-card flex min-w-0 flex-col overflow-hidden rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-base shadow-[var(--tt-shadow-sm)] transition-[box-shadow,transform] duration-[var(--tt-duration-normal)] ease-[var(--tt-ease-out)] [overflow-wrap:anywhere] hover:-translate-y-0.5 hover:shadow-[var(--tt-shadow-elevated)]">
       <div className="togstrek-adventure-featured-place-image relative aspect-[3/2] w-full overflow-hidden bg-tt-surface-muted">
         {href ? (
           <Link

@@ -74,22 +74,13 @@ export default function RootLayout({
   return (
     <html
       lang="en-GB"
+      suppressHydrationWarning
       className={`${fontSyne.variable} ${fontDmSans.variable} ${fontGeistMono.variable} h-full antialiased`}
     >
       <head>
         <TogstrekThemeInitScript />
         <link rel="preconnect" href={mediaOrigin} crossOrigin="anonymous" />
         <link rel="dns-prefetch" href={mediaOrigin} />
-        <link
-          rel="preconnect"
-          href="https://images.squarespace-cdn.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preconnect"
-          href="https://static1.squarespace.com"
-          crossOrigin="anonymous"
-        />
         <link
           rel="preconnect"
           href="https://images.unsplash.com"

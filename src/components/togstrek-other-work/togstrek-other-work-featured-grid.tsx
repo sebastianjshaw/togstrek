@@ -27,7 +27,7 @@ export function TogstrekOtherWorkFeaturedGrid({
         <Link
           key={`${item.href}-${item.date}`}
           href={item.href}
-          className="togstrek-other-work-hub-featured-card group flex flex-col overflow-hidden rounded-none border border-tt-border-muted bg-tt-surface-base outline-none transition hover:border-tt-border-accent focus-visible:ring-2 focus-visible:ring-tt-accent"
+          className="togstrek-other-work-hub-featured-card group flex flex-col overflow-hidden rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-base outline-none transition hover:border-tt-border-accent focus-visible:ring-2 focus-visible:ring-tt-accent"
         >
           <div className="togstrek-other-work-hub-featured-card-media relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-tt-surface-muted">
             <Image

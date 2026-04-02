@@ -28,14 +28,6 @@ const REMOTE_IMAGE_PATTERNS: readonly {
   pathname: string;
 }[] = [
   {
-    hostname: "images.squarespace-cdn.com",
-    pathname: "/content/**",
-  },
-  {
-    hostname: "static1.squarespace.com",
-    pathname: "/static/**",
-  },
-  {
     hostname: "images.unsplash.com",
     pathname: "/**",
   },

@@ -11,7 +11,7 @@ const TogstrekExploreMap = dynamic(
     ssr: false,
     loading: () => (
       <div
-        className="togstrek-hiking-map-section-loading flex h-[min(40vh,22rem)] items-center justify-center rounded-none border border-tt-border-muted bg-tt-surface-muted font-tt-body text-[length:var(--tt-text-small)] text-tt-text-secondary sm:h-[min(48vh,26rem)]"
+        className="togstrek-hiking-map-section-loading flex h-[min(40vh,22rem)] items-center justify-center rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted font-tt-body text-[length:var(--tt-text-small)] text-tt-text-secondary sm:h-[min(48vh,26rem)]"
         role="status"
       >
         Loading map…

@@ -20,7 +20,7 @@ const TogstrekExploreMap = dynamic(
     ssr: false,
     loading: () => (
       <div
-        className="flex h-[min(40vh,20rem)] items-center justify-center rounded-none border border-tt-border-muted bg-tt-surface-muted font-tt-body text-tt-text-secondary sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)]"
+        className="flex h-[min(40vh,20rem)] items-center justify-center rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted font-tt-body text-tt-text-secondary sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)]"
         role="status"
       >
         Loading map…
@@ -44,7 +44,7 @@ function formatPercent(value: number): string {
 
 function statCard(label: string, value: string, emphasis?: string) {
   return (
-    <article className="rounded-none border border-tt-border-muted bg-tt-surface-muted px-4 py-4">
+    <article className="rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted px-4 py-4">
       <p className="font-tt-body text-[length:var(--tt-text-overline)] font-semibold uppercase tracking-[var(--tt-tracking-overline)] text-tt-text-tertiary">
         {label}
       </p>
@@ -238,7 +238,7 @@ export function TogstrekVisitedDashboardClient({
         />
       </div>
 
-      <div className="mt-[var(--tt-space-6)] rounded-none border border-tt-border-muted bg-tt-surface-muted px-4 py-4">
+      <div className="mt-[var(--tt-space-6)] rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted px-4 py-4">
         <p className="font-tt-display text-[length:var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-primary">
           Most explored countries in this view
         </p>

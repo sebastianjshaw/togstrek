@@ -195,7 +195,7 @@ export function TogstrekExploreMap({
   if (places.length === 0) {
     return (
       <div
-        className={`togstrek-explore-map-empty rounded-none border border-tt-border-muted bg-tt-surface-muted px-6 py-12 text-center font-tt-body text-tt-text-secondary ${className}`}
+        className={`togstrek-explore-map-empty rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted px-6 py-12 text-center font-tt-body text-tt-text-secondary ${className}`}
         role="status"
       >
         No places to show on the map yet.
@@ -230,7 +230,7 @@ export function TogstrekExploreMap({
 
   return (
     <div
-      className={`togstrek-explore-map relative h-[min(40vh,20rem)] w-full min-h-0 overflow-hidden rounded-none border border-tt-border-default shadow-[var(--tt-shadow-sm)] sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)] ${className}`}
+      className={`togstrek-explore-map relative h-[min(40vh,20rem)] w-full min-h-0 overflow-hidden rounded-[var(--tt-radius-photo)] border border-tt-border-default shadow-[var(--tt-shadow-sm)] sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)] ${className}`}
       role="region"
       aria-label={ariaLabel}
     >

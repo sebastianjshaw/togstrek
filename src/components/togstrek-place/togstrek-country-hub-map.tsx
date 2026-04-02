@@ -11,7 +11,7 @@ const TogstrekExploreMap = dynamic(
     ssr: false,
     loading: () => (
       <div
-        className="togstrek-country-hub-map-loading flex h-[min(40vh,20rem)] items-center justify-center rounded-none border border-tt-border-muted bg-tt-surface-muted font-tt-body text-tt-text-secondary sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)]"
+        className="togstrek-country-hub-map-loading flex h-[min(40vh,20rem)] items-center justify-center rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted font-tt-body text-tt-text-secondary sm:h-[min(48vh,26rem)] lg:h-[min(56vh,35rem)]"
         role="status"
       >
         Loading map…
@@ -36,7 +36,7 @@ export function TogstrekCountryHubMap({
   if (places.length === 0) {
     return (
       <div
-        className={`togstrek-country-hub-map-empty rounded-none border border-tt-border-muted bg-tt-surface-muted px-6 py-12 text-center font-tt-body text-tt-text-secondary ${className}`}
+        className={`togstrek-country-hub-map-empty rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted px-6 py-12 text-center font-tt-body text-tt-text-secondary ${className}`}
         role="status"
       >
         No coordinates on place pages yet — add lat/lng in frontmatter to show pins.

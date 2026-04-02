@@ -91,7 +91,7 @@ export function TogstrekAboutPage() {
         <TogstrekContentWidth>
           <div className="togstrek-about-gallery grid grid-cols-1 gap-[var(--tt-space-3)] md:grid-cols-12 md:gap-[var(--tt-space-4)] md:items-end">
             <div className="togstrek-about-gallery-primary md:col-span-7">
-              <div className="relative aspect-[4/5] w-full overflow-hidden shadow-[0_32px_80px_-28px_rgba(0,0,0,0.55)] md:aspect-[5/6] md:max-h-[min(78vh,720px)] md:min-h-[min(70vh,600px)]">
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[var(--tt-radius-photo)] shadow-[0_32px_80px_-28px_rgba(0,0,0,0.55)] md:aspect-[5/6] md:max-h-[min(78vh,720px)] md:min-h-[min(70vh,600px)]">
                 <Image
                   src={COLLAGE_ACTIVITY_SRC}
                   alt="Collage of outdoor activities: a person with a hiking stick on a hilltop, a person in winter gear on a snowy slope, a photographer capturing a mountain landscape, and a person standing in a valley with cliffs."
@@ -103,7 +103,7 @@ export function TogstrekAboutPage() {
               </div>
             </div>
             <div className="togstrek-about-gallery-secondary md:col-span-5 md:pb-[var(--tt-space-10)]">
-              <div className="relative aspect-[4/5] w-full overflow-hidden shadow-[0_28px_70px_-24px_rgba(0,0,0,0.5)] md:aspect-square">
+              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[var(--tt-radius-photo)] shadow-[0_28px_70px_-24px_rgba(0,0,0,0.5)] md:aspect-square">
                 <Image
                   src={COLLAGE_TRAVEL_SRC}
                   alt="Seb Shaw in Crete, Jordan, France snowboarding and underwater."

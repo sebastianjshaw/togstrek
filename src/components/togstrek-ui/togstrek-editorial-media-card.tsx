@@ -4,7 +4,7 @@ import Link from "next/link";
 /**
  * Editorial media card — design spec: `docs/design-system.md` (lift, scrims, micro-CTA).
  * Tokens: `--tt-editorial-accent-bar-height`, `--tt-duration-slower`.
- * Image frame uses sharp corners site-wide.
+ * Image frame radius: `--tt-radius-photo` (same mat as MDX figures).
  */
 export type TogstrekEditorialMediaCardProps = {
   href: string;
@@ -32,7 +32,7 @@ export function TogstrekEditorialMediaCard({
   className,
 }: TogstrekEditorialMediaCardProps) {
   const rootClass = [
-    "togstrek-editorial-media-card group relative block rounded-none outline-none",
+    "togstrek-editorial-media-card group relative block rounded-[var(--tt-radius-photo)] outline-none",
     "focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-4 focus-visible:ring-offset-tt-surface-base",
     className,
   ]
@@ -40,7 +40,7 @@ export function TogstrekEditorialMediaCard({
     .join(" ");
 
   const frameClass = [
-    "togstrek-editorial-media-card-frame relative aspect-[3/2] overflow-hidden rounded-none bg-tt-surface-muted",
+    "togstrek-editorial-media-card-frame relative aspect-[3/2] overflow-hidden rounded-[var(--tt-radius-photo)] bg-tt-surface-muted",
     "shadow-[var(--tt-shadow-sm)] ring-1 ring-tt-border-muted",
     "transition-[transform,box-shadow,ring-color] duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] will-change-transform",
     "group-hover:-translate-y-2 group-hover:shadow-[var(--tt-shadow-elevated)] group-hover:ring-tt-accent/40",
