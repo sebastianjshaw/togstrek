@@ -1,7 +1,4 @@
-import {
-  togstrekMediaUrl,
-  TOGSTREK_SITE_LANDING_HERO_MEDIA_PATH,
-} from "@/config/togstrek-media";
+import { togstrekMediaUrl } from "@/config/togstrek-media";
 import {
   TOGSTREK_OG_IMAGE_HEIGHT,
   TOGSTREK_OG_IMAGE_WIDTH,
@@ -47,7 +44,7 @@ export type TogstrekContinentHubPageMeta = {
 };
 
 const EUROPE_HUB_HERO_IMAGE = togstrekMediaUrl(
-  TOGSTREK_SITE_LANDING_HERO_MEDIA_PATH,
+  "hiking/_hub/03+-+Alesjaure+to+Tjaktja-000743a3.jpg",
 );
 
 const EUROPE_HUB_HERO_ALT =
@@ -78,7 +75,7 @@ const ASIA_HUB_HERO =
 const NORTH_AMERICA_HUB_HERO =
   "https://media.togstrek.com/north-america/mexico/tulum/Castillo-20221223-0001.jpg";
 const OCEANIA_HUB_HERO = togstrekMediaUrl(
-  "oceania/australia/ballarat/Australia+-+016.webp",
+  "oceania/australia/overview/Australia+-+016.jpg",
 );
 const ANTARCTICA_HUB_HERO =
   "https://media.togstrek.com/antarctica/antarctic/lamaire-channel/HDR-0003-243a3.jpg";

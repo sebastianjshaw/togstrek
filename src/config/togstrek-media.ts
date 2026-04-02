@@ -46,11 +46,12 @@ export function togstrekMediaUrl(path: string): string {
 }
 
 /**
- * Author photograph on your CDN — replaces legacy Squarespace `IMG_4140` URLs for
- * home hero, OG images, and the Europe hub (so `next/image` can optimise).
+ * Homepage landing hero + default OG image for `/`. Same frame as the Asia hub
+ * (`/asia`) — wide Himalayan HDR; avoids repeating region-grid tiles on the home
+ * page (Asia tile uses Bhaktapur).
  */
 export const TOGSTREK_SITE_LANDING_HERO_MEDIA_PATH =
-  "hiking/_hub/03+-+Alesjaure+to+Tjaktja-000743a3.jpg" as const;
+  "hiking/nepal/annapurna/annapurna-day-2/HDR+10+-+Wide+Angle+Mountain+-+00143a3.jpg" as const;
 
 export function togstrekSiteLandingHeroImage(): {
   src: string;
@@ -62,7 +63,7 @@ export function togstrekSiteLandingHeroImage(): {
     src: togstrekMediaUrl(TOGSTREK_SITE_LANDING_HERO_MEDIA_PATH),
     width: 1500,
     height: 1000,
-    alt: "Hiking trail in mountain landscape — Kungsleden, Sweden",
+    alt: "Wide view of Himalayan peaks and ridgelines along the Annapurna trail, Nepal",
   };
 }
 

@@ -39,6 +39,10 @@ Full list: **`package.json` → `scripts`**.
 - On Vercel, **`VERCEL_URL`** is used when `NEXT_PUBLIC_SITE_URL` is unset.
 - Staging: set **`NEXT_PUBLIC_ROBOTS_NOINDEX=true`** to disallow crawlers (`app/robots.ts`).
 
+## Analytics (GA4)
+
+- **`NEXT_PUBLIC_GA_MEASUREMENT_ID`** — optional. Defaults to **`G-WFPJ519GNZ`** in **production** builds only (`src/lib/togstrek-google-analytics.ts`). Set to an empty string to turn GA off. In development, GA is off unless you set this variable (avoids noise in reports while you work locally).
+
 ## Docs
 
 - Design tokens: `src/styles/tokens.css`

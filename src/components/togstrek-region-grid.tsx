@@ -12,8 +12,8 @@ export function TogstrekRegionGrid() {
       <TogstrekContentWidth>
         <TogstrekSectionHeader
           id="togstrek-region-grid-heading"
-          title="Where to"
-          description="Pick a region — each collection is built for wandering slowly, with maps, notes, and images from the road."
+          title="Where to?"
+          description="Pick a continent. Each collection is built for wandering slowly, with maps, notes, and images from the road."
           descriptionProminent
         />
 

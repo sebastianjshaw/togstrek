@@ -4,10 +4,10 @@ import { TogstrekBodyLink } from "@/components/togstrek-ui/togstrek-body-link";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 
 const COLLAGE_ACTIVITY_SRC =
-  "https://images.squarespace-cdn.com/content/v1/6207d70ece223e42dd9ae587/1644681006276-W57LTKTXP2Y4U9PWCUNF/61834b2d19d33df7.jpg";
+  "https://media.togstrek.com/about/61834b2d19d33df7.jpg";
 
 const COLLAGE_TRAVEL_SRC =
-  "https://images.squarespace-cdn.com/content/v1/6207d70ece223e42dd9ae587/1644681006298-Y0IPEL27K6K669FGFMRS/49e1ab56da5755d9.jpg";
+  "https://media.togstrek.com/about/49e1ab56da5755d9.jpg";
 
 export function TogstrekAboutPage() {
   return (

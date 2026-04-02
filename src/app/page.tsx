@@ -55,8 +55,7 @@ export default function HomePage() {
         showAccentRule
         lead={
           <p>
-            Place guides and photo essays from real trips — countries, trails,
-            cities, and the stories behind the frame.
+            Curious travel guides and photo essays from real trips. Countries, cities, trails, and the places in between, each one documented with enough detail to be useful and enough honesty to be worth reading.
           </p>
         }
         actions={

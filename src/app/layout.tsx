@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, Geist_Mono, Syne } from "next/font/google";
 import "./globals.css";
+import { TogstrekGoogleAnalytics } from "@/components/togstrek-google-analytics";
 import { TogstrekJsonLd } from "@/components/togstrek-seo/togstrek-json-ld";
 import { TogstrekSiteFooter } from "@/components/togstrek-site-footer";
 import { TogstrekSiteHeader } from "@/components/togstrek-site-header";
@@ -107,6 +108,7 @@ export default function RootLayout({
           {children}
         </div>
         <TogstrekSiteFooter />
+        <TogstrekGoogleAnalytics />
       </body>
     </html>
   );
