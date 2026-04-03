@@ -55,6 +55,14 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     body: "Belize is so raw and so clear and so in-your-face.",
     attribution: "John McAfee",
   },
+  CA: {
+    body: "Canada is a country of winter light, long roads, and neighbours who say sorry like a reflex.",
+    attribution: "",
+  },
+  CN: {
+    body: "China is layers of history still speaking through every street and every meal.",
+    attribution: "",
+  },
   CH: {
     body: "It's tough to find a place not to like in Switzerland.",
     attribution: "Michele Bachmann",
@@ -84,8 +92,8 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     attribution: "Helena Christensen",
   },
   DO: {
-    body: "MOST EUROPEANS HAVE NO IDEA HOW WILD LIFE CAN BE IN NORTH AMERICA- Tom G. Palmer",
-    attribution: "Tom G. Palmer",
+    body: "I'm proud to be Dominican.",
+    attribution: "David Ortiz",
   },
   EC: {
     body: "Anybody who's been to Ecuador wants to go back because it's beautiful out there.",
@@ -124,8 +132,8 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     attribution: "",
   },
   GT: {
-    body: "MOST EUROPEANS HAVE NO IDEA HOW WILD LIFE CAN BE IN NORTH AMERICA- Tom G. Palmer",
-    attribution: "Tom G. Palmer",
+    body: "Libre crezca fecundo — may Guatemala grow free and fruitful.",
+    attribution: "National motto of Guatemala",
   },
   HK: {
     body: "Those of us lucky enough to fall in love with Asia know that it's an affair that's as long as it is resonant.",
@@ -138,6 +146,10 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
   HU: {
     body: "In Hungary all native music, in its origin, is divided naturally into melody destined for song or melody for the dance.",
     attribution: "Franz Liszt",
+  },
+  ID: {
+    body: "Indonesia is seventeen thousand islands of smoke, surf, and voices that never quite agree — and that is the point.",
+    attribution: "",
   },
   IE: {
     body: "We may have bad weather in Ireland, but the sun shines in the hearts of the people and that keeps us all warm.",
@@ -158,6 +170,14 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
   JO: {
     body: "Jordan has a strange, haunting beauty and a sense of timelessness.",
     attribution: "Hussein of Jordan",
+  },
+  KG: {
+    body: "Kyrgyzstan is yurt smoke, mountain passes, and tea poured for strangers like family.",
+    attribution: "",
+  },
+  KZ: {
+    body: "Kazakhstan is steppe wind, Silk Road memory, and cities rising faster than the maps.",
+    attribution: "",
   },
   KE: {
     body: "Kenya is an immense land with a capacity for healing.",
@@ -251,6 +271,14 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     body: "Thailand was built on compassion",
     attribution: "Bhumibol Adulyadej",
   },
+  TJ: {
+    body: "Tajikistan holds the Pamirs like a spine of snow above every valley story.",
+    attribution: "",
+  },
+  TR: {
+    body: "Istanbul is the city where continents argue in whispers and call it music.",
+    attribution: "Orhan Pamuk",
+  },
   TM: {
     body: "Those of us lucky enough to fall in love with Asia know that it's an affair that's as long as it is resonant.",
     attribution: "",
@@ -275,9 +303,32 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     body: "America has as much diversity in peoples as it does in geographies. - Terri Guillemets",
     attribution: "America",
   },
+  UZ: {
+    body: "Uzbekistan is blue domes, bazaar noise, and desert heat that remembers every caravan.",
+    attribution: "",
+  },
 };
 
+/**
+ * Pull-quote for country hub headers. Uses the ISO2 map when present; otherwise a
+ * neutral line so every hub shows copy.
+ */
+export function resolveTogstrekCountryHubHeaderQuote(
+  iso2: string | undefined,
+  countryLabel: string,
+): TogstrekCountryHubHeaderQuote {
+  const fromMap = iso2 ? togstrekCountryHubHeaderQuoteByIso2[iso2] : undefined;
+  if (fromMap) return fromMap;
+  return {
+    body: `${countryLabel}: place guides with photographs, maps, and notes from the road.`,
+    attribution: "",
+  };
+}
+
 /** Pull line for continent hub country tiles — saying only, no attribution. */
-export function getTogstrekCountryHubTileQuote(iso2: string): string | undefined {
-  return togstrekCountryHubHeaderQuoteByIso2[iso2]?.body;
+export function getTogstrekCountryHubTileQuote(
+  iso2: string,
+  countryDisplayLabel: string,
+): string {
+  return resolveTogstrekCountryHubHeaderQuote(iso2, countryDisplayLabel).body;
 }

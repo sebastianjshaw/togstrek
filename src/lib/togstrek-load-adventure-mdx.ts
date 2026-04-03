@@ -34,7 +34,8 @@ export async function loadTogstrekAdventureMdx(
     mdBody,
   );
 
-  // next-mdx-remote RSC strips JSX attrs written as `{expr}`; use `prop="literal"` in MDX.
+  // next-mdx-remote RSC strips JSX attrs written as `{expr}` (e.g. imageSrc={...},
+  // excerpt={...}); use string literals in MDX — encode & in URLs as %26, " in text as &quot;.
   const { content } = await compileMDX({
     source,
     options: {

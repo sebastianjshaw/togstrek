@@ -13,15 +13,18 @@ import {
   formatSlugLabel,
   truncateDescription,
 } from "@/lib/togstrek-geo-labels";
-import { togstrekCountryHubHeaderQuoteByIso2 } from "@/data/togstrek-country-hub-list-quotes";
+import { resolveTogstrekCountryHubHeaderQuote } from "@/data/togstrek-country-hub-list-quotes";
 import {
   buildTogstrekDefaultOpenGraphTitle,
   buildTogstrekMetadata,
+  TOGSTREK_OG_IMAGE_HEIGHT,
+  TOGSTREK_OG_IMAGE_WIDTH,
 } from "@/lib/togstrek-metadata";
 import {
   discoverTogstrekCountryHubParams,
   listTogstrekPlaceSlugsForCountry,
   loadTogstrekPlaceFrontmatterOnly,
+  resolveTogstrekCountryHubHeaderHero,
 } from "@/lib/togstrek-load-place-mdx";
 import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import { getIso2ForCountrySlug } from "@/lib/togstrek-visited-travel-data";
@@ -44,6 +47,7 @@ export async function generateMetadata({
   }
   const countryLabel = formatSlugLabel(country);
   const path = `/${continent}/${country}`;
+  const headerHero = resolveTogstrekCountryHubHeaderHero(continent, country);
 
   const placeTitles = places.slice(0, 5).map(({ place }) =>
     loadTogstrekPlaceFrontmatterOnly(continent, country, place).title,
@@ -74,6 +78,14 @@ export async function generateMetadata({
     type: "website",
     openGraphTitle: buildTogstrekDefaultOpenGraphTitle(countryLabel),
     openGraphDescription: ogDescription,
+    openGraphImages: [
+      {
+        url: headerHero.src,
+        width: TOGSTREK_OG_IMAGE_WIDTH,
+        height: TOGSTREK_OG_IMAGE_HEIGHT,
+        alt: headerHero.alt,
+      },
+    ],
   });
 }
 
@@ -141,20 +153,20 @@ export default async function TogstrekCountryHubPage({
 
   const iso2 = getIso2ForCountrySlug(continent, country);
   const visitedCountryIso2 = iso2 ? [iso2] : undefined;
-  const headerQuote =
-    iso2 !== undefined
-      ? togstrekCountryHubHeaderQuoteByIso2[iso2]
-      : undefined;
+  const headerHero = resolveTogstrekCountryHubHeaderHero(continent, country);
+  const headerQuote = resolveTogstrekCountryHubHeaderQuote(iso2, countryLabel);
 
   return (
     <TogstrekCountryHubTemplate
       titleId="togstrek-country-hub-title"
+      continentLabel={continentLabel}
       countryLabel={countryLabel}
       lead={
         <>
           Place stories in {countryLabel} ({continentLabel}).
         </>
       }
+      headerHero={headerHero}
       headerQuote={headerQuote}
       breadcrumbItems={[
         { href: `/${continent}`, label: continentLabel },

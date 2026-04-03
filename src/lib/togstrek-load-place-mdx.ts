@@ -6,6 +6,10 @@ import type { ReactNode } from "react";
 import { getTogstrekPlaceMdxComponents } from "@/components/togstrek-place/togstrek-place-mdx-components";
 import { shouldOmitVisibleDescriptionLead } from "@/lib/togstrek-mdx-description-lead-dedupe";
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
+import {
+  isTogstrekContinentHubRouteSlug,
+  togstrekContinentHubPageMeta,
+} from "@/data/togstrek-continent-hub-meta";
 import { togstrekUnCountryNameToUrlSlug } from "@/lib/togstrek-geo-labels";
 import {
   discoverTogstrekCountryHubParams,
@@ -79,6 +83,67 @@ export async function loadTogstrekPlaceMdx(
 }
 
 /**
+ * First non-empty `heroImage` in the given place order — used for country hub headers and continent tiles.
+ */
+export function pickFirstPlaceHeroFromOrderedPlaces(
+  continent: string,
+  country: string,
+  placeRows: { place: string[] }[],
+): { src: string; alt: string } | undefined {
+  for (const { place } of placeRows) {
+    const fm = loadTogstrekPlaceFrontmatterOnly(continent, country, place);
+    const src = fm.heroImage?.src?.trim();
+    if (src) {
+      return { src, alt: fm.heroImage!.alt };
+    }
+  }
+  return undefined;
+}
+
+/** First place hero for a country (paths sorted like the country hub grid). */
+export function pickFirstPlaceHeroForCountryHub(
+  continent: string,
+  country: string,
+): { src: string; alt: string } | undefined {
+  return pickFirstPlaceHeroFromOrderedPlaces(
+    continent,
+    country,
+    listTogstrekPlaceSlugsForCountry(continent, country),
+  );
+}
+
+function continentHubHeroFallback(continent: string): {
+  src: string;
+  alt: string;
+} {
+  if (isTogstrekContinentHubRouteSlug(continent)) {
+    const meta = togstrekContinentHubPageMeta[continent];
+    return { src: meta.heroImageSrc, alt: meta.heroImageAlt };
+  }
+  const eu = togstrekContinentHubPageMeta.europe;
+  return { src: eu.heroImageSrc, alt: eu.heroImageAlt };
+}
+
+/**
+ * Cinematic header image for `/{continent}/{country}` — first place hero, else that continent’s hub hero.
+ */
+export function resolveTogstrekCountryHubHeaderHero(
+  continent: string,
+  country: string,
+  placeOrder?: { place: string[] }[],
+): { src: string; alt: string } {
+  const rows =
+    placeOrder ?? listTogstrekPlaceSlugsForCountry(continent, country);
+  const picked = pickFirstPlaceHeroFromOrderedPlaces(
+    continent,
+    country,
+    rows,
+  );
+  if (picked) return picked;
+  return continentHubHeroFallback(continent);
+}
+
+/**
  * First place hero under the country content folder (sorted by place path) — for continent hub tiles.
  */
 export function pickTogstrekCountryHubTileHeroFromPlaces(options: {
@@ -102,19 +167,5 @@ export function pickTogstrekCountryHubTileHeroFromPlaces(options: {
     }
   }
 
-  const places = listTogstrekPlaceSlugsForCountry(
-    contentContinent,
-    countrySlug,
-  );
-  for (const { place } of places) {
-    const fm = loadTogstrekPlaceFrontmatterOnly(
-      contentContinent,
-      countrySlug,
-      place,
-    );
-    if (fm.heroImage?.src) {
-      return { src: fm.heroImage.src, alt: fm.heroImage.alt };
-    }
-  }
-  return undefined;
+  return pickFirstPlaceHeroForCountryHub(contentContinent, countrySlug);
 }

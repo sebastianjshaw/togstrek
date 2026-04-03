@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 
+import { TOGSTREK_REMOTE_IMAGE_PATTERNS } from "./src/config/togstrek-remote-image-hosts";
 import { TOGSTREK_EUROPE_LEGACY_FLAT_HUB_SLUGS } from "./src/data/togstrek-country-hub-paths";
 import { togstrekNorthAmericaLegacyPlaceRedirects } from "./src/data/togstrek-north-america-legacy-place-redirects";
 
@@ -21,17 +22,6 @@ function getMediaHostnameForNextConfig(): string {
     return "media.togstrek.com";
   }
 }
-
-/** Keep in sync with `src/config/togstrek-remote-image-hosts.ts`. */
-const REMOTE_IMAGE_PATTERNS: readonly {
-  hostname: string;
-  pathname: string;
-}[] = [
-  {
-    hostname: "images.unsplash.com",
-    pathname: "/**",
-  },
-];
 
 const mediaHost = getMediaHostnameForNextConfig();
 /** Canonical CDN host for MDX/data URLs — always allow even if `NEXT_PUBLIC_MEDIA_BASE_URL` points elsewhere. */
@@ -158,7 +148,7 @@ const nextConfig: NextConfig = {
         hostname,
         pathname: "/**" as const,
       })),
-      ...REMOTE_IMAGE_PATTERNS.map((p) => ({
+      ...TOGSTREK_REMOTE_IMAGE_PATTERNS.map((p) => ({
         protocol: "https" as const,
         hostname: p.hostname,
         pathname: p.pathname,

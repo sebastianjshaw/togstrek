@@ -23,14 +23,14 @@ function togstrekContinentHubCountryListItems(
   rows: { c: TogstrekUn195Country; href?: string }[],
 ) {
   return rows.map(({ c, href }) => {
-    const quote = getTogstrekCountryHubTileQuote(c.iso2);
+    const tileTitle =
+      togstrekCountryHubTileTitleByIso2[c.iso2] ?? c.name;
+    const quote = getTogstrekCountryHubTileQuote(c.iso2, tileTitle);
     const tileHero = pickTogstrekCountryHubTileHeroFromPlaces({
       continentSlug: continent,
       unCountryName: c.name,
       hubHref: href,
     });
-    const tileTitle =
-      togstrekCountryHubTileTitleByIso2[c.iso2] ?? c.name;
 
     return (
       <li

@@ -5,10 +5,13 @@ import {
 import { TogstrekCountryHubMap } from "@/components/togstrek-place/togstrek-country-hub-map";
 import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import type { TogstrekMapPlace } from "@/components/togstrek-explore-map/types";
-import { togstrekCountryHubHeaderQuoteByIso2 } from "@/data/togstrek-country-hub-list-quotes";
+import { resolveTogstrekCountryHubHeaderQuote } from "@/data/togstrek-country-hub-list-quotes";
 import { formatSlugLabel, truncateDescription } from "@/lib/togstrek-geo-labels";
 import { listPlaceSlugsForEnglandCounty } from "@/lib/togstrek-england-counties";
-import { loadTogstrekPlaceFrontmatterOnly } from "@/lib/togstrek-load-place-mdx";
+import {
+  loadTogstrekPlaceFrontmatterOnly,
+  resolveTogstrekCountryHubHeaderHero,
+} from "@/lib/togstrek-load-place-mdx";
 import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import { getUkNationLabel } from "@/lib/togstrek-uk-nations";
 import { getIso2ForCountrySlug } from "@/lib/togstrek-visited-travel-data";
@@ -71,20 +74,24 @@ export function TogstrekEnglandCountyHubContent({
 
   const iso2 = getIso2ForCountrySlug(continent, country);
   const visitedCountryIso2 = iso2 ? [iso2] : undefined;
-  const headerQuote =
-    iso2 !== undefined
-      ? togstrekCountryHubHeaderQuoteByIso2[iso2]
-      : undefined;
+  const headerHero = resolveTogstrekCountryHubHeaderHero(
+    continent,
+    country,
+    placeRows,
+  );
+  const headerQuote = resolveTogstrekCountryHubHeaderQuote(iso2, countyLabel);
 
   return (
     <TogstrekCountryHubTemplate
       titleId="togstrek-england-county-hub-title"
+      continentLabel={continentLabel}
       countryLabel={countyLabel}
       lead={
         <>
           Place stories in {countyLabel} ({englandLabel}).
         </>
       }
+      headerHero={headerHero}
       headerQuote={headerQuote}
       breadcrumbItems={[
         { href: `/${continent}`, label: continentLabel },

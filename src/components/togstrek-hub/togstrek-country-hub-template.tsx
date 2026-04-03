@@ -1,10 +1,13 @@
 import type { ReactNode } from "react";
 
-import type { TogstrekBreadcrumbItem } from "@/components/togstrek-ui/togstrek-breadcrumb";
-import { TogstrekBreadcrumb } from "@/components/togstrek-ui/togstrek-breadcrumb";
+import { TogstrekPageHero } from "@/components/togstrek-page-hero";
+import {
+  TogstrekBreadcrumb,
+  type TogstrekBreadcrumbItem,
+} from "@/components/togstrek-ui/togstrek-breadcrumb";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
-import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
+import type { TogstrekCountryHubHeaderQuote } from "@/data/togstrek-country-hub-list-quotes";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 
 /** Default gradient when a place has no hero image on country hub cards. */
@@ -27,11 +30,15 @@ export type TogstrekCountryHubPlacesSlotProps = {
 
 export type TogstrekCountryHubTemplateProps = {
   titleId: string;
+  /** Continent label for the hero eyebrow (e.g. “Europe”). */
+  continentLabel: string;
   countryLabel: string;
-  /** Short line under the H1 (e.g. “Place stories in …”). */
+  /** Short line under the H1 inside the hero (e.g. “Place stories in …”). */
   lead: ReactNode;
-  /** Optional pull-quote under the lead (e.g. attributed line for select countries). */
-  headerQuote?: { body: string; attribution: string };
+  /** Full-bleed header image (first place hero or continent fallback). */
+  headerHero: { src: string; alt: string };
+  /** Pull-quote on the hero (resolved so body is always set). */
+  headerQuote: TogstrekCountryHubHeaderQuote;
   breadcrumbItems: TogstrekBreadcrumbItem[];
   /** Optional block after breadcrumb, before the map (e.g. UK nation cards). */
   beforeMapSlot?: ReactNode;
@@ -43,12 +50,14 @@ const PLACE_CARD_GRID_CLASS =
   "mt-[var(--tt-space-10)] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3";
 
 /**
- * Shell for `/{continent}/{country}`: title header, breadcrumb, map section, place cards.
+ * Shell for `/{continent}/{country}`: cinematic hero (image + quote), breadcrumb, map, place cards.
  */
 export function TogstrekCountryHubTemplate({
   titleId,
+  continentLabel,
   countryLabel,
   lead,
+  headerHero,
   headerQuote,
   breadcrumbItems,
   beforeMapSlot,
@@ -57,24 +66,19 @@ export function TogstrekCountryHubTemplate({
 }: TogstrekCountryHubTemplateProps) {
   return (
     <main className="togstrek-country-hub-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
-      <header className="togstrek-country-hub-header border-b border-tt-border-muted bg-tt-surface-muted">
-        <TogstrekContentWidth className="py-[var(--tt-space-12)]">
-          <TogstrekPageTitle id={titleId}>{countryLabel}</TogstrekPageTitle>
-          <p className="mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
-            {lead}
-          </p>
-          {headerQuote ? (
-            <figure className="togstrek-country-hub-header-quote mt-[var(--tt-space-8)] max-w-[min(36rem,100%)]">
-              <blockquote className="font-tt-display text-[clamp(1.05rem,1.5vw+0.5rem,1.35rem)] font-semibold leading-[var(--tt-leading-snug)] text-tt-text-primary [overflow-wrap:anywhere]">
-                {headerQuote.body}
-              </blockquote>
-              <figcaption className="mt-[var(--tt-space-3)] font-tt-body text-[length:var(--tt-text-small)] italic text-tt-text-secondary">
-                — {headerQuote.attribution}
-              </figcaption>
-            </figure>
-          ) : null}
-        </TogstrekContentWidth>
-      </header>
+      <TogstrekPageHero
+        variant="landing"
+        imageSrc={headerHero.src}
+        imageAlt={headerHero.alt}
+        eyebrow={continentLabel}
+        title={countryLabel}
+        titleId={titleId}
+        quote={{
+          children: headerQuote.body,
+          attribution: headerQuote.attribution,
+        }}
+        lead={lead}
+      />
 
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
         <TogstrekBreadcrumb items={breadcrumbItems} />

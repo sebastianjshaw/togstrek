@@ -42,6 +42,7 @@
     "migrate:places:asia": "tsx scripts/migrate-squarespace-places-asia.ts",
     "migrate:places:oceania": "tsx scripts/migrate-squarespace-places-oceania.ts",
     "migrate:country-hub-quotes": "tsx scripts/togstrek-migrate-country-hub-quotes.ts",
+    "sync:adventures-from-html": "tsx scripts/togstrek-sync-adventures-from-saved-html.ts",
     "fix:photography-mdx": "tsx scripts/fix-photography-mdx-blog-boilerplate.ts",
     "data:other-work:featured": "tsx scripts/refresh-other-work-section-featured.ts",
     "r2:upload": "python3 scripts/r2_upload.py",
