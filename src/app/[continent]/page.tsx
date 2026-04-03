@@ -39,6 +39,9 @@ import { buildTogstrekVisitedTravelDataset } from "@/lib/togstrek-visited-travel
 
 type PageParams = { continent: string };
 
+/** Only prebuilt continent hubs — unknown slugs 404 without touching the filesystem. */
+export const dynamicParams = false;
+
 export async function generateStaticParams(): Promise<PageParams[]> {
   return TOGSTREK_CONTINENT_HUB_ROUTE_SLUGS.map((continent) => ({ continent }));
 }

@@ -12,8 +12,26 @@ import {
   discoverTogstrekHikingGroupSegmentLists,
   isTogstrekHikingGroupRoute,
 } from "@/lib/togstrek-hiking-groups";
+import {
+  areTogstrekSafeUrlPathSegments,
+  isTogstrekPathWithinRoot,
+  isTogstrekSafeUrlPathSegment,
+} from "@/lib/togstrek-path-safety";
 
 const HIKING_ROOT = path.join(process.cwd(), "content", "hiking");
+
+function resolveHikingMdxReadPath(slugSegments: string[]): string | null {
+  if (slugSegments.length === 0) {
+    const fp = path.join(HIKING_ROOT, "index.mdx");
+    return isTogstrekPathWithinRoot(fp, HIKING_ROOT) ? fp : null;
+  }
+  if (!areTogstrekSafeUrlPathSegments(slugSegments)) return null;
+  const folderIndex = path.join(HIKING_ROOT, ...slugSegments, "index.mdx");
+  const singleFile = path.join(HIKING_ROOT, ...slugSegments) + ".mdx";
+  const fp = fs.existsSync(folderIndex) ? folderIndex : singleFile;
+  if (!isTogstrekPathWithinRoot(fp, HIKING_ROOT)) return null;
+  return fp;
+}
 
 export function mergeTogstrekHikingTrailFactsFromBody(
   fm: TogstrekHikingMdxFrontmatter,
@@ -39,14 +57,17 @@ export function resolveTogstrekHikingRoute(
   slugSegments: string[],
 ): TogstrekHikingResolvedRoute | null {
   if (slugSegments.length === 0) return null;
+  if (!areTogstrekSafeUrlPathSegments(slugSegments)) return null;
 
   const singleFile = path.join(HIKING_ROOT, ...slugSegments) + ".mdx";
   const folderIndex = path.join(HIKING_ROOT, ...slugSegments, "index.mdx");
 
   if (fs.existsSync(singleFile)) {
+    if (!isTogstrekPathWithinRoot(singleFile, HIKING_ROOT)) return null;
     return { kind: "post", filePath: singleFile };
   }
   if (fs.existsSync(folderIndex)) {
+    if (!isTogstrekPathWithinRoot(folderIndex, HIKING_ROOT)) return null;
     return {
       kind: "group",
       groupSegments: slugSegments,
@@ -61,32 +82,18 @@ export function resolveTogstrekHikingRoute(
 
 /** Path to `content/hiking/index.mdx`, nested `…/index.mdx`, or `…/slug.mdx`. */
 export function hikingMdxFilePath(slugSegments: string[]): string {
-  if (slugSegments.length === 0) {
-    return path.join(HIKING_ROOT, "index.mdx");
+  const fp = resolveHikingMdxReadPath(slugSegments);
+  if (!fp) {
+    throw new Error("Invalid hiking path parameters");
   }
-  const folderIndex = path.join(HIKING_ROOT, ...slugSegments, "index.mdx");
-  const singleFile = path.join(HIKING_ROOT, ...slugSegments) + ".mdx";
-  if (fs.existsSync(folderIndex)) return folderIndex;
-  return singleFile;
+  return fp;
 }
 
 export function hikingMdxExists(slugSegments: string[]): boolean {
-  if (slugSegments.length === 0) {
-    try {
-      return fs.statSync(path.join(HIKING_ROOT, "index.mdx")).isFile();
-    } catch {
-      return false;
-    }
-  }
-  const folderIndex = path.join(HIKING_ROOT, ...slugSegments, "index.mdx");
-  const singleFile = path.join(HIKING_ROOT, ...slugSegments) + ".mdx";
+  const fp = resolveHikingMdxReadPath(slugSegments);
+  if (!fp) return false;
   try {
-    if (fs.statSync(folderIndex).isFile()) return true;
-  } catch {
-    /* continue */
-  }
-  try {
-    return fs.statSync(singleFile).isFile();
+    return fs.statSync(fp).isFile();
   } catch {
     return false;
   }
@@ -95,7 +102,10 @@ export function hikingMdxExists(slugSegments: string[]): boolean {
 export function loadTogstrekHikingFrontmatterOnly(
   slugSegments: string[],
 ): TogstrekHikingMdxFrontmatter {
-  const fp = hikingMdxFilePath(slugSegments);
+  const fp = resolveHikingMdxReadPath(slugSegments);
+  if (!fp) {
+    throw new Error("Invalid hiking path parameters");
+  }
   const raw = fs.readFileSync(fp, "utf8");
   const { data, content } = matter(raw);
   const fm = parseTogstrekHikingFrontmatter(data as Record<string, unknown>);
@@ -116,13 +126,18 @@ export function discoverTogstrekHikingSlugLists(): string[][] {
       if (ent.name.startsWith(".")) continue;
       const full = path.join(dir, ent.name);
       if (ent.isDirectory()) {
+        if (!isTogstrekSafeUrlPathSegment(ent.name)) continue;
         walk(full, [...rel, ent.name]);
       } else if (ent.isFile() && ent.name.endsWith(".mdx")) {
         const base = ent.name.replace(/\.mdx$/, "");
         if (base === "index") {
-          out.push(rel.length === 0 ? [] : rel);
-        } else {
-          out.push([...rel, base]);
+          if (rel.every(isTogstrekSafeUrlPathSegment)) {
+            out.push(rel.length === 0 ? [] : rel);
+          }
+        } else if (isTogstrekSafeUrlPathSegment(base)) {
+          if (rel.every(isTogstrekSafeUrlPathSegment)) {
+            out.push([...rel, base]);
+          }
         }
       }
     }

@@ -13,6 +13,7 @@ import {
   formatSlugLabel,
   truncateDescription,
 } from "@/lib/togstrek-geo-labels";
+import { getTogstrekCountryHubIntro } from "@/data/togstrek-country-hub-intro";
 import { resolveTogstrekCountryHubHeaderQuote } from "@/data/togstrek-country-hub-list-quotes";
 import {
   buildTogstrekDefaultOpenGraphTitle,
@@ -30,6 +31,9 @@ import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import { getIso2ForCountrySlug } from "@/lib/togstrek-visited-travel-data";
 
 type PageParams = { continent: string; country: string };
+
+/** Only prebuilt country hubs from MDX discovery. */
+export const dynamicParams = false;
 
 export async function generateStaticParams(): Promise<PageParams[]> {
   return discoverTogstrekCountryHubParams();
@@ -155,6 +159,7 @@ export default async function TogstrekCountryHubPage({
   const visitedCountryIso2 = iso2 ? [iso2] : undefined;
   const headerHero = resolveTogstrekCountryHubHeaderHero(continent, country);
   const headerQuote = resolveTogstrekCountryHubHeaderQuote(iso2, countryLabel);
+  const intro = getTogstrekCountryHubIntro(continent, country);
 
   return (
     <TogstrekCountryHubTemplate
@@ -168,6 +173,7 @@ export default async function TogstrekCountryHubPage({
       }
       headerHero={headerHero}
       headerQuote={headerQuote}
+      intro={intro}
       breadcrumbItems={[
         { href: `/${continent}`, label: continentLabel },
         { label: countryLabel },

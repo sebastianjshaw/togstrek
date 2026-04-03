@@ -913,7 +913,7 @@ export const togstrekUn195Countries: TogstrekUn195Country[] = [
   },
   {
     "iso2": "TR",
-    "name": "Turkey",
+    "name": "Türkiye",
     "continent": "asia"
   },
   {

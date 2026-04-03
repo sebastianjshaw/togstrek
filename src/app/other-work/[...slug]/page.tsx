@@ -10,6 +10,8 @@ import {
   otherWorkMdxExists,
 } from "@/lib/togstrek-load-other-work-mdx";
 
+export const dynamicParams = false;
+
 export async function generateStaticParams(): Promise<{ slug: string[] }[]> {
   return discoverTogstrekOtherWorkSlugParams();
 }

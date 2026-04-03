@@ -13,8 +13,31 @@ import {
   type TogstrekOtherWorkMdxFrontmatter,
 } from "@/lib/togstrek-other-work-frontmatter";
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
+import {
+  areTogstrekSafeUrlPathSegments,
+  isTogstrekPathWithinRoot,
+  isTogstrekSafeUrlPathSegment,
+} from "@/lib/togstrek-path-safety";
 
 const OTHER_WORK_ROOT = path.join(process.cwd(), "content", "other-work");
+
+function resolveOtherWorkMdxPath(slugSegments: string[]): string | null {
+  if (
+    slugSegments.length > 0 &&
+    !areTogstrekSafeUrlPathSegments(slugSegments)
+  ) {
+    return null;
+  }
+  if (slugSegments.length === 0) {
+    const fp = path.join(OTHER_WORK_ROOT, "index.mdx");
+    return isTogstrekPathWithinRoot(fp, OTHER_WORK_ROOT) ? fp : null;
+  }
+  const folderIndex = path.join(OTHER_WORK_ROOT, ...slugSegments, "index.mdx");
+  const singleFile = path.join(OTHER_WORK_ROOT, ...slugSegments) + ".mdx";
+  const fp = fs.existsSync(folderIndex) ? folderIndex : singleFile;
+  if (!isTogstrekPathWithinRoot(fp, OTHER_WORK_ROOT)) return null;
+  return fp;
+}
 
 export type TogstrekOtherWorkMdxResult = {
   frontmatter: TogstrekOtherWorkMdxFrontmatter;
@@ -23,32 +46,18 @@ export type TogstrekOtherWorkMdxResult = {
 };
 
 export function otherWorkMdxFilePath(slugSegments: string[]): string {
-  if (slugSegments.length === 0) {
-    return path.join(OTHER_WORK_ROOT, "index.mdx");
+  const fp = resolveOtherWorkMdxPath(slugSegments);
+  if (!fp) {
+    throw new Error("Invalid other-work path parameters");
   }
-  const folderIndex = path.join(OTHER_WORK_ROOT, ...slugSegments, "index.mdx");
-  const singleFile = path.join(OTHER_WORK_ROOT, ...slugSegments) + ".mdx";
-  if (fs.existsSync(folderIndex)) return folderIndex;
-  return singleFile;
+  return fp;
 }
 
 export function otherWorkMdxExists(slugSegments: string[]): boolean {
-  if (slugSegments.length === 0) {
-    try {
-      return fs.statSync(path.join(OTHER_WORK_ROOT, "index.mdx")).isFile();
-    } catch {
-      return false;
-    }
-  }
-  const folderIndex = path.join(OTHER_WORK_ROOT, ...slugSegments, "index.mdx");
-  const singleFile = path.join(OTHER_WORK_ROOT, ...slugSegments) + ".mdx";
+  const fp = resolveOtherWorkMdxPath(slugSegments);
+  if (!fp) return false;
   try {
-    if (fs.statSync(folderIndex).isFile()) return true;
-  } catch {
-    /* continue */
-  }
-  try {
-    return fs.statSync(singleFile).isFile();
+    return fs.statSync(fp).isFile();
   } catch {
     return false;
   }
@@ -57,7 +66,10 @@ export function otherWorkMdxExists(slugSegments: string[]): boolean {
 export function loadTogstrekOtherWorkFrontmatterOnly(
   slugSegments: string[],
 ): TogstrekOtherWorkMdxFrontmatter {
-  const fp = otherWorkMdxFilePath(slugSegments);
+  const fp = resolveOtherWorkMdxPath(slugSegments);
+  if (!fp) {
+    throw new Error("Invalid other-work path parameters");
+  }
   const raw = fs.readFileSync(fp, "utf8");
   const { data } = matter(raw);
   return parseTogstrekOtherWorkFrontmatter(data as Record<string, unknown>);
@@ -111,13 +123,18 @@ export function discoverTogstrekOtherWorkSlugLists(): string[][] {
       if (ent.name.startsWith(".")) continue;
       const full = path.join(dir, ent.name);
       if (ent.isDirectory()) {
+        if (!isTogstrekSafeUrlPathSegment(ent.name)) continue;
         walk(full, [...rel, ent.name]);
       } else if (ent.isFile() && ent.name.endsWith(".mdx")) {
         const base = ent.name.replace(/\.mdx$/, "");
         if (base === "index") {
-          out.push(rel.length === 0 ? [] : rel);
-        } else {
-          out.push([...rel, base]);
+          if (rel.every(isTogstrekSafeUrlPathSegment)) {
+            out.push(rel.length === 0 ? [] : rel);
+          }
+        } else if (isTogstrekSafeUrlPathSegment(base)) {
+          if (rel.every(isTogstrekSafeUrlPathSegment)) {
+            out.push([...rel, base]);
+          }
         }
       }
     }

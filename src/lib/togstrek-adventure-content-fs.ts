@@ -10,8 +10,19 @@ import {
   parseTogstrekAdventureFrontmatter,
   type TogstrekAdventureMdxFrontmatter,
 } from "@/lib/togstrek-adventure-frontmatter";
+import {
+  isTogstrekPathWithinRoot,
+  isTogstrekSafeUrlPathSegment,
+} from "@/lib/togstrek-path-safety";
 
 const ADVENTURES_ROOT = path.join(process.cwd(), "content", "adventures");
+
+function resolveAdventureMdxPath(slug: string): string | null {
+  if (!isTogstrekSafeUrlPathSegment(slug)) return null;
+  const fp = path.join(ADVENTURES_ROOT, `${slug}.mdx`);
+  if (!isTogstrekPathWithinRoot(fp, ADVENTURES_ROOT)) return null;
+  return fp;
+}
 
 /** Same basename as `TOGSTREK_ADVENTURES_HERO_IMAGE_FILE` — avoid importing data layer here. */
 const FALLBACK_ADVENTURE_CARD_IMAGE_SRC = togstrekMediaUrl(
@@ -27,12 +38,18 @@ export type TogstrekAdventureArchiveItem = {
 };
 
 export function adventureMdxFilePath(slug: string): string {
-  return path.join(ADVENTURES_ROOT, `${slug}.mdx`);
+  const fp = resolveAdventureMdxPath(slug);
+  if (!fp) {
+    throw new Error("Invalid adventure slug");
+  }
+  return fp;
 }
 
 export function adventureMdxExists(slug: string): boolean {
+  const fp = resolveAdventureMdxPath(slug);
+  if (!fp) return false;
   try {
-    return fs.statSync(adventureMdxFilePath(slug)).isFile();
+    return fs.statSync(fp).isFile();
   } catch {
     return false;
   }
@@ -43,7 +60,8 @@ export function discoverTogstrekAdventureSlugs(): string[] {
   return fs
     .readdirSync(ADVENTURES_ROOT)
     .filter((f) => f.endsWith(".mdx"))
-    .map((f) => f.slice(0, -".mdx".length));
+    .map((f) => f.slice(0, -".mdx".length))
+    .filter(isTogstrekSafeUrlPathSegment);
 }
 
 export function discoverTogstrekAdventureSlugParams(): { slug: string }[] {

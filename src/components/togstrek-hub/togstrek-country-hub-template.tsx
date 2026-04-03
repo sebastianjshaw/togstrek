@@ -40,7 +40,9 @@ export type TogstrekCountryHubTemplateProps = {
   /** Pull-quote on the hero (resolved so body is always set). */
   headerQuote: TogstrekCountryHubHeaderQuote;
   breadcrumbItems: TogstrekBreadcrumbItem[];
-  /** Optional block after breadcrumb, before the map (e.g. UK nation cards). */
+  /** Optional long-form country essay after the breadcrumb (e.g. Egypt hub). */
+  intro?: ReactNode;
+  /** Optional block after intro / breadcrumb, before the map (e.g. UK nation cards). */
   beforeMapSlot?: ReactNode;
   map: TogstrekCountryHubMapSlotProps;
   places: TogstrekCountryHubPlacesSlotProps;
@@ -60,6 +62,7 @@ export function TogstrekCountryHubTemplate({
   headerHero,
   headerQuote,
   breadcrumbItems,
+  intro,
   beforeMapSlot,
   map,
   places,
@@ -83,14 +86,25 @@ export function TogstrekCountryHubTemplate({
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
         <TogstrekBreadcrumb items={breadcrumbItems} />
 
+        {intro ? (
+          <section
+            className="togstrek-country-hub-intro-section mt-[var(--tt-space-10)] max-w-[var(--tt-layout-max-prose)]"
+            aria-label={`About ${countryLabel}`}
+          >
+            {intro}
+          </section>
+        ) : null}
+
         {beforeMapSlot ? (
-          <div className="togstrek-country-hub-before-map mt-[var(--tt-space-10)]">
+          <div
+            className={`togstrek-country-hub-before-map ${intro ? "mt-[var(--tt-space-12)]" : "mt-[var(--tt-space-10)]"}`}
+          >
             {beforeMapSlot}
           </div>
         ) : null}
 
         <section
-          className={`togstrek-country-hub-map-section ${beforeMapSlot ? "mt-[var(--tt-space-16)]" : "mt-[var(--tt-space-10)]"}`}
+          className={`togstrek-country-hub-map-section ${beforeMapSlot ? "mt-[var(--tt-space-16)]" : intro ? "mt-[var(--tt-space-12)]" : "mt-[var(--tt-space-10)]"}`}
           aria-labelledby={map.mapHeadingId}
         >
           <TogstrekSectionHeader

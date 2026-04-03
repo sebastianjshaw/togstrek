@@ -30,6 +30,9 @@ import { formatSlugLabel, truncateDescription } from "@/lib/togstrek-geo-labels"
 
 type PageParams = TogstrekPlaceSlugParams;
 
+/** Only prebuilt place paths — blocks traversal attempts on dynamic hosts. */
+export const dynamicParams = false;
+
 export async function generateStaticParams(): Promise<PageParams[]> {
   return [
     ...discoverTogstrekPlaceSlugs(),

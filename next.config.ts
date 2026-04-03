@@ -30,7 +30,25 @@ const mediaImageHosts = Array.from(
   new Set([mediaHost, defaultMediaHostname].filter(Boolean)),
 );
 
+const securityHeaders = [
+  { key: "X-Frame-Options", value: "SAMEORIGIN" },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=()",
+  },
+] as const;
+
 const nextConfig: NextConfig = {
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [...securityHeaders],
+      },
+    ];
+  },
   /**
    * Prevent @vercel/nft from following huge local-only trees (HTTrack mirror, CDN staging).
    * Key `*` attaches to the main server trace (`next-server`); see Next `collect-build-traces`.
@@ -87,6 +105,26 @@ const nextConfig: NextConfig = {
       {
         source: "/asia/turkey/:path*",
         destination: "/europe/turkiye/:path*",
+        permanent: true,
+      },
+      {
+        source: "/asia/turkiye",
+        destination: "/europe/turkiye",
+        permanent: true,
+      },
+      {
+        source: "/asia/turkiye/:path*",
+        destination: "/europe/turkiye/:path*",
+        permanent: true,
+      },
+      {
+        source: "/asia/kyrgyzstan/overview",
+        destination: "/asia/kyrgyzstan",
+        permanent: true,
+      },
+      {
+        source: "/north-america/canada/overview",
+        destination: "/north-america/canada",
         permanent: true,
       },
       {

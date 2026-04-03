@@ -107,6 +107,11 @@ const togstrekEuropeSpecialTerritoriesUnsorted: TogstrekSpecialTerritoryHub[] = 
     label: "Ladonia",
     note: "Micronation, Swedish coast",
   },
+  {
+    href: "/europe/turkiye",
+    label: "Türkiye",
+    note: "Transcontinental — also listed under Asia; one hub, same place stories",
+  },
 ];
 
 /** Territories and similar areas with their own hub pages (not separate UN member rows). */

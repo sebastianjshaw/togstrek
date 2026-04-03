@@ -11,8 +11,27 @@ import {
   parseTogstrekOtherWorkFrontmatter,
   type TogstrekOtherWorkMdxFrontmatter,
 } from "@/lib/togstrek-other-work-frontmatter";
+import {
+  areTogstrekSafeUrlPathSegments,
+  isTogstrekPathWithinRoot,
+  isTogstrekSafeUrlPathSegment,
+} from "@/lib/togstrek-path-safety";
 
 const PHOTOGRAPHY_ROOT = path.join(process.cwd(), "content", "photography");
+
+function resolvePhotographyMdxPath(slugSegments: string[]): string | null {
+  if (
+    slugSegments.length === 0 ||
+    !areTogstrekSafeUrlPathSegments(slugSegments)
+  ) {
+    return null;
+  }
+  const folderIndex = path.join(PHOTOGRAPHY_ROOT, ...slugSegments, "index.mdx");
+  const singleFile = path.join(PHOTOGRAPHY_ROOT, ...slugSegments) + ".mdx";
+  const fp = fs.existsSync(folderIndex) ? folderIndex : singleFile;
+  if (!isTogstrekPathWithinRoot(fp, PHOTOGRAPHY_ROOT)) return null;
+  return fp;
+}
 
 export type TogstrekPhotographyMdxResult = {
   frontmatter: TogstrekOtherWorkMdxFrontmatter;
@@ -22,23 +41,18 @@ export type TogstrekPhotographyMdxResult = {
 };
 
 export function photographyMdxFilePath(slugSegments: string[]): string {
-  const folderIndex = path.join(PHOTOGRAPHY_ROOT, ...slugSegments, "index.mdx");
-  const singleFile = path.join(PHOTOGRAPHY_ROOT, ...slugSegments) + ".mdx";
-  if (fs.existsSync(folderIndex)) return folderIndex;
-  return singleFile;
+  const fp = resolvePhotographyMdxPath(slugSegments);
+  if (!fp) {
+    throw new Error("Invalid photography path parameters");
+  }
+  return fp;
 }
 
 export function photographyMdxExists(slugSegments: string[]): boolean {
-  if (slugSegments.length === 0) return false;
-  const folderIndex = path.join(PHOTOGRAPHY_ROOT, ...slugSegments, "index.mdx");
-  const singleFile = path.join(PHOTOGRAPHY_ROOT, ...slugSegments) + ".mdx";
+  const fp = resolvePhotographyMdxPath(slugSegments);
+  if (!fp) return false;
   try {
-    if (fs.statSync(folderIndex).isFile()) return true;
-  } catch {
-    /* continue */
-  }
-  try {
-    return fs.statSync(singleFile).isFile();
+    return fs.statSync(fp).isFile();
   } catch {
     return false;
   }
@@ -47,7 +61,10 @@ export function photographyMdxExists(slugSegments: string[]): boolean {
 export function loadTogstrekPhotographyFrontmatterOnly(
   slugSegments: string[],
 ): TogstrekOtherWorkMdxFrontmatter {
-  const fp = photographyMdxFilePath(slugSegments);
+  const fp = resolvePhotographyMdxPath(slugSegments);
+  if (!fp) {
+    throw new Error("Invalid photography path parameters");
+  }
   const raw = fs.readFileSync(fp, "utf8");
   const { data } = matter(raw);
   return parseTogstrekOtherWorkFrontmatter(data as Record<string, unknown>);
@@ -96,13 +113,21 @@ export function discoverTogstrekPhotographySlugLists(): string[][] {
       const full = path.join(dir, ent.name);
       if (ent.isDirectory()) {
         if (ent.name === "_https_") continue;
+        if (!isTogstrekSafeUrlPathSegment(ent.name)) continue;
         walk(full, [...rel, ent.name]);
       } else if (ent.isFile() && ent.name.endsWith(".mdx")) {
         const base = ent.name.replace(/\.mdx$/, "");
         if (base === "index") {
-          if (rel.length > 0) out.push(rel);
-        } else {
-          out.push([...rel, base]);
+          if (
+            rel.length > 0 &&
+            rel.every(isTogstrekSafeUrlPathSegment)
+          ) {
+            out.push(rel);
+          }
+        } else if (isTogstrekSafeUrlPathSegment(base)) {
+          if (rel.every(isTogstrekSafeUrlPathSegment)) {
+            out.push([...rel, base]);
+          }
         }
       }
     }

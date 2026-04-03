@@ -8,8 +8,28 @@ import {
   type TogstrekPlaceMdxFrontmatter,
 } from "@/lib/togstrek-place-frontmatter";
 import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
+import {
+  areTogstrekCountryHubRouteParamsSafe,
+  areTogstrekPlaceRouteParamsSafe,
+  isTogstrekPathWithinRoot,
+  isTogstrekSafeUrlPathSegment,
+} from "@/lib/togstrek-path-safety";
 
 const PLACES_ROOT = path.join(process.cwd(), "content", "places");
+
+function resolveTogstrekPlaceMdxFilePath(
+  continent: string,
+  country: string,
+  placeSegments: string[],
+): string | null {
+  if (!areTogstrekPlaceRouteParamsSafe(continent, country, placeSegments)) {
+    return null;
+  }
+  const fp =
+    path.join(PLACES_ROOT, continent, country, ...placeSegments) + ".mdx";
+  if (!isTogstrekPathWithinRoot(fp, PLACES_ROOT)) return null;
+  return fp;
+}
 
 export type TogstrekPlaceSlugParams = {
   continent: string;
@@ -21,14 +41,20 @@ export type TogstrekPlaceSlugParams = {
   place: string[];
 };
 
+/**
+ * Resolved MDX path, or throws if route parameters are not safe URL segments.
+ * (Prevents path traversal when `continent` / `country` / `place` come from the request.)
+ */
 export function togstrekPlaceMdxFilePath(
   continent: string,
   country: string,
   placeSegments: string[],
 ): string {
-  return (
-    path.join(PLACES_ROOT, continent, country, ...placeSegments) + ".mdx"
-  );
+  const fp = resolveTogstrekPlaceMdxFilePath(continent, country, placeSegments);
+  if (!fp) {
+    throw new Error("Invalid place MDX path parameters");
+  }
+  return fp;
 }
 
 export function togstrekPlaceMdxExists(
@@ -36,7 +62,8 @@ export function togstrekPlaceMdxExists(
   country: string,
   placeSegments: string[],
 ): boolean {
-  const fp = togstrekPlaceMdxFilePath(continent, country, placeSegments);
+  const fp = resolveTogstrekPlaceMdxFilePath(continent, country, placeSegments);
+  if (!fp) return false;
   try {
     return fs.statSync(fp).isFile();
   } catch {
@@ -50,7 +77,10 @@ export function loadTogstrekPlaceFrontmatterOnly(
   country: string,
   placeSegments: string[],
 ): TogstrekPlaceMdxFrontmatter {
-  const fp = togstrekPlaceMdxFilePath(continent, country, placeSegments);
+  const fp = resolveTogstrekPlaceMdxFilePath(continent, country, placeSegments);
+  if (!fp) {
+    throw new Error("Invalid place MDX path parameters");
+  }
   const raw = fs.readFileSync(fp, "utf8");
   const { data } = matter(raw);
   return parseTogstrekPlaceFrontmatter(data as Record<string, unknown>, {
@@ -82,6 +112,7 @@ function collectMdxFilesUnderCountryDir(
         const withoutExt = rel.replace(/\.mdx$/i, "");
         const segments = withoutExt.split("/").filter(Boolean);
         if (segments.length === 0) continue;
+        if (!segments.every(isTogstrekSafeUrlPathSegment)) continue;
         out.push({ continent, country, place: segments });
       }
     }
@@ -105,9 +136,11 @@ export function discoverTogstrekPlaceSlugs(): TogstrekPlaceSlugParams[] {
   }
   const out: TogstrekPlaceSlugParams[] = [];
   for (const continent of fs.readdirSync(PLACES_ROOT)) {
+    if (!isTogstrekSafeUrlPathSegment(continent)) continue;
     const cDir = path.join(PLACES_ROOT, continent);
     if (!fs.statSync(cDir).isDirectory()) continue;
     for (const country of fs.readdirSync(cDir)) {
+      if (!isTogstrekSafeUrlPathSegment(country)) continue;
       const coDir = path.join(cDir, country);
       if (!fs.statSync(coDir).isDirectory()) continue;
       collectMdxFilesUnderCountryDir(coDir, continent, country, out);
@@ -139,6 +172,9 @@ export function listTogstrekPlaceSlugsForCountry(
   continent: string,
   country: string,
 ): { place: string[] }[] {
+  if (!areTogstrekCountryHubRouteParamsSafe(continent, country)) {
+    return [];
+  }
   return discoverTogstrekPlaceSlugs()
     .filter((s) => s.continent === continent && s.country === country)
     .map((s) => ({ place: s.place }))

@@ -59,10 +59,6 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     body: "Canada is a country of winter light, long roads, and neighbours who say sorry like a reflex.",
     attribution: "",
   },
-  CN: {
-    body: "China is layers of history still speaking through every street and every meal.",
-    attribution: "",
-  },
   CH: {
     body: "It's tough to find a place not to like in Switzerland.",
     attribution: "Michele Bachmann",

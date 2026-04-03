@@ -1,6 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import { isTogstrekSafeUrlPathSegment } from "@/lib/togstrek-path-safety";
+
 const HIKING_ROOT = path.join(process.cwd(), "content", "hiking");
 
 /**
@@ -28,17 +30,21 @@ export function discoverTogstrekHikingGroupSegmentLists(): string[][] {
 
     if (rel.length === 0) {
       for (const d of subdirs) {
+        if (!isTogstrekSafeUrlPathSegment(d.name)) continue;
         walkDir(path.join(absPath, d.name), [d.name]);
       }
       return;
     }
 
     if (directMdx.length > 0) {
-      groups.push(rel);
+      if (rel.every(isTogstrekSafeUrlPathSegment)) {
+        groups.push(rel);
+      }
       return;
     }
 
     for (const d of subdirs) {
+      if (!isTogstrekSafeUrlPathSegment(d.name)) continue;
       walkDir(path.join(absPath, d.name), [...rel, d.name]);
     }
   }

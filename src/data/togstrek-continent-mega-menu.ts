@@ -21,6 +21,16 @@ const hubMenuDisplayNameByIso2: Partial<Record<string, string>> = {
   CZ: "Czech Republic",
 };
 
+/**
+ * Country hubs that appear under an extra continent in the nav mega menu only.
+ * Canonical URLs and MDX stay in one folder (e.g. `/europe/turkiye`).
+ */
+const togstrekMegaMenuCrossListedCountryHubs: Partial<
+  Record<TogstrekUnContinentId, readonly { href: string; label: string }[]>
+> = {
+  asia: [{ href: "/europe/turkiye", label: "Türkiye" }],
+};
+
 function countryLabelForContinentMegaMenu(
   continent: string,
   countrySlug: string,
@@ -68,6 +78,12 @@ export function getTogstrekContinentMegaMenuLinks(
     if (continent !== continentId) continue;
     const href = `/${continent}/${country}`;
     byHref.set(href, countryLabelForContinentMegaMenu(continent, country));
+  }
+
+  for (const row of togstrekMegaMenuCrossListedCountryHubs[continentId] ?? []) {
+    if (!byHref.has(row.href)) {
+      byHref.set(row.href, row.label);
+    }
   }
 
   return [...byHref.entries()]

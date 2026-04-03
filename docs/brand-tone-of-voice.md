@@ -38,6 +38,68 @@ Guidance for site copy, metadata, and MDX. Use this when writing new pages or re
 | Internal links | About page still points at legacy paths (e.g. `/blog/...`, `/contact`) where the Next app may use different routes — audit when those routes exist. |
 | `/map-demo` | Dev-style map playground; copy is neutral. Remove from public nav or add `noindex` if it should not be indexed. |
 | Copyright band on About | Ending year and “TogsTrek” styling may predate the current footer — align if policy changed. |
+| Country hubs without your photos | Use **illustrated / non-photographic header art** (see below); do not use stock photos that pretend to be yours. |
+
+## Country hub header art (visited, no photographs yet)
+
+When a country has a hub page but you have **no suitable hero photograph** of your own, the header image should **read clearly as not a photograph** — illustration, stylised digital painting, or graphic narrative art — while still **evoking the place** and fitting **Tog’s Trek**: grounded, atmospheric, editorial rather than brochure-glossy.
+
+**Principles**
+
+- **Honesty over realism.** Viewers should not mistake the image for a camera capture. Avoid photorealistic AI that mimics DSLR output.
+- **Mood from your words.** Base the scene on a short **written brief** you supply (terrain, light, architecture, a single human-scale detail, season if it matters) so the image ties to *your* memory of the trip, not generic travel posters.
+- **Restrained palette.** Prefer muted, naturalistic colour with one or two accents; no neon HDR or stock “golden hour” cliché unless you describe that truthfully.
+- **Accessibility and metadata.** In `heroImage.alt`, say that it is an illustration (e.g. *Illustration: dawn over the Tian Shan above Bishkek*) so screen readers and future you know the source.
+
+### Canonical illustration language (consistent across countries)
+
+Use **generic schools and disciplines** — not individual painters — so prompts stay repeatable and you are not steering the model toward copying a famous work.
+
+**Primary look — limited-palette gouache / poster-colour discipline**
+
+This is the **default visual language** for country hub heroes: **opaque colour in controlled planes**, **muted saturation**, a **small deliberate palette** (earth, stone, sky, one accent if needed). **Soft blends only** where atmosphere demands it — sky haze, distant hills, weather — otherwise keep edges readable and **poster-like**. The result should feel **documentary and edited**: hand-painted, observed, not HDR, not concept-art epic, not airbrushed glamour.
+
+**Editorial intent — reportage / illustrated journalism**
+
+Compose like **reportage illustration** or an **illustrated travel feature**: observational, place-led, clear structure, priority on *place* over decoration — honest framing and human scale. That matches *first person, grounded* and *earnest, not hype*.
+
+**Optional accent (only if you want extra graphic punch)**
+
+**Printmaking-informed** touches — slightly flatter shapes or stronger silhouette — can layer on top of gouache discipline; keep them secondary so the default stays painterly-planes, not woodcut-first.
+
+**Poor fits for this site (avoid as style anchors)**
+
+- Photorealistic **concept art** or game-key-art lighting  
+- **Airbrush** glamour and **HDR** “epic” travel posters  
+- Heavy **art-nouveau** ornament or **surrealist** dream logic unless the copy explicitly calls for it  
+- **Children’s-book** whimsy as the default (fine for a family place page if the text earns it)
+
+**One-line style string for prompts**
+
+Use this verbatim whenever you want a quick anchor: **Limited-palette gouache / poster-colour discipline** — opaque planes, muted saturation, documentary not glossy — in the tradition of **reportage / editorial travel illustration**, not photography.
+
+**Output:** Aim for dimensions that work as a wide hero and in Open Graph crops (site OG assets are **1200×630** in `togstrek-metadata.ts`; a **3:2** or **16:9** master can be cropped). Export as you would other `media.togstrek.com` country assets.
+
+### Master prompt (copy, then replace the bracketed line)
+
+Use this as a **single prompt** in your image model of choice. Keep the **STYLE AND CONSTRAINTS** block verbatim for consistency across countries; only change the **PLACE BRIEF**.
+
+```
+STYLE AND CONSTRAINTS — apply to the whole image:
+Editorial travel illustration for an independent travel journal (Tog’s Trek). Primary visual language: LIMITED-PALETTE GOUACHE / POSTER-COLOUR DISCIPLINE — opaque paint in flat to gently graded planes, a restrained palette (muted earth, stone, sky, at most one accent), soft blending ONLY for atmosphere (sky, haze, distant rain) not for fake photographic bokeh. Readable edges and composed shapes like a travel feature layout painting: documentary, edited, hand-made — not HDR, not concept-art key lighting, not airbrush glamour. Compositional intent: reportage / illustrated journalism — observational, place-led, nonfiction travel feature. Clearly NOT a photograph: no shallow depth-of-field blur, no lens flare, no watermarks, no text in the image. Not sentimental or tourist-brochure. No identifiable real people’s faces; silhouettes or distant figures only if needed. Evocative of place through landscape, architecture, light, and weather — grounded and specific, not generic “travel stock”. High enough resolution for a website hero banner.
+
+PLACE BRIEF — replace this entire paragraph with your own 3–5 sentences (memory, season, time of day, what stuck with you):
+[Describe the country or region as you experienced it: key landforms, city texture, light, weather, one telling detail. What should the viewer *feel* about being there?]
+
+Compose one wide landscape-orientation scene that merges the place brief with the style constraints above.
+```
+
+**Optional add-ons** (append only if they help; don’t contradict the “not a photo” rule):
+
+- *Medium cue:* e.g. “Slight visible paper tooth under gouache” or “Fewer colours — restrict to four main hues” or “Stronger poster-style silhouette on the skyline”.
+- *Avoid:* naming specific artists, “photorealistic”, “8K DSLR”, “National Geographic style”, “hyperdetailed skin”, “HDR”.
+
+---
 
 ## Voice checklist (before publish)
 
@@ -45,6 +107,7 @@ Guidance for site copy, metadata, and MDX. Use this when writing new pages or re
 2. No placeholder strings visible to visitors.
 3. Apostrophes: **Tog’s Trek** (curly apostrophe in display copy where the design system allows).
 4. Sentence case for long titles unless the line is a deliberate headline style.
+5. **Country hub heroes:** If the header is illustrated or AI-generated, `heroImage.alt` states that (see *Country hub header art* above).
 
 ## Reference snippets
 
@@ -54,4 +117,4 @@ Guidance for site copy, metadata, and MDX. Use this when writing new pages or re
 
 ---
 
-*Last reviewed with codebase copy pass — update this file when voice or IA changes.*
+*Last updated: country hub illustrated-hero prompt and checklist — update when voice, IA, or image workflow changes.*

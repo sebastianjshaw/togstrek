@@ -10,6 +10,8 @@ import {
   photographyMdxExists,
 } from "@/lib/togstrek-load-photography-mdx";
 
+export const dynamicParams = false;
+
 export async function generateStaticParams(): Promise<{ slug: string[] }[]> {
   return discoverTogstrekPhotographySlugParams();
 }
