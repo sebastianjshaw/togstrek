@@ -47,6 +47,9 @@ public/media/originals/**
 # vercel
 .vercel
 
+# Claude Code local worktrees (nested repos; not part of this project’s history)
+.claude/worktrees/
+
 # Local HTTrack / Squarespace mirror (multi‑100MB zips; not for GitHub)
 /TogsTrekBackup/
 
