@@ -19,6 +19,7 @@ import {
 import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import { getTogstrekSiteOrigin } from "@/lib/togstrek-site-url";
 import { discoverEnglandCountyHubParams } from "@/lib/togstrek-england-counties";
+import { discoverUnitedStatesStateHubParams } from "@/lib/togstrek-united-states-state-hubs";
 import { discoverTogstrekUkNationHubParams } from "@/lib/togstrek-uk-nations";
 import { listSortedTogstrekAdventureArchiveItems } from "@/lib/togstrek-adventure-content-fs";
 
@@ -126,6 +127,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ),
     );
 
+  const unitedStatesStateHubEntries: MetadataRoute.Sitemap =
+    discoverUnitedStatesStateHubParams().map(({ continent, country, place }) =>
+      withOptionalLastModified(
+        {
+          url: `${base}/${continent}/${country}/${place.join("/")}`,
+          changeFrequency: "monthly" as const,
+          priority: 0.72,
+        },
+        togstrekSitemapLastModifiedForCountryHub(continent, country),
+      ),
+    );
+
   const hikingSlugKey = (segments: string[]) => JSON.stringify(segments);
   const hikingSlugSet = new Set<string>();
   for (const s of discoverTogstrekHikingSlugLists()) {
@@ -185,6 +198,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...countryHubEntries,
     ...ukNationHubEntries,
     ...englandCountyHubEntries,
+    ...unitedStatesStateHubEntries,
     ...placeEntries,
     ...hikingEntries,
     ...otherWorkEntries,

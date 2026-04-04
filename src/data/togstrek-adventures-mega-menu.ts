@@ -60,6 +60,13 @@ const MEGA_CARD_META: Partial<
       "Kilimanjaro from rainforest to summit — heat, ice, and the long walk down.",
     spotlightCtaLabel: "Open The Roof of Africa",
   },
+  "/adventures/2024-five-stans-silk-road": {
+    width: 1920,
+    height: 1280,
+    spotlightTagline:
+      "Bishkek to Ashgabat — five countries, Soviet layers, yurt camps, and Darvaza burning in the Karakum.",
+    spotlightCtaLabel: "Open Five Stans",
+  },
 };
 
 /**

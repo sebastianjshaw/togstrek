@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { TogstrekEnglandCountyHubContent } from "@/components/togstrek-hub/togstrek-england-county-hub-content";
+import { TogstrekUnitedStatesStateHubContent } from "@/components/togstrek-hub/togstrek-united-states-state-hub-content";
 import { TogstrekUkNationHubContent } from "@/components/togstrek-hub/togstrek-uk-nation-hub-content";
 import { TogstrekPlacePageTemplate } from "@/components/togstrek-place/togstrek-place-page-template";
 import {
@@ -26,6 +27,10 @@ import {
   discoverEnglandCountyHubParams,
   isEnglandCountyHubRoute,
 } from "@/lib/togstrek-england-counties";
+import {
+  discoverUnitedStatesStateHubParams,
+  isUnitedStatesStateHubRoute,
+} from "@/lib/togstrek-united-states-state-hubs";
 import { formatSlugLabel, truncateDescription } from "@/lib/togstrek-geo-labels";
 
 type PageParams = TogstrekPlaceSlugParams;
@@ -38,6 +43,7 @@ export async function generateStaticParams(): Promise<PageParams[]> {
     ...discoverTogstrekPlaceSlugs(),
     ...discoverTogstrekUkNationHubParams(),
     ...discoverEnglandCountyHubParams(),
+    ...discoverUnitedStatesStateHubParams(),
   ];
 }
 
@@ -89,6 +95,26 @@ export async function generateMetadata({
     });
   }
 
+  if (isUnitedStatesStateHubRoute(continent, country, place)) {
+    const stateSlug = place[0]!;
+    const stateLabel = formatSlugLabel(stateSlug);
+    const path = `/${continent}/${country}/${stateSlug}`;
+    const description = truncateDescription(
+      `Place guides in ${stateLabel} — United States — part of A Tog's Trek.`,
+      165,
+    );
+    return buildTogstrekMetadata({
+      title: `${stateLabel} · United States`,
+      description,
+      path,
+      type: "website",
+      openGraphTitle: buildTogstrekDefaultOpenGraphTitle(
+        `${stateLabel} · United States`,
+      ),
+      openGraphDescription: description,
+    });
+  }
+
   if (!togstrekPlaceMdxExists(continent, country, place)) {
     return { title: "Place" };
   }
@@ -135,6 +161,12 @@ export default async function TogstrekPlacePage({
 
   if (isUkNationHubRoute(continent, country, place)) {
     return <TogstrekUkNationHubContent nation={place[0] as UkNationSlug} />;
+  }
+
+  if (isUnitedStatesStateHubRoute(continent, country, place)) {
+    return (
+      <TogstrekUnitedStatesStateHubContent stateSlug={place[0]!} />
+    );
   }
 
   if (!togstrekPlaceMdxExists(continent, country, place)) {

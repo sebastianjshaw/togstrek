@@ -6,6 +6,7 @@ import {
   TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK,
 } from "@/components/togstrek-hub/togstrek-country-hub-template";
 import { TogstrekUkNationsStrip } from "@/components/togstrek-hub/togstrek-uk-nations-strip";
+import { TogstrekUnitedStatesStatesStrip } from "@/components/togstrek-hub/togstrek-united-states-states-strip";
 import { TogstrekCountryHubMap } from "@/components/togstrek-place/togstrek-country-hub-map";
 import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import type { TogstrekMapPlace } from "@/components/togstrek-explore-map/types";
@@ -28,6 +29,10 @@ import {
   resolveTogstrekCountryHubHeaderHero,
 } from "@/lib/togstrek-load-place-mdx";
 import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
+import {
+  TOGSTREK_UNITED_STATES_CONTINENT,
+  TOGSTREK_UNITED_STATES_COUNTRY,
+} from "@/lib/togstrek-united-states-state-hubs";
 import { getIso2ForCountrySlug } from "@/lib/togstrek-visited-travel-data";
 
 type PageParams = { continent: string; country: string };
@@ -105,6 +110,9 @@ export default async function TogstrekCountryHubPage({
   }
 
   const isUnitedKingdom = country === "united-kingdom";
+  const isUnitedStatesHub =
+    continent === TOGSTREK_UNITED_STATES_CONTINENT &&
+    country === TOGSTREK_UNITED_STATES_COUNTRY;
 
   // If a country has nested place pages (e.g. `svalbard/longyearbyen`) and also a
   // top-level hub at the parent segment (e.g. `svalbard`), prefer the hub card
@@ -178,7 +186,13 @@ export default async function TogstrekCountryHubPage({
         { href: `/${continent}`, label: continentLabel },
         { label: countryLabel },
       ]}
-      beforeMapSlot={isUnitedKingdom ? <TogstrekUkNationsStrip /> : undefined}
+      beforeMapSlot={
+        isUnitedKingdom ? (
+          <TogstrekUkNationsStrip />
+        ) : isUnitedStatesHub ? (
+          <TogstrekUnitedStatesStatesStrip />
+        ) : undefined
+      }
       map={{
         title: "Map",
         description:
@@ -193,10 +207,11 @@ export default async function TogstrekCountryHubPage({
         ),
       }}
       places={{
-        title: isUnitedKingdom ? "All places" : "Places",
-        description: isUnitedKingdom
-          ? "Every place story in the United Kingdom — open a card for photos, maps, and notes."
-          : "Open a story — photos, maps, and notes from each location.",
+        title: isUnitedKingdom || isUnitedStatesHub ? "All places" : "Places",
+        description:
+          isUnitedKingdom || isUnitedStatesHub
+            ? "Every place story in this country — open a card for photos, maps, and notes."
+            : "Open a story — photos, maps, and notes from each location.",
         placesHeadingId: "togstrek-country-hub-places-heading",
         children: (
           <>

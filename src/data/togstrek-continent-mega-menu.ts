@@ -128,7 +128,7 @@ const togstrekContinentMegaMenuFeaturedAdventureHrefByContinent: Record<
 > = {
   africa: "/adventures/2022-the-roof-of-africa",
   antarctica: "/adventures/2020-the-end-of-the-world",
-  asia: "/adventures/2018-bedouin-stars",
+  asia: "/adventures/2024-five-stans-silk-road",
   europe: "/adventures/2023-hulduflk",
   "north-america": "/adventures/2022-ruins-of-central-america",
   oceania: null,
