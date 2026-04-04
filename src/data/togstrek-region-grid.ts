@@ -91,11 +91,8 @@ export const togstrekRegionGridItems: TogstrekRegionGridItem[] = [
     label: "Oceania",
     blurb: "Islands & horizons",
     gradient: "from-[#0f2d3a] via-[#1e5c6b] to-[#7ec8d3]/30",
-    imageSrc: mediaPath(
-      "oceania/australia/overview/Australia+-+016.jpg",
-    ),
-    imageAlt:
-      "Common wombat on dry leaf litter in bush near Ballarat, Australia",
+    imageSrc: mediaPath("oceania/australia/Australia.png"),
+    imageAlt: "Australia",
   },
   {
     href: "/south-america",

@@ -96,7 +96,8 @@ function percent(visited: number, total: number): number {
 const TOGSTREK_COUNTRY_SLUG_ISO2: Record<string, string> = {
   /** Hub slug vs UN member name `Czechia`. */
   "czech-republic": "CZ",
-  /** Squarespace / HTTrack folder spelling vs UN slug `liechtenstein`. */
+  liechtenstein: "LI",
+  /** Legacy misspelled slug; redirects to `/europe/liechtenstein`. */
   lichtenstein: "LI",
   /** Place hub uses `antarctica/antarctic/…`; UN list has no separate row. */
   antarctic: "AQ",

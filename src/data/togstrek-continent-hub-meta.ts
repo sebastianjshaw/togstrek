@@ -75,7 +75,7 @@ const ASIA_HUB_HERO =
 const NORTH_AMERICA_HUB_HERO =
   "https://media.togstrek.com/north-america/mexico/tulum/Castillo-20221223-0001.jpg";
 const OCEANIA_HUB_HERO = togstrekMediaUrl(
-  "oceania/australia/overview/Australia+-+016.jpg",
+  "oceania/australia/Australia.png",
 );
 const ANTARCTICA_HUB_HERO =
   "https://media.togstrek.com/antarctica/antarctic/lamaire-channel/HDR-0003-243a3.jpg";
@@ -153,12 +153,8 @@ export const togstrekContinentHubPageMeta: Record<
       "When the atlas says Pacific, it means more blue than the legend has room for — Australia, New Zealand, and island arcs in trip notes and photographs.",
     path: "/oceania",
     heroImageSrc: OCEANIA_HUB_HERO,
-    heroImageAlt:
-      "Common wombat on dry leaf litter in bush near Ballarat, Australia",
-    openGraphImages: ogFromHero(
-      OCEANIA_HUB_HERO,
-      "Common wombat on dry leaf litter in bush near Ballarat, Australia",
-    ),
+    heroImageAlt: "Australia",
+    openGraphImages: ogFromHero(OCEANIA_HUB_HERO, "Australia"),
   },
   antarctica: {
     title: "Exploring Antarctica",

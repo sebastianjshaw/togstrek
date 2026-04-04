@@ -119,8 +119,9 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
     const sizeClass = togstrekLinkCardCompactSizeClass[size];
     const bodyPadClass = togstrekLinkCardCompactBodyPaddingClass[size];
     const stacked = Boolean(meta || quote);
+    /** Top-align so equal-height grid rows (continent hub) do not vertically centre short copy beside tall neighbours. */
     const linkedLayout = stacked
-      ? "flex flex-col justify-center"
+      ? "flex flex-col justify-start"
       : "flex items-center";
     const hasHeaderImage = Boolean(imageSrc);
 

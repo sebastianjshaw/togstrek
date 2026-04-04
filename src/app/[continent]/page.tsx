@@ -37,6 +37,13 @@ import {
 import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
 import { buildTogstrekVisitedTravelDataset } from "@/lib/togstrek-visited-travel-data";
 
+/** Match country hub grid: stretch rows so compact cards share height; `li` flex lets `flex-1` on the link fill the cell. */
+const togstrekContinentHubSpecialTerritoriesGridClass =
+  "mt-[var(--tt-space-10)] grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3";
+
+const togstrekContinentHubSpecialTerritoriesItemClass =
+  "togstrek-continent-hub-special-territories-item flex min-h-0 min-w-0 flex-col";
+
 type PageParams = { continent: string };
 
 /** Only prebuilt continent hubs — unknown slugs 404 without touching the filesystem. */
@@ -129,14 +136,15 @@ export default async function ContinentHubPage({
           title="Special territories"
           description={TOGSTREK_HUB_SPECIAL_TERRITORIES_SECTION_DESCRIPTION}
         />
-        <ul className="mt-[var(--tt-space-10)] grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className={togstrekContinentHubSpecialTerritoriesGridClass}>
           {togstrekEuropeSpecialTerritories.map((t) => (
-            <li key={t.href}>
+            <li key={t.href} className={togstrekContinentHubSpecialTerritoriesItemClass}>
               <TogstrekLinkCard
                 variant="compact"
                 href={t.href}
                 title={t.label}
                 meta={t.note}
+                size="comfortable"
               />
             </li>
           ))}
@@ -152,14 +160,15 @@ export default async function ContinentHubPage({
           title="Special territories"
           description={TOGSTREK_HUB_SPECIAL_TERRITORIES_SECTION_DESCRIPTION}
         />
-        <ul className="mt-[var(--tt-space-10)] grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className={togstrekContinentHubSpecialTerritoriesGridClass}>
           {togstrekAsiaSpecialTerritories.map((t) => (
-            <li key={t.href}>
+            <li key={t.href} className={togstrekContinentHubSpecialTerritoriesItemClass}>
               <TogstrekLinkCard
                 variant="compact"
                 href={t.href}
                 title={t.label}
                 meta={t.note}
+                size="comfortable"
               />
             </li>
           ))}

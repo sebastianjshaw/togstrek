@@ -32,6 +32,7 @@ const REPO_ROOT = process.cwd();
 /** Same overrides as `getIso2ForCountrySlug` — keep in sync with `togstrek-visited-travel-data.ts`. */
 const TOGSTREK_COUNTRY_SLUG_ISO2: Record<string, string> = {
   "czech-republic": "CZ",
+  liechtenstein: "LI",
   lichtenstein: "LI",
   antarctic: "AQ",
   "hong-kong": "HK",

@@ -276,8 +276,8 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     attribution: "Orhan Pamuk",
   },
   TM: {
-    body: "Those of us lucky enough to fall in love with Asia know that it's an affair that's as long as it is resonant.",
-    attribution: "",
+    body: "Turkmenistan: A Land Of Health And Happiness...And Horses",
+    attribution: "President Gurbanguly Berdymukhammedov",
   },
   TN: {
     body: "Tunisia is always ready to turn the page.",

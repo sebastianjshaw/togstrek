@@ -79,7 +79,17 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/liechtenstein",
-        destination: "/europe/lichtenstein",
+        destination: "/europe/liechtenstein",
+        permanent: true,
+      },
+      {
+        source: "/europe/lichtenstein",
+        destination: "/europe/liechtenstein",
+        permanent: true,
+      },
+      {
+        source: "/europe/lichtenstein/:path*",
+        destination: "/europe/liechtenstein/:path*",
         permanent: true,
       },
       {
@@ -125,6 +135,11 @@ const nextConfig: NextConfig = {
       {
         source: "/north-america/canada/overview",
         destination: "/north-america/canada",
+        permanent: true,
+      },
+      {
+        source: "/oceania/australia/overview",
+        destination: "/oceania/australia/ballarat",
         permanent: true,
       },
       {
