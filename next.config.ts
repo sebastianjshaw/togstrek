@@ -133,6 +133,16 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/asia/uzbekistan/overview",
+        destination: "/asia/uzbekistan",
+        permanent: true,
+      },
+      {
+        source: "/asia/tajikistan/overview",
+        destination: "/asia/tajikistan",
+        permanent: true,
+      },
+      {
         source: "/north-america/canada/overview",
         destination: "/north-america/canada",
         permanent: true,
