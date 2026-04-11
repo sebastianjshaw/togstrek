@@ -70,6 +70,46 @@ const egyptHubIntro = (
   </div>
 );
 
+const turkmenistanHubIntro = (
+  <div className={togstrekCountryHubIntroProseClass}>
+    <p>
+      Turkmenistan is the strangest country on the route, and that is a
+      considered assessment after five weeks in Central Asia. It is one of the
+      most closed states in the world, as hard for Central Asians to enter as for
+      anyone else, governed by a president who received 97.67% of the vote on a
+      97.2% turnout, holds the title Protector and Pillar of the Nation, controls
+      around 80% of the country&apos;s oil and gas income, and has authored more
+      than 63 books. His previous occupation was dentist to the first president,
+      which is a career trajectory that repays reflection.
+    </p>
+    <p>
+      The internet is heavily restricted. WhatsApp doesn&apos;t work. E-sims
+      and roaming are unavailable. You are, for the duration, genuinely off the
+      grid.
+    </p>
+    <p>
+      The border crossing involves a no-man&apos;s land wait, a long wait at
+      Turkmen border control while the guide sorts paperwork, a mandatory Covid
+      test at $42 per person regardless of when you&apos;re reading this, and,
+      on this visit, two power cuts. Once through, the hotel is beautiful and
+      the infrastructure unexpectedly impressive. Petrol is effectively free.
+      Camels appear at the roadside without warning or explanation and then
+      continue to appear just after that, in larger numbers.
+    </p>
+    <p>
+      The jashmax, a veil worn by some Turkmen women, is visible throughout, a
+      reminder that this is a country with its own distinct cultural traditions
+      that exist entirely independently of outside observation.
+    </p>
+    <p>
+      Twenty-six days of travel across four countries has been, at various
+      points, complicated, frustrating, revelatory, and occasionally a disaster
+      in the bathroom department. Turkmenistan is the final act, and it saves
+      some of its best material for last.
+    </p>
+  </div>
+);
+
 /**
  * Optional long-form intro for `/{continent}/{country}` — rendered after the
  * breadcrumb and before the map.
@@ -83,6 +123,9 @@ export function getTogstrekCountryHubIntro(
   }
   if (continent === "africa" && country === "egypt") {
     return egyptHubIntro;
+  }
+  if (continent === "asia" && country === "turkmenistan") {
+    return turkmenistanHubIntro;
   }
   return undefined;
 }

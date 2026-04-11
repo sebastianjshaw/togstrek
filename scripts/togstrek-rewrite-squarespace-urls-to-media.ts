@@ -78,13 +78,13 @@ function collectExactUrlsFromText(
   for (const m of raw.matchAll(
     /https:\/\/images\.squarespace-cdn\.com\/[^\s\)"'<>]+/gi,
   )) {
-    let u = m[0]!.trim().replace(/[),.;]+$/, "");
+    const u = m[0]!.trim().replace(/[),.;]+$/, "");
     push(u);
   }
   for (const m of raw.matchAll(
     /https:\/\/static1\.squarespace\.com\/[^\s\)"'<>]+/gi,
   )) {
-    let u = m[0]!.trim().replace(/[),.;]+$/, "");
+    const u = m[0]!.trim().replace(/[),.;]+$/, "");
     push(u);
   }
 

@@ -9,7 +9,10 @@ import {
   isLikelyOpaqueIdFilenameAlt,
 } from "@/lib/togstrek-mdx-image-caption";
 
-import { useTogstrekMdxPhotoGallery } from "./togstrek-mdx-photo-gallery";
+import {
+  useTogstrekMdxPhotoGallery,
+  useTogstrekMdxPhotoGalleryLayout,
+} from "./togstrek-mdx-photo-gallery";
 import { useTogstrekMdxLightbox } from "./togstrek-mdx-lightbox-scope";
 
 type TogstrekMdxImageLightboxProps = {
@@ -30,6 +33,7 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
   const { src, alt, width, height, className } = props;
   const ctx = useTogstrekMdxLightbox();
   const inPhotoGallery = useTogstrekMdxPhotoGallery();
+  const photoGalleryLayout = useTogstrekMdxPhotoGalleryLayout();
   const instanceId = useId();
 
   const altText = typeof alt === "string" ? alt.trim() : "";
@@ -101,12 +105,20 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
             height={safeH}
             sizes={
               inPhotoGallery
-                ? "(max-width: 767px) 100vw, 50vw"
+                ? photoGalleryLayout === "dense"
+                  ? "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 34vw, 26vw"
+                  : "(max-width: 767px) 100vw, 50vw"
                 : "(max-width: 768px) 100vw, min(42rem, 92vw)"
             }
             loading="lazy"
             unoptimized={togstrekUnoptimizedRemoteImageInDev(src)}
-            className={`h-auto w-full object-contain ${inPhotoGallery ? "max-h-[min(52vh,440px)] md:max-h-[min(58vh,520px)]" : "max-h-[min(72vh,620px)]"}`}
+            className={`h-auto w-full object-contain ${
+              inPhotoGallery
+                ? photoGalleryLayout === "dense"
+                  ? "max-h-[min(38vh,220px)] sm:max-h-[min(40vh,240px)] md:max-h-[min(42vh,260px)] lg:max-h-[min(44vh,280px)] xl:max-h-[min(46vh,300px)]"
+                  : "max-h-[min(52vh,440px)] md:max-h-[min(58vh,520px)]"
+                : "max-h-[min(72vh,620px)]"
+            }`}
           />
         </span>
       </button>

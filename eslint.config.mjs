@@ -12,6 +12,12 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Local mirrors / backups (same as next.config outputFileTracingExcludes).
+    "TogsTrekBackup/**",
+    // Agent / worktree artefacts.
+    ".claude/**",
+    // Pagefind build output under public (third-party bundles).
+    "public/pagefind/**",
   ]),
 ]);
 

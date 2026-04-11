@@ -98,6 +98,32 @@
     }
   }
 
+  /**
+   * Dense galleries — e.g. 12+ images on one place page (`layout="dense"` in MDX).
+   * More columns on wide screens; thumbnail-scale cells (full detail in lightbox).
+   */
+  .togstrek-mdx-photo-gallery-wrap--dense {
+    gap: var(--tt-space-3);
+  }
+
+  @media (min-width: 768px) {
+    .togstrek-mdx-photo-gallery-wrap--dense {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .togstrek-mdx-photo-gallery-wrap--dense {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .togstrek-mdx-photo-gallery-wrap--dense {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
   .togstrek-mdx-photo-gallery-wrap .togstrek-place-mdx-figure .togstrek-place-mdx-figure-frame {
     box-shadow: var(--tt-shadow-photo-deep);
   }
@@ -354,6 +380,43 @@
       .togstrek-place-mdx-figure-frame--elevated
       img {
       transform: scale(1.015);
+    }
+  }
+
+  /**
+   * Primary nav mega panel (desktop) — fade + slight vertical motion.
+   * `data-tt-mega-motion` is set in `togstrek-site-header-primary-nav.tsx`.
+   */
+  .togstrek-site-header-mega-panel[data-tt-mega-motion] {
+    transition-property: opacity, transform;
+    transition-duration: var(--tt-duration-normal);
+    transition-timing-function: var(--tt-ease-out);
+  }
+
+  .togstrek-site-header-mega-panel[data-tt-mega-motion="enter"] {
+    opacity: 0;
+    transform: translate3d(0, -0.5rem, 0);
+  }
+
+  .togstrek-site-header-mega-panel[data-tt-mega-motion="open"] {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .togstrek-site-header-mega-panel[data-tt-mega-motion="exit"] {
+    opacity: 0;
+    transform: translate3d(0, -0.375rem, 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .togstrek-site-header-mega-panel[data-tt-mega-motion] {
+      transform: none !important;
+      transition-duration: 1ms !important;
+    }
+
+    .togstrek-site-header-mega-panel[data-tt-mega-motion="enter"],
+    .togstrek-site-header-mega-panel[data-tt-mega-motion="open"] {
+      opacity: 1;
     }
   }
 }

@@ -30,6 +30,9 @@ import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-i
 
 const MEGA_CLOSE_MS = 200;
 
+/** Matches `--tt-duration-normal` — keep panel mounted until exit motion finishes. */
+const MEGA_PANEL_DEFER_MS = 280;
+
 /** Associates desktop mega triggers with the dropdown panel for assistive tech. */
 const HEADER_MEGA_PANEL_ID = "togstrek-site-header-mega-panel";
 
@@ -223,6 +226,10 @@ export function TogstrekSiteHeaderPrimaryNav({
   adventuresMegaTagline,
 }: TogstrekSiteHeaderPrimaryNavProps) {
   const [openMegaKey, setOpenMegaKey] = useState<OpenMegaKey | null>(null);
+  /** Keeps mega content mounted briefly after `openMegaKey` clears so exit motion can run. */
+  const [deferredMegaKey, setDeferredMegaKey] = useState<OpenMegaKey | null>(null);
+  const [megaPanelMotionReady, setMegaPanelMotionReady] = useState(false);
+  const prevOpenMegaKeyRef = useRef<OpenMegaKey | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const megaNavRef = useRef<HTMLElement | null>(null);
   const megaPanelRef = useRef<HTMLDivElement | null>(null);
@@ -316,11 +323,65 @@ export function TogstrekSiteHeaderPrimaryNav({
 
   useEffect(() => () => cancelClose(), [cancelClose]);
 
+  useEffect(() => {
+    if (openMegaKey !== null) {
+      setDeferredMegaKey(openMegaKey);
+      return;
+    }
+    const id = window.setTimeout(() => {
+      setDeferredMegaKey(null);
+    }, MEGA_PANEL_DEFER_MS);
+    return () => window.clearTimeout(id);
+  }, [openMegaKey]);
+
+  useEffect(() => {
+    const prev = prevOpenMegaKeyRef.current;
+    prevOpenMegaKeyRef.current = openMegaKey;
+
+    if (!openMegaKey) {
+      setMegaPanelMotionReady(false);
+      return;
+    }
+
+    if (prev !== null) {
+      setMegaPanelMotionReady(true);
+      return;
+    }
+
+    setMegaPanelMotionReady(false);
+    let innerRaf = 0;
+    const outerRaf = requestAnimationFrame(() => {
+      innerRaf = requestAnimationFrame(() => {
+        setMegaPanelMotionReady(true);
+      });
+    });
+    return () => {
+      cancelAnimationFrame(outerRaf);
+      if (innerRaf) cancelAnimationFrame(innerRaf);
+    };
+  }, [openMegaKey]);
+
+  const displayMegaKey = openMegaKey ?? deferredMegaKey;
+  const megaPanelInteractive = openMegaKey !== null;
+
+  const megaPanelMotionPhase:
+    | "enter"
+    | "open"
+    | "exit"
+    | null =
+    displayMegaKey === null
+      ? null
+      : !megaPanelInteractive
+        ? "exit"
+        : megaPanelMotionReady
+          ? "open"
+          : "enter";
+
   const openContinentItem = togstrekContinentNavMegaItems.find(
-    (c) => c.continentId === openMegaKey,
+    (c) => c.continentId === displayMegaKey,
   );
 
-  const panelVisible = openMegaKey !== null;
+  const panelVisible = displayMegaKey !== null;
 
   return (
     <>
@@ -390,74 +451,73 @@ export function TogstrekSiteHeaderPrimaryNav({
         </ul>
       </nav>
 
-      <div
-        ref={megaPanelRef}
-        id={HEADER_MEGA_PANEL_ID}
-        role="region"
-        aria-hidden={!panelVisible}
-        className={`togstrek-site-header-mega-panel fixed inset-x-0 z-[100] border-b shadow-[var(--tt-shadow-elevated)] transition-[opacity,visibility] duration-[var(--tt-duration-fast)] ease-[var(--tt-ease-out)] ${
-          openMegaKey === "adventures"
-            ? "border-white/10 bg-tt-surface-inverse"
-            : "border-tt-border-muted bg-tt-surface-base"
-        } ${
-          panelVisible
-            ? "visible opacity-100"
-            : "invisible pointer-events-none opacity-0"
-        }`}
-        style={{ top: "var(--tt-layout-header-height)" }}
-        onMouseEnter={cancelClose}
-        onMouseLeave={scheduleClose}
-      >
-        {openMegaKey === "adventures" ? (
-          <TogstrekSiteHeaderAdventuresMegaPanel
-            onNavigate={closeMega}
-            featuredCards={adventuresMegaFeaturedCards}
-            tagline={adventuresMegaTagline}
-          />
-        ) : null}
-        {openContinentItem ? (
-          <TogstrekSiteHeaderMegaMenuPanelBase
-            panelHeading={openContinentItem.label}
-            tagline={megaMenuTaglines[openContinentItem.continentId]}
-            links={megaMenuNavLinks[openContinentItem.continentId]}
-            ctaLabel={`Explore ${openContinentItem.label}`}
-            ctaHref={openContinentItem.href}
-            aside={{
-              heading: "Adventures",
-              headingHref: "/adventures",
-              featuredAdventure:
-                megaMenuFeaturedAdventureByContinent[
-                  openContinentItem.continentId
-                ],
-            }}
-            emptyStateMessage={
-              openContinentItem.continentId === "antarctica"
-                ? "Antarctic place stories are on the way — open Antarctica for maps and the full introduction."
-                : "Country hubs are on the way — open the region page for the full introduction."
-            }
-            asideHeadingId="togstrek-site-header-mega-aside-continent"
-            onNavigate={closeMega}
-          />
-        ) : null}
-        {openMegaKey && isSectionMegaKey(openMegaKey) ? (
-          <TogstrekSiteHeaderMegaMenuPanelBase
-            {...(() => {
-              const def = togstrekSectionMegaMenuByKey[openMegaKey];
-              return {
-                panelHeading: def.panelHeading,
-                tagline: def.tagline,
-                links: def.links,
-                ctaLabel: def.ctaLabel,
-                ctaHref: def.ctaHref,
-                aside: def.aside,
-                emptyStateMessage: def.emptyStateMessage,
-                asideHeadingId: `togstrek-site-header-mega-aside-${def.key}`,
-              };
-            })()}
-            onNavigate={closeMega}
-          />
-        ) : null}
-      </div>
+      {panelVisible ? (
+        <div
+          ref={megaPanelRef}
+          id={HEADER_MEGA_PANEL_ID}
+          role="region"
+          aria-hidden={!megaPanelInteractive}
+          data-tt-mega-motion={megaPanelMotionPhase ?? undefined}
+          className={`togstrek-site-header-mega-panel fixed inset-x-0 z-[100] border-b shadow-[var(--tt-shadow-elevated)] ${
+            displayMegaKey === "adventures"
+              ? "border-white/10 bg-tt-surface-inverse"
+              : "border-tt-border-muted bg-tt-surface-base"
+          } ${megaPanelInteractive ? "pointer-events-auto" : "pointer-events-none"}`}
+          style={{ top: "var(--tt-layout-header-height)" }}
+          onMouseEnter={cancelClose}
+          onMouseLeave={scheduleClose}
+        >
+          {displayMegaKey === "adventures" ? (
+            <TogstrekSiteHeaderAdventuresMegaPanel
+              onNavigate={closeMega}
+              featuredCards={adventuresMegaFeaturedCards}
+              tagline={adventuresMegaTagline}
+            />
+          ) : null}
+          {openContinentItem ? (
+            <TogstrekSiteHeaderMegaMenuPanelBase
+              panelHeading={openContinentItem.label}
+              tagline={megaMenuTaglines[openContinentItem.continentId]}
+              links={megaMenuNavLinks[openContinentItem.continentId]}
+              ctaLabel={`Explore ${openContinentItem.label}`}
+              ctaHref={openContinentItem.href}
+              aside={{
+                heading: "Adventures",
+                headingHref: "/adventures",
+                featuredAdventure:
+                  megaMenuFeaturedAdventureByContinent[
+                    openContinentItem.continentId
+                  ],
+              }}
+              emptyStateMessage={
+                openContinentItem.continentId === "antarctica"
+                  ? "Antarctic place stories are on the way — open Antarctica for maps and the full introduction."
+                  : "Country hubs are on the way — open the region page for the full introduction."
+              }
+              asideHeadingId="togstrek-site-header-mega-aside-continent"
+              onNavigate={closeMega}
+            />
+          ) : null}
+          {displayMegaKey && isSectionMegaKey(displayMegaKey) ? (
+            <TogstrekSiteHeaderMegaMenuPanelBase
+              {...(() => {
+                const def = togstrekSectionMegaMenuByKey[displayMegaKey];
+                return {
+                  panelHeading: def.panelHeading,
+                  tagline: def.tagline,
+                  links: def.links,
+                  ctaLabel: def.ctaLabel,
+                  ctaHref: def.ctaHref,
+                  aside: def.aside,
+                  emptyStateMessage: def.emptyStateMessage,
+                  asideHeadingId: `togstrek-site-header-mega-aside-${def.key}`,
+                };
+              })()}
+              onNavigate={closeMega}
+            />
+          ) : null}
+        </div>
+      ) : null}
 
       <details className="togstrek-site-header-mobile-nav relative shrink-0 lg:hidden">
         <summary className={`flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-[var(--tt-radius-sm)] border border-tt-border-default px-3 font-tt-display text-[var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-primary touch-manipulation [&::-webkit-details-marker]:hidden ${TT_FOCUS_RING_MOBILE_SUMMARY}`}>

@@ -2,22 +2,61 @@
 
 import { createContext, useContext, type ReactNode } from "react";
 
-const TogstrekMdxPhotoGalleryContext = createContext(false);
+export type TogstrekMdxPhotoGalleryLayout = "default" | "dense";
+
+type TogstrekMdxPhotoGalleryContextValue = {
+  inGallery: boolean;
+  layout: TogstrekMdxPhotoGalleryLayout;
+};
+
+const togstrekMdxPhotoGalleryContextDefault: TogstrekMdxPhotoGalleryContextValue =
+  { inGallery: false, layout: "default" };
+
+const TogstrekMdxPhotoGalleryContext =
+  createContext<TogstrekMdxPhotoGalleryContextValue>(
+    togstrekMdxPhotoGalleryContextDefault,
+  );
 
 export function useTogstrekMdxPhotoGallery(): boolean {
-  return useContext(TogstrekMdxPhotoGalleryContext);
+  return useContext(TogstrekMdxPhotoGalleryContext).inGallery;
+}
+
+export function useTogstrekMdxPhotoGalleryLayout(): TogstrekMdxPhotoGalleryLayout {
+  return useContext(TogstrekMdxPhotoGalleryContext).layout;
 }
 
 export type TogstrekMdxPhotoGalleryProps = {
   children: ReactNode;
+  /**
+   * `dense` — more columns on large viewports + shorter thumbnails for long sets
+   * (e.g. 12+ images). Use with explicit `<PhotoGallery layout="dense">` in MDX.
+   */
+  layout?: TogstrekMdxPhotoGalleryLayout | string;
 };
 
-/** MDX: wrap consecutive `![alt](url)` blocks for a 2-col grid (md+) + shared lightbox. */
-export function TogstrekMdxPhotoGallery({ children }: TogstrekMdxPhotoGalleryProps) {
+function normalizeLayout(
+  raw: TogstrekMdxPhotoGalleryProps["layout"],
+): TogstrekMdxPhotoGalleryLayout {
+  return raw === "dense" ? "dense" : "default";
+}
+
+/** MDX: wrap consecutive `![alt](url)` blocks for a grid + shared lightbox. */
+export function TogstrekMdxPhotoGallery({
+  children,
+  layout: layoutProp,
+}: TogstrekMdxPhotoGalleryProps) {
+  const layout = normalizeLayout(layoutProp);
+  const wrapClass =
+    layout === "dense"
+      ? "togstrek-mdx-photo-gallery-wrap togstrek-mdx-photo-gallery-wrap--dense"
+      : "togstrek-mdx-photo-gallery-wrap";
+
   return (
-    <TogstrekMdxPhotoGalleryContext.Provider value={true}>
+    <TogstrekMdxPhotoGalleryContext.Provider
+      value={{ inGallery: true, layout }}
+    >
       <div
-        className="togstrek-mdx-photo-gallery-wrap w-full min-w-0 max-w-none"
+        className={`${wrapClass} w-full min-w-0 max-w-none`}
         role="group"
         aria-label="Photo gallery"
       >

@@ -13,6 +13,8 @@
     "exif:fill-mdx": "tsx scripts/togstrek-fill-mdx-empty-image-exif.ts",
     "start": "next start",
     "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "inventory:squarespace": "tsx scripts/squarespace-inventory.ts",
     "media:migrate-squarespace-backup": "tsx scripts/togstrek-migrate-squarespace-from-backup.ts",
     "media:rewrite-squarespace-to-cdn": "tsx scripts/togstrek-rewrite-squarespace-urls-to-media.ts",
@@ -86,6 +88,7 @@
     "turndown": "^7.2.2",
     "turndown-plugin-gfm": "^1.0.2",
     "typescript": "^5",
+    "vitest": "^3.2.4",
     "yaml": "^2.8.3"
   }
 }

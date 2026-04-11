@@ -146,13 +146,13 @@ function collectSquarespaceImageUrls(raw: string): string[] {
   for (const m of raw.matchAll(
     /!\[[^\]]*]\((https:\/\/static1\.squarespace\.com\/.+?\.(?:jpe?g|png|webp|gif|avif))\)/gi,
   )) {
-    let u = m[1]!.trim();
+    const u = m[1]!.trim();
     if (IMAGE_EXT.test(u.split("?")[0]!)) found.add(u);
   }
   for (const m of raw.matchAll(
     /https:\/\/static1\.squarespace\.com\/[^\s\)"'<>]+/gi,
   )) {
-    let u = m[0]!.trim().replace(/[),.;]+$/, "");
+    const u = m[0]!.trim().replace(/[),.;]+$/, "");
     if (IMAGE_EXT.test(u)) found.add(u);
   }
 
@@ -191,7 +191,7 @@ function uniqueDestBasename(
   used: Set<string>,
 ): { filename: string; stem: string; ext: string } {
   const ext = path.extname(base) || ".jpg";
-  let stem = base.slice(0, -ext.length) || "image";
+  const stem = base.slice(0, -ext.length) || "image";
   let filename = base;
   let n = 0;
   while (used.has(filename)) {

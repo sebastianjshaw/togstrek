@@ -205,6 +205,13 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
+    /**
+     * Do not proxy remote images through Vercel Image Optimization (`/_next/image`).
+     * That API is metered and returns 402 when the quota is exceeded; media already
+     * sits behind Cloudflare on `media.togstrek.com`, so load originals (or CF
+     * transformations) directly from the CDN URL instead.
+     */
+    unoptimized: true,
     remotePatterns: [
       ...mediaImageHosts.map((hostname) => ({
         protocol: "https" as const,

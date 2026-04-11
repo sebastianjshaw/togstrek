@@ -320,7 +320,7 @@ function httrackHrefToSitePath(
     try {
       const u = new URL(t);
       if (u.hostname === "togstrek.com" || u.hostname === "www.togstrek.com") {
-        let p = u.pathname.replace(/\.html?$/i, "");
+        const p = u.pathname.replace(/\.html?$/i, "");
         if (!p.endsWith("/") && p.split("/").length > 0) {
           /* ok */
         }
