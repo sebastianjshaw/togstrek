@@ -14,12 +14,13 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import { shouldReplaceAltWithExif } from "@/lib/togstrek-mdx-image-caption";
+
 import {
   escapeMarkdownImageAlt,
   fetchExifCaptionForMediaUrl,
   TOGSTREK_MEDIA_HOST,
 } from "./lib/togstrek-exif-from-url";
-import { shouldReplaceAltWithExif } from "./lib/togstrek-mdx-image-alt";
 
 const PLACES_ROOT = path.join(process.cwd(), "content", "places");
 

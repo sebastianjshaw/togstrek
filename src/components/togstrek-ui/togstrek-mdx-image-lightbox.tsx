@@ -6,7 +6,7 @@ import { memo, useEffect, useId } from "react";
 import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 import {
   isLikelyCameraExifCaption,
-  isLikelyOpaqueIdFilenameAlt,
+  isTechnicalImageFilenameAlt,
 } from "@/lib/togstrek-mdx-image-caption";
 
 import {
@@ -40,14 +40,13 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
   if (!src || typeof src !== "string") return null;
 
   const isExifCaption = altText.length > 0 && isLikelyCameraExifCaption(altText);
-  const isOpaqueFilenameAlt =
-    altText.length > 0 &&
-    !isExifCaption &&
-    isLikelyOpaqueIdFilenameAlt(altText);
+  /** Migration filename / opaque id — not a prose caption; hide until EXIF fill script updates alt. */
+  const isTechnicalAlt =
+    altText.length > 0 && isTechnicalImageFilenameAlt(altText);
   /** When alt is EXIF-only, keep `<img alt="">` and expose the line in `<figcaption>` (avoids duplicating long tech strings for AT). */
   const imageAltForImg = isExifCaption
     ? ""
-    : isOpaqueFilenameAlt
+    : isTechnicalAlt
       ? "Photograph"
       : altText.length > 0
         ? altText
@@ -64,7 +63,7 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
 
   const lightboxCaptionAlt = isExifCaption
     ? altText
-    : isOpaqueFilenameAlt
+    : isTechnicalAlt
       ? "Photograph"
       : altText || "Photograph";
 
@@ -83,7 +82,7 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
 
   const zoomAriaLabel = !altText
     ? "View larger image"
-    : isExifCaption || isOpaqueFilenameAlt
+    : isExifCaption || isTechnicalAlt
       ? "View larger photograph"
       : `View larger: ${altText}`;
 
@@ -122,7 +121,7 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
           />
         </span>
       </button>
-      {altText && (isExifCaption || !isOpaqueFilenameAlt) ? (
+      {altText && (isExifCaption || !isTechnicalAlt) ? (
         <figcaption
           className={`togstrek-mdx-image-caption mt-[var(--tt-space-3)] text-center font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary ${isExifCaption ? "togstrek-mdx-image-caption--exif font-mono text-[0.85em] leading-snug tracking-tight text-tt-text-tertiary/95" : ""} ${inPhotoGallery ? "line-clamp-2" : ""}`}
           {...(!isExifCaption ? { "aria-hidden": true } : {})}

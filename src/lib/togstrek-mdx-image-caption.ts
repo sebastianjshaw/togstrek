@@ -38,3 +38,35 @@ export function isLikelyOpaqueIdFilenameAlt(text: string): boolean {
   if (/\s/.test(stem)) return false;
   return /^[a-f0-9][a-f0-9.-]{6,}$/i.test(stem);
 }
+
+/** Alt text that ends with a common raster extension (case-insensitive). */
+const IMAGE_FILE_EXT_ALT_PATTERN =
+  /\.(?:jpe?g|png|gif|webp|tiff?|heic|heif|bmp|avif|jxl)$/i;
+
+/**
+ * True when alt looks like a source filename (e.g. `20240814-… - TogsTrek - 003A4043.jpg`).
+ * Same rule as {@link shouldReplaceAltWithExif} for the EXIF fill script.
+ */
+export function isFilenameLikeImageAlt(text: string): boolean {
+  const t = text.trim();
+  if (!t) return false;
+  return IMAGE_FILE_EXT_ALT_PATTERN.test(t);
+}
+
+/** Empty alt or filename-like alt — candidates for EXIF replacement in MDX tooling. */
+export function shouldReplaceAltWithExif(altRaw: string): boolean {
+  const alt = altRaw.trim();
+  if (alt === "") return true;
+  return isFilenameLikeImageAlt(alt);
+}
+
+/**
+ * Filename-style or opaque-id alt that is not already a camera EXIF line — do not show as
+ * visible caption; use `scripts/togstrek-fill-mdx-empty-image-exif.ts` to swap alt for EXIF.
+ */
+export function isTechnicalImageFilenameAlt(text: string): boolean {
+  const t = text.trim();
+  if (!t) return false;
+  if (isLikelyCameraExifCaption(t)) return false;
+  return isLikelyOpaqueIdFilenameAlt(t) || isFilenameLikeImageAlt(t);
+}

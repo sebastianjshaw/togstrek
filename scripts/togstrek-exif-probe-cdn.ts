@@ -17,7 +17,7 @@ import {
   fetchImageBuffer,
   TOGSTREK_MEDIA_HOST,
 } from "./lib/togstrek-exif-from-url";
-import { shouldReplaceAltWithExif } from "./lib/togstrek-mdx-image-alt";
+import { shouldReplaceAltWithExif } from "@/lib/togstrek-mdx-image-caption";
 
 const PLACES_ROOT = path.join(process.cwd(), "content", "places");
 const REPORT_PATH = path.join(process.cwd(), "migration", "exif-probe-report.json");
