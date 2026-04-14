@@ -14,6 +14,7 @@ import {
   type TogstrekHikingMdxFrontmatter,
 } from "@/lib/togstrek-hiking-frontmatter";
 import { shouldOmitVisibleDescriptionLead } from "@/lib/togstrek-mdx-description-lead-dedupe";
+import { togstrekMdxRehypePlugins } from "@/lib/togstrek-mdx-rehype-plugins";
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
 
 export type TogstrekHikingMdxResult = {
@@ -41,6 +42,7 @@ export async function loadTogstrekHikingMdx(
       parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [...togstrekMdxRemarkPlugins],
+        rehypePlugins: [...togstrekMdxRehypePlugins],
       },
     },
     components: getTogstrekPlaceMdxComponents(),

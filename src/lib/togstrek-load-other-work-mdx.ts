@@ -12,6 +12,7 @@ import {
   parseTogstrekOtherWorkFrontmatter,
   type TogstrekOtherWorkMdxFrontmatter,
 } from "@/lib/togstrek-other-work-frontmatter";
+import { togstrekMdxRehypePlugins } from "@/lib/togstrek-mdx-rehype-plugins";
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
 import {
   areTogstrekSafeUrlPathSegments,
@@ -102,6 +103,7 @@ export async function loadTogstrekOtherWorkMdx(
       parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [...togstrekMdxRemarkPlugins],
+        rehypePlugins: [...togstrekMdxRehypePlugins],
       },
     },
     components,

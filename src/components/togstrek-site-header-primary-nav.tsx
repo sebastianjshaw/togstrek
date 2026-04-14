@@ -385,12 +385,13 @@ export function TogstrekSiteHeaderPrimaryNav({
 
   return (
     <>
-      <nav
-        ref={megaNavRef}
-        className="togstrek-site-header-primary-nav-desktop hidden lg:block"
-        aria-label="Primary"
-      >
-        <ul className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-[var(--tt-text-small)] font-medium tracking-wide">
+      <div className="togstrek-site-header-primary-nav-desktop-cluster hidden items-center justify-end gap-6 lg:flex">
+        <nav
+          ref={megaNavRef}
+          className="togstrek-site-header-primary-nav-desktop"
+          aria-label="Primary"
+        >
+          <ul className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-[var(--tt-text-small)] font-medium tracking-wide">
           <li
             className="togstrek-site-header-mega-trigger relative"
             onMouseEnter={() => openMega("adventures")}
@@ -448,8 +449,15 @@ export function TogstrekSiteHeaderPrimaryNav({
               </Link>
             </li>
           ))}
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+        <Link
+          href="/contact"
+          className={`${DESKTOP_MEGA_TRIGGER_CLASS} shrink-0 whitespace-nowrap`}
+        >
+          Contact
+        </Link>
+      </div>
 
       {panelVisible ? (
         <div
@@ -692,6 +700,14 @@ export function TogstrekSiteHeaderPrimaryNav({
                 </details>
               </li>
             ))}
+            <li className="min-w-0 border-t border-tt-border-muted pt-1">
+              <Link
+                href="/contact"
+                className="block min-h-10 rounded-[var(--tt-radius-sm)] px-3 py-2 font-tt-display text-[var(--tt-text-small)] font-semibold text-tt-text-primary [overflow-wrap:anywhere] hover:bg-tt-surface-muted/60 hover:text-tt-accent"
+              >
+                Contact
+              </Link>
+            </li>
           </ul>
         </div>
       </details>

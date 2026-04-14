@@ -93,7 +93,7 @@ export const togstrekOtherWorkMegaMenu: TogstrekSectionMegaMenuDefinition = {
   ctaLabel: "All other work",
   ctaHref: "/other-work",
   aside: {
-    heading: "About us",
+    heading: "About",
     headingHref: "/about",
     links: [],
   },

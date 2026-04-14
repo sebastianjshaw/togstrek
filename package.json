@@ -54,6 +54,7 @@
     "figma:connect:publish:skip-validation": "node --env-file=.env ./node_modules/@figma/code-connect/dist/cli.js connect publish --config figma.config.json --skip-validation"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "gray-matter": "^4.0.3",
     "maplibre-gl": "^5.21.0",
     "next": "16.2.1",
@@ -61,6 +62,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-map-gl": "^8.1.0",
+    "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
     "remark-unwrap-images": "^4.0.1",
     "supercluster": "^8.0.1"

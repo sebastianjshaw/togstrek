@@ -62,6 +62,11 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      {
+        source: "/map-demo",
+        destination: "/visited-map",
+        permanent: true,
+      },
       ...togstrekNorthAmericaLegacyPlaceRedirects.map((r) => ({
         source: r.source,
         destination: r.destination,

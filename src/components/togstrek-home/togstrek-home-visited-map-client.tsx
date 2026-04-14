@@ -90,10 +90,10 @@ export function TogstrekHomeVisitedMapClient({
           />
           <p className="shrink-0 font-tt-body text-[length:var(--tt-text-small)] text-tt-text-secondary lg:pb-[var(--tt-space-1)]">
             <Link
-              href="/map-demo"
+              href="/visited-map"
               className="font-semibold text-tt-accent underline decoration-tt-accent/35 underline-offset-[0.2em] transition-colors hover:text-tt-accent-hover hover:decoration-tt-accent-hover"
             >
-              Full map, filters, and place view
+              Open the full visited map
             </Link>
           </p>
         </div>

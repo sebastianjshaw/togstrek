@@ -81,12 +81,10 @@ Where a caption also needs a descriptive label (location, subject), put the labe
 | Area | What’s missing |
 |------|----------------|
 | Continent hubs (non-Europe) | **Hero pull quotes** were removed as placeholders; only Europe keeps the Eddie Izzard line. Add real attributions when you have them, or leave quotes off. |
-| Country hub SEO | Descriptions are generic (“Place stories and photos from …”). Richer, unique lines per country help search and sharing. |
+| Country hub SEO | **`generateMetadata` on country hubs** now builds descriptions from published place titles (see `[continent]/[country]/page.tsx`). Remaining SEO wins are per-place frontmatter `description` quality and occasional bespoke country lines where the template feels thin. |
 | Migrated MDX | Some **descriptions** may be truncated from legacy meta or are article openers rather than standalone descriptions — spot-check against full article text. Nice is an example that needs a proper description. |
-| Hiking hub MDX | Intro still mentions static-export limits; replace when pagination is final. |
-| Other Work hub | `description` in frontmatter should expand beyond repeating the title. |
-| Internal links | About page still points at legacy paths (e.g. `/blog/...`, `/contact`) where the Next app may use different routes — audit when those routes exist. |
-| `/map-demo` | Dev-style map playground; copy is neutral. Remove from public nav or add `noindex` if it should not be indexed. |
+| Internal links | Residual **`/blog/...` links in MDX** should be rewritten to canonical place or section routes (relative paths, no deployment-specific hosts). External legacy hosts (e.g. old portfolio URLs) stay as-is unless you migrate that content. |
+| Visited map | Public route **`/visited-map`** (redirects from `/map-demo`). Linked from the home map block; in the sitemap. |
 | Copyright band on About | Ending year and “TogsTrek” styling may predate the current footer — align if policy changed. |
 | Country hubs without your photos | Use **illustrated / non-photographic header art** (see below); do not use stock photos that pretend to be yours. |
 | Short place pages | Some pages (e.g. Nice) are trip-note fragments rather than standalone guides. Either expand them or add a brief context line so readers know what they’re getting. |
@@ -166,7 +164,8 @@ Compose one wide landscape-orientation scene that merges the place brief with th
 - **Home lead (baseline):** Curious travel guides and photo essays that go deeper — countries, places, hikes, and the stories behind the frame.
 - **Map section (continents):** Shared helper `togstrekHubOnTheMapSectionDescription` in `src/lib/togstrek-hub-section-copy.tsx`.
 - **Countries list intro:** Shared `TogstrekHubCountriesListIntro` for consistent UN 195 wording.
-- **Hiking trail intro (benchmark):** *”Every trail here has been walked from start to finish. No summaries, no lifted descriptions… All of them are documented in enough detail to be useful if you’re planning the same route, and honest enough to read if you’re not.”*
+- **Hiking trail intro (benchmark):** *”Every trail here has been walked from start to finish. No summaries, no lifted descriptions… All of them are documented in enough detail to be useful if you’re planning the same route, and honest enough to read if you’re not.”* (`content/hiking/index.mdx`)
+- **Visited map:** Full interactive coverage UI at **`/visited-map`** (home teaser links here; `/map-demo` redirects).
 - **Place page benchmark:** Ushuaia — structured sections, personal asides that earn their place, practical detail without padding.
 
 ---
