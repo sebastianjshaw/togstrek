@@ -53,8 +53,9 @@
   );
 
   /* —— Typography scale (fluid) —— */
-  /* --font-tt-syne, --font-tt-dm-sans, --font-tt-geist-mono: injected via next/font in layout */
-  --tt-font-display: var(--font-tt-syne), "Syne", system-ui, sans-serif;
+  /* --font-tt-display, --font-tt-dm-sans, --font-tt-geist-mono: injected via next/font in layout */
+  --tt-font-display: var(--font-tt-display), "Space Grotesk", system-ui,
+    sans-serif;
   --tt-font-body: var(--font-tt-dm-sans), "DM Sans", system-ui, sans-serif;
   --tt-font-mono: var(--font-tt-geist-mono), ui-monospace, monospace;
 

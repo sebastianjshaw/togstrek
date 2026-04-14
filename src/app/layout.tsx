@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans, Geist_Mono, Syne } from "next/font/google";
+import { DM_Sans, Geist_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -13,11 +13,10 @@ import { getTogstrekMediaBaseUrl } from "@/config/togstrek-media";
 import { togstrekLayoutJsonLdGraph } from "@/lib/togstrek-json-ld";
 import { getTogstrekSiteOrigin } from "@/lib/togstrek-site-url";
 
-/** Display face only uses semibold (600), bold (700), extrabold (800) in components. */
-const fontSyne = Syne({
-  variable: "--font-tt-syne",
+const fontDisplay = Space_Grotesk({
+  variable: "--font-tt-display",
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const fontDmSans = DM_Sans({
@@ -77,7 +76,7 @@ export default function RootLayout({
     <html
       lang="en-GB"
       suppressHydrationWarning
-      className={`${fontSyne.variable} ${fontDmSans.variable} ${fontGeistMono.variable} h-full antialiased`}
+      className={`${fontDisplay.variable} ${fontDmSans.variable} ${fontGeistMono.variable} h-full antialiased`}
     >
       <head>
         <TogstrekThemeInitScript />

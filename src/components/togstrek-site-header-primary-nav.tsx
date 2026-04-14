@@ -449,14 +449,13 @@ export function TogstrekSiteHeaderPrimaryNav({
               </Link>
             </li>
           ))}
+          <li className="relative shrink-0 whitespace-nowrap">
+            <Link href="/contact" className={DESKTOP_MEGA_TRIGGER_CLASS}>
+              Contact
+            </Link>
+          </li>
           </ul>
         </nav>
-        <Link
-          href="/contact"
-          className={`${DESKTOP_MEGA_TRIGGER_CLASS} shrink-0 whitespace-nowrap`}
-        >
-          Contact
-        </Link>
       </div>
 
       {panelVisible ? (

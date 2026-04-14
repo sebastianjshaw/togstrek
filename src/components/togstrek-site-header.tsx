@@ -38,7 +38,7 @@ export function TogstrekSiteHeader() {
             className="h-9 w-9 shrink-0 object-contain transition-transform duration-[var(--tt-duration-normal)] ease-[var(--tt-ease-out)] group-hover:scale-[1.03] sm:h-10 sm:w-10"
             priority
           />
-          <span className="togstrek-site-header-title whitespace-nowrap font-tt-display text-[1rem] font-semibold leading-normal tracking-[var(--tt-tracking-tight)] text-tt-text-primary sm:text-[1.05rem] md:text-[1.15rem]">
+          <span className="togstrek-site-header-title block whitespace-nowrap pb-[0.22em] pt-[0.04em] font-tt-display text-[1rem] font-semibold leading-[1.1] tracking-[var(--tt-tracking-tight)] text-tt-text-primary sm:text-[1.05rem] md:text-[1.15rem]">
             A Tog&apos;s Trek
           </span>
         </Link>
