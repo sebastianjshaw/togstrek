@@ -5,6 +5,7 @@ import matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
 import type { ReactNode } from "react";
 import { getTogstrekPlaceMdxComponents } from "@/components/togstrek-place/togstrek-place-mdx-components";
+import { togstrekMdxRehypePlugins } from "@/lib/togstrek-mdx-rehype-plugins";
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
 import { shouldOmitVisibleDescriptionLead } from "@/lib/togstrek-mdx-description-lead-dedupe";
 import {
@@ -91,6 +92,7 @@ export async function loadTogstrekPhotographyMdx(
       parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [...togstrekMdxRemarkPlugins],
+        rehypePlugins: [...togstrekMdxRehypePlugins],
       },
     },
     components: getTogstrekPlaceMdxComponents(),

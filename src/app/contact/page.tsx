@@ -24,9 +24,9 @@ export default function ContactPage() {
         </p>
         <p className="togstrek-contact-body mt-[var(--tt-space-6)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-body)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
           The fastest way to get in touch is usually the channel you already use to
-          follow the project (for example the site’s linked social profiles from
-          the footer or About page). If you are reporting a technical problem,
-          include the page URL and what you expected to happen.
+          follow the project (for example linked social profiles from the About
+          page). If you are reporting a technical problem, include the page URL
+          and what you expected to happen.
         </p>
       </TogstrekContentWidth>
     </main>

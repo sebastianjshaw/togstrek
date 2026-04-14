@@ -46,6 +46,7 @@ const STATIC_PATHS: {
     { path: "/contact", priority: 0.55, changeFrequency: "yearly" },
     { path: "/copyright", priority: 0.45, changeFrequency: "yearly" },
     { path: "/search", priority: 0.65, changeFrequency: "monthly" },
+    { path: "/visited-map", priority: 0.7, changeFrequency: "monthly" },
   ];
 
 function withOptionalLastModified(

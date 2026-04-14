@@ -84,7 +84,7 @@ export const togstrekOtherWorkHubSections: TogstrekOtherWorkHubSection[] = [
   },
 ];
 
-/** Summary block “Featured” — links to legacy photography URLs until migrated. */
+/** Summary block “Featured” — links to photo essays under `/photography/…`. */
 export const togstrekOtherWorkHubFeatured: TogstrekOtherWorkHubFeatured[] = [
   {
     href: "/photography/avalon/avalon-winter-is-coming",

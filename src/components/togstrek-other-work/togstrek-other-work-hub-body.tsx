@@ -12,11 +12,12 @@ export function TogstrekOtherWorkHubBody() {
   return (
     <div className="togstrek-other-work-hub-body not-prose w-full max-w-none">
       <h2 className="togstrek-other-work-hub-heading font-tt-display text-[length:var(--tt-text-title)] font-bold tracking-tight text-tt-text-primary">
-        Photography
+        Other work
       </h2>
       <p className="togstrek-other-work-hub-lead mt-[var(--tt-space-4)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
-        Exploration is not just travelling. It’s how you look at the world, how
-        you try new things, and how you learn.
+        Studios, events, street work, and longer photo essays grouped by
+        collection — the portfolios that sit alongside the place guides and
+        trail reports.
       </p>
 
       <nav
