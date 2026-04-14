@@ -54,6 +54,7 @@
     "figma:connect:publish:skip-validation": "node --env-file=.env ./node_modules/@figma/code-connect/dist/cli.js connect publish --config figma.config.json --skip-validation"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "gray-matter": "^4.0.3",
     "maplibre-gl": "^5.21.0",
     "next": "16.2.1",
