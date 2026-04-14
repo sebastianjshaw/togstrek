@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "gray-matter": "^4.0.3",
     "maplibre-gl": "^5.21.0",
     "next": "16.2.1",

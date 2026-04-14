@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { DM_Sans, Geist_Mono, Syne } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { TogstrekGoogleAnalytics } from "@/components/togstrek-google-analytics";
 import { TogstrekThemeInitScript } from "@/components/togstrek-theme-init-script";
 import { TogstrekJsonLd } from "@/components/togstrek-seo/togstrek-json-ld";
@@ -104,6 +105,7 @@ export default function RootLayout({
         <TogstrekSiteFooter />
         <TogstrekGoogleAnalytics />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
