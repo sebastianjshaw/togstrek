@@ -35,8 +35,10 @@ export function TogstrekAdventuresPage() {
             className="togstrek-adventures-page-archive-pitch mx-auto max-w-[min(40rem,100%)] text-center font-tt-display text-[clamp(1.2rem,3.8vw,2.35rem)] font-extrabold leading-[var(--tt-leading-snug)] text-tt-text-primary"
           >
             Sometimes my travels are{" "}
-            <span className="text-tt-accent">bigger</span> and deserve more
-            attention. I&apos;ve <span className="text-tt-accent">walked</span>{" "}
+            <span className="text-tt-accent">bigger</span>
+            {" "}
+            and deserve more attention. I&apos;ve{" "}
+            <span className="text-tt-accent">walked</span>{" "}
             443km of Sweden and been to the ends of the{" "}
             <span className="text-tt-accent">World</span>.
           </h2>

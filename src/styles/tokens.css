@@ -128,6 +128,17 @@
   --tt-shadow-photo-hover: 0 1px 0 color-mix(in srgb, var(--tt-color-white) 22%, transparent),
     0 20px 48px -10px color-mix(in srgb, var(--tt-color-ink-strong) 48%, transparent),
     0 48px 80px -28px color-mix(in srgb, var(--tt-color-ink-strong) 38%, transparent);
+  /**
+   * Full-bleed image tiles (e.g. homepage region grid) — same ambient depth as
+   * `--tt-shadow-photo` but **without** the `0 1px 0` white hairline, which reads
+   * as a distracting gap between the photo and the soft shadow on edge-to-edge images.
+   */
+  --tt-shadow-photo-tile: 0 12px 32px -8px
+      color-mix(in srgb, var(--tt-color-ink-strong) 35%, transparent),
+    0 28px 56px -20px color-mix(in srgb, var(--tt-color-ink-strong) 28%, transparent);
+  --tt-shadow-photo-tile-hover: 0 20px 48px -10px
+      color-mix(in srgb, var(--tt-color-ink-strong) 48%, transparent),
+    0 48px 80px -28px color-mix(in srgb, var(--tt-color-ink-strong) 38%, transparent);
 
   /* —— Motion —— */
   --tt-ease-out: cubic-bezier(0.16, 1, 0.3, 1);

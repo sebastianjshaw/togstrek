@@ -12,6 +12,7 @@ import { TogstrekFeaturedAdventure } from "@/components/togstrek-featured-advent
 import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
 import {
+  TOGSTREK_CONTINENT_HUB_CROSS_LIST_ISO2_BY_CONTINENT,
   togstrekAsiaSpecialTerritories,
   togstrekEuropeSpecialTerritories,
 } from "@/data/togstrek-country-hub-paths";
@@ -20,7 +21,10 @@ import {
   TOGSTREK_CONTINENT_HUB_ROUTE_SLUGS,
   togstrekContinentHubPageMeta,
 } from "@/data/togstrek-continent-hub-meta";
-import { togstrekUn195Countries } from "@/data/togstrek-un195-countries";
+import {
+  type TogstrekUn195Country,
+  togstrekUn195Countries,
+} from "@/data/togstrek-un195-countries";
 import {
   formatContinentEyebrow,
   truncateDescription,
@@ -45,6 +49,29 @@ const togstrekContinentHubSpecialTerritoriesItemClass =
   "togstrek-continent-hub-special-territories-item flex min-h-0 min-w-0 flex-col";
 
 type PageParams = { continent: string };
+
+function buildUn195CountriesForContinentHub(
+  continent: string,
+): TogstrekUn195Country[] {
+  const base = togstrekUn195Countries.filter((c) => c.continent === continent);
+  const extraIso2 =
+    TOGSTREK_CONTINENT_HUB_CROSS_LIST_ISO2_BY_CONTINENT[continent];
+  if (!extraIso2?.length) {
+    return [...base].sort((a, b) => a.name.localeCompare(b.name));
+  }
+  const byIso2 = new Map<string, TogstrekUn195Country>();
+  for (const c of base) {
+    byIso2.set(c.iso2, c);
+  }
+  for (const iso2 of extraIso2) {
+    if (byIso2.has(iso2)) continue;
+    const row = togstrekUn195Countries.find((c) => c.iso2 === iso2);
+    if (row) byIso2.set(iso2, row);
+  }
+  return Array.from(byIso2.values()).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  );
+}
 
 /** Only prebuilt continent hubs — unknown slugs 404 without touching the filesystem. */
 export const dynamicParams = false;
@@ -90,9 +117,7 @@ export default async function ContinentHubPage({
       ? listTogstrekPlaceSlugsForCountry("antarctica", "antarctic")
       : [];
 
-  const un195ForContinent = togstrekUn195Countries
-    .filter((c) => c.continent === continent)
-    .sort((a, b) => a.name.localeCompare(b.name));
+  const un195ForContinent = buildUn195CountriesForContinentHub(continent);
 
   const eyebrow = formatContinentEyebrow(continent);
 

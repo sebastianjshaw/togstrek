@@ -53,6 +53,17 @@ export const togstrekCountryHubPathByIso2: Partial<
 };
 
 /**
+ * ISO2 codes shown on a continent hub even when `togstrek-un195-countries` assigns
+ * them to another region. Türkiye is M49 “Western Asia” here but the site hub
+ * lives at `/europe/turkiye`, so it must appear in the Europe country grid too.
+ */
+export const TOGSTREK_CONTINENT_HUB_CROSS_LIST_ISO2_BY_CONTINENT: Readonly<
+  Record<string, readonly string[]>
+> = {
+  europe: ["TR"],
+};
+
+/**
  * Old one-segment hub URLs (`/{slug}`) now served at `/europe/{slug}`.
  * Used for permanent redirects in `next.config.ts`.
  */
@@ -106,11 +117,6 @@ const togstrekEuropeSpecialTerritoriesUnsorted: TogstrekSpecialTerritoryHub[] = 
     href: "/europe/sweden",
     label: "Ladonia",
     note: "Micronation, Swedish coast",
-  },
-  {
-    href: "/europe/turkiye",
-    label: "Türkiye",
-    note: "Transcontinental — also listed under Asia; one hub, same place stories",
   },
 ];
 
