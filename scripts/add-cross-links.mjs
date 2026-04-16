@@ -110,8 +110,8 @@ function buildPlaceMap() {
     // Sweden
     Abisko: '/europe/sweden/norbotten/abisko-ostra',
     Hemavan: '/europe/sweden/vasterbotten/hemavan',
-    Gothenburg: '/europe/sweden/vastra-gotland/gothenburg',
-    Göteborg: '/europe/sweden/vastra-gotland/gothenburg',
+    Gothenburg: '/europe/sweden/vastra-gotaland/gothenburg',
+    Göteborg: '/europe/sweden/vastra-gotaland/gothenburg',
     // Ecuador
     'Isla Santa Cruz': '/south-america/ecuador/isla-santa-cruz',
     'Isla Isabela': '/south-america/ecuador/isla-isabela',

@@ -6,6 +6,7 @@ import {
   TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK,
 } from "@/components/togstrek-hub/togstrek-country-hub-template";
 import { TogstrekUkNationsStrip } from "@/components/togstrek-hub/togstrek-uk-nations-strip";
+import { TogstrekSwedenLanStrip } from "@/components/togstrek-hub/togstrek-sweden-lan-strip";
 import { TogstrekUnitedStatesStatesStrip } from "@/components/togstrek-hub/togstrek-united-states-states-strip";
 import { TogstrekCountryHubMap } from "@/components/togstrek-place/togstrek-country-hub-map";
 import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
@@ -113,6 +114,7 @@ export default async function TogstrekCountryHubPage({
   const isUnitedStatesHub =
     continent === TOGSTREK_UNITED_STATES_CONTINENT &&
     country === TOGSTREK_UNITED_STATES_COUNTRY;
+  const isSwedenHub = continent === "europe" && country === "sweden";
 
   // If a country has nested place pages (e.g. `svalbard/longyearbyen`) and also a
   // top-level hub at the parent segment (e.g. `svalbard`), prefer the hub card
@@ -191,6 +193,8 @@ export default async function TogstrekCountryHubPage({
           <TogstrekUkNationsStrip />
         ) : isUnitedStatesHub ? (
           <TogstrekUnitedStatesStatesStrip />
+        ) : isSwedenHub ? (
+          <TogstrekSwedenLanStrip />
         ) : undefined
       }
       map={{
@@ -207,9 +211,12 @@ export default async function TogstrekCountryHubPage({
         ),
       }}
       places={{
-        title: isUnitedKingdom || isUnitedStatesHub ? "All places" : "Places",
+        title:
+          isUnitedKingdom || isUnitedStatesHub || isSwedenHub
+            ? "All places"
+            : "Places",
         description:
-          isUnitedKingdom || isUnitedStatesHub
+          isUnitedKingdom || isUnitedStatesHub || isSwedenHub
             ? "Every place story in this country — open a card for photos, maps, and notes."
             : "Open a story — photos, maps, and notes from each location.",
         placesHeadingId: "togstrek-country-hub-places-heading",

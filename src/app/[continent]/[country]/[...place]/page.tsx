@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { TogstrekEnglandCountyHubContent } from "@/components/togstrek-hub/togstrek-england-county-hub-content";
+import { TogstrekSwedenLanHubContent } from "@/components/togstrek-hub/togstrek-sweden-lan-hub-content";
 import { TogstrekUnitedStatesStateHubContent } from "@/components/togstrek-hub/togstrek-united-states-state-hub-content";
 import { TogstrekUkNationHubContent } from "@/components/togstrek-hub/togstrek-uk-nation-hub-content";
 import { TogstrekPlacePageTemplate } from "@/components/togstrek-place/togstrek-place-page-template";
@@ -28,6 +29,10 @@ import {
   isEnglandCountyHubRoute,
 } from "@/lib/togstrek-england-counties";
 import {
+  discoverSwedenLanHubParams,
+  isSwedenLanHubRoute,
+} from "@/lib/togstrek-sweden-lan";
+import {
   discoverUnitedStatesStateHubParams,
   isUnitedStatesStateHubRoute,
 } from "@/lib/togstrek-united-states-state-hubs";
@@ -44,6 +49,7 @@ export async function generateStaticParams(): Promise<PageParams[]> {
     ...discoverTogstrekUkNationHubParams(),
     ...discoverEnglandCountyHubParams(),
     ...discoverUnitedStatesStateHubParams(),
+    ...discoverSwedenLanHubParams(),
   ];
 }
 
@@ -115,6 +121,24 @@ export async function generateMetadata({
     });
   }
 
+  if (isSwedenLanHubRoute(continent, country, place)) {
+    const lanSlug = place[0]!;
+    const lanLabel = formatSlugLabel(lanSlug);
+    const path = `/${continent}/${country}/${lanSlug}`;
+    const description = truncateDescription(
+      `Place guides in ${lanLabel}, Sweden — part of A Tog's Trek.`,
+      165,
+    );
+    return buildTogstrekMetadata({
+      title: `${lanLabel} · Sweden`,
+      description,
+      path,
+      type: "website",
+      openGraphTitle: buildTogstrekDefaultOpenGraphTitle(`${lanLabel} · Sweden`),
+      openGraphDescription: description,
+    });
+  }
+
   if (!togstrekPlaceMdxExists(continent, country, place)) {
     return { title: "Place" };
   }
@@ -167,6 +191,10 @@ export default async function TogstrekPlacePage({
     return (
       <TogstrekUnitedStatesStateHubContent stateSlug={place[0]!} />
     );
+  }
+
+  if (isSwedenLanHubRoute(continent, country, place)) {
+    return <TogstrekSwedenLanHubContent lanSlug={place[0]!} />;
   }
 
   if (!togstrekPlaceMdxExists(continent, country, place)) {

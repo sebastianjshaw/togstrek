@@ -67,6 +67,16 @@ const nextConfig: NextConfig = {
         destination: "/visited-map",
         permanent: true,
       },
+      {
+        source: "/europe/sweden/vastra-gotland/gothenburg",
+        destination: "/europe/sweden/vastra-gotaland/gothenburg",
+        permanent: true,
+      },
+      {
+        source: "/europe/sweden/vastra-gotland/mellerud",
+        destination: "/europe/sweden/vastra-gotaland/mellerud",
+        permanent: true,
+      },
       ...togstrekNorthAmericaLegacyPlaceRedirects.map((r) => ({
         source: r.source,
         destination: r.destination,
