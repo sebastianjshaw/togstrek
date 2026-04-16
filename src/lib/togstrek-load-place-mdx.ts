@@ -11,6 +11,7 @@ import {
   isTogstrekContinentHubRouteSlug,
   togstrekContinentHubPageMeta,
 } from "@/data/togstrek-continent-hub-meta";
+import { TOGSTREK_SWEDEN_COUNTRY_HUB_HERO } from "@/data/togstrek-country-hub-paths";
 import { togstrekUnCountryNameToUrlSlug } from "@/lib/togstrek-geo-labels";
 import {
   discoverTogstrekCountryHubParams,
@@ -134,6 +135,13 @@ export function resolveTogstrekCountryHubHeaderHero(
   country: string,
   placeOrder?: { place: string[] }[],
 ): { src: string; alt: string } {
+  if (
+    continent === "europe" &&
+    country === "sweden" &&
+    placeOrder === undefined
+  ) {
+    return TOGSTREK_SWEDEN_COUNTRY_HUB_HERO;
+  }
   const rows =
     placeOrder ?? listTogstrekPlaceSlugsForCountry(continent, country);
   const picked = pickFirstPlaceHeroFromOrderedPlaces(
@@ -167,6 +175,10 @@ export function pickTogstrekCountryHubTileHeroFromPlaces(options: {
     } else if (parts.length === 1) {
       countrySlug = parts[0]!;
     }
+  }
+
+  if (contentContinent === "europe" && countrySlug === "sweden") {
+    return TOGSTREK_SWEDEN_COUNTRY_HUB_HERO;
   }
 
   return pickFirstPlaceHeroForCountryHub(contentContinent, countrySlug);

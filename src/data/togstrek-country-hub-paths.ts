@@ -2,6 +2,13 @@
  * Canonical paths for country hubs that already exist on the site.
  * Keys are ISO 3166-1 alpha-2. European hubs use `/europe/{country}` (see `app/[continent]/[country]`).
  */
+
+/** Header + Europe tile image for `/europe/sweden` (not per-län hubs — see `resolveTogstrekCountryHubHeaderHero`). */
+export const TOGSTREK_SWEDEN_COUNTRY_HUB_HERO: { src: string; alt: string } = {
+  src: "https://media.togstrek.com/europe/sweden/vastra-gotaland/branno/2018-10-13+-+Branno-20181013-0001-243a3.jpg",
+  alt: "Brännö — rocky coast and archipelago, Västra Götaland, Sweden",
+};
+
 /** Optional card title on continent hubs when it should differ from the UN English name (e.g. Türkiye). */
 export const togstrekCountryHubTileTitleByIso2: Partial<
   Record<string, string>
