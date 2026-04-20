@@ -3,8 +3,7 @@
 ## Next up (actionable)
 
 - [ ] **Pick canonical URL rules**: decide whether `/[continent]/[country]/[...place]` stays the only place route or whether you want an explicit optional `division` segment. Then encode the final rule set in one place (routing + redirects + content conventions).
-- [ ] **Finish CDN rewrite**: search `content/` for `images.squarespace-cdn.com` / `static1.squarespace.com` and either re-run `npm run media:migrate-squarespace-backup -- --backup <TogsTrekBackup>` or fix remaining URLs by hand.
-- [ ] **Fix Iceland `vik.mdx` inline images**: body still contains Squarespace URLs (hero already fixed).
+- [ ] **Optional:** remove `images.squarespace-cdn.com` / `static1.squarespace.com` from `togstrek-remote-image-hosts.ts` once you are sure nothing legitimate still hotlinks them.
 - [ ] **R2 mirroring for canonical media prefixes (as needed)**:
   - If you change any `media.togstrek.com/<prefix>/...` paths in MDX, mirror objects in R2 so the new keys exist (copy scripts live in `scripts/`).
   - Latest: `python3 scripts/r2_copy_photography_consolidation.py --dry-run` then run without `--dry-run` when ready.
@@ -24,3 +23,4 @@
 - **“Jump to…” TOC**: `remark-togstrek-jump-to` strips legacy `Jump to…` + ordered `#` lists, fills opt-in `<TogstrekJumpTo />`, and auto-injects after the first paragraph when there are **≥2** outline entries and no nav yet (max **24** items; uses `##` when any exist, else `###`).
 - **No-hero fallback header**: `TogstrekPageHeroFallbackHeader` replaces duplicated muted-band `<header>` markup across templates.
 - **Photography consolidation**: unified astro + avalon content paths, updated hub/featured links, and added 301s + `scripts/r2_copy_photography_consolidation.py` for R2 rekeys.
+- **Adventure featured `imageSrc` (Squarespace → `media.togstrek.com`)**: remaining `images.squarespace-cdn.com` URLs in `content/adventures/*.mdx` were rewritten to existing CDN keys (place / hiking / adventure paths); verified with HTTP `HEAD` where ambiguous.
