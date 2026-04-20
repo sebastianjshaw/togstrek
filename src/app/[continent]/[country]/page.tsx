@@ -29,7 +29,10 @@ import {
   loadTogstrekPlaceFrontmatterOnly,
   resolveTogstrekCountryHubHeaderHero,
 } from "@/lib/togstrek-load-place-mdx";
-import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
+import {
+  buildTogstrekPlacePublicPath,
+  togstrekPlacePathFromSegments,
+} from "@/lib/togstrek-place-path";
 import {
   TOGSTREK_UNITED_STATES_CONTINENT,
   TOGSTREK_UNITED_STATES_COUNTRY,
@@ -56,7 +59,7 @@ export async function generateMetadata({
     return { title: "Country" };
   }
   const countryLabel = formatSlugLabel(country);
-  const path = `/${continent}/${country}`;
+  const path = buildTogstrekPlacePublicPath(continent, country, []);
   const headerHero = resolveTogstrekCountryHubHeaderHero(continent, country);
 
   const placeTitles = places.slice(0, 5).map(({ place }) =>
@@ -142,7 +145,7 @@ export default async function TogstrekCountryHubPage({
     }
     const fm = loadTogstrekPlaceFrontmatterOnly(continent, country, place);
     const placeTail = togstrekPlacePathFromSegments(place);
-    const href = `/${continent}/${country}/${placeTail}`;
+    const href = buildTogstrekPlacePublicPath(continent, country, place);
     cards.push({
       key: placeTail,
       href,

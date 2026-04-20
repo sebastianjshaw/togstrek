@@ -37,6 +37,7 @@ export type TogstrekPlaceSlugParams = {
   /**
    * Segments after `/{continent}/{country}/`: optional admin tier + leaf place.
    * Admin tier = state | county | district | län (same level); e.g. `['copenhagen']` or `['california','los-angeles']`.
+   * Canonical URL rules (incl. `[division]` route segment): `src/lib/togstrek-place-path.ts`.
    */
   place: string[];
 };

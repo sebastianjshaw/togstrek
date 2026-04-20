@@ -1,3 +1,9 @@
+/**
+ * Place URL policy (App Router: `[division]/page.tsx` vs `[division]/[...place]`; same
+ * public paths as `buildTogstrekPlacePublicPath` in `src/lib/togstrek-place-path.ts`).
+ * When adding place-related redirects, prefer building destinations with that helper
+ * (see `togstrek-north-america-legacy-place-redirects`).
+ */
 import type { NextConfig } from "next";
 
 import { TOGSTREK_REMOTE_IMAGE_PATTERNS } from "./src/config/togstrek-remote-image-hosts";

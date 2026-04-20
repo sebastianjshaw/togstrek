@@ -18,7 +18,11 @@ import {
   buildTogstrekPlaceBreadcrumbJsonLdItems,
   buildTogstrekPlaceBreadcrumbUiItems,
 } from "@/lib/togstrek-place-breadcrumb";
-import { togstrekPlaceLeafSegment, togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
+import {
+  buildTogstrekPlacePublicPath,
+  togstrekPlaceLeafSegment,
+  togstrekPlacePathFromSegments,
+} from "@/lib/togstrek-place-path";
 import { togstrekPlacePageJsonLdGraph } from "@/lib/togstrek-json-ld";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 import type { TogstrekPlaceMdxFrontmatter } from "@/lib/togstrek-place-frontmatter";
@@ -56,7 +60,7 @@ export function TogstrekPlacePageTemplate({
   const showDescriptionLead =
     Boolean(frontmatter.description) && !omitDescriptionLead;
 
-  const placePath = `/${continent}/${country}/${placePathTail}`;
+  const placePath = buildTogstrekPlacePublicPath(continent, country, placeSegments);
 
   const breadcrumbItems = buildTogstrekPlaceBreadcrumbUiItems(
     continent,

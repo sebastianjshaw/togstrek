@@ -17,7 +17,10 @@ import {
   listTogstrekPlaceSlugsForUkNation,
   type UkNationSlug,
 } from "@/lib/togstrek-uk-nations";
-import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
+import {
+  buildTogstrekPlacePublicPath,
+  togstrekPlacePathFromSegments,
+} from "@/lib/togstrek-place-path";
 import { getIso2ForCountrySlug } from "@/lib/togstrek-visited-travel-data";
 
 type TogstrekUkNationHubContentProps = {
@@ -51,7 +54,7 @@ export function TogstrekUkNationHubContent({ nation }: TogstrekUkNationHubConten
   for (const { place } of placeRows) {
     const fm = loadTogstrekPlaceFrontmatterOnly(continent, country, place);
     const placeTail = togstrekPlacePathFromSegments(place);
-    const href = `/${continent}/${country}/${placeTail}`;
+    const href = buildTogstrekPlacePublicPath(continent, country, place);
     cards.push({
       key: placeTail,
       href,
@@ -97,7 +100,10 @@ export function TogstrekUkNationHubContent({ nation }: TogstrekUkNationHubConten
       headerQuote={headerQuote}
       breadcrumbItems={[
         { href: `/${continent}`, label: continentLabel },
-        { href: `/${continent}/${country}`, label: countryLabel },
+        {
+          href: buildTogstrekPlacePublicPath(continent, country, []),
+          label: countryLabel,
+        },
         { label: nationLabel },
       ]}
       beforeMapSlot={isEngland ? <TogstrekEnglandCountiesStrip /> : undefined}

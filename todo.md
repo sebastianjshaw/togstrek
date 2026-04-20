@@ -2,13 +2,10 @@
 
 ## Next up (actionable)
 
-- [ ] **Pick canonical URL rules**: decide whether `/[continent]/[country]/[...place]` stays the only place route or whether you want an explicit optional `division` segment. Then encode the final rule set in one place (routing + redirects + content conventions).
-- [ ] **Optional:** remove `images.squarespace-cdn.com` / `static1.squarespace.com` from `togstrek-remote-image-hosts.ts` once you are sure nothing legitimate still hotlinks them.
 - [ ] **R2 mirroring for canonical media prefixes (as needed)**:
   - If you change any `media.togstrek.com/<prefix>/...` paths in MDX, mirror objects in R2 so the new keys exist (copy scripts live in `scripts/`).
   - Latest: `python3 scripts/r2_copy_photography_consolidation.py --dry-run` then run without `--dry-run` when ready.
 - [ ] **Deploy checklist**: choose host, set prod env, verify image/bandwidth limits.
-- [ ] **Global RSS**: add site-wide feed (optional: per-region/per-section).
 
 ## Backlog / later
 
@@ -20,7 +17,10 @@
 
 ## Recently completed (Apr 2026)
 
+- **Remote image hosts:** dropped `images.squarespace-cdn.com` / `static1.squarespace.com` from `togstrek-remote-image-hosts.ts` after grep showed no matches under `content/` or `public/` (only migration scripts reference those hosts).
+- **Canonical place URLs**: App Router uses **`[division]/page.tsx`** (one segment after country) and **`[division]/[...place]/page.tsx`** (deeper paths); the first slug is always the `division` param (Next.js disallows sibling `[place]` + `[division]`). Public paths unchanged (`buildTogstrekPlacePublicPath`). Shared logic: `src/lib/togstrek-place-app-route.tsx`.
 - **“Jump to…” TOC**: `remark-togstrek-jump-to` strips legacy `Jump to…` + ordered `#` lists, fills opt-in `<TogstrekJumpTo />`, and auto-injects after the first paragraph when there are **≥2** outline entries and no nav yet (max **24** items; uses `##` when any exist, else `###`).
 - **No-hero fallback header**: `TogstrekPageHeroFallbackHeader` replaces duplicated muted-band `<header>` markup across templates.
 - **Photography consolidation**: unified astro + avalon content paths, updated hub/featured links, and added 301s + `scripts/r2_copy_photography_consolidation.py` for R2 rekeys.
 - **Adventure featured `imageSrc` (Squarespace → `media.togstrek.com`)**: remaining `images.squarespace-cdn.com` URLs in `content/adventures/*.mdx` were rewritten to existing CDN keys (place / hiking / adventure paths); verified with HTTP `HEAD` where ambiguous.
+- **RSS 2.0**: `/feed.xml` and `/rss.xml` (same payload; `atom:link rel="self"` matches each URL). Query filters: `?section=adventures|places|hiking|photography|other-work`, `?continent=<hub-slug>` (places-only; if `section` omitted with `continent`, treats as places). Footer link + `metadata.alternates.types` on `feed.xml`.

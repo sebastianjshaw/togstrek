@@ -13,7 +13,7 @@ import {
   listTogstrekPlaceSlugsForCountry,
   loadTogstrekPlaceFrontmatterOnly,
 } from "@/lib/togstrek-place-mdx-fs";
-import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
+import { buildTogstrekPlacePublicPath } from "@/lib/togstrek-place-path";
 import { getIso2ForCountrySlug } from "@/lib/togstrek-visited-travel-data";
 
 /** Optional display names when the site label differs from UN/common English. */
@@ -56,14 +56,13 @@ export function getTogstrekContinentMegaMenuLinks(
     const rows = listTogstrekPlaceSlugsForCountry("antarctica", "antarctic");
     return rows
       .map(({ place }) => {
-        const tail = togstrekPlacePathFromSegments(place);
         const fm = loadTogstrekPlaceFrontmatterOnly(
           "antarctica",
           "antarctic",
           place,
         );
         return {
-          href: `/antarctica/antarctic/${tail}`,
+          href: buildTogstrekPlacePublicPath("antarctica", "antarctic", place),
           label: fm.title,
         };
       })
@@ -76,7 +75,7 @@ export function getTogstrekContinentMegaMenuLinks(
 
   for (const { continent, country } of discoverTogstrekCountryHubParams()) {
     if (continent !== continentId) continue;
-    const href = `/${continent}/${country}`;
+    const href = buildTogstrekPlacePublicPath(continent, country, []);
     byHref.set(href, countryLabelForContinentMegaMenu(continent, country));
   }
 

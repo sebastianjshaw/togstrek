@@ -11,9 +11,13 @@ export type TogstrekPlaceMdxFrontmatter = {
   description: string;
   continentSlug: string;
   countrySlug: string;
-  /** Optional; when set, should match the first segment of `placeSlug` when a tier exists (state/county/district/län — same level). */
+  /**
+   * Optional metadata only — not a separate URL segment (see canonical rules in
+   * `src/lib/togstrek-place-path.ts`). When set, should match the first segment of
+   * `placeSlug` when an admin tier exists (state/county/district/län — same level).
+   */
   divisionSlug?: string;
-  /** Full path after `countrySlug` in the URL (e.g. `copenhagen` or `california/los-angeles`). */
+  /** Full path after `/{continentSlug}/{countrySlug}/` in the URL (e.g. `copenhagen` or `california/los-angeles`). */
   placeSlug: string;
   lat?: number;
   lng?: number;

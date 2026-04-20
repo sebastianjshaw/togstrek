@@ -16,7 +16,7 @@ import {
   togstrekSitemapLastModifiedForPhotography,
   togstrekSitemapLastModifiedForPlace,
 } from "@/lib/togstrek-sitemap-last-modified";
-import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
+import { buildTogstrekPlacePublicPath } from "@/lib/togstrek-place-path";
 import { getTogstrekSiteOrigin } from "@/lib/togstrek-site-url";
 import { discoverEnglandCountyHubParams } from "@/lib/togstrek-england-counties";
 import { discoverSwedenLanHubParams } from "@/lib/togstrek-sweden-lan";
@@ -80,7 +80,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     discoverTogstrekCountryHubParams().map(({ continent, country }) =>
       withOptionalLastModified(
         {
-          url: `${base}/${continent}/${country}`,
+          url: `${base}${buildTogstrekPlacePublicPath(continent, country, [])}`,
           changeFrequency: "monthly" as const,
           priority: 0.74,
         },
@@ -94,10 +94,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
         !loadTogstrekPlaceFrontmatterOnly(continent, country, place).draft,
     )
     .map(({ continent, country, place }) => {
-      const tail = togstrekPlacePathFromSegments(place);
       return withOptionalLastModified(
         {
-          url: `${base}/${continent}/${country}/${tail}`,
+          url: `${base}${buildTogstrekPlacePublicPath(continent, country, place)}`,
           changeFrequency: "monthly" as const,
           priority: 0.75,
         },
@@ -109,7 +108,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     discoverTogstrekUkNationHubParams().map(({ continent, country, place }) =>
       withOptionalLastModified(
         {
-          url: `${base}/${continent}/${country}/${place[0]}`,
+          url: `${base}${buildTogstrekPlacePublicPath(continent, country, place)}`,
           changeFrequency: "monthly" as const,
           priority: 0.73,
         },
@@ -121,7 +120,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     discoverEnglandCountyHubParams().map(({ continent, country, place }) =>
       withOptionalLastModified(
         {
-          url: `${base}/${continent}/${country}/${place.join("/")}`,
+          url: `${base}${buildTogstrekPlacePublicPath(continent, country, place)}`,
           changeFrequency: "monthly" as const,
           priority: 0.72,
         },
@@ -133,7 +132,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     discoverUnitedStatesStateHubParams().map(({ continent, country, place }) =>
       withOptionalLastModified(
         {
-          url: `${base}/${continent}/${country}/${place.join("/")}`,
+          url: `${base}${buildTogstrekPlacePublicPath(continent, country, place)}`,
           changeFrequency: "monthly" as const,
           priority: 0.72,
         },
@@ -145,7 +144,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     discoverSwedenLanHubParams().map(({ continent, country, place }) =>
       withOptionalLastModified(
         {
-          url: `${base}/${continent}/${country}/${place.join("/")}`,
+          url: `${base}${buildTogstrekPlacePublicPath(continent, country, place)}`,
           changeFrequency: "monthly" as const,
           priority: 0.72,
         },

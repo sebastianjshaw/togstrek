@@ -16,50 +16,104 @@ import {
   loadTogstrekPlaceFrontmatterOnly,
   loadTogstrekPlaceMdx,
   togstrekPlaceMdxExists,
-  type TogstrekPlaceSlugParams,
 } from "@/lib/togstrek-load-place-mdx";
-import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import {
-  discoverTogstrekUkNationHubParams,
+  buildTogstrekPlacePublicPath,
+  togstrekPlacePathFromSegments,
+} from "@/lib/togstrek-place-path";
+import { discoverEnglandCountyHubParams } from "@/lib/togstrek-england-counties";
+import { discoverSwedenLanHubParams } from "@/lib/togstrek-sweden-lan";
+import { discoverUnitedStatesStateHubParams } from "@/lib/togstrek-united-states-state-hubs";
+import { discoverTogstrekUkNationHubParams } from "@/lib/togstrek-uk-nations";
+import {
   getUkNationLabel,
   isUkNationHubRoute,
   type UkNationSlug,
 } from "@/lib/togstrek-uk-nations";
-import {
-  discoverEnglandCountyHubParams,
-  isEnglandCountyHubRoute,
-} from "@/lib/togstrek-england-counties";
-import {
-  discoverSwedenLanHubParams,
-  isSwedenLanHubRoute,
-} from "@/lib/togstrek-sweden-lan";
-import {
-  discoverUnitedStatesStateHubParams,
-  isUnitedStatesStateHubRoute,
-} from "@/lib/togstrek-united-states-state-hubs";
+import { isEnglandCountyHubRoute } from "@/lib/togstrek-england-counties";
+import { isSwedenLanHubRoute } from "@/lib/togstrek-sweden-lan";
+import { isUnitedStatesStateHubRoute } from "@/lib/togstrek-united-states-state-hubs";
 import { formatSlugLabel, truncateDescription } from "@/lib/togstrek-geo-labels";
 
-type PageParams = TogstrekPlaceSlugParams;
-
-/** Only prebuilt place paths — blocks traversal attempts on dynamic hosts. */
-export const dynamicParams = false;
-
-export async function generateStaticParams(): Promise<PageParams[]> {
-  return [
-    ...discoverTogstrekPlaceSlugs(),
-    ...discoverTogstrekUkNationHubParams(),
-    ...discoverEnglandCountyHubParams(),
-    ...discoverUnitedStatesStateHubParams(),
-    ...discoverSwedenLanHubParams(),
-  ];
+function dedupeStaticParams<T extends Record<string, unknown>>(rows: T[]): T[] {
+  const seen = new Set<string>();
+  const out: T[] = [];
+  for (const row of rows) {
+    const key = JSON.stringify(row);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(row);
+  }
+  return out;
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<PageParams>;
-}): Promise<Metadata> {
-  const { continent, country, place } = await params;
+/** One segment after country — param name must match `[division]` (Next.js sibling rule). */
+export type TogstrekPlaceDivisionLeafStaticParams = {
+  continent: string;
+  country: string;
+  division: string;
+};
+
+export function discoverTogstrekPlaceDivisionLeafStaticParams(): TogstrekPlaceDivisionLeafStaticParams[] {
+  const fromSlugs = discoverTogstrekPlaceSlugs()
+    .filter((s) => s.place.length === 1)
+    .map((s) => ({
+      continent: s.continent,
+      country: s.country,
+      division: s.place[0]!,
+    }));
+  return dedupeStaticParams([
+    ...fromSlugs,
+    ...discoverTogstrekUkNationHubParams().map((s) => ({
+      continent: s.continent,
+      country: s.country,
+      division: s.place[0]!,
+    })),
+    ...discoverUnitedStatesStateHubParams().map((s) => ({
+      continent: s.continent,
+      country: s.country,
+      division: s.place[0]!,
+    })),
+    ...discoverSwedenLanHubParams().map((s) => ({
+      continent: s.continent,
+      country: s.country,
+      division: s.place[0]!,
+    })),
+  ]);
+}
+
+export type TogstrekPlaceDivisionRouteStaticParams = {
+  continent: string;
+  country: string;
+  division: string;
+  place: string[];
+};
+
+export function discoverTogstrekPlaceDivisionRouteStaticParams(): TogstrekPlaceDivisionRouteStaticParams[] {
+  const fromSlugs = discoverTogstrekPlaceSlugs()
+    .filter((s) => s.place.length >= 2)
+    .map((s) => ({
+      continent: s.continent,
+      country: s.country,
+      division: s.place[0]!,
+      place: s.place.slice(1),
+    }));
+  return dedupeStaticParams([
+    ...fromSlugs,
+    ...discoverEnglandCountyHubParams().map((s) => ({
+      continent: s.continent,
+      country: s.country,
+      division: s.place[0]!,
+      place: s.place.slice(1),
+    })),
+  ]);
+}
+
+export async function generateTogstrekPlaceRouteMetadata(
+  continent: string,
+  country: string,
+  place: string[],
+): Promise<Metadata> {
   if (place.length === 0) {
     return { title: "Place" };
   }
@@ -67,7 +121,10 @@ export async function generateMetadata({
   if (isEnglandCountyHubRoute(continent, country, place)) {
     const countySlug = place[1]!;
     const countyLabel = formatSlugLabel(countySlug);
-    const path = `/${continent}/${country}/england/${countySlug}`;
+    const path = buildTogstrekPlacePublicPath(continent, country, [
+      "england",
+      countySlug,
+    ]);
     const description = truncateDescription(
       `Place guides in ${countyLabel}, England — part of A Tog's Trek.`,
       165,
@@ -87,7 +144,7 @@ export async function generateMetadata({
   if (isUkNationHubRoute(continent, country, place)) {
     const nation = place[0] as UkNationSlug;
     const nationLabel = getUkNationLabel(nation);
-    const path = `/${continent}/${country}/${nation}`;
+    const path = buildTogstrekPlacePublicPath(continent, country, [nation]);
     const description = truncateDescription(
       `Place guides and photography in ${nationLabel} — part of the United Kingdom collection on A Tog's Trek.`,
       165,
@@ -105,7 +162,7 @@ export async function generateMetadata({
   if (isUnitedStatesStateHubRoute(continent, country, place)) {
     const stateSlug = place[0]!;
     const stateLabel = formatSlugLabel(stateSlug);
-    const path = `/${continent}/${country}/${stateSlug}`;
+    const path = buildTogstrekPlacePublicPath(continent, country, [stateSlug]);
     const description = truncateDescription(
       `Place guides in ${stateLabel} — United States — part of A Tog's Trek.`,
       165,
@@ -125,7 +182,7 @@ export async function generateMetadata({
   if (isSwedenLanHubRoute(continent, country, place)) {
     const lanSlug = place[0]!;
     const lanLabel = formatSlugLabel(lanSlug);
-    const path = `/${continent}/${country}/${lanSlug}`;
+    const path = buildTogstrekPlacePublicPath(continent, country, [lanSlug]);
     const description = truncateDescription(
       `Place guides in ${lanLabel}, Sweden — part of A Tog's Trek.`,
       165,
@@ -144,7 +201,7 @@ export async function generateMetadata({
     return { title: "Place" };
   }
   const fm = loadTogstrekPlaceFrontmatterOnly(continent, country, place);
-  const path = `/${continent}/${country}/${togstrekPlacePathFromSegments(place)}`;
+  const path = buildTogstrekPlacePublicPath(continent, country, place);
 
   return buildTogstrekMetadata({
     title: fm.title,
@@ -168,20 +225,21 @@ export async function generateMetadata({
   });
 }
 
-export default async function TogstrekPlacePage({
-  params,
+export async function TogstrekPlaceAppRoute({
+  continent,
+  country,
+  place,
 }: {
-  params: Promise<PageParams>;
+  continent: string;
+  country: string;
+  place: string[];
 }) {
-  const { continent, country, place } = await params;
   if (place.length === 0) {
     notFound();
   }
 
   if (isEnglandCountyHubRoute(continent, country, place)) {
-    return (
-      <TogstrekEnglandCountyHubContent countySlug={place[1]!} />
-    );
+    return <TogstrekEnglandCountyHubContent countySlug={place[1]!} />;
   }
 
   if (isUkNationHubRoute(continent, country, place)) {
@@ -189,9 +247,7 @@ export default async function TogstrekPlacePage({
   }
 
   if (isUnitedStatesStateHubRoute(continent, country, place)) {
-    return (
-      <TogstrekUnitedStatesStateHubContent stateSlug={place[0]!} />
-    );
+    return <TogstrekUnitedStatesStateHubContent stateSlug={place[0]!} />;
   }
 
   if (isSwedenLanHubRoute(continent, country, place)) {
@@ -215,7 +271,7 @@ export default async function TogstrekPlacePage({
     const tail = togstrekPlacePathFromSegments(segs);
     return {
       key: tail,
-      href: `/${continent}/${country}/${tail}`,
+      href: buildTogstrekPlacePublicPath(continent, country, segs),
       title: fm.title,
       description: truncateDescription(fm.description),
       imageSrc: fm.heroImage?.src,

@@ -63,6 +63,11 @@ export const metadata: Metadata = {
     locale: "en_GB",
     type: "website",
   },
+  alternates: {
+    types: {
+      "application/rss+xml": `${getTogstrekSiteOrigin().replace(/\/+$/, "")}/feed.xml`,
+    },
+  },
 };
 
 export default function RootLayout({

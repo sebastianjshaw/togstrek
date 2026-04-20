@@ -12,7 +12,10 @@ import {
   loadTogstrekPlaceFrontmatterOnly,
   resolveTogstrekCountryHubHeaderHero,
 } from "@/lib/togstrek-load-place-mdx";
-import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
+import {
+  buildTogstrekPlacePublicPath,
+  togstrekPlacePathFromSegments,
+} from "@/lib/togstrek-place-path";
 import { getUkNationLabel } from "@/lib/togstrek-uk-nations";
 import { getIso2ForCountrySlug } from "@/lib/togstrek-visited-travel-data";
 
@@ -49,7 +52,7 @@ export function TogstrekEnglandCountyHubContent({
   for (const { place } of placeRows) {
     const fm = loadTogstrekPlaceFrontmatterOnly(continent, country, place);
     const placeTail = togstrekPlacePathFromSegments(place);
-    const href = `/${continent}/${country}/${placeTail}`;
+    const href = buildTogstrekPlacePublicPath(continent, country, place);
     cards.push({
       key: placeTail,
       href,
@@ -95,8 +98,14 @@ export function TogstrekEnglandCountyHubContent({
       headerQuote={headerQuote}
       breadcrumbItems={[
         { href: `/${continent}`, label: continentLabel },
-        { href: `/${continent}/${country}`, label: countryLabel },
-        { href: `/${continent}/${country}/england`, label: englandLabel },
+        {
+          href: buildTogstrekPlacePublicPath(continent, country, []),
+          label: countryLabel,
+        },
+        {
+          href: buildTogstrekPlacePublicPath(continent, country, ["england"]),
+          label: englandLabel,
+        },
         { label: countyLabel },
       ]}
       map={{

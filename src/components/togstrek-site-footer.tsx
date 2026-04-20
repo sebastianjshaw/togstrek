@@ -61,6 +61,16 @@ export function TogstrekSiteFooter() {
             Search
           </Link>
           <TogstrekSiteFooterSep />
+          <Link
+            href="/feed.xml"
+            prefetch={false}
+            rel="alternate"
+            type="application/rss+xml"
+            className={togstrekSiteFooterNavLinkClassName}
+          >
+            RSS
+          </Link>
+          <TogstrekSiteFooterSep />
           <Link href="/copyright" className={togstrekSiteFooterNavLinkClassName}>
             Usage & copyright
           </Link>
