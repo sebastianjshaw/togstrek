@@ -11,6 +11,8 @@
     "pagefind:index": "pagefind --site .next/server/app --output-path public/pagefind",
     "exif:probe": "tsx scripts/togstrek-exif-probe-cdn.ts",
     "exif:fill-mdx": "tsx scripts/togstrek-fill-mdx-empty-image-exif.ts",
+    "media:audit-image-alt": "tsx scripts/togstrek-audit-mdx-image-alt.ts",
+    "media:suggest-alt-heuristic": "tsx scripts/togstrek-suggest-alt-heuristic.ts",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
@@ -29,6 +31,7 @@
     "media:rekey-north-america-staging": "tsx scripts/togstrek-rekey-north-america-staging.ts",
     "r2:rekey-north-america": "python3 scripts/r2_copy_north_america_keys.py",
     "r2:copy-turkiye-media": "python3 scripts/r2_copy_asia_turkey_to_europe_turkiye.py",
+    "r2:rekey-said-lich": "python3 scripts/r2_copy_side_turkiye_liechtenstein_vaduz.py",
     "migrate:hiking": "tsx scripts/migrate-squarespace-hiking.ts",
     "migrate:adventures": "tsx scripts/migrate-squarespace-adventures.ts",
     "normalize:adventure-mdx": "tsx scripts/normalize-adventure-mdx-featured-template.ts",
@@ -56,8 +59,10 @@
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.3",
     "maplibre-gl": "^5.21.0",
+    "mdast-util-to-string": "^4.0.0",
     "next": "16.2.1",
     "next-mdx-remote": "^6.0.0",
     "react": "19.2.4",
@@ -66,7 +71,8 @@
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
     "remark-unwrap-images": "^4.0.1",
-    "supercluster": "^8.0.1"
+    "supercluster": "^8.0.1",
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "@figma/code-connect": "^1.4.2",

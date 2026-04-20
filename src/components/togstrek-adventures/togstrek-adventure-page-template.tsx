@@ -5,6 +5,9 @@ import { TogstrekAdventureBlurbCta } from "@/components/togstrek-adventures/togs
 import { TogstrekJsonLd } from "@/components/togstrek-seo/togstrek-json-ld";
 import { TogstrekBreadcrumb } from "@/components/togstrek-ui/togstrek-breadcrumb";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
+import { TogstrekPageHeroFallbackHeader } from "@/components/togstrek-ui/togstrek-page-hero-fallback-header";
+import { TogstrekDescriptionLead } from "@/components/togstrek-ui/togstrek-description-lead";
+import { TogstrekPublishedDate } from "@/components/togstrek-ui/togstrek-published-date";
 import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
 import type { TogstrekAdventureMdxFrontmatter } from "@/lib/togstrek-adventure-frontmatter";
 import { togstrekAdventureStoryJsonLdGraph } from "@/lib/togstrek-json-ld";
@@ -60,19 +63,11 @@ export function TogstrekAdventurePageTemplate({
           titleId="togstrek-adventure-story-hero-title"
         />
       ) : (
-        <header className="togstrek-adventure-story-fallback-header border-b border-tt-border-muted bg-tt-surface-muted">
-          <TogstrekContentWidth className="py-[var(--tt-space-12)]">
-            <p className="font-tt-display text-[length:var(--tt-text-overline)] font-semibold uppercase tracking-[var(--tt-tracking-overline)] text-tt-accent">
-              Adventure
-            </p>
-            <h1
-              id="togstrek-adventure-story-hero-title"
-              className="mt-[var(--tt-space-3)] font-tt-display text-[clamp(1.75rem,4vw,2.75rem)] font-extrabold leading-[var(--tt-leading-snug)] text-tt-text-primary"
-            >
-              {frontmatter.title}
-            </h1>
-          </TogstrekContentWidth>
-        </header>
+        <TogstrekPageHeroFallbackHeader
+          eyebrow="Adventure"
+          title={frontmatter.title}
+          titleId="togstrek-adventure-story-hero-title"
+        />
       )}
 
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
@@ -84,25 +79,14 @@ export function TogstrekAdventurePageTemplate({
         />
 
         {showDescriptionLead ? (
-          <p className="togstrek-adventure-story-lead mt-[var(--tt-space-8)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
-            {frontmatter.description}
-          </p>
+          <TogstrekDescriptionLead>{frontmatter.description}</TogstrekDescriptionLead>
         ) : null}
 
-        {frontmatter.published ? (
-          <p
-            className={`font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary ${
-              showDescriptionLead
-                ? "mt-[var(--tt-space-4)]"
-                : "mt-[var(--tt-space-8)]"
-            }`}
-          >
-            Published {frontmatter.published}
-            {frontmatter.modified
-              ? ` · Updated ${frontmatter.modified}`
-              : ""}
-          </p>
-        ) : null}
+        <TogstrekPublishedDate
+          published={frontmatter.published}
+          modified={frontmatter.modified}
+          descriptionLeadShown={showDescriptionLead}
+        />
 
         <TogstrekMdxLightboxScope>
           <article className="togstrek-prose togstrek-adventure-mdx-root mx-auto mt-[var(--tt-space-12)] w-full max-w-[min(var(--tt-layout-max-wide),100%)] [&_.togstrek-adventure-featured-section]:max-w-none">

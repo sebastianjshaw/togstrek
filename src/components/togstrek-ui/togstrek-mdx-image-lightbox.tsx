@@ -5,9 +5,12 @@ import { memo, useEffect, useId } from "react";
 
 import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 import {
-  isLikelyCameraExifCaption,
-  isTechnicalImageFilenameAlt,
-} from "@/lib/togstrek-mdx-image-caption";
+  classifyMarkdownImageAlt,
+  resolveAccessibilityAlt,
+  resolveVisibleCaption,
+  TOGSTREK_IMAGE_LIGHTBOX_FALLBACK_LABEL,
+} from "@/lib/togstrek-image-alt-caption-policy";
+import { isLikelyCameraExifCaption } from "@/lib/togstrek-mdx-image-caption";
 
 import {
   useTogstrekMdxPhotoGallery,
@@ -26,6 +29,8 @@ type TogstrekMdxImageLightboxProps = {
 /**
  * MDX `img` replacement: modest on-page preview (contain + max height) and
  * lightbox open via shared {@link TogstrekMdxLightboxScope}.
+ *
+ * Caption vs `alt` follows `togstrek-image-alt-caption-policy`.
  */
 export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
   props: TogstrekMdxImageLightboxProps,
@@ -39,18 +44,25 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
   const altText = typeof alt === "string" ? alt.trim() : "";
   if (!src || typeof src !== "string") return null;
 
-  const isExifCaption = altText.length > 0 && isLikelyCameraExifCaption(altText);
-  /** Migration filename / opaque id — not a prose caption; hide until EXIF fill script updates alt. */
-  const isTechnicalAlt =
-    altText.length > 0 && isTechnicalImageFilenameAlt(altText);
-  /** When alt is EXIF-only, keep `<img alt="">` and expose the line in `<figcaption>` (avoids duplicating long tech strings for AT). */
-  const imageAltForImg = isExifCaption
-    ? ""
-    : isTechnicalAlt
-      ? "Photograph"
-      : altText.length > 0
-        ? altText
-        : "Photograph";
+  const captionText = resolveVisibleCaption(altText);
+  const accessibilityAlt = resolveAccessibilityAlt(altText);
+  /** Policy: blank `alt` for technical/empty MDX until content or audit pass fills it. */
+  const imageAltForImg = accessibilityAlt;
+
+  const isExifCaption =
+    captionText !== null &&
+    captionText.length > 0 &&
+    isLikelyCameraExifCaption(captionText);
+
+  const captionDuplicatesAccessibleName =
+    captionText !== null &&
+    captionText.length > 0 &&
+    captionText === accessibilityAlt;
+
+  const lightboxCaptionAlt =
+    accessibilityAlt.length > 0
+      ? accessibilityAlt
+      : TOGSTREK_IMAGE_LIGHTBOX_FALLBACK_LABEL;
 
   const w =
     typeof width === "number" ? width : Number.parseInt(String(width), 10);
@@ -60,12 +72,6 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
       : Number.parseInt(String(height), 10);
   const safeW = Number.isFinite(w) && w > 0 ? w : 1200;
   const safeH = Number.isFinite(h) && h > 0 ? h : 800;
-
-  const lightboxCaptionAlt = isExifCaption
-    ? altText
-    : isTechnicalAlt
-      ? "Photograph"
-      : altText || "Photograph";
 
   useEffect(() => {
     if (!ctx) return;
@@ -80,11 +86,11 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
     if (ctx) ctx.open(instanceId);
   };
 
-  const zoomAriaLabel = !altText
-    ? "View larger image"
-    : isExifCaption || isTechnicalAlt
-      ? "View larger photograph"
-      : `View larger: ${altText}`;
+  const kind = classifyMarkdownImageAlt(altText);
+  const zoomAriaLabel =
+    kind === "descriptive" && accessibilityAlt.length > 0
+      ? `View larger: ${accessibilityAlt}`
+      : "View larger photograph";
 
   return (
     <figure
@@ -121,12 +127,12 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
           />
         </span>
       </button>
-      {altText && (isExifCaption || !isTechnicalAlt) ? (
+      {captionText !== null && captionText.length > 0 ? (
         <figcaption
           className={`togstrek-mdx-image-caption mt-[var(--tt-space-3)] text-center font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary ${isExifCaption ? "togstrek-mdx-image-caption--exif font-mono text-[0.85em] leading-snug tracking-tight text-tt-text-tertiary/95" : ""} ${inPhotoGallery ? "line-clamp-2" : ""}`}
-          {...(!isExifCaption ? { "aria-hidden": true } : {})}
+          {...(captionDuplicatesAccessibleName ? { "aria-hidden": true } : {})}
         >
-          {altText}
+          {captionText}
         </figcaption>
       ) : null}
     </figure>

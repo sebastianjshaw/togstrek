@@ -2,11 +2,12 @@ import type { ReactNode } from "react";
 
 import { TogstrekHikingHubGroupList } from "@/components/togstrek-hiking/togstrek-hiking-hub-group-list";
 import { TogstrekHikingHubHero } from "@/components/togstrek-hiking/togstrek-hiking-hub-hero";
-import { TogstrekHikingHubPostList } from "@/components/togstrek-hiking/togstrek-hiking-hub-post-list";
 import { TogstrekPageHero } from "@/components/togstrek-page-hero";
 import { TogstrekBreadcrumb } from "@/components/togstrek-ui/togstrek-breadcrumb";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
-import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
+import { TogstrekDescriptionLead } from "@/components/togstrek-ui/togstrek-description-lead";
+import { TogstrekPublishedDate } from "@/components/togstrek-ui/togstrek-published-date";
+import { TogstrekPageHeroFallbackHeader } from "@/components/togstrek-ui/togstrek-page-hero-fallback-header";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
 import { TogstrekHikingMapSection } from "@/components/togstrek-hiking/togstrek-hiking-map-section";
 import { TogstrekHikingPostSeriesNav } from "@/components/togstrek-hiking/togstrek-hiking-post-series-nav";
@@ -42,16 +43,6 @@ type TogstrekHikingPageTemplateProps = {
   /** Hide YAML `description` lead when it duplicates the MDX body opening. */
   omitDescriptionLead?: boolean;
 };
-
-function TogstrekHikingFallbackTitleHeader({ title }: { title: string }) {
-  return (
-    <header className="togstrek-hiking-header border-b border-tt-border-muted bg-tt-surface-muted">
-      <TogstrekContentWidth className="py-[var(--tt-space-12)]">
-        <TogstrekPageTitle id="togstrek-hiking-title">{title}</TogstrekPageTitle>
-      </TogstrekContentWidth>
-    </header>
-  );
-}
 
 export function TogstrekHikingPageTemplate({
   variant,
@@ -179,31 +170,25 @@ export function TogstrekHikingPageTemplate({
       ) : null}
 
       {!frontmatter.heroImage && (isHub || isGroup || isPost) ? (
-        <TogstrekHikingFallbackTitleHeader title={frontmatter.title} />
+        <TogstrekPageHeroFallbackHeader
+          title={frontmatter.title}
+          titleId="togstrek-hiking-title"
+        />
       ) : null}
 
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
         <TogstrekBreadcrumb items={breadcrumbItems} />
 
         {showDescriptionLead ? (
-          <p className="togstrek-hiking-lead mt-[var(--tt-space-8)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
-            {frontmatter.description}
-          </p>
+          <TogstrekDescriptionLead>{frontmatter.description}</TogstrekDescriptionLead>
         ) : null}
 
-        {isPost && frontmatter.published ? (
-          <p
-            className={`font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary ${
-              showDescriptionLead
-                ? "mt-[var(--tt-space-4)]"
-                : "mt-[var(--tt-space-8)]"
-            }`}
-          >
-            Published {frontmatter.published}
-            {frontmatter.modified
-              ? ` · Updated ${frontmatter.modified}`
-              : ""}
-          </p>
+        {isPost ? (
+          <TogstrekPublishedDate
+            published={frontmatter.published}
+            modified={frontmatter.modified}
+            descriptionLeadShown={showDescriptionLead}
+          />
         ) : null}
 
         {mdxContent ? (
@@ -265,8 +250,24 @@ export function TogstrekHikingPageTemplate({
           </section>
         ) : null}
 
-        {isGroup ? (
-          <TogstrekHikingHubPostList entries={groupPostEntries} />
+        {isGroup && groupPostEntries.length > 0 ? (
+          <section
+            className="togstrek-hiking-group-stages mt-[var(--tt-space-16)] border-t border-tt-border-muted pt-[var(--tt-space-14)]"
+            aria-labelledby="togstrek-hiking-group-stages-heading"
+          >
+            <TogstrekSectionHeader
+              id="togstrek-hiking-group-stages-heading"
+              title="Stages"
+              description="Each stage has its own page — photos, map, and notes from the trail."
+            />
+            <div className="mt-[var(--tt-space-10)]">
+              <TogstrekHikingHubGroupList
+                entries={groupPostEntries}
+                ctaLabel="Read stage →"
+                showPublished
+              />
+            </div>
+          </section>
         ) : null}
       </TogstrekContentWidth>
     </main>

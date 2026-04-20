@@ -115,7 +115,7 @@ export const togstrekOtherWorkHubFeatured: TogstrekOtherWorkHubFeatured[] = [
     date: "2024-10-10",
   },
   {
-    href: "/photography/avalon-family-tour",
+    href: "/photography/avalon/avalon-family-tour",
     title: "Avalon | Family Tour",
     imageSrc: `${M}/other-work/_hub/20241010_181938.jpg`,
     imageAlt: "Avalon | Family Tour",
@@ -129,7 +129,7 @@ export const togstrekOtherWorkHubFeatured: TogstrekOtherWorkHubFeatured[] = [
     date: "2024-09-20",
   },
   {
-    href: "/photography/avalon-visit-2",
+    href: "/photography/avalon/avalon-visit-2",
     title: "Avalon | Visit 2",
     imageSrc: `${M}/other-work/_hub/20240907_145028.jpg`,
     imageAlt: "Avalon | Visit 2",

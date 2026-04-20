@@ -184,3 +184,32 @@ export function listTogstrekPlaceSlugsForCountry(
       }),
     );
 }
+
+/**
+ * One level deeper than `parentSegments` only — e.g. `['svalbard']` yields
+ * `['svalbard','longyearbyen']` but not `['svalbard','x','y']`. Used for
+ * regional hub place pages that list child destinations in the template (same
+ * card pattern as country hubs).
+ */
+export function listTogstrekDirectChildPlaceSlugsForParent(
+  continent: string,
+  country: string,
+  parentSegments: string[],
+): { place: string[] }[] {
+  if (!areTogstrekCountryHubRouteParamsSafe(continent, country)) {
+    return [];
+  }
+  if (!areTogstrekPlaceRouteParamsSafe(continent, country, parentSegments)) {
+    return [];
+  }
+  const wantLen = parentSegments.length + 1;
+  return listTogstrekPlaceSlugsForCountry(continent, country).filter(
+    ({ place }) => {
+      if (place.length !== wantLen) return false;
+      for (let i = 0; i < parentSegments.length; i++) {
+        if (place[i] !== parentSegments[i]) return false;
+      }
+      return true;
+    },
+  );
+}

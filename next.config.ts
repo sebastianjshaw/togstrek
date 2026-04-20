@@ -77,6 +77,31 @@ const nextConfig: NextConfig = {
         destination: "/europe/sweden/vastra-gotaland/mellerud",
         permanent: true,
       },
+      {
+        source: "/europe/united-kingdom/england/lymingtom",
+        destination: "/europe/united-kingdom/england/lymington",
+        permanent: true,
+      },
+      {
+        source: "/europe/united-kingdom/devon/okehampson",
+        destination: "/europe/united-kingdom/devon/okehampton",
+        permanent: true,
+      },
+      {
+        source: "/europe/united-kingdom/england/cheshire/elsemere-port",
+        destination: "/europe/united-kingdom/england/cheshire/ellesmere-port",
+        permanent: true,
+      },
+      {
+        source: "/europe/sweden/sodermanland/katerineholm",
+        destination: "/europe/sweden/sodermanland/katrineholm",
+        permanent: true,
+      },
+      {
+        source: "/europe/sweden/vastra-gotaland/halland",
+        destination: "/europe/sweden/vastra-gotaland/saro",
+        permanent: true,
+      },
       ...togstrekNorthAmericaLegacyPlaceRedirects.map((r) => ({
         source: r.source,
         destination: r.destination,
@@ -165,6 +190,26 @@ const nextConfig: NextConfig = {
       {
         source: "/oceania/australia/overview",
         destination: "/oceania/australia/ballarat",
+        permanent: true,
+      },
+      {
+        source: "/photography/asptrophotography/gothenburgs-moon",
+        destination: "/photography/astrophotography/gothenburgs-moon",
+        permanent: true,
+      },
+      {
+        source: "/photography/astrophotographer/perseids-meteor-shower",
+        destination: "/photography/astrophotography/perseids-meteor-shower",
+        permanent: true,
+      },
+      {
+        source: "/photography/avalon-visit-2",
+        destination: "/photography/avalon/avalon-visit-2",
+        permanent: true,
+      },
+      {
+        source: "/photography/avalon-family-tour",
+        destination: "/photography/avalon/avalon-family-tour",
         permanent: true,
       },
       {

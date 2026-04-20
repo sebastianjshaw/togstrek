@@ -1,11 +1,18 @@
 import type { ReactNode } from "react";
 
+import {
+  TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK,
+} from "@/components/togstrek-hub/togstrek-country-hub-template";
 import { TogstrekPageHero } from "@/components/togstrek-page-hero";
 import { TogstrekJsonLd } from "@/components/togstrek-seo/togstrek-json-ld";
 import { TogstrekBreadcrumb } from "@/components/togstrek-ui/togstrek-breadcrumb";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
+import { TogstrekDescriptionLead } from "@/components/togstrek-ui/togstrek-description-lead";
+import { TogstrekPublishedDate } from "@/components/togstrek-ui/togstrek-published-date";
+import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
-import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
+import { TogstrekPageHeroFallbackHeader } from "@/components/togstrek-ui/togstrek-page-hero-fallback-header";
+import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
 import { formatSlugLabel } from "@/lib/togstrek-geo-labels";
 import {
   buildTogstrekPlaceBreadcrumbJsonLdItems,
@@ -16,12 +23,24 @@ import { togstrekPlacePageJsonLdGraph } from "@/lib/togstrek-json-ld";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 import type { TogstrekPlaceMdxFrontmatter } from "@/lib/togstrek-place-frontmatter";
 
+/** Child place cards for regional hubs (e.g. Svalbard → Longyearbyen); built in `page.tsx`. */
+export type TogstrekPlaceRegionChildCard = {
+  key: string;
+  href: string;
+  title: string;
+  description: string;
+  imageSrc?: string;
+  imageAlt?: string;
+};
+
 type TogstrekPlacePageTemplateProps = {
   frontmatter: TogstrekPlaceMdxFrontmatter;
   mdxContent: ReactNode;
   path: { continent: string; country: string; placeSegments: string[] };
   /** Hide YAML `description` lead when it duplicates the MDX body opening. */
   omitDescriptionLead?: boolean;
+  /** Direct child place pages one segment below this URL (template grid; same pattern as country hubs). */
+  regionChildPlaces?: TogstrekPlaceRegionChildCard[];
 };
 
 export function TogstrekPlacePageTemplate({
@@ -29,6 +48,7 @@ export function TogstrekPlacePageTemplate({
   mdxContent,
   path,
   omitDescriptionLead = false,
+  regionChildPlaces,
 }: TogstrekPlacePageTemplateProps) {
   const { continent, country, placeSegments } = path;
   const placePathTail = togstrekPlacePathFromSegments(placeSegments);
@@ -82,44 +102,61 @@ export function TogstrekPlacePageTemplate({
           titleId="togstrek-place-hero-title"
         />
       ) : (
-        <header className="togstrek-place-header border-b border-tt-border-muted bg-tt-surface-muted">
-          <TogstrekContentWidth className="py-[var(--tt-space-12)]">
-            <TogstrekPageTitle id="togstrek-place-title">
-              {frontmatter.title}
-            </TogstrekPageTitle>
-          </TogstrekContentWidth>
-        </header>
+        <TogstrekPageHeroFallbackHeader
+          title={frontmatter.title}
+          titleId="togstrek-place-title"
+        />
       )}
 
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
         <TogstrekBreadcrumb items={breadcrumbItems} />
 
         {showDescriptionLead ? (
-          <p className="togstrek-place-lead mt-[var(--tt-space-8)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
-            {frontmatter.description}
-          </p>
+          <TogstrekDescriptionLead>{frontmatter.description}</TogstrekDescriptionLead>
         ) : null}
 
-        {frontmatter.published ? (
-          <p
-            className={`font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary ${
-              showDescriptionLead
-                ? "mt-[var(--tt-space-4)]"
-                : "mt-[var(--tt-space-8)]"
-            }`}
-          >
-            Published {frontmatter.published}
-            {frontmatter.modified
-              ? ` · Updated ${frontmatter.modified}`
-              : ""}
-          </p>
-        ) : null}
+        <TogstrekPublishedDate
+          published={frontmatter.published}
+          modified={frontmatter.modified}
+          descriptionLeadShown={showDescriptionLead}
+        />
 
         <TogstrekMdxLightboxScope>
           <article className="togstrek-prose togstrek-place-mdx-root mt-[var(--tt-space-12)]">
             {mdxContent}
           </article>
         </TogstrekMdxLightboxScope>
+
+        {regionChildPlaces && regionChildPlaces.length > 0 ? (
+          <section
+            className="togstrek-place-region-children mt-[var(--tt-space-16)] border-t border-tt-border-muted pt-[var(--tt-space-14)]"
+            aria-labelledby="togstrek-place-region-children-heading"
+          >
+            <TogstrekSectionHeader
+              id="togstrek-place-region-children-heading"
+              title={`Places in ${frontmatter.title}`}
+              description="Open a place for photos, maps, and field notes."
+            />
+            <ul className="togstrek-place-region-children-grid mt-[var(--tt-space-10)] grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {regionChildPlaces.map((c) => (
+                <li
+                  key={c.key}
+                  className="togstrek-place-region-children-item min-h-[var(--tt-region-card-min-height)] min-w-0"
+                >
+                  <TogstrekLinkCard
+                    variant="region"
+                    href={c.href}
+                    title={c.title}
+                    description={c.description}
+                    gradient={TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK}
+                    imageSrc={c.imageSrc}
+                    imageAlt={c.imageAlt}
+                  />
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
       </TogstrekContentWidth>
     </main>
   );

@@ -12,6 +12,7 @@ import {
 } from "@/lib/togstrek-metadata";
 import {
   discoverTogstrekPlaceSlugs,
+  listTogstrekDirectChildPlaceSlugsForParent,
   loadTogstrekPlaceFrontmatterOnly,
   loadTogstrekPlaceMdx,
   togstrekPlaceMdxExists,
@@ -204,12 +205,31 @@ export default async function TogstrekPlacePage({
   const { frontmatter, content, omitDescriptionLead } =
     await loadTogstrekPlaceMdx(continent, country, place);
 
+  const childRows = listTogstrekDirectChildPlaceSlugsForParent(
+    continent,
+    country,
+    place,
+  );
+  const regionChildPlaces = childRows.map(({ place: segs }) => {
+    const fm = loadTogstrekPlaceFrontmatterOnly(continent, country, segs);
+    const tail = togstrekPlacePathFromSegments(segs);
+    return {
+      key: tail,
+      href: `/${continent}/${country}/${tail}`,
+      title: fm.title,
+      description: truncateDescription(fm.description),
+      imageSrc: fm.heroImage?.src,
+      imageAlt: fm.heroImage?.alt,
+    };
+  });
+
   return (
     <TogstrekPlacePageTemplate
       frontmatter={frontmatter}
       mdxContent={content}
       path={{ continent, country, placeSegments: place }}
       omitDescriptionLead={omitDescriptionLead}
+      regionChildPlaces={regionChildPlaces}
     />
   );
 }

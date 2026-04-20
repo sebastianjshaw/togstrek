@@ -16,6 +16,7 @@ import { togstrekUnCountryNameToUrlSlug } from "@/lib/togstrek-geo-labels";
 import {
   discoverTogstrekCountryHubParams,
   discoverTogstrekPlaceSlugs,
+  listTogstrekDirectChildPlaceSlugsForParent,
   listTogstrekPlaceSlugsForCountry,
   loadTogstrekPlaceFrontmatterOnly,
   togstrekPlaceMdxExists,
@@ -31,6 +32,7 @@ import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 export {
   discoverTogstrekCountryHubParams,
   discoverTogstrekPlaceSlugs,
+  listTogstrekDirectChildPlaceSlugsForParent,
   listTogstrekPlaceSlugsForCountry,
   loadTogstrekPlaceFrontmatterOnly,
   togstrekPlaceMdxExists,

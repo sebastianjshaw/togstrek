@@ -66,13 +66,13 @@ export const TOGSTREK_OTHER_WORK_SECTION_FEATURED: Record<
   },
   {
     "title": "Gothenburg's Moon",
-    "href": "/photography/asptrophotography/gothenburgs-moon",
+    "href": "/photography/astrophotography/gothenburgs-moon",
     "imageSrc": "https://media.togstrek.com/other-work/astrophotography/190907-3.jpg",
     "date": "2019-09-07"
   },
   {
     "title": "Perseids Meteor Shower",
-    "href": "/photography/astrophotographer/perseids-meteor-shower",
+    "href": "/photography/astrophotography/perseids-meteor-shower",
     "imageSrc": "https://media.togstrek.com/other-work/astrophotography/20160812+-+Perseids-003.jpg",
     "date": "2016-08-11"
   },
@@ -116,7 +116,7 @@ export const TOGSTREK_OTHER_WORK_SECTION_FEATURED: Record<
   },
   {
     "title": "Avalon | Family Tour",
-    "href": "/photography/avalon-family-tour",
+    "href": "/photography/avalon/avalon-family-tour",
     "imageSrc": "https://media.togstrek.com/other-work/avalon/20241010_181938.jpg",
     "date": "2024-09-28"
   },
@@ -128,7 +128,7 @@ export const TOGSTREK_OTHER_WORK_SECTION_FEATURED: Record<
   },
   {
     "title": "Avalon | Visit 2",
-    "href": "/photography/avalon-visit-2",
+    "href": "/photography/avalon/avalon-visit-2",
     "imageSrc": "https://media.togstrek.com/other-work/avalon/20240907_145028.jpg",
     "date": "2024-09-07"
   },
@@ -456,7 +456,7 @@ export const TOGSTREK_OTHER_WORK_SECTION_FEATURED: Record<
   {
     "title": "Ella De Vine",
     "href": "/photography/models/ella-de-vine",
-    "imageSrc": "https://media.togstrek.com/other-work/models/ella-de-vine/20101121-_JS_4063-406343a3.webp",
+    "imageSrc": "https://media.togstrek.com/other-work/models/20101121-_JS_4063-4063.jpg",
     "date": "2010-11-21"
   },
   {

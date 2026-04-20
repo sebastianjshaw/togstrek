@@ -3,8 +3,10 @@ import type { ReactNode } from "react";
 import { TogstrekPageHero } from "@/components/togstrek-page-hero";
 import { TogstrekBreadcrumb } from "@/components/togstrek-ui/togstrek-breadcrumb";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
+import { TogstrekDescriptionLead } from "@/components/togstrek-ui/togstrek-description-lead";
+import { TogstrekPublishedDate } from "@/components/togstrek-ui/togstrek-published-date";
 import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
-import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
+import { TogstrekPageHeroFallbackHeader } from "@/components/togstrek-ui/togstrek-page-hero-fallback-header";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 import type { TogstrekPageHeroQuote } from "@/components/togstrek-page-hero";
 import type { TogstrekOtherWorkMdxFrontmatter } from "@/lib/togstrek-other-work-frontmatter";
@@ -62,37 +64,25 @@ export function TogstrekOtherWorkPageTemplate({
           quote={hubHeroQuote}
         />
       ) : (
-        <header className="togstrek-other-work-header border-b border-tt-border-muted bg-tt-surface-muted">
-          <TogstrekContentWidth className="py-[var(--tt-space-12)]">
-            <TogstrekPageTitle id="togstrek-other-work-title">
-              {frontmatter.title}
-            </TogstrekPageTitle>
-          </TogstrekContentWidth>
-        </header>
+        <TogstrekPageHeroFallbackHeader
+          title={frontmatter.title}
+          titleId="togstrek-other-work-title"
+        />
       )}
 
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
         <TogstrekBreadcrumb items={breadcrumbItems} />
 
         {showDescriptionLead ? (
-          <p className="togstrek-place-lead mt-[var(--tt-space-8)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
-            {frontmatter.description}
-          </p>
+          <TogstrekDescriptionLead>{frontmatter.description}</TogstrekDescriptionLead>
         ) : null}
 
-        {!isHub && frontmatter.published ? (
-          <p
-            className={`font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary ${
-              showDescriptionLead
-                ? "mt-[var(--tt-space-4)]"
-                : "mt-[var(--tt-space-8)]"
-            }`}
-          >
-            Published {frontmatter.published}
-            {frontmatter.modified
-              ? ` · Updated ${frontmatter.modified}`
-              : ""}
-          </p>
+        {!isHub ? (
+          <TogstrekPublishedDate
+            published={frontmatter.published}
+            modified={frontmatter.modified}
+            descriptionLeadShown={showDescriptionLead}
+          />
         ) : null}
 
         <TogstrekMdxLightboxScope>

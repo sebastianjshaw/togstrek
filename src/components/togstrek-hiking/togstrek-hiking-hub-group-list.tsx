@@ -1,18 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import type { TogstrekHikingHubEntry } from "@/lib/togstrek-hiking-hub-entries";
+import {
+  formatTogstrekHikingHubDate,
+  type TogstrekHikingHubEntry,
+} from "@/lib/togstrek-hiking-hub-entries";
 import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
 type TogstrekHikingHubGroupListProps = {
   entries: TogstrekHikingHubEntry[];
   /** Link affordance under the card (e.g. multi-day hub vs single report). */
   ctaLabel?: string;
+  /** Trail stage cards: show `published` under the hero image. */
+  showPublished?: boolean;
 };
 
 export function TogstrekHikingHubGroupList({
   entries,
   ctaLabel = "View hike →",
+  showPublished = false,
 }: TogstrekHikingHubGroupListProps) {
   if (entries.length === 0) return null;
 
@@ -44,7 +50,24 @@ export function TogstrekHikingHubGroupList({
               )}
             </div>
             <div className="togstrek-hiking-hub-group-card-body flex flex-1 flex-col px-[var(--tt-space-5)] py-[var(--tt-space-6)]">
-              <span className="font-tt-display text-[length:var(--tt-text-title)] font-bold leading-[var(--tt-leading-tight)] text-tt-text-primary group-hover:text-tt-accent">
+              {showPublished && entry.published ? (
+                <time
+                  dateTime={entry.published}
+                  className="font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary"
+                >
+                  {formatTogstrekHikingHubDate(entry.published)}
+                </time>
+              ) : null}
+              <span
+                className={[
+                  "font-tt-display text-[length:var(--tt-text-title)] font-bold leading-[var(--tt-leading-tight)] text-tt-text-primary group-hover:text-tt-accent",
+                  showPublished && entry.published
+                    ? "mt-[var(--tt-space-2)]"
+                    : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
                 {entry.title}
               </span>
               <p className="togstrek-hiking-hub-group-card-desc mt-[var(--tt-space-3)] font-tt-body text-[length:var(--tt-text-small)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">

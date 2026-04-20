@@ -35,7 +35,7 @@ export const togstrekCountryHubPathByIso2: Partial<
   IE: "/europe/ireland",
   IT: "/europe/italy",
   LV: "/europe/latvia",
-  /** Site hub slug; CDN media may still live under `europe/lichtenstein/` on R2. */
+  /** Site hub slug. Vaduz and related MDX use `europe/liechtenstein/…` on the CDN. */
   LI: "/europe/liechtenstein",
   LT: "/europe/lithuania",
   MT: "/europe/malta",
