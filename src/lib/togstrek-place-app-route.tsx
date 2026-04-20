@@ -18,6 +18,7 @@ import {
   togstrekPlaceMdxExists,
 } from "@/lib/togstrek-load-place-mdx";
 import {
+  TOGSTREK_ANTARCTICA_COUNTRY_SLUG,
   buildTogstrekPlacePublicPath,
   togstrekPlacePathFromSegments,
 } from "@/lib/togstrek-place-path";
@@ -57,6 +58,13 @@ export type TogstrekPlaceDivisionLeafStaticParams = {
 export function discoverTogstrekPlaceDivisionLeafStaticParams(): TogstrekPlaceDivisionLeafStaticParams[] {
   const fromSlugs = discoverTogstrekPlaceSlugs()
     .filter((s) => s.place.length === 1)
+    .filter(
+      (s) =>
+        !(
+          s.continent === "antarctica" &&
+          s.country === TOGSTREK_ANTARCTICA_COUNTRY_SLUG
+        ),
+    )
     .map((s) => ({
       continent: s.continent,
       country: s.country,

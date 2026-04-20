@@ -44,13 +44,13 @@ export const togstrekHikingMegaMenu: TogstrekSectionMegaMenuDefinition = {
   tagline:
     "SOMETIMES THE BEST WAY TO EXPLORE THE WORLD IS TO WALK EVERY INCH OF IT.",
   links: [
-    { href: "/hiking/annapurna", label: "Annapurna" },
+    { href: "/hiking/nepal/annapurna", label: "Annapurna" },
     { href: "/hiking/bohusleden", label: "Bohusleden" },
     { href: "/hiking/hoga-kusten", label: "Höga Kusten" },
     { href: "/hiking/kungsleden", label: "Kungsleden" },
-    { href: "/hiking/kilimanjaro", label: "Kilimanjaro" },
+    { href: "/hiking/mt-kilimanjaro", label: "Kilimanjaro" },
     { href: "/hiking/tiveden", label: "Tiveden" },
-    { href: "/hiking/utvandraleden", label: "Utvandraleden" },
+    { href: "/hiking/utvandrarleden", label: "Utvandraleden" },
   ].sort((a, b) => a.label.localeCompare(b.label)),
   ctaLabel: "See all hikes",
   ctaHref: "/hiking",

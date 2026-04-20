@@ -254,6 +254,26 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/hiking/annapurna",
+        destination: "/hiking/nepal/annapurna",
+        permanent: true,
+      },
+      {
+        source: "/hiking/kilimanjaro",
+        destination: "/hiking/mt-kilimanjaro",
+        permanent: true,
+      },
+      {
+        source: "/hiking/utvandraleden",
+        destination: "/hiking/utvandrarleden",
+        permanent: true,
+      },
+      {
+        source: "/antarctica/antarctic/:place",
+        destination: "/antarctica/:place",
+        permanent: true,
+      },
+      {
         source: "/other-work/guides",
         destination: "/other-work/photography-guides",
         permanent: true,

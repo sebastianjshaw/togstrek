@@ -24,6 +24,12 @@ describe("buildTogstrekPlacePublicPath", () => {
       ]),
     ).toBe("/north-america/united-states-of-america/california/los-angeles");
   });
+
+  it("flattens Antarctic place URLs to /antarctica/<place>", () => {
+    expect(
+      buildTogstrekPlacePublicPath("antarctica", "antarctic", ["paradise-harbour"]),
+    ).toBe("/antarctica/paradise-harbour");
+  });
 });
 
 describe("togstrekPlacePathFromSegments", () => {

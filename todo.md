@@ -1,5 +1,29 @@
 # Togstrek — project todo
 
+URL Crawl
+
+
+
+
+# Try re-encoding the reference to the opposite form and see if it resolves
+python3 -c "import unicodedata,urllib.parse; print(urllib.parse.quote(unicodedata.normalize('NFC', 'Centro Cultural de Belém-20211202-048.jpg')))"
+python3 -c "import unicodedata,urllib.parse; print(urllib.parse.quote(unicodedata.normalize('NFD', 'Centro Cultural de Belém-20211202-048.jpg')))"
+Then curl each variant against the bucket. If one works, you've found your fix (normalise everything to that form at the boundary). If neither works, the files genuinely aren't uploaded.
+Longer-term fix regardless: strip accents from all filenames at ingest. Belém → belem, Snæfellsnes → snaefellsnes. You lose nothing a reader sees, you gain bulletproof URLs.
+
+6. Smart quotes leaked into an href
+https://app.fabrik.io/%E2%80%9D
+https://app.fabrik.io/%E2%80%9Dhttp://www.shawsolution.com/blogs/sunset-sunrise%E2%80%9D
+%E2%80%9D is " (right double quotation mark). You've got a piece of content where smart quotes were auto-applied inside an href attribute, concatenating a quote into the URL itself. The second one has wrapped an entire URL in smart quotes and glued it to the fabrik.io domain. Grep your content files for fabrik.io" and similar.
+7. External link rot (low priority)
+
+57 Edinburgh Fringe ticket pages: expected, shows age out. You could leave them, or run a script that converts any tickets.edfringe.com/whats-on/* link into plain text.
+12 fabrik.io: old portfolio host, same story.
+A dozen miscellaneous dead third-party links: IMDb redirects (the 202s), TripAdvisor (403, probably bot detection not a real error), mayaruins.com, a few Swedish council sites, gofundme.
+
+For a photography/travel blog with a 10+ year archive, this level of external rot is normal. Not worth hand-fixing each one. Worth doing: a scheduled lychee/muffet run that emails you a diff so you catch newly-broken externals rather than letting them accumulate.
+
+
 ## Backlog / later
 
 - [ ] **Image alt/caption cleanup**: policy is implemented; remaining work is content edits. Use `npm run media:audit-image-alt` → `migration/image-alt-manual-review.jsonl`, then update MDX alts.

@@ -99,7 +99,7 @@ const TOGSTREK_COUNTRY_SLUG_ISO2: Record<string, string> = {
   liechtenstein: "LI",
   /** Legacy misspelled slug; redirects to `/europe/liechtenstein`. */
   lichtenstein: "LI",
-  /** Place hub uses `antarctica/antarctic/…`; UN list has no separate row. */
+  /** Place pages use flat `/antarctica/<place>`; UN list has no separate row. */
   antarctic: "AQ",
   /** Hong Kong SAR — not a separate UN row in our list. */
   "hong-kong": "HK",

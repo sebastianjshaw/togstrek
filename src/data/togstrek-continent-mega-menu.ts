@@ -47,7 +47,7 @@ function countryLabelForContinentMegaMenu(
 
 /**
  * Mega menu links: every country hub and Antarctic place that has MDX under
- * `content/places/…` (canonical URLs `/{continent}/{country}/…`).
+ * `content/places/…`. Antarctic place URLs are flat: `/antarctica/<place>`.
  */
 export function getTogstrekContinentMegaMenuLinks(
   continentId: TogstrekUnContinentId,

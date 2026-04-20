@@ -25,11 +25,18 @@ import {
 } from "@/lib/togstrek-metadata";
 import {
   discoverTogstrekCountryHubParams,
+  discoverTogstrekPlaceSlugs,
   listTogstrekPlaceSlugsForCountry,
   loadTogstrekPlaceFrontmatterOnly,
+  togstrekPlaceMdxExists,
   resolveTogstrekCountryHubHeaderHero,
 } from "@/lib/togstrek-load-place-mdx";
 import {
+  TogstrekPlaceAppRoute,
+  generateTogstrekPlaceRouteMetadata,
+} from "@/lib/togstrek-place-app-route";
+import {
+  TOGSTREK_ANTARCTICA_COUNTRY_SLUG,
   buildTogstrekPlacePublicPath,
   togstrekPlacePathFromSegments,
 } from "@/lib/togstrek-place-path";
@@ -44,8 +51,28 @@ type PageParams = { continent: string; country: string };
 /** Only prebuilt country hubs from MDX discovery. */
 export const dynamicParams = false;
 
+function dedupeAntarcticCountryPageParams(
+  raw: { continent: string; country: string }[],
+): PageParams[] {
+  const m = new Map<string, { continent: string; country: string }>();
+  for (const p of raw) m.set(`${p.continent}\0${p.country}`, p);
+  return [...m.values()];
+}
+
 export async function generateStaticParams(): Promise<PageParams[]> {
-  return discoverTogstrekCountryHubParams();
+  const fromHubs = discoverTogstrekCountryHubParams();
+  const antarcticDirectPlaces: PageParams[] = discoverTogstrekPlaceSlugs()
+    .filter(
+      (s) =>
+        s.continent === "antarctica" &&
+        s.country === TOGSTREK_ANTARCTICA_COUNTRY_SLUG &&
+        s.place.length === 1,
+    )
+    .map((s) => ({
+      continent: "antarctica",
+      country: s.place[0]!,
+    }));
+  return dedupeAntarcticCountryPageParams([...fromHubs, ...antarcticDirectPlaces]);
 }
 
 export async function generateMetadata({
@@ -54,6 +81,14 @@ export async function generateMetadata({
   params: Promise<PageParams>;
 }): Promise<Metadata> {
   const { continent, country } = await params;
+  if (
+    continent === "antarctica" &&
+    togstrekPlaceMdxExists(continent, TOGSTREK_ANTARCTICA_COUNTRY_SLUG, [country])
+  ) {
+    return generateTogstrekPlaceRouteMetadata(continent, TOGSTREK_ANTARCTICA_COUNTRY_SLUG, [
+      country,
+    ]);
+  }
   const places = listTogstrekPlaceSlugsForCountry(continent, country);
   if (places.length === 0) {
     return { title: "Country" };
@@ -108,6 +143,18 @@ export default async function TogstrekCountryHubPage({
   params: Promise<PageParams>;
 }) {
   const { continent, country } = await params;
+  if (
+    continent === "antarctica" &&
+    togstrekPlaceMdxExists(continent, TOGSTREK_ANTARCTICA_COUNTRY_SLUG, [country])
+  ) {
+    return (
+      <TogstrekPlaceAppRoute
+        continent={continent}
+        country={TOGSTREK_ANTARCTICA_COUNTRY_SLUG}
+        place={[country]}
+      />
+    );
+  }
   const placeRows = listTogstrekPlaceSlugsForCountry(continent, country);
   if (placeRows.length === 0) {
     notFound();

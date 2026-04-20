@@ -33,7 +33,10 @@ import {
   listTogstrekPlaceSlugsForCountry,
   loadTogstrekPlaceFrontmatterOnly,
 } from "@/lib/togstrek-load-place-mdx";
-import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
+import {
+  buildTogstrekPlacePublicPath,
+  togstrekPlacePathFromSegments,
+} from "@/lib/togstrek-place-path";
 import {
   TOGSTREK_HUB_SPECIAL_TERRITORIES_SECTION_DESCRIPTION,
   togstrekHubOnTheMapSectionDescription,
@@ -217,7 +220,7 @@ export default async function ContinentHubPage({
               place,
             );
             const placeTail = togstrekPlacePathFromSegments(place);
-            const href = `/antarctica/antarctic/${placeTail}`;
+            const href = buildTogstrekPlacePublicPath("antarctica", "antarctic", place);
             return (
               <li
                 key={placeTail}

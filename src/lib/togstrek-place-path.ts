@@ -10,8 +10,10 @@
  *     two or more segments after the country: same `division` param, then the catch-all
  *     for the remaining MDX path segments. **Public URLs are unchanged**
  *     (`/{continent}/{country}/{segment1}/{segment2}/…`).
- * - **Content / filesystem:** still `content/places/<continent>/<country>/…/*.mdx`;
- *   join all segments under the country with {@link togstrekPlacePathFromSegments} for
+ * - **Content / filesystem:** `content/places/<continent>/<country>/…/*.mdx`; Antarctic
+ *   place files also live as `content/places/antarctica/<place>.mdx` (flat) while
+ *   `countrySlug` in frontmatter stays `antarctic` for the internal model.
+ *   Join all segments under the country with {@link togstrekPlacePathFromSegments} for
  *   `placeSlug` and file resolution.
  * - **Frontmatter:** `continentSlug`, `countrySlug`, and `placeSlug` must match the URL
  *   tail (full path after `/{continent}/{country}/`). Optional `divisionSlug` should
@@ -27,6 +29,12 @@
  * `["new-jersey","scotch-plains"]`.
  */
 
+/**
+ * Subfolder under `content/places/antarctica/…` for the Antarctic “country”
+ * model (not a URL segment — public place URLs are `/antarctica/<place>`).
+ */
+export const TOGSTREK_ANTARCTICA_COUNTRY_SLUG = "antarctic";
+
 /** Join URL path segments for a place (e.g. `california/los-angeles`). */
 export function togstrekPlacePathFromSegments(placeSegments: string[]): string {
   return placeSegments.join("/");
@@ -34,13 +42,20 @@ export function togstrekPlacePathFromSegments(placeSegments: string[]): string {
 
 /**
  * Path only (leading `/`, no origin): country hub or a place page under
- * `/{continent}/{country}/…`.
+ * `/{continent}/{country}/…`. Antarctic place pages are flat: `/antarctica/<place>`.
  */
 export function buildTogstrekPlacePublicPath(
   continent: string,
   country: string,
   placeSegments: string[],
 ): string {
+  if (
+    continent === "antarctica" &&
+    country === TOGSTREK_ANTARCTICA_COUNTRY_SLUG &&
+    placeSegments.length === 1
+  ) {
+    return `/${continent}/${placeSegments[0]}`;
+  }
   const tail = togstrekPlacePathFromSegments(placeSegments);
   if (!tail) return `/${continent}/${country}`;
   return `/${continent}/${country}/${tail}`;

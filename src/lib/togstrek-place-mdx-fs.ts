@@ -7,7 +7,10 @@ import {
   parseTogstrekPlaceFrontmatter,
   type TogstrekPlaceMdxFrontmatter,
 } from "@/lib/togstrek-place-frontmatter";
-import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
+import {
+  TOGSTREK_ANTARCTICA_COUNTRY_SLUG,
+  togstrekPlacePathFromSegments,
+} from "@/lib/togstrek-place-path";
 import {
   areTogstrekCountryHubRouteParamsSafe,
   areTogstrekPlaceRouteParamsSafe,
@@ -24,6 +27,16 @@ function resolveTogstrekPlaceMdxFilePath(
 ): string | null {
   if (!areTogstrekPlaceRouteParamsSafe(continent, country, placeSegments)) {
     return null;
+  }
+  if (
+    continent === "antarctica" &&
+    country === TOGSTREK_ANTARCTICA_COUNTRY_SLUG &&
+    placeSegments.length === 1
+  ) {
+    const flat = path.join(PLACES_ROOT, continent, `${placeSegments[0]}.mdx`);
+    if (isTogstrekPathWithinRoot(flat, PLACES_ROOT) && fs.existsSync(flat)) {
+      return flat;
+    }
   }
   const fp =
     path.join(PLACES_ROOT, continent, country, ...placeSegments) + ".mdx";
@@ -128,7 +141,11 @@ function collectMdxFilesUnderCountryDir(
  */
 let discoverTogstrekPlaceSlugsCache: TogstrekPlaceSlugParams[] | undefined;
 
-/** Discover all place MDX files under `content/places/<continent>/<country>/` (any nesting depth). */
+/**
+ * Discover all place MDX files under `content/places/<continent>/<country>/` (any nesting depth).
+ * Antarctic place MDX is also read from `content/places/antarctica/<place>.mdx` (flat) as
+ * `{ country: "antarctic", place: [ <place> ] }` for a stable internal model and `/antarctica/<place>` URLs.
+ */
 export function discoverTogstrekPlaceSlugs(): TogstrekPlaceSlugParams[] {
   if (discoverTogstrekPlaceSlugsCache) return discoverTogstrekPlaceSlugsCache;
   if (!fs.existsSync(PLACES_ROOT)) {
@@ -140,6 +157,19 @@ export function discoverTogstrekPlaceSlugs(): TogstrekPlaceSlugParams[] {
     if (!isTogstrekSafeUrlPathSegment(continent)) continue;
     const cDir = path.join(PLACES_ROOT, continent);
     if (!fs.statSync(cDir).isDirectory()) continue;
+
+    if (continent === "antarctica") {
+      for (const ent of fs.readdirSync(cDir, { withFileTypes: true })) {
+        if (!ent.isFile() || !ent.name.toLowerCase().endsWith(".mdx")) continue;
+        const base = ent.name.replace(/\.mdx$/i, "");
+        if (base === "index" || !isTogstrekSafeUrlPathSegment(base)) continue;
+        out.push({
+          continent: "antarctica",
+          country: TOGSTREK_ANTARCTICA_COUNTRY_SLUG,
+          place: [base],
+        });
+      }
+    }
     for (const country of fs.readdirSync(cDir)) {
       if (!isTogstrekSafeUrlPathSegment(country)) continue;
       const coDir = path.join(cDir, country);
@@ -147,8 +177,16 @@ export function discoverTogstrekPlaceSlugs(): TogstrekPlaceSlugParams[] {
       collectMdxFilesUnderCountryDir(coDir, continent, country, out);
     }
   }
-  discoverTogstrekPlaceSlugsCache = out;
-  return out;
+  const deduped: TogstrekPlaceSlugParams[] = [];
+  const seen = new Set<string>();
+  for (const row of out) {
+    const k = JSON.stringify([row.continent, row.country, row.place]);
+    if (seen.has(k)) continue;
+    seen.add(k);
+    deduped.push(row);
+  }
+  discoverTogstrekPlaceSlugsCache = deduped;
+  return discoverTogstrekPlaceSlugsCache;
 }
 
 /** Distinct `/{continent}/{country}` pairs that have at least one place MDX file. */
