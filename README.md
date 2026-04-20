@@ -35,13 +35,13 @@ Full list: **`package.json` → `scripts`**.
 
 ## Deploy (production)
 
-**Host:** [Vercel](https://vercel.com/) — default for this repo (`@vercel/analytics`, `@vercel/speed-insights` in `src/app/layout.tsx`, and `VERCEL_URL` fallback in `src/lib/togstrek-site-url.ts`). Connect the Git repo, use the **Production** branch, and keep the default **Next.js** framework preset (`npm run build` runs `next build` plus Pagefind).
+**Host:** [Vercel](https://vercel.com/) — default for this repo (`@vercel/analytics` and `@vercel/speed-insights` in `src/app/layout.tsx`). Canonical URLs use `src/lib/togstrek-site-url.ts` (defaults to **`https://togstrek.vercel.app`** when `NEXT_PUBLIC_SITE_URL` is unset; set **`NEXT_PUBLIC_SITE_URL=https://togstrek.com`** when the custom domain is live). Connect the Git repo, use the **Production** branch, and keep the default **Next.js** framework preset (`npm run build` runs `next build` plus Pagefind).
 
 **Production environment variables** (Vercel → Project → Settings → Environment Variables):
 
 | Variable | Typical production value | Notes |
 |----------|-------------------------|--------|
-| `NEXT_PUBLIC_SITE_URL` | `https://togstrek.com` | No trailing slash. Canonical `metadataBase`, sitemap, feeds. If unset, `VERCEL_URL` is used (fine for previews, wrong for canonical prod URLs). |
+| `NEXT_PUBLIC_SITE_URL` | `https://togstrek.com` when on custom domain | No trailing slash. Canonical `metadataBase`, sitemap, feeds. If unset, defaults to **`https://togstrek.vercel.app`**. Preview deployments do **not** use `VERCEL_URL` (avoids random preview hosts in the sitemap). |
 | `NEXT_PUBLIC_MEDIA_BASE_URL` | `https://media.togstrek.com` | Must match the HTTPS origin serving R2 (or other CDN) objects referenced in MDX. |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Your GA4 id, or empty | Empty string disables GA; see `src/lib/togstrek-google-analytics.ts`. |
 | `NEXT_PUBLIC_ROBOTS_NOINDEX` | omit | Set to `true` only on staging/preview to block crawlers (`src/app/robots.ts`). |
@@ -54,9 +54,8 @@ Full list: **`package.json` → `scripts`**.
 
 ## Site URL at build time
 
-- **`NEXT_PUBLIC_SITE_URL`** — Canonical origin for `metadataBase`, sitemap, and robots (no trailing slash). Defaults to `https://togstrek.com`.
-- On Vercel, **`VERCEL_URL`** is used when `NEXT_PUBLIC_SITE_URL` is unset.
-- Staging: set **`NEXT_PUBLIC_ROBOTS_NOINDEX=true`** to disallow crawlers (`app/robots.ts`).
+- **`NEXT_PUBLIC_SITE_URL`** — Canonical origin for `metadataBase`, sitemap, and robots (no trailing slash). Defaults to **`https://togstrek.vercel.app`** when unset; set to **`https://togstrek.com`** when the site is served on the custom domain.
+- Staging: set **`NEXT_PUBLIC_ROBOTS_NOINDEX=true`** to disallow crawlers (`app/robots.ts`). For a staging domain, set **`NEXT_PUBLIC_SITE_URL`** to that origin explicitly.
 
 ## Analytics (GA4)
 
