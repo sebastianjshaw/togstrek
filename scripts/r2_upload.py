@@ -25,6 +25,12 @@ requests that use percent-encoding for UTF-8 (e.g. %CC%83 → Unicode). Before
 upload, rename those files so each path segment matches the decoded URL path
 (e.g. urllib.parse.unquote in Python, or decodeURIComponent in JS), or the CDN
 will 404 while the site requests URLs like …/Sen%CC%83ora….
+
+**Unicode (NFC):** macOS APFS often stores filenames in NFD (decomposed accents)
+while browsers and this repo’s migration scripts tend to use NFC (composed).
+Upload uses NFC for every path segment so R2 object keys match
+`https://media.togstrek.com/...` percent-encoding. To fix keys already in the
+bucket, use `scripts/r2_copy_keys_to_nfc.py`.
 """
 
 from __future__ import annotations
@@ -33,6 +39,7 @@ import argparse
 import mimetypes
 import os
 import sys
+import unicodedata
 from pathlib import Path
 
 try:
@@ -96,9 +103,18 @@ def normalize_prefix(prefix: str) -> str:
     return p
 
 
+def nfc_posix_path(rel_posix: str) -> str:
+    """NFC-normalize each path segment (macOS NFD → web / MDX NFC)."""
+    if not rel_posix:
+        return rel_posix
+    return "/".join(unicodedata.normalize("NFC", part) for part in rel_posix.split("/"))
+
+
 def object_key_for_file(source_root: Path, file_path: Path, prefix: str) -> str:
-    rel = file_path.relative_to(source_root).as_posix()
-    return f"{prefix}{rel}" if prefix else rel
+    rel = nfc_posix_path(file_path.relative_to(source_root).as_posix())
+    pfx = nfc_posix_path(prefix.rstrip("/"))
+    pfx = f"{pfx}/" if pfx else ""
+    return f"{pfx}{rel}" if pfx else rel
 
 
 def should_skip_path(rel_posix: str, exclude_prefixes: tuple[str, ...]) -> bool:

@@ -29,6 +29,7 @@
     "media:fetch-oceania": "tsx scripts/togstrek-fetch-oceania-images.ts",
     "media:fix-migration-north-america": "tsx scripts/togstrek-fix-migration-north-america-layout.ts",
     "media:rekey-north-america-staging": "tsx scripts/togstrek-rekey-north-america-staging.ts",
+    "r2:copy-to-nfc": "python3 scripts/r2_copy_keys_to_nfc.py",
     "r2:rekey-north-america": "python3 scripts/r2_copy_north_america_keys.py",
     "r2:copy-turkiye-media": "python3 scripts/r2_copy_asia_turkey_to_europe_turkiye.py",
     "r2:rekey-said-lich": "python3 scripts/r2_copy_side_turkiye_liechtenstein_vaduz.py",

@@ -124,6 +124,76 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/hong-kong",
+        destination: "/asia/hong-kong",
+        permanent: true,
+      },
+      {
+        source: "/europe/talinn",
+        destination: "/europe/estonia/tallinn",
+        permanent: true,
+      },
+      {
+        source: "/europe/estonia/talinn",
+        destination: "/europe/estonia/tallinn",
+        permanent: true,
+      },
+      {
+        source: "/europe/helsinki",
+        destination: "/europe/finland/helsinki",
+        permanent: true,
+      },
+      {
+        source: "/europe/reykjavik",
+        destination: "/europe/iceland/reykjavik",
+        permanent: true,
+      },
+      {
+        source: "/europe/split",
+        destination: "/europe/croatia/split",
+        permanent: true,
+      },
+      {
+        source: "/europe/belgrade",
+        destination: "/europe/serbia/belgrade",
+        permanent: true,
+      },
+      {
+        source: "/europe/orebro/tiveds",
+        destination: "/europe/sweden/orebro/tiveds",
+        permanent: true,
+      },
+      {
+        source: "/europe/ostergotland/lindkoping",
+        destination: "/europe/sweden/ostergotland/linkoping",
+        permanent: true,
+      },
+      {
+        source: "/europe/sweden/ostergotland/lindkoping",
+        destination: "/europe/sweden/ostergotland/linkoping",
+        permanent: true,
+      },
+      {
+        source: "/europe/vasterbotten/hemavan",
+        destination: "/europe/sweden/vasterbotten/hemavan",
+        permanent: true,
+      },
+      {
+        source: "/europe/gavleborg/gavle",
+        destination: "/europe/sweden/gavleborg/gavle",
+        permanent: true,
+      },
+      {
+        source: "/europe/vastmanland/vasteras",
+        destination: "/europe/sweden/vastmanland/vasteras",
+        permanent: true,
+      },
+      {
+        source: "/north-america/mexico/merida.html",
+        destination: "/north-america/mexico/merida",
+        permanent: true,
+      },
+      {
         source: "/liechtenstein",
         destination: "/europe/liechtenstein",
         permanent: true,

@@ -746,6 +746,7 @@ const EUROPE_ROOT_PLACE_TO_COUNTRY: Record<string, string> = {
   split: "croatia",
   "stratford-upon-avon": "united-kingdom",
   talinn: "estonia",
+  tallinn: "estonia",
 };
 
 function resetEuropeStaging(cdnOut: string, dryRun: boolean): void {

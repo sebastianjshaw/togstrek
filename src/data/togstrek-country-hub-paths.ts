@@ -135,7 +135,7 @@ export const togstrekEuropeSpecialTerritories: TogstrekSpecialTerritoryHub[] =
 
 const togstrekAsiaSpecialTerritoriesUnsorted: TogstrekSpecialTerritoryHub[] = [
   {
-    href: "/hong-kong",
+    href: "/asia/hong-kong",
     label: "Hong Kong",
     note: "Special administrative region, China",
   },
