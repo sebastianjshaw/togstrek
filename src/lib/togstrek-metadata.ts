@@ -1,10 +1,55 @@
 import type { Metadata } from "next";
 
+import { togstrekSiteLandingHeroImage } from "@/config/togstrek-media";
+
 export const TOGSTREK_SITE_NAME = "A Tog's Trek";
 
 /** Declared OG / Twitter card dimensions (recommended aspect ~1.91:1). */
 export const TOGSTREK_OG_IMAGE_WIDTH = 1200;
 export const TOGSTREK_OG_IMAGE_HEIGHT = 630;
+
+/**
+ * Public CDN hostname for social previews. Raw `*.r2.dev` bucket URLs often fail
+ * link-preview crawlers (WhatsApp, iMessage, Slack); the custom domain serves the
+ * same object keys.
+ */
+const TOGSTREK_SOCIAL_IMAGE_PUBLIC_ORIGIN = "https://media.togstrek.com";
+
+/**
+ * Rewrite known R2 public bucket URLs to the canonical media hostname so
+ * `og:image` / Twitter cards fetch reliably.
+ */
+export function togstrekCanonicalSocialImageUrl(imageUrl: string): string {
+  try {
+    const u = new URL(imageUrl);
+    if (u.hostname.endsWith(".r2.dev")) {
+      return `${TOGSTREK_SOCIAL_IMAGE_PUBLIC_ORIGIN}${u.pathname}${u.search}`;
+    }
+  } catch {
+    /* keep original */
+  }
+  return imageUrl;
+}
+
+function normalizeOgImage(img: TogstrekOgImage): TogstrekOgImage {
+  const url =
+    typeof img.url === "string" ? img.url : String(img.url as string | URL);
+  return {
+    ...img,
+    url: togstrekCanonicalSocialImageUrl(url),
+  };
+}
+
+/** Default OG / Twitter image when a route does not supply `openGraphImages`. */
+export function getTogstrekDefaultSocialOgImage(): TogstrekOgImage {
+  const hero = togstrekSiteLandingHeroImage();
+  return normalizeOgImage({
+    url: hero.src,
+    width: hero.width,
+    height: hero.height,
+    alt: hero.alt,
+  });
+}
 
 /** Matches `title.template` in `app/layout.tsx` (`%s · A Tog's Trek`). */
 export const TOGSTREK_METADATA_TITLE_SEPARATOR = " · ";
@@ -44,7 +89,12 @@ export function buildTogstrekMetadata(input: {
       : [input.authors]
     : [];
 
-  const firstImage = input.openGraphImages?.[0];
+  const rawOgImages =
+    input.openGraphImages && input.openGraphImages.length > 0
+      ? input.openGraphImages
+      : [getTogstrekDefaultSocialOgImage()];
+  const ogImages = rawOgImages.map(normalizeOgImage);
+  const firstImage = ogImages[0];
 
   const twitter: NonNullable<Metadata["twitter"]> = {
     card: "summary_large_image",
@@ -52,7 +102,16 @@ export function buildTogstrekMetadata(input: {
     description: ogDescription,
   };
   if (firstImage?.url) {
-    twitter.images = [firstImage.url];
+    twitter.images = [
+      {
+        url: firstImage.url,
+        ...(firstImage.alt ? { alt: firstImage.alt } : {}),
+        ...(firstImage.width !== undefined ? { width: firstImage.width } : {}),
+        ...(firstImage.height !== undefined
+          ? { height: firstImage.height }
+          : {}),
+      },
+    ];
   }
   const siteHandle = process.env.NEXT_PUBLIC_TWITTER_SITE?.trim();
   if (siteHandle) {
@@ -71,13 +130,12 @@ export function buildTogstrekMetadata(input: {
     ...(input.robots !== undefined ? { robots: input.robots } : {}),
     ...(authorsList.length > 0 ? { authors: authorsList } : {}),
     openGraph: {
+      siteName: TOGSTREK_SITE_NAME,
       title: ogTitle,
       description: ogDescription,
       type: input.type ?? "website",
       ...(input.path ? { url: input.path } : {}),
-      ...(input.openGraphImages?.length
-        ? { images: input.openGraphImages }
-        : {}),
+      images: ogImages,
       ...(input.type === "article" && authorsList.length > 0
         ? {
             authors: authorsList

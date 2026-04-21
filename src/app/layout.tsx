@@ -11,6 +11,10 @@ import { TogstrekSiteHeader } from "@/components/togstrek-site-header";
 import { TogstrekSkipLink } from "@/components/togstrek-skip-link";
 import { getTogstrekMediaBaseUrl } from "@/config/togstrek-media";
 import { togstrekLayoutJsonLdGraph } from "@/lib/togstrek-json-ld";
+import {
+  getTogstrekDefaultSocialOgImage,
+  TOGSTREK_SITE_NAME,
+} from "@/lib/togstrek-metadata";
 import { getTogstrekSiteOrigin } from "@/lib/togstrek-site-url";
 
 const fontDisplay = Space_Grotesk({
@@ -57,11 +61,13 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
+    siteName: TOGSTREK_SITE_NAME,
     title: "A Tog's Trek",
     description:
       "Photo essays and travel notes from a photographer: regions, cities, hikes, and family trips — with the pictures to prove it.",
     locale: "en_GB",
     type: "website",
+    images: [getTogstrekDefaultSocialOgImage()],
   },
   alternates: {
     types: {

@@ -9,12 +9,7 @@ import { TogstrekCtaGhostInverseLink } from "@/components/togstrek-ui/togstrek-c
 import { TogstrekCtaOutlineAccentLink } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 import { togstrekSiteLandingHeroImage } from "@/config/togstrek-media";
 import { pickRandomHomeSpotlightAdventure } from "@/lib/togstrek-home-spotlight";
-import {
-  buildTogstrekMetadata,
-  TOGSTREK_OG_IMAGE_HEIGHT,
-  TOGSTREK_OG_IMAGE_WIDTH,
-  TOGSTREK_SITE_NAME,
-} from "@/lib/togstrek-metadata";
+import { buildTogstrekMetadata, TOGSTREK_SITE_NAME } from "@/lib/togstrek-metadata";
 
 const homeHero = togstrekSiteLandingHeroImage();
 
@@ -30,8 +25,8 @@ export const metadata: Metadata = {
     openGraphImages: [
       {
         url: homeHero.src,
-        width: TOGSTREK_OG_IMAGE_WIDTH,
-        height: TOGSTREK_OG_IMAGE_HEIGHT,
+        width: homeHero.width,
+        height: homeHero.height,
         alt: homeHero.alt,
       },
     ],
