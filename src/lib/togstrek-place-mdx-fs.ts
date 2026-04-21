@@ -38,10 +38,26 @@ function resolveTogstrekPlaceMdxFilePath(
       return flat;
     }
   }
-  const fp =
+  const directLeaf =
     path.join(PLACES_ROOT, continent, country, ...placeSegments) + ".mdx";
-  if (!isTogstrekPathWithinRoot(fp, PLACES_ROOT)) return null;
-  return fp;
+  if (isTogstrekPathWithinRoot(directLeaf, PLACES_ROOT) && fs.existsSync(directLeaf)) {
+    return directLeaf;
+  }
+  /** Folder hub: `devon/exeter.mdx` + `devon/index.mdx` → URL `/…/devon` resolves to the index. */
+  const folderIndex = path.join(
+    PLACES_ROOT,
+    continent,
+    country,
+    ...placeSegments,
+    "index.mdx",
+  );
+  if (
+    isTogstrekPathWithinRoot(folderIndex, PLACES_ROOT) &&
+    fs.existsSync(folderIndex)
+  ) {
+    return folderIndex;
+  }
+  return null;
 }
 
 export type TogstrekPlaceSlugParams = {
@@ -127,7 +143,12 @@ function collectMdxFilesUnderCountryDir(
         const segments = withoutExt.split("/").filter(Boolean);
         if (segments.length === 0) continue;
         if (!segments.every(isTogstrekSafeUrlPathSegment)) continue;
-        out.push({ continent, country, place: segments });
+        const place =
+          segments[segments.length - 1] === "index"
+            ? segments.slice(0, -1)
+            : segments;
+        if (place.length === 0) continue;
+        out.push({ continent, country, place });
       }
     }
   }

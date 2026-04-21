@@ -194,6 +194,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/portfolio/2011-travelling-through-nepal",
+        destination: "/hiking/nepal/annapurna",
+        permanent: true,
+      },
+      {
         source: "/liechtenstein",
         destination: "/europe/liechtenstein",
         permanent: true,

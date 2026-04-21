@@ -10,7 +10,9 @@
  *     two or more segments after the country: same `division` param, then the catch-all
  *     for the remaining MDX path segments. **Public URLs are unchanged**
  *     (`/{continent}/{country}/{segment1}/{segment2}/…`).
- * - **Content / filesystem:** `content/places/<continent>/<country>/…/*.mdx`; Antarctic
+ * - **Content / filesystem:** `content/places/<continent>/<country>/…/*.mdx`; a
+ *   folder hub may use `…/<segment>/index.mdx` (same URL as `…/<segment>` when no
+ *   sibling `…/<segment>.mdx`). Antarctic
  *   place files also live as `content/places/antarctica/<place>.mdx` (flat) while
  *   `countrySlug` in frontmatter stays `antarctic` for the internal model.
  *   Join all segments under the country with {@link togstrekPlacePathFromSegments} for
