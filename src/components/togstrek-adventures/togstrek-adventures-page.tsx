@@ -56,7 +56,7 @@ export function TogstrekAdventuresPage() {
             id="togstrek-adventures-archive-heading"
             className="mt-[var(--tt-space-20)]"
             title="All adventure stories"
-            description="Every long-form trip on the original site, in chronological order — open a tile for the full story."
+            description="When I started, so long ago, I made books for my travels because putting them online was hard. Now the books have taken a back seat to this site, and what once was on paper is now digital, living a life more transitory than it once did."
           />
           <ul className="togstrek-adventures-page-archive-grid mt-[var(--tt-space-12)] grid grid-cols-1 gap-[var(--tt-space-10)] sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-3">
             {adventureArchive.map((item) => (
