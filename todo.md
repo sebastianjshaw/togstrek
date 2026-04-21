@@ -1,5 +1,12 @@
 
 
+## SEO / discovery (SEOptimer audit, Apr 2026)
+
+- [ ] **DNS — SPF + DMARC**: add SPF and DMARC (and align DKIM if you send mail) for `togstrek.com` at your DNS provider. Audit flagged both; this is deliverability / anti-spoofing, not Next.js code.
+- [ ] **Homepage lab pass**: audit reports heavy **image download weight** (~7MB+), **multiple redirects**, and **JS errors** on load — profile `/` in production (Network tab, Lighthouse, console), then tighten hero/region imagery (`sizes` / dimensions / CDN variants) and fix any real client errors (ignore one-off audit false positives).
+- [ ] **`NEXT_PUBLIC_AUTHOR_SAMEAS` + visible socials**: JSON-LD already supports `sameAs` via env (`src/lib/togstrek-author.ts`); set URLs in Vercel and optionally mirror them as normal footer links so humans and tools both see profiles.
+
+
 ## Backlog / later
 
 - [ ] **Image alt/caption cleanup**: policy is implemented; remaining work is content edits. Use `npm run media:audit-image-alt` → `migration/image-alt-manual-review.jsonl`, then update MDX alts.
@@ -9,6 +16,7 @@
 
 ## Recently completed (Apr 2026)
 
+- **`public/llms.txt`**: added for AI crawlers / assistants — site summary, main sections, sitemap & feed URLs, contact, place URL pattern, and light usage notes (Apr 2026).
 - **Deploy checklist**: chose **Vercel** as production host (matches `@vercel/*` usage). Documented production env vars + image/bandwidth strategy (`images.unoptimized`, CDN on `media.togstrek.com`) in `README.md` and `.env.example`. Verified `npm run build` succeeds (Apr 2026).
 - **R2 photography consolidation mirrors**: ran `.venv/bin/python scripts/r2_copy_photography_consolidation.py` (dry-run then live); 23 server-side copies into canonical `photography/astrophotography/...` and `photography/avalon/...` keys, 0 errors. For future MDX prefix changes, mirror with the matching script under `scripts/`.
 - **Remote image hosts:** dropped `images.squarespace-cdn.com` / `static1.squarespace.com` from `togstrek-remote-image-hosts.ts` after grep showed no matches under `content/` or `public/` (only migration scripts reference those hosts).

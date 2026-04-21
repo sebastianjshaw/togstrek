@@ -1,0 +1,41 @@
+# A Tog's Trek
+
+Personal travel photography and long-form field notes: countries and cities, multi-day hikes, adventure essays, and a separate photography archive. The site is static-first (Next.js); story pages live under predictable URL prefixes.
+
+## Canonical origin
+
+https://www.togstrek.com/
+
+## Discovery & feeds
+
+- Sitemap (all indexable URLs): https://www.togstrek.com/sitemap.xml
+- RSS / Atom feeds: https://www.togstrek.com/feed.xml and https://www.togstrek.com/rss.xml
+- On-site search (Pagefind): https://www.togstrek.com/search
+
+## Main sections (high level)
+
+- Home: https://www.togstrek.com/
+- Adventures (trip essays): https://www.togstrek.com/adventures
+- Hiking (trail journals & stages): https://www.togstrek.com/hiking
+- Photography (galleries & essays): https://www.togstrek.com/photography
+- Other work (portfolio-style topics): https://www.togstrek.com/other-work
+- Visited map (where the author has been): https://www.togstrek.com/visited-map
+- About: https://www.togstrek.com/about
+- Contact: https://www.togstrek.com/contact
+
+## Places (geographic hubs)
+
+Country and place guides use a path pattern `/africa|asia|europe|north-america|south-america|oceania|antarctica/{country}/…` with deeper segments for regions and cities. Continent hub examples:
+
+- https://www.togstrek.com/europe
+- https://www.togstrek.com/asia
+- https://www.togstrek.com/africa
+
+## Media
+
+Large photographs are served from a separate CDN origin (`media.togstrek.com`); HTML on `www.togstrek.com` links to those assets.
+
+## Usage notes for automated tools
+
+- Prefer linking readers to the canonical `https://www.togstrek.com` URLs above.
+- Do not bulk-download original imagery; hotlinking policy follows normal web etiquette and the site’s copyright page: https://www.togstrek.com/copyright
