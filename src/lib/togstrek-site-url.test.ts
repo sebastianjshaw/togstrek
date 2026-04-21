@@ -12,8 +12,8 @@ describe("getTogstrekSiteOrigin", () => {
     vi.unstubAllEnvs();
   });
 
-  it("returns default Vercel project origin when env unset", () => {
-    expect(getTogstrekSiteOrigin()).toBe("https://togstrek.vercel.app");
+  it("returns default production origin when env unset", () => {
+    expect(getTogstrekSiteOrigin()).toBe("https://www.togstrek.com");
   });
 
   it("trims trailing slashes from NEXT_PUBLIC_SITE_URL", () => {
@@ -23,12 +23,12 @@ describe("getTogstrekSiteOrigin", () => {
 
   it("falls back to default for invalid protocol", () => {
     vi.stubEnv("NEXT_PUBLIC_SITE_URL", "javascript:alert(1)");
-    expect(getTogstrekSiteOrigin()).toBe("https://togstrek.vercel.app");
+    expect(getTogstrekSiteOrigin()).toBe("https://www.togstrek.com");
   });
 
   it("ignores VERCEL_URL when NEXT_PUBLIC_SITE_URL unset (avoids random preview host in sitemap)", () => {
     vi.stubEnv("VERCEL_URL", "my-app.vercel.app");
-    expect(getTogstrekSiteOrigin()).toBe("https://togstrek.vercel.app");
+    expect(getTogstrekSiteOrigin()).toBe("https://www.togstrek.com");
   });
 
   it("still prefers NEXT_PUBLIC_SITE_URL when both are set", () => {

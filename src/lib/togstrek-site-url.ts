@@ -3,10 +3,10 @@
  * Must match `metadataBase` in `app/layout.tsx` unless you override via env.
  *
  * Does **not** fall back to `VERCEL_URL` (random preview hostnames → sitemap 401s
- * under deployment protection). Default is the stable Vercel project URL; set
- * `NEXT_PUBLIC_SITE_URL=https://togstrek.com` when the custom domain is live.
+ * under deployment protection). Default is the production custom domain; set
+ * `NEXT_PUBLIC_SITE_URL` explicitly for staging/preview environments.
  */
-const DEFAULT_SITE_ORIGIN = "https://togstrek.vercel.app";
+const DEFAULT_SITE_ORIGIN = "https://www.togstrek.com";
 
 export function getTogstrekSiteOrigin(): string {
   const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
