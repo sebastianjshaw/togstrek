@@ -9,6 +9,7 @@ import type { NextConfig } from "next";
 import { TOGSTREK_REMOTE_IMAGE_PATTERNS } from "./src/config/togstrek-remote-image-hosts";
 import { TOGSTREK_EUROPE_LEGACY_FLAT_HUB_SLUGS } from "./src/data/togstrek-country-hub-paths";
 import { togstrekNorthAmericaLegacyPlaceRedirects } from "./src/data/togstrek-north-america-legacy-place-redirects";
+import { togstrekSeoLegacyRedirects } from "./src/data/togstrek-seo-legacy-redirects";
 
 const DEFAULT_MEDIA_ORIGIN = "https://media.togstrek.com";
 
@@ -363,6 +364,11 @@ const nextConfig: NextConfig = {
         destination: "/other-work/street-photography",
         permanent: true,
       },
+      ...togstrekSeoLegacyRedirects.map((r) => ({
+        source: r.source,
+        destination: r.destination,
+        permanent: true as const,
+      })),
     ];
   },
   images: {
