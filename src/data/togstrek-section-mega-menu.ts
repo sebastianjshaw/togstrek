@@ -80,11 +80,9 @@ export const togstrekOtherWorkMegaMenu: TogstrekSectionMegaMenuDefinition = {
   links: [
     { href: "/other-work/art-nude", label: "Art nude" },
     { href: "/other-work/astrophotography", label: "Astrophotography" },
-    { href: "/other-work/avalon", label: "Avalon" },
     { href: "/other-work/events", label: "Events" },
     { href: "/other-work/fetish", label: "Fetish" },
     { href: "/other-work/photography-guides", label: "Guides" },
-    { href: "/other-work/merlin", label: "Merlin" },
     { href: "/other-work/misc", label: "Misc" },
     { href: "/other-work/models", label: "Models & fashion" },
     { href: "/other-work/music", label: "Music" },

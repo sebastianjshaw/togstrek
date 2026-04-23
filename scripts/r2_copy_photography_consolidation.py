@@ -5,8 +5,6 @@ after consolidating MDX paths:
 
   photography/asptrophotography/gothenburgs-moon/     → photography/astrophotography/gothenburgs-moon/
   photography/astrophotographer/perseids-meteor-shower/ → photography/astrophotography/perseids-meteor-shower/
-  photography/avalon-visit-2/                       → photography/avalon/avalon-visit-2/
-  photography/avalon-family-tour/                   → photography/avalon/avalon-family-tour/
 
 Same R2 creds as r2_upload.py. Skips if destination key already exists unless --no-skip-existing.
 
@@ -128,14 +126,6 @@ PAIRS: list[tuple[str, str]] = [
     (
         "photography/astrophotographer/perseids-meteor-shower/",
         "photography/astrophotography/perseids-meteor-shower/",
-    ),
-    (
-        "photography/avalon-visit-2/",
-        "photography/avalon/avalon-visit-2/",
-    ),
-    (
-        "photography/avalon-family-tour/",
-        "photography/avalon/avalon-family-tour/",
     ),
 ]
 

@@ -35,12 +35,6 @@ export const togstrekOtherWorkHubSections: TogstrekOtherWorkHubSection[] = [
     imageAlt: "Astrophotography",
   },
   {
-    href: "/other-work/avalon",
-    label: "Avalon",
-    imageSrc: `${M}/other-work/avalon/20241012-20241012+-+Avalon-5831-0005.jpg`,
-    imageAlt: "Avalon",
-  },
-  {
     href: "/other-work/events",
     label: "Events",
     imageSrc: `${M}/other-work/events/20150810-IMG_3642-23-39-16.jpg`,
@@ -86,62 +80,6 @@ export const togstrekOtherWorkHubSections: TogstrekOtherWorkHubSection[] = [
 
 /** Summary block “Featured” — links to photo essays under `/photography/…`. */
 export const togstrekOtherWorkHubFeatured: TogstrekOtherWorkHubFeatured[] = [
-  {
-    href: "/photography/avalon/avalon-winter-is-coming",
-    title: "Avalon | Winter is Coming",
-    imageSrc: `${M}/other-work/_hub/20241116_143745.jpg`,
-    imageAlt: "Avalon | Winter is Coming",
-    date: "2024-11-16",
-  },
-  {
-    href: "/photography/avalon/avalon-tree-planting",
-    title: "Avalon | Tree Planting",
-    imageSrc: `${M}/other-work/_hub/20241019_145045.jpg`,
-    imageAlt: "Avalon | Tree Planting",
-    date: "2024-10-19",
-  },
-  {
-    href: "/photography/avalon/day-1-and-land-tour",
-    title: "Avalon | Land tour",
-    imageSrc: `${M}/other-work/_hub/20241012-20241012+-+Avalon-5829-0004.jpg`,
-    imageAlt: "Avalon | Land tour",
-    date: "2024-10-12",
-  },
-  {
-    href: "/photography/avalon/avalon-day-1",
-    title: "Avalon | Day 1",
-    imageSrc: `${M}/other-work/_hub/20241010_182545.jpg`,
-    imageAlt: "Avalon | Day 1",
-    date: "2024-10-10",
-  },
-  {
-    href: "/photography/avalon/avalon-family-tour",
-    title: "Avalon | Family Tour",
-    imageSrc: `${M}/other-work/_hub/20241010_181938.jpg`,
-    imageAlt: "Avalon | Family Tour",
-    date: "2024-09-28",
-  },
-  {
-    href: "/photography/avalon/avalon-meeting-the-owner",
-    title: "Avalon | Meeting the Owner",
-    imageSrc: `${M}/other-work/_hub/20240920_151356.jpg`,
-    imageAlt: "Avalon | Meeting the Owner",
-    date: "2024-09-20",
-  },
-  {
-    href: "/photography/avalon/avalon-visit-2",
-    title: "Avalon | Visit 2",
-    imageSrc: `${M}/other-work/_hub/20240907_145028.jpg`,
-    imageAlt: "Avalon | Visit 2",
-    date: "2024-09-07",
-  },
-  {
-    href: "/photography/avalon/avalon-visit-1",
-    title: "Avalon | Visit 1",
-    imageSrc: `${M}/other-work/_hub/20240831_153204.jpg`,
-    imageAlt: "Avalon | Visit 1",
-    date: "2024-08-31",
-  },
   {
     href: "/photography/music/the-eras-tour",
     title: "The Eras Tour",

@@ -285,16 +285,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/photography/avalon-visit-2",
-        destination: "/photography/avalon/avalon-visit-2",
-        permanent: true,
-      },
-      {
-        source: "/photography/avalon-family-tour",
-        destination: "/photography/avalon/avalon-family-tour",
-        permanent: true,
-      },
-      {
         source: "/photography",
         destination: "/other-work",
         permanent: false,

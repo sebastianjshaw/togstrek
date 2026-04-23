@@ -89,56 +89,6 @@ export const TOGSTREK_OTHER_WORK_SECTION_FEATURED: Record<
     "date": "2015-08-19"
   }
 ]),
-  "avalon": toFeatured([
-  {
-    "title": "Avalon | Winter is Coming",
-    "href": "/photography/avalon/avalon-winter-is-coming",
-    "imageSrc": "https://media.togstrek.com/other-work/avalon/20241116_143745.jpg",
-    "date": "2024-11-16"
-  },
-  {
-    "title": "Avalon | Tree Planting",
-    "href": "/photography/avalon/avalon-tree-planting",
-    "imageSrc": "https://media.togstrek.com/other-work/avalon/20241019_145045.jpg",
-    "date": "2024-10-19"
-  },
-  {
-    "title": "Avalon | Land tour",
-    "href": "/photography/avalon/day-1-and-land-tour",
-    "imageSrc": "https://media.togstrek.com/other-work/avalon/20241012-20241012+-+Avalon-5829-0004.jpg",
-    "date": "2024-10-12"
-  },
-  {
-    "title": "Avalon | Day 1",
-    "href": "/photography/avalon/avalon-day-1",
-    "imageSrc": "https://media.togstrek.com/other-work/avalon/20241010_182545.jpg",
-    "date": "2024-10-10"
-  },
-  {
-    "title": "Avalon | Family Tour",
-    "href": "/photography/avalon/avalon-family-tour",
-    "imageSrc": "https://media.togstrek.com/other-work/avalon/20241010_181938.jpg",
-    "date": "2024-09-28"
-  },
-  {
-    "title": "Avalon | Meeting the Owner",
-    "href": "/photography/avalon/avalon-meeting-the-owner",
-    "imageSrc": "https://media.togstrek.com/other-work/avalon/20240920_151356.jpg",
-    "date": "2024-09-20"
-  },
-  {
-    "title": "Avalon | Visit 2",
-    "href": "/photography/avalon/avalon-visit-2",
-    "imageSrc": "https://media.togstrek.com/other-work/avalon/20240907_145028.jpg",
-    "date": "2024-09-07"
-  },
-  {
-    "title": "Avalon | Visit 1",
-    "href": "/photography/avalon/avalon-visit-1",
-    "imageSrc": "https://media.togstrek.com/other-work/avalon/20240831_153204.jpg",
-    "date": "2024-08-31"
-  }
-]),
   "events": toFeatured([
   {
     "title": "Göteborgsvarvet 2024",
@@ -329,7 +279,6 @@ export const TOGSTREK_OTHER_WORK_SECTION_FEATURED: Record<
     "date": "2009-06-06"
   }
 ]),
-  "merlin": toFeatured([]),
   "misc": toFeatured([
   {
     "title": "Explosion at Sejdeln",

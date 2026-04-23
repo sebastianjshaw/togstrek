@@ -67,6 +67,15 @@ export const togstrekSeoLegacyRedirects: {
   /** Trailing slash on section hubs (canonical has no trailing slash) */
   { source: "/hiking/", destination: "/hiking" },
   { source: "/north-america/", destination: "/north-america" },
+  {
+    source: "/other-work/merlin",
+    destination: "/photography/events/meeting-merlin",
+  },
+  /** Retired “Avalon” project — consolidated to Other work hub for external links */
+  { source: "/other-work/avalon", destination: "/other-work" },
+  { source: "/photography/avalon/:path*", destination: "/other-work" },
+  { source: "/photography/avalon-visit-2", destination: "/other-work" },
+  { source: "/photography/avalon-family-tour", destination: "/other-work" },
   /** Old blog photo-diary URLs → current place or adventure pages */
   {
     source: "/blog/alpine-adventure-exploring-chamonix",
