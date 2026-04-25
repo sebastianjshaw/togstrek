@@ -62,6 +62,16 @@ export function middleware(request: NextRequest) {
     /* keep raw pathname */
   }
 
+  /**
+   * Vercel Image Optimization endpoint.
+   *
+   * Even with `images.unoptimized = true`, bots can hammer `/_next/image` directly and
+   * burn through “Image Optimization” quotas. Return 410 before the handler runs.
+   */
+  if (pathname === "/_next/image") {
+    return new NextResponse("Gone", { status: 410 });
+  }
+
   /** Hub URLs without a trailing slash (matches canonical paths). */
   const pathNorm = pathname.replace(/\/+$/, "") || "/";
 
@@ -132,6 +142,7 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/_next/image",
     /*
      * Run for all pathnames except Next internals and common static assets.
      */
