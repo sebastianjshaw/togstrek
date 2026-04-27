@@ -7,6 +7,17 @@
 - [ ] **`NEXT_PUBLIC_AUTHOR_SAMEAS` + visible socials**: JSON-LD already supports `sameAs` via env (`src/lib/togstrek-author.ts`); set URLs in Vercel and optionally mirror them as normal footer links so humans and tools both see profiles.
 
 
+## Code quality / maintainability (code review, Apr 2026)
+
+- [x] **P0 — CI**: fail the pipeline on `npm test`; address `npm run lint` **errors** (or make warnings non-blocking until they are fixed). (`.github/workflows/ci.yml` runs `npm run lint` + `npm test` + `tsc`; all ESLint **errors** fixed — warnings only remain.)
+- [x] **P1 — React / ESLint** (`togstrek-visited-dashboard-client.tsx`): resolved — no `useEffect` for scope. `const scope = lockedContinent ?? internalScope` with `useState` only for user-driven scope when not locked; buttons call `setInternalScope`.
+- [x] **P1 — Types in tests** (`remark-togstrek-jump-to.test.ts`): `asRoot()`, `looseChildren()`, and `MdxJsxAttr` (no `any` in the linted paths).
+- [x] **P1 — Chores** (`togstrek-load-place-mdx.ts`): duplicate unused imports from `togstrek-place-mdx-fs` removed; re-exports unchanged.
+- [x] **P2 — E2E smoke**: Playwright + `e2e/smoke.spec.ts` (home via `#togstrek-home-hero-heading`, `/africa/egypt/cairo`, `/search`, `/visited-map`). Run `npm run build && npm run test:e2e` (or rely on `webServer` in `playwright.config.ts`). CI: build → `playwright install --with-deps chromium` → `playwright test`.
+- [ ] **P2 — `exif:fill-mdx`**: add a `--files` or `--include` flag so a single page can be backfilled without scanning all of `content/places`.
+- [ ] **P3 — Next “middleware” → “proxy”**: follow `node_modules/next/dist/docs/` when upgrading; migrate when the framework recommends it.
+- [ ] **Ongoing**: document that **CDN object keys** can differ from URL slugs (e.g. `abu%20simbel` vs `abu-simbel`); verify new uploads with `HEAD` against `media.togstrek.com`.
+
 ## Backlog / later
 
 - [ ] **Image alt/caption cleanup**: policy is implemented; remaining work is content edits. Use `npm run media:audit-image-alt` → `migration/image-alt-manual-review.jsonl`, then update MDX alts.

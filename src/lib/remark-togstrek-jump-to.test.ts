@@ -1,22 +1,35 @@
 import { describe, expect, it } from "vitest";
+import type { Root } from "mdast";
 
 import { remarkTogstrekJumpTo } from "@/lib/remark-togstrek-jump-to";
 
-/**
- * These tests build minimal mdast-like trees by hand. The remark plugin operates on
- * mdast + MDX nodes, but the upstream `mdast` `RootContent` typing does not include
- * MDX JSX nodes (`mdxJsxFlowElement`), so we keep fixtures loosely typed for `tsc`.
- */
-type TestRoot = {
-  type: "root";
-  children: any[];
+type MdxJsxAttr = {
+  name?: string;
+  type?: string;
+  value?: string;
 };
+
+function asRoot(tree: unknown): Root {
+  return tree as Root;
+}
+
+/** After `remarkTogstrekJumpTo` mutates the tree, children may include MDX nodes. */
+type LooseBlock = {
+  type: string;
+  name?: string;
+  attributes?: unknown;
+  children?: unknown[];
+};
+
+function looseChildren(t: { children: unknown[] }): LooseBlock[] {
+  return t.children as LooseBlock[];
+}
 
 describe("remarkTogstrekJumpTo", () => {
   it("replaces Jump to block with TogstrekJumpTo using h2-derived ids", () => {
     const plugin = remarkTogstrekJumpTo();
-    const tree: TestRoot = {
-      type: "root",
+    const tree = {
+      type: "root" as const,
       children: [
         {
           type: "paragraph" as const,
@@ -59,14 +72,15 @@ describe("remarkTogstrekJumpTo", () => {
         },
       ],
     };
-    plugin(tree as any);
-    expect(tree.children).toHaveLength(2);
-    const first = tree.children[0];
-    expect(first?.type).toBe("mdxJsxFlowElement");
-    if (first?.type !== "mdxJsxFlowElement") return;
+    plugin(asRoot(tree));
+    const kids = looseChildren(tree);
+    expect(kids).toHaveLength(2);
+    const first = kids[0]!;
+    expect(first.type).toBe("mdxJsxFlowElement");
+    if (first.type !== "mdxJsxFlowElement") return;
     expect(first.name).toBe("TogstrekJumpTo");
-    const payloadAttr = (first.attributes as any[]).find(
-      (a: any) => a?.name === "payload",
+    const payloadAttr = (first.attributes as MdxJsxAttr[]).find(
+      (a) => a.name === "payload",
     );
     expect(payloadAttr?.type).toBe("mdxJsxAttribute");
     if (payloadAttr?.type !== "mdxJsxAttribute" || typeof payloadAttr.value !== "string") {
@@ -82,8 +96,8 @@ describe("remarkTogstrekJumpTo", () => {
 
   it("strips Jump to block without inserting when there are no headings", () => {
     const plugin = remarkTogstrekJumpTo();
-    const tree: TestRoot = {
-      type: "root",
+    const tree = {
+      type: "root" as const,
       children: [
         {
           type: "paragraph" as const,
@@ -116,14 +130,14 @@ describe("remarkTogstrekJumpTo", () => {
         },
       ],
     };
-    plugin(tree as any);
-    expect(tree.children).toHaveLength(0);
+    plugin(asRoot(tree));
+    expect(looseChildren(tree)).toHaveLength(0);
   });
 
   it("auto-injects TogstrekJumpTo after first paragraph when ≥2 headings and no legacy block", () => {
     const plugin = remarkTogstrekJumpTo();
-    const tree: TestRoot = {
-      type: "root",
+    const tree = {
+      type: "root" as const,
       children: [
         {
           type: "paragraph" as const,
@@ -143,19 +157,20 @@ describe("remarkTogstrekJumpTo", () => {
         },
       ],
     };
-    plugin(tree as any);
-    expect(tree.children).toHaveLength(4);
-    expect(tree.children[0]?.type).toBe("paragraph");
-    expect(tree.children[1]?.type).toBe("mdxJsxFlowElement");
-    const jump = tree.children[1];
-    if (jump?.type !== "mdxJsxFlowElement") return;
+    plugin(asRoot(tree));
+    const k = looseChildren(tree);
+    expect(k).toHaveLength(4);
+    expect(k[0]?.type).toBe("paragraph");
+    expect(k[1]?.type).toBe("mdxJsxFlowElement");
+    const jump = k[1]!;
+    if (jump.type !== "mdxJsxFlowElement") return;
     expect(jump.name).toBe("TogstrekJumpTo");
   });
 
   it("does not auto-inject when only one heading", () => {
     const plugin = remarkTogstrekJumpTo();
-    const tree: TestRoot = {
-      type: "root",
+    const tree = {
+      type: "root" as const,
       children: [
         {
           type: "paragraph" as const,
@@ -169,15 +184,16 @@ describe("remarkTogstrekJumpTo", () => {
         },
       ],
     };
-    plugin(tree as any);
-    expect(tree.children).toHaveLength(2);
-    expect(tree.children.every((c) => c.type !== "mdxJsxFlowElement")).toBe(true);
+    plugin(asRoot(tree));
+    const k1 = looseChildren(tree);
+    expect(k1).toHaveLength(2);
+    expect(k1.every((c) => c.type !== "mdxJsxFlowElement")).toBe(true);
   });
 
   it("fills opt-in TogstrekJumpTo in place and does not auto-inject a second nav", () => {
     const plugin = remarkTogstrekJumpTo();
-    const tree: TestRoot = {
-      type: "root",
+    const tree = {
+      type: "root" as const,
       children: [
         {
           type: "paragraph" as const,
@@ -203,17 +219,18 @@ describe("remarkTogstrekJumpTo", () => {
         },
       ],
     };
-    plugin(tree as any);
-    expect(tree.children).toHaveLength(4);
-    expect(tree.children[0]?.type).toBe("paragraph");
-    const jump = tree.children[1];
-    expect(jump?.type).toBe("mdxJsxFlowElement");
-    if (jump?.type !== "mdxJsxFlowElement") return;
+    plugin(asRoot(tree));
+    const k2 = looseChildren(tree);
+    expect(k2).toHaveLength(4);
+    expect(k2[0]?.type).toBe("paragraph");
+    const jump = k2[1]!;
+    expect(jump.type).toBe("mdxJsxFlowElement");
+    if (jump.type !== "mdxJsxFlowElement") return;
     expect(jump.name).toBe("TogstrekJumpTo");
-    const payloadAttr = (jump.attributes as any[]).find(
-      (a: any) => a?.name === "payload",
+    const payloadAttr = (jump.attributes as MdxJsxAttr[]).find(
+      (a) => a.name === "payload",
     );
     expect(payloadAttr?.type).toBe("mdxJsxAttribute");
-    expect(tree.children.filter((c) => c.type === "mdxJsxFlowElement")).toHaveLength(1);
+    expect(k2.filter((c) => c.type === "mdxJsxFlowElement")).toHaveLength(1);
   });
 });

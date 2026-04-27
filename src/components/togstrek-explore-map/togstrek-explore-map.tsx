@@ -5,7 +5,7 @@ import "./togstrek-explore-map.css";
 
 import type { FilterSpecification, Map as MapLibreMap } from "maplibre-gl";
 import type { ComponentProps } from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import Map, {
   Layer,
   type MapRef,
@@ -115,31 +115,59 @@ export function TogstrekExploreMap({
   initialViewState,
   visitedCountryIso2,
 }: TogstrekExploreMapProps) {
-  const mapRef = useRef<MapRef>(null);
-  const index = useMemo(() => placesToIndex(places), [places]);
-
-  /** Remount Map when points change so `onLoad` refits — avoids effect/fitBounds loops with `onMoveEnd`. */
   const placesFitKey = useMemo(
     () => places.map((p) => `${p.id}:${p.longitude}:${p.latitude}`).join("|"),
     [places],
   );
 
+  if (places.length === 0) {
+    return (
+      <div
+        className={`togstrek-explore-map-empty rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted px-6 py-12 text-center font-tt-body text-tt-text-secondary ${className}`}
+        role="status"
+      >
+        No places to show on the map yet.
+      </div>
+    );
+  }
+
+  return (
+    <TogstrekExploreMapWithPlaces
+      key={placesFitKey}
+      places={places}
+      className={className}
+      aria-label={ariaLabel}
+      popupCtaLabel={popupCtaLabel}
+      initialViewState={initialViewState}
+      visitedCountryIso2={visitedCountryIso2}
+      placesFitKey={placesFitKey}
+    />
+  );
+}
+
+function TogstrekExploreMapWithPlaces({
+  places,
+  className = "",
+  "aria-label": ariaLabel = "Places on the map",
+  popupCtaLabel = "Open story",
+  initialViewState,
+  visitedCountryIso2,
+  placesFitKey,
+}: TogstrekExploreMapProps & { placesFitKey: string }) {
+  const mapRef = useRef<MapRef>(null);
+  const index = useMemo(() => placesToIndex(places), [places]);
+
   const [bounds, setBounds] = useState<[number, number, number, number]>([
     -20, 35, 45, 72,
   ]);
   const [zoom, setZoom] = useState(3.4);
-  const [clusters, setClusters] = useState<ClusterFeature[]>([]);
   const [selected, setSelected] = useState<TogstrekMapPlace | null>(null);
 
-  const updateClusters = useCallback(() => {
-    const z = Math.max(0, Math.floor(zoom));
-    const next = index.getClusters(bounds, z) as ClusterFeature[];
-    setClusters(next);
-  }, [index, bounds, zoom]);
-
-  useEffect(() => {
-    updateClusters();
-  }, [updateClusters]);
+  const zCluster = Math.max(0, Math.floor(zoom));
+  const clusters = useMemo(
+    () => index.getClusters(bounds, zCluster) as ClusterFeature[],
+    [index, bounds, zCluster],
+  );
 
   const onMoveEnd = useCallback((evt: { target: MapLibreMap }) => {
     const b = evt.target.getBounds();
@@ -160,10 +188,6 @@ export function TogstrekExploreMap({
       { padding: 72, maxZoom: 12, duration: 0 },
     );
   }, [places]);
-
-  useEffect(() => {
-    setSelected(null);
-  }, [placesFitKey]);
 
   const onClusterClick = useCallback(
     (clusterId: number, lng: number, lat: number) => {
@@ -191,17 +215,6 @@ export function TogstrekExploreMap({
       thumbnailAlt: p.thumbnailAlt || undefined,
     });
   }, []);
-
-  if (places.length === 0) {
-    return (
-      <div
-        className={`togstrek-explore-map-empty rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted px-6 py-12 text-center font-tt-body text-tt-text-secondary ${className}`}
-        role="status"
-      >
-        No places to show on the map yet.
-      </div>
-    );
-  }
 
   const startView =
     initialViewState ?? {

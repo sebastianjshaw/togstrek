@@ -53,8 +53,10 @@ export function TogstrekThemeToggle({ className }: TogstrekThemeToggleProps) {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    setPref(getStoredPreference());
-    setHydrated(true);
+    queueMicrotask(() => {
+      setPref(getStoredPreference());
+      setHydrated(true);
+    });
   }, []);
 
   const effective = useMemo(() => {

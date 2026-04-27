@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import type { TogstrekMapPlace } from "@/components/togstrek-explore-map";
 import {
@@ -65,14 +65,10 @@ export function TogstrekVisitedDashboardClient({
   lockedContinent,
   className = "",
 }: TogstrekVisitedDashboardClientProps) {
-  const [scope, setScope] = useState<ScopeMode>(lockedContinent ?? "global");
+  const [internalScope, setInternalScope] = useState<ScopeMode>("global");
   const [mapMode, setMapMode] = useState<MapMode>("countries");
 
-  useEffect(() => {
-    if (lockedContinent) {
-      setScope(lockedContinent);
-    }
-  }, [lockedContinent]);
+  const scope: ScopeMode = lockedContinent ?? internalScope;
 
   const availableContinents = data.continents.filter((c) => c.totalCountries > 0);
 
@@ -157,7 +153,7 @@ export function TogstrekVisitedDashboardClient({
         <div className="mb-[var(--tt-space-8)] flex flex-wrap gap-2">
           <button
             type="button"
-            onClick={() => setScope("global")}
+            onClick={() => setInternalScope("global")}
             className={`min-h-10 border px-4 font-tt-display text-[length:var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] transition-colors ${
               scope === "global"
                 ? "border-tt-accent bg-tt-accent text-tt-text-inverse"
@@ -170,7 +166,7 @@ export function TogstrekVisitedDashboardClient({
             <button
               key={c.id}
               type="button"
-              onClick={() => setScope(c.id)}
+              onClick={() => setInternalScope(c.id)}
               className={`min-h-10 border px-4 font-tt-display text-[length:var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] transition-colors ${
                 scope === c.id
                   ? "border-tt-accent bg-tt-accent text-tt-text-inverse"

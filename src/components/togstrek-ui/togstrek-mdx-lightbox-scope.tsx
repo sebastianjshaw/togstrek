@@ -9,6 +9,7 @@ import {
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
@@ -35,18 +36,26 @@ export function useTogstrekMdxLightbox(): TogstrekMdxLightboxContextValue | null
  * Wraps MDX article content so inline images can open a shared fullscreen lightbox
  * with keyboard (Escape, arrows) and prev/next when multiple images exist.
  */
+const clientMountedSubscribe = () => () => {};
+function clientMountedSnapshot() {
+  return true;
+}
+function clientMountedServerSnapshot() {
+  return false;
+}
+
 export function TogstrekMdxLightboxScope({ children }: { children: ReactNode }) {
   const [entries, setEntries] = useState<TogstrekMdxLightboxEntry[]>([]);
   const [openId, setOpenId] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    clientMountedSubscribe,
+    clientMountedSnapshot,
+    clientMountedServerSnapshot,
+  );
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const focusBeforeOpenRef = useRef<HTMLElement | null>(null);
   const prevOpenIdRef = useRef<string | null>(null);
   const dialogTitleId = useId();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const register = useCallback((entry: TogstrekMdxLightboxEntry) => {
     setEntries((prev) => [...prev, entry]);
@@ -63,8 +72,13 @@ export function TogstrekMdxLightboxScope({ children }: { children: ReactNode }) 
     [register, open],
   );
 
-  const activeIdx = openId
-    ? entries.findIndex((e) => e.id === openId)
+  const resolvedOpenId = useMemo((): string | null => {
+    if (openId == null) return null;
+    return entries.some((e) => e.id === openId) ? openId : null;
+  }, [openId, entries]);
+
+  const activeIdx = resolvedOpenId
+    ? entries.findIndex((e) => e.id === resolvedOpenId)
     : -1;
   const active = activeIdx >= 0 ? entries[activeIdx] : null;
   const canPrev = activeIdx > 0;
@@ -83,13 +97,9 @@ export function TogstrekMdxLightboxScope({ children }: { children: ReactNode }) 
   }, [entries, activeIdx, canNext]);
 
   useEffect(() => {
-    if (openId && !entries.some((e) => e.id === openId)) setOpenId(null);
-  }, [openId, entries]);
-
-  useEffect(() => {
     const wasOpen = prevOpenIdRef.current !== null;
-    const nowOpen = openId !== null;
-    prevOpenIdRef.current = openId;
+    const nowOpen = resolvedOpenId !== null;
+    prevOpenIdRef.current = resolvedOpenId;
 
     if (nowOpen && !wasOpen) {
       focusBeforeOpenRef.current = document.activeElement as HTMLElement | null;
@@ -98,10 +108,10 @@ export function TogstrekMdxLightboxScope({ children }: { children: ReactNode }) 
       focusBeforeOpenRef.current?.focus?.();
       focusBeforeOpenRef.current = null;
     }
-  }, [openId]);
+  }, [resolvedOpenId]);
 
   useEffect(() => {
-    if (!openId) return;
+    if (!resolvedOpenId) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
@@ -121,7 +131,7 @@ export function TogstrekMdxLightboxScope({ children }: { children: ReactNode }) 
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = prevOverflow;
     };
-  }, [openId, close, goPrev, goNext]);
+  }, [resolvedOpenId, close, goPrev, goNext]);
 
   const overlay =
     mounted &&

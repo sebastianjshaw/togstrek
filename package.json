@@ -17,6 +17,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "inventory:squarespace": "tsx scripts/squarespace-inventory.ts",
     "media:migrate-squarespace-backup": "tsx scripts/togstrek-migrate-squarespace-from-backup.ts",
     "media:rewrite-squarespace-to-cdn": "tsx scripts/togstrek-rewrite-squarespace-urls-to-media.ts",
@@ -78,6 +80,7 @@
   "devDependencies": {
     "@figma/code-connect": "^1.4.2",
     "@pagefind/default-ui": "^1.4.0",
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4",
     "@types/mdast": "^4.0.4",
     "@types/mdx": "^2.0.13",

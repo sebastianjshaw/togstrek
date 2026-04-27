@@ -38,10 +38,9 @@ export function TogstrekMdxParagraph(
   props: ComponentProps<"p">,
 ): ReactElement {
   const { children, ...rest } = props;
+  const inGallery = useTogstrekMdxPhotoGallery();
   const unwrapped = unwrapIfSingleBlockFigure(children);
   if (unwrapped) return <>{unwrapped}</>;
-
-  const inGallery = useTogstrekMdxPhotoGallery();
   if (inGallery) {
     return (
       <div {...rest} className={MDX_P_CLASS}>

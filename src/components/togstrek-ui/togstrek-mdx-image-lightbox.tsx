@@ -42,7 +42,7 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
   const instanceId = useId();
 
   const altText = typeof alt === "string" ? alt.trim() : "";
-  if (!src || typeof src !== "string") return null;
+  const hasValidSrc = Boolean(src && typeof src === "string");
 
   const captionText = resolveVisibleCaption(altText);
   const accessibilityAlt = resolveAccessibilityAlt(altText);
@@ -74,13 +74,13 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
   const safeH = Number.isFinite(h) && h > 0 ? h : 800;
 
   useEffect(() => {
-    if (!ctx) return;
+    if (!ctx || !hasValidSrc || typeof src !== "string") return;
     return ctx.register({
       id: instanceId,
       src,
       alt: lightboxCaptionAlt,
     });
-  }, [ctx, instanceId, src, lightboxCaptionAlt]);
+  }, [ctx, hasValidSrc, instanceId, src, lightboxCaptionAlt]);
 
   const onOpen = () => {
     if (ctx) ctx.open(instanceId);
@@ -91,6 +91,8 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
     kind === "descriptive" && accessibilityAlt.length > 0
       ? `View larger: ${accessibilityAlt}`
       : "View larger photograph";
+
+  if (!src || typeof src !== "string") return null;
 
   return (
     <figure

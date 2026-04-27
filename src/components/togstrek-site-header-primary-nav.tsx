@@ -325,7 +325,9 @@ export function TogstrekSiteHeaderPrimaryNav({
 
   useEffect(() => {
     if (openMegaKey !== null) {
-      setDeferredMegaKey(openMegaKey);
+      queueMicrotask(() => {
+        setDeferredMegaKey(openMegaKey);
+      });
       return;
     }
     const id = window.setTimeout(() => {
@@ -339,16 +341,22 @@ export function TogstrekSiteHeaderPrimaryNav({
     prevOpenMegaKeyRef.current = openMegaKey;
 
     if (!openMegaKey) {
-      setMegaPanelMotionReady(false);
+      queueMicrotask(() => {
+        setMegaPanelMotionReady(false);
+      });
       return;
     }
 
     if (prev !== null) {
-      setMegaPanelMotionReady(true);
+      queueMicrotask(() => {
+        setMegaPanelMotionReady(true);
+      });
       return;
     }
 
-    setMegaPanelMotionReady(false);
+    queueMicrotask(() => {
+      setMegaPanelMotionReady(false);
+    });
     let innerRaf = 0;
     const outerRaf = requestAnimationFrame(() => {
       innerRaf = requestAnimationFrame(() => {
