@@ -14,8 +14,8 @@
 - [x] **P1 — Types in tests** (`remark-togstrek-jump-to.test.ts`): `asRoot()`, `looseChildren()`, and `MdxJsxAttr` (no `any` in the linted paths).
 - [x] **P1 — Chores** (`togstrek-load-place-mdx.ts`): duplicate unused imports from `togstrek-place-mdx-fs` removed; re-exports unchanged.
 - [x] **P2 — E2E smoke**: Playwright + `e2e/smoke.spec.ts` (home via `#togstrek-home-hero-heading`, `/africa/egypt/cairo`, `/search`, `/visited-map`). Run `npm run build && npm run test:e2e` (or rely on `webServer` in `playwright.config.ts`). CI: build → `playwright install --with-deps chromium` → `playwright test`.
-- [ ] **P2 — `exif:fill-mdx`**: add a `--files` or `--include` flag so a single page can be backfilled without scanning all of `content/places`.
-- [ ] **P3 — Next “middleware” → “proxy”**: follow `node_modules/next/dist/docs/` when upgrading; migrate when the framework recommends it.
+- [x] **P2 — `exif:fill-mdx`**: added `--files` / `--file` (repeatable) and `--include` to `scripts/togstrek-fill-mdx-empty-image-exif.ts` so a single page (or subset) can be backfilled without scanning all of `content/places`.
+- [x] **P3 — Next “middleware” → “proxy”**: migrated `src/middleware.ts` → `src/proxy.ts` and renamed the handler `middleware()` → `proxy()` (per `node_modules/next/dist/docs/.../proxy.md`). Build no longer emits the middleware deprecation warning.
 - [ ] **Ongoing**: document that **CDN object keys** can differ from URL slugs (e.g. `abu%20simbel` vs `abu-simbel`); verify new uploads with `HEAD` against `media.togstrek.com`.
 
 ## Backlog / later

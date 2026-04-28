@@ -9,6 +9,8 @@
  * Usage:
  *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --dry-run
  *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --concurrency 4 --delay-ms 120
+ *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --files content/places/africa/egypt/cairo.mdx
+ *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --include "/africa/egypt/" --dry-run
  */
 
 import fs from "node:fs";
@@ -35,12 +37,16 @@ function parseArgs(): {
   concurrency: number;
   delayMs: number;
   limitFiles: number;
+  files: string[];
+  include: string;
 } {
   const a = process.argv.slice(2);
   let dryRun = false;
   let concurrency = 4;
   let delayMs = 120;
   let limitFiles = 0;
+  const files: string[] = [];
+  let include = "";
   for (let i = 0; i < a.length; i++) {
     if (a[i] === "--dry-run") dryRun = true;
     else if (a[i] === "--concurrency" && a[i + 1]) {
@@ -52,9 +58,15 @@ function parseArgs(): {
     } else if (a[i] === "--limit-files" && a[i + 1]) {
       limitFiles = Math.max(0, Number.parseInt(a[i + 1]!, 10) || 0);
       i++;
+    } else if ((a[i] === "--files" || a[i] === "--file") && a[i + 1]) {
+      files.push(a[i + 1]!);
+      i++;
+    } else if (a[i] === "--include" && a[i + 1]) {
+      include = String(a[i + 1] ?? "");
+      i++;
     }
   }
-  return { dryRun, concurrency, delayMs, limitFiles };
+  return { dryRun, concurrency, delayMs, limitFiles, files, include };
 }
 
 function walkMdxFiles(dir: string, out: string[]): void {
@@ -102,9 +114,11 @@ function applyReplacementsFromEnd(
   return out;
 }
 
-async function main(): Promise<void> {
-  const { dryRun, concurrency, delayMs, limitFiles } = parseArgs();
-
+function resolveRequestedFilesOrAll(args: {
+  files: string[];
+  include: string;
+  limitFiles: number;
+}): { files: string[]; allFilesCount: number } {
   const allFiles: string[] = [];
   if (!fs.existsSync(PLACES_ROOT)) {
     console.error("Missing", PLACES_ROOT);
@@ -112,7 +126,41 @@ async function main(): Promise<void> {
   }
   walkMdxFiles(PLACES_ROOT, allFiles);
   allFiles.sort();
-  const files = limitFiles > 0 ? allFiles.slice(0, limitFiles) : allFiles;
+
+  if (args.files.length > 0) {
+    const resolved: string[] = [];
+    for (const raw of args.files) {
+      const trimmed = raw.trim();
+      if (!trimmed) continue;
+      const fp = path.isAbsolute(trimmed) ? trimmed : path.resolve(process.cwd(), trimmed);
+      if (!fp.endsWith(".mdx")) {
+        console.error("Not an .mdx file:", raw);
+        process.exit(1);
+      }
+      if (!fs.existsSync(fp)) {
+        console.error("File does not exist:", fp);
+        process.exit(1);
+      }
+      resolved.push(fp);
+    }
+    return { files: Array.from(new Set(resolved)).sort(), allFilesCount: allFiles.length };
+  }
+
+  const included =
+    args.include.trim().length > 0
+      ? allFiles.filter((fp) => fp.includes(args.include))
+      : allFiles;
+  const limited = args.limitFiles > 0 ? included.slice(0, args.limitFiles) : included;
+  return { files: limited, allFilesCount: allFiles.length };
+}
+
+async function main(): Promise<void> {
+  const { dryRun, concurrency, delayMs, limitFiles, files: fileArgs, include } = parseArgs();
+  const { files, allFilesCount } = resolveRequestedFilesOrAll({
+    files: fileArgs,
+    include,
+    limitFiles,
+  });
 
   const urlSet = new Set<string>();
   for (const fp of files) {
@@ -123,7 +171,11 @@ async function main(): Promise<void> {
 
   console.log(
     `EXIF fill MDX: ${files.length} files` +
-      (limitFiles > 0 ? ` (of ${allFiles.length})` : "") +
+      (fileArgs.length > 0
+        ? " (explicit --files)"
+        : limitFiles > 0 || include.trim().length > 0
+          ? ` (of ${allFilesCount})`
+          : "") +
       ` · ${uniqueUrls.length} unique URLs (empty alt or filename-like alt)` +
       ` · concurrency ${concurrency} · delay ${delayMs}ms` +
       (dryRun ? " · DRY RUN" : ""),

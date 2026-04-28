@@ -41,7 +41,7 @@ function shouldNormalizeHost(requestHost: string): boolean {
   return requestHost === "togstrek.com" || requestHost === "www.togstrek.com";
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const host =
     request.headers.get("x-forwarded-host")?.split(",")[0]?.trim() ??
     request.headers.get("host") ??
@@ -149,3 +149,4 @@ export const config = {
     "/((?!_next/|favicon.ico|robots.txt|sitemap.xml|feed.xml|pagefind/|.*\\.(?:ico|png|jpg|jpeg|gif|webp|svg|txt|xml|json|webmanifest|woff2)$).*)",
   ],
 };
+
