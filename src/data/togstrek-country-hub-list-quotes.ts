@@ -44,8 +44,8 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     attribution: "Eddie Izzard",
   },
   BG: {
-    body: "Bulgaria is a fascinating, beautiful, difficult country, and I fell in love with it.- Garth Greenwell",
-    attribution: "",
+    body: "Bulgaria is a fascinating, beautiful, difficult country, and I fell in love with it.",
+    attribution: "Garth Greenwell",
   },
   BJ: {
     body: "I dream of a Benin that smiles and that's why I invite us to turn resolutely toward a clear future.",
@@ -125,7 +125,7 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
   },
   GR: {
     body: "In many ways we are all sons and daughters of ancient Greece",
-    attribution: "",
+    attribution: "Nia Vardalos",
   },
   GT: {
     body: "Libre crezca fecundo — may Guatemala grow free and fruitful.",
@@ -201,7 +201,7 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
   },
   MT: {
     body: "Malta is the only country in the world where the local delicacy is the bread.",
-    attribution: "",
+    attribution: "Alan Coren",
   },
   MX: {
     body: "Mexico is a mosaic of different realities and beauties.",
@@ -216,8 +216,8 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     attribution: "Isa Ajiya",
   },
   NL: {
-    body: "The whole territory of the Netherlands was girt with forests.- John Lothrop Motley",
-    attribution: "",
+    body: "The whole territory of the Netherlands was girt with forests.",
+    attribution: "John Lothrop Motley",
   },
   NO: {
     body: "I want to travel. Maybe I'll end up living in Norway, making cakes.",
