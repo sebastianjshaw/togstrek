@@ -21,7 +21,7 @@
 ## Backlog / later
 
 - [ ] **Image alt/caption cleanup**: policy is implemented; remaining work is content edits. Use `npm run media:audit-image-alt` → `migration/image-alt-manual-review.jsonl`, then update MDX alts.
-- [ ] **Country hub quotes migration**: original Squarespace country headers had quotes; write a script to extract and add them to the new pages (or decide to drop the feature).
+- [x] **Country hub quotes migration**: original Squarespace country headers had quotes; write a script to extract and add them to the new pages (or decide to drop the feature).
 - [ ] **Backup health**: re-copy problematic HTTrack folders off exFAT if filenames continue to be unreadable.
 - [ ] **Replace remote hero images**: optionally move key heroes under `public/media/` when you want tighter control over caching/availability.
 
