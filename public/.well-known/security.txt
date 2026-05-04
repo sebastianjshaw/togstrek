@@ -1,0 +1,6 @@
+# Tog's Trek — vulnerability disclosure (RFC 9116)
+# Renew Expires at least yearly.
+Contact: https://www.togstrek.com/contact
+Preferred-Languages: en
+Canonical: https://www.togstrek.com/.well-known/security.txt
+Expires: 2027-05-01T12:00:00.000Z
