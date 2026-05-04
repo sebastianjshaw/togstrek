@@ -67,6 +67,7 @@ export const togstrekSeoLegacyRedirects: {
   /** Trailing slash on section hubs (canonical has no trailing slash) */
   { source: "/hiking/", destination: "/hiking" },
   { source: "/north-america/", destination: "/north-america" },
+  { source: "/south-america/", destination: "/south-america" },
   {
     source: "/other-work/merlin",
     destination: "/photography/events/meeting-merlin",
@@ -98,6 +99,44 @@ export const togstrekSeoLegacyRedirects: {
     destination: "/europe/italy/aosta",
   },
   { source: "/blog/finding-mozart", destination: "/europe/austria/salzburg" },
+  /** Legacy MD typo in internal links and old exports (`israel` misspelled). */
+  {
+    source: "/asia/isreal/:path*",
+    destination: "/asia/israel/:path*",
+  },
+  { source: "/tajikistan", destination: "/asia/tajikistan" },
+  /** Old Squarespace one-segment shortcuts → current place / trail hubs */
+  { source: "/kilimanjaro", destination: "/hiking/mt-kilimanjaro" },
+  {
+    source: "/massachusetts",
+    destination: "/north-america/united-states-of-america/massachusetts",
+  },
+  { source: "/skane", destination: "/europe/sweden/skane" },
+  { source: "/varmland", destination: "/europe/sweden/varmland" },
+  { source: "/blog/jerash", destination: "/asia/jordan/jerash" },
+  {
+    source: "/blog/philadelphia",
+    destination: "/asia/jordan/philadelphia",
+  },
+  {
+    source: "/portfolio/tagged/visby",
+    destination: "/europe/sweden/gotland/visby",
+  },
+  { source: "/portfolio/kalmar", destination: "/europe/sweden/kalmar/kalmar" },
+  {
+    source: "/blog/tagged/apapa",
+    destination: "/africa/nigeria/apapa",
+  },
+  { source: "/blog/tagged/hungary", destination: "/europe/hungary" },
+  {
+    source: "/blog/tagged/travelphotography",
+    destination: "/other-work",
+  },
+  {
+    source: "/blog/tagged/travel-photography",
+    destination: "/other-work",
+  },
+  { source: "/blog/tagged/algar", destination: "/europe/portugal" },
   { source: "/blog/innsbruck", destination: "/europe/austria/innsbruck" },
   {
     source: "/blog/nature-walks-in-le-chatelard",
