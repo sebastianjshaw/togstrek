@@ -1,6 +1,11 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import {
+  togstrekRssCanonicalFeedUrl,
+  togstrekRssShouldRedirectToCanonicalFeedUrl,
+} from "@/lib/togstrek-rss-feed";
+
 /**
  * Antarctic legacy `/antarctica/category/<human title>` (spaces, mixed case).
  * Keys are normalised with {@link normaliseAntarcticaCategoryKey}.
@@ -53,6 +58,17 @@ export function proxy(request: NextRequest) {
     u.hostname = wantHost;
     u.protocol = "https:";
     return NextResponse.redirect(u, 308);
+  }
+
+  const feedPath = request.nextUrl.pathname.replace(/\/+$/, "") || "/";
+  if (feedPath === "/feed.xml" || feedPath === "/rss.xml") {
+    const u = request.nextUrl.clone();
+    if (togstrekRssShouldRedirectToCanonicalFeedUrl(u)) {
+      const canon = togstrekRssCanonicalFeedUrl(u);
+      u.pathname = canon.pathname;
+      u.search = canon.search;
+      return NextResponse.redirect(u, 308);
+    }
   }
 
   let pathname = request.nextUrl.pathname;
@@ -146,7 +162,7 @@ export const config = {
     /*
      * Run for all pathnames except Next internals and common static assets.
      */
-    "/((?!_next/|favicon.ico|robots.txt|sitemap.xml|feed.xml|pagefind/|.*\\.(?:ico|png|jpg|jpeg|gif|webp|svg|txt|xml|json|webmanifest|woff2)$).*)",
+    "/((?!_next/|favicon.ico|robots.txt|sitemap.xml|pagefind/|.*\\.(?:ico|png|jpg|jpeg|gif|webp|svg|txt|xml|json|webmanifest|woff2)$).*)",
   ],
 };
 

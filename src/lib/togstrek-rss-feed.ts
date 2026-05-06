@@ -122,6 +122,37 @@ export function parseTogstrekRssQuery(url: URL): {
   return { section, continent };
 }
 
+/**
+ * Canonical feed URL (stable `section` / `continent` order) for redirects and
+ * cache keys. Bots append `utm_*`, `fbclid`, etc.; without a 308 to here, each
+ * unique query string can become a separate ISR entry on Vercel.
+ */
+export function togstrekRssCanonicalFeedUrl(url: URL): URL {
+  const out = new URL(url.href);
+  out.hash = "";
+  const { section, continent } = parseTogstrekRssQuery(url);
+  out.search = "";
+  if (section) out.searchParams.set("section", section);
+  if (continent) out.searchParams.set("continent", continent);
+  return out;
+}
+
+/** True when the request should 308 to {@link togstrekRssCanonicalFeedUrl}. */
+export function togstrekRssShouldRedirectToCanonicalFeedUrl(url: URL): boolean {
+  if (url.searchParams.getAll("section").length > 1) return true;
+  if (url.searchParams.getAll("continent").length > 1) return true;
+  for (const key of new Set(url.searchParams.keys())) {
+    if (key !== "section" && key !== "continent") return true;
+  }
+  const rawS = url.searchParams.get("section");
+  if (rawS !== null && normalizeSection(rawS) === undefined) return true;
+  const rawC = url.searchParams.get("continent");
+  if (rawC !== null && normalizeContinent(rawC) === undefined) return true;
+
+  const canon = togstrekRssCanonicalFeedUrl(url);
+  return url.pathname !== canon.pathname || url.search !== canon.search;
+}
+
 function adventureItems(origin: string): TogstrekRssItem[] {
   const out: TogstrekRssItem[] = [];
   for (const row of listSortedTogstrekAdventureArchiveItems()) {
