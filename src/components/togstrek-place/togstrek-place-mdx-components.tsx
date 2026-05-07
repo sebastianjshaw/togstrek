@@ -14,6 +14,16 @@ import { TogstrekMdxPhotoGallery } from "@/components/togstrek-ui/togstrek-mdx-p
  */
 export function getTogstrekPlaceMdxComponents(): MDXComponents {
   return {
+    /**
+     * Page templates already provide the single document `<h1>`.
+     * Treat MDX `# Heading` as a section heading to avoid multiple H1s.
+     */
+    h1: (props) => (
+      <h2
+        {...props}
+        className="togstrek-place-mdx-h1-as-h2 mt-[var(--tt-space-12)] scroll-mt-[calc(var(--tt-layout-header-height)+var(--tt-space-6))] font-tt-display text-[length:var(--tt-text-title)] font-bold text-tt-text-primary first:mt-0"
+      />
+    ),
     h2: (props) => (
       <h2
         {...props}

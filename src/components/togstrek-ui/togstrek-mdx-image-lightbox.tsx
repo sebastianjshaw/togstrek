@@ -46,8 +46,12 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
 
   const captionText = resolveVisibleCaption(altText);
   const accessibilityAlt = resolveAccessibilityAlt(altText);
-  /** Policy: blank `alt` for technical/empty MDX until content or audit pass fills it. */
-  const imageAltForImg = accessibilityAlt;
+  /**
+   * Bing (and similar scanners) flags empty `alt` as "missing alt".
+   * Use a minimal fallback so shipped HTML always has a non-empty `alt` for content images.
+   */
+  const imageAltForImg =
+    accessibilityAlt.length > 0 ? accessibilityAlt : TOGSTREK_IMAGE_LIGHTBOX_FALLBACK_LABEL;
 
   const isExifCaption =
     captionText !== null &&
