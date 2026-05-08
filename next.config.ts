@@ -74,6 +74,254 @@ const nextConfig: NextConfig = {
         destination: "/visited-map",
         permanent: true,
       },
+      // GA not-found cleanups (legacy Squarespace taxonomy + short links).
+      {
+        source: "/kilimanjaro",
+        destination: "/hiking/mt-kilimanjaro",
+        permanent: true,
+      },
+      {
+        source: "/bohusleden",
+        destination: "/hiking/bohusleden",
+        permanent: true,
+      },
+      {
+        source: "/kungsleden",
+        destination: "/hiking/kungsleden",
+        permanent: true,
+      },
+      {
+        source: "/turkiye",
+        destination: "/europe/turkiye",
+        permanent: true,
+      },
+      {
+        source: "/argentina",
+        destination: "/south-america/argentina",
+        permanent: true,
+      },
+      {
+        source: "/uganda",
+        destination: "/africa/uganda",
+        permanent: true,
+      },
+      {
+        source: "/norbotten",
+        destination: "/europe/sweden/norbotten",
+        permanent: true,
+      },
+      {
+        source: "/norrbotten",
+        destination: "/europe/sweden/norbotten",
+        permanent: true,
+      },
+      {
+        source: "/orebro",
+        destination: "/europe/sweden/orebro",
+        permanent: true,
+      },
+      {
+        source: "/blekinge",
+        destination: "/europe/sweden/blekinge",
+        permanent: true,
+      },
+      {
+        source: "/gotland",
+        destination: "/europe/sweden/gotland",
+        permanent: true,
+      },
+      {
+        source: "/norfolk",
+        destination: "/europe/united-kingdom/england/norfolk",
+        permanent: true,
+      },
+      {
+        source: "/isle-of-wight",
+        destination: "/europe/united-kingdom/england/isle-of-wight",
+        permanent: true,
+      },
+      {
+        source: "/portfolio/halland",
+        destination: "/europe/sweden/halland",
+        permanent: true,
+      },
+      {
+        source: "/portfolio/2018-bedouin-stars",
+        destination: "/adventures/2018-bedouin-stars",
+        permanent: true,
+      },
+      {
+        source: "/south-america/ecuador/adventures/2010-i-left-my-stock-in-sacramento",
+        destination: "/adventures/2010-i-left-my-stock-in-sacramento",
+        permanent: true,
+      },
+      {
+        source: "/photography/category/Art+Nude",
+        destination: "/other-work/art-nude",
+        permanent: true,
+      },
+      {
+        source: "/photography/category/Fetish",
+        destination: "/other-work/fetish",
+        permanent: true,
+      },
+      {
+        source: "/photography/category/Astrophotography",
+        destination: "/other-work/astrophotography",
+        permanent: true,
+      },
+      {
+        source: "/africa/category/Tanzania",
+        destination: "/africa/tanzania",
+        permanent: true,
+      },
+      {
+        source: "/north-america/category/Guatemala",
+        destination: "/north-america/guatemala",
+        permanent: true,
+      },
+      {
+        source: "/europe/category/France",
+        destination: "/europe/france",
+        permanent: true,
+      },
+      {
+        source: "/europe/category/Germany",
+        destination: "/europe/germany",
+        permanent: true,
+      },
+      {
+        source: "/europe/category/Sweden",
+        destination: "/europe/sweden",
+        permanent: true,
+      },
+      {
+        source: "/europe/category/Bosnia+and+Herzegovina",
+        destination: "/europe/bosnia-and-herzegovina",
+        permanent: true,
+      },
+      {
+        source: "/asia/category/Israel",
+        destination: "/asia/israel",
+        permanent: true,
+      },
+      {
+        source: "/asia/isreal/jerusalem",
+        destination: "/asia/israel/jerusalem",
+        permanent: true,
+      },
+      {
+        source: "/europe/Malta",
+        destination: "/europe/malta",
+        permanent: true,
+      },
+      {
+        source: "/europe/Netherlands",
+        destination: "/europe/netherlands",
+        permanent: true,
+      },
+      {
+        source: "/europe/brans",
+        destination: "/europe/sweden/brans",
+        permanent: true,
+      },
+      {
+        source: "/blog/neko-harbour",
+        destination: "/antarctica/neko-harbour",
+        permanent: true,
+      },
+      {
+        source: "/blog/oslo",
+        destination: "/europe/norway/oslo",
+        permanent: true,
+      },
+      {
+        source: "/blog/returning-to-vilnius",
+        destination: "/europe/lithuania/vilnius",
+        permanent: true,
+      },
+      {
+        source: "/blog/blackheath-fireworks-2010",
+        destination: "/photography/events/blackheath-fireworks-2010",
+        permanent: true,
+      },
+      {
+        source: "/blog/shibari-rope-bondage",
+        destination: "/photography/fetish/shibari-rope-bondage",
+        permanent: true,
+      },
+      {
+        source: "/blog/on-the-edge-richmond-world-music-festival",
+        destination: "/photography/music/on-the-edge",
+        permanent: true,
+      },
+      {
+        source: "/blog/playa-vista-los-angeles",
+        destination: "/north-america/united-states-of-america/california/los-angeles",
+        permanent: true,
+      },
+      {
+        source: "/blog/horseback-riding",
+        destination: "/search",
+        permanent: false,
+      },
+      // Legacy tag/category routes that don’t map 1:1 to modern pages.
+      // (We keep these non-permanent so we can tighten destinations later without cache pain.)
+      {
+        source: "/photography/tag/:path*",
+        destination: "/search",
+        permanent: false,
+      },
+      {
+        source: "/blog/tagged/:path*",
+        destination: "/search",
+        permanent: false,
+      },
+      {
+        source: "/europe/aalta",
+        destination: "/europe/malta",
+        permanent: true,
+      },
+      {
+        source: "/europe/tag/Mont+Blanc",
+        destination: "/europe/france/chamonix",
+        permanent: true,
+      },
+      {
+        source: "/europe/tag/:path*",
+        destination: "/search",
+        permanent: false,
+      },
+      {
+        source: "/north-america/tag/:path*",
+        destination: "/search",
+        permanent: false,
+      },
+      {
+        source: "/hiking/tag/:path*",
+        destination: "/search",
+        permanent: false,
+      },
+      {
+        source: "/hiking/tag/Stella+Point",
+        destination: "/hiking/mt-kilimanjaro/05-barafu-camp-mweka-camp",
+        permanent: true,
+      },
+      {
+        source: "/antarctica/tag/South+of+the+Circle",
+        destination: "/antarctica/south-of-the-circle",
+        permanent: true,
+      },
+      {
+        source: "/antarctica/tag/:path*",
+        destination: "/search",
+        permanent: false,
+      },
+      {
+        source: "/cart",
+        destination: "/",
+        permanent: false,
+      },
       {
         source: "/europe/sweden/vastra-gotland/gothenburg",
         destination: "/europe/sweden/vastra-gotaland/gothenburg",
