@@ -116,12 +116,12 @@ export type TogstrekSpecialTerritoryHub = {
 
 const togstrekEuropeSpecialTerritoriesUnsorted: TogstrekSpecialTerritoryHub[] = [
   {
-    href: "/europe/norway/svalbard/longyearbyen",
+    href: "/europe/norway/svalbard",
     label: "Svalbard",
     note: "Arctic archipelago, Norway",
   },
   {
-    href: "/europe/sweden",
+    href: "/europe/sweden/skane/ladonia",
     label: "Ladonia",
     note: "Micronation, Swedish coast",
   },
