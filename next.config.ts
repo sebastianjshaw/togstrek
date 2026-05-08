@@ -156,7 +156,7 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/photography/category/Art+Nude",
+        source: "/photography/category/Art\\+Nude",
         destination: "/other-work/art-nude",
         permanent: true,
       },
@@ -196,7 +196,7 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/europe/category/Bosnia+and+Herzegovina",
+        source: "/europe/category/Bosnia\\+and\\+Herzegovina",
         destination: "/europe/bosnia-and-herzegovina",
         permanent: true,
       },
@@ -283,7 +283,7 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/europe/tag/Mont+Blanc",
+        source: "/europe/tag/Mont\\+Blanc",
         destination: "/europe/france/chamonix",
         permanent: true,
       },
@@ -303,12 +303,12 @@ const nextConfig: NextConfig = {
         permanent: false,
       },
       {
-        source: "/hiking/tag/Stella+Point",
+        source: "/hiking/tag/Stella\\+Point",
         destination: "/hiking/mt-kilimanjaro/05-barafu-camp-mweka-camp",
         permanent: true,
       },
       {
-        source: "/antarctica/tag/South+of+the+Circle",
+        source: "/antarctica/tag/South\\+of\\+the\\+Circle",
         destination: "/antarctica/south-of-the-circle",
         permanent: true,
       },
