@@ -1,11 +1,11 @@
 /**
- * In development, bypass the Next.js image optimizer for remote `src` values.
- * Missing CDN files (404) otherwise spam the dev terminal and can surface as
- * hard failures while content is still being migrated.
+ * Treat remote absolute URLs (`http(s)://`) as unoptimized `<Image>` sources.
+ *
+ * - **Production**: matches `images.unoptimized` in `next.config.ts` — CDN images must
+ *   not route through `/_next/image`, which consumes Vercel Image Optimization quotas.
+ * - **Development**: avoids noisy optimizer requests / hard failures when a CDN object
+ *   is missing while content is still being migrated.
  */
 export function togstrekUnoptimizedRemoteImageInDev(src: string): boolean {
-  return (
-    process.env.NODE_ENV === "development" &&
-    (src.startsWith("http://") || src.startsWith("https://"))
-  );
+  return src.startsWith("http://") || src.startsWith("https://");
 }
