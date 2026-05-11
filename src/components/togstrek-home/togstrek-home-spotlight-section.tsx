@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { TogstrekFeaturedAdventure } from "@/components/togstrek-featured-adventure/togstrek-featured-adventure";
 import type { TogstrekFeaturedAdventureContent } from "@/data/togstrek-featured-adventure-content";
@@ -10,18 +10,25 @@ type TogstrekHomeSpotlightSectionProps = {
   spotlightCandidates: TogstrekFeaturedAdventureContent[];
 };
 
+function pickTogstrekHomeSpotlightAdventure(
+  candidates: TogstrekFeaturedAdventureContent[],
+  fallback: TogstrekFeaturedAdventureContent,
+): TogstrekFeaturedAdventureContent {
+  if (candidates.length === 0) return fallback;
+  const i = Math.floor(Math.random() * candidates.length);
+  return candidates[i] ?? fallback;
+}
+
 export function TogstrekHomeSpotlightSection({
   defaultAdventure,
   spotlightCandidates,
 }: TogstrekHomeSpotlightSectionProps) {
-  const [adventure, setAdventure] =
-    useState<TogstrekFeaturedAdventureContent>(defaultAdventure);
-
-  useEffect(() => {
-    if (spotlightCandidates.length === 0) return;
-    const i = Math.floor(Math.random() * spotlightCandidates.length);
-    setAdventure(spotlightCandidates[i]!);
-  }, [spotlightCandidates]);
+  const [adventure] = useState(() =>
+    pickTogstrekHomeSpotlightAdventure(
+      spotlightCandidates,
+      defaultAdventure,
+    ),
+  );
 
   return (
     <TogstrekFeaturedAdventure
