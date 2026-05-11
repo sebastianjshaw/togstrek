@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 
-import { TogstrekFeaturedAdventure } from "@/components/togstrek-featured-adventure/togstrek-featured-adventure";
+import { TogstrekHomeSpotlightClient } from "@/components/togstrek-home/togstrek-home-spotlight-client";
 import { TogstrekHomeVisitedMapSection } from "@/components/togstrek-home/togstrek-home-visited-map-section";
 import { TogstrekPageHero } from "@/components/togstrek-page-hero";
 import { TogstrekRegionGrid } from "@/components/togstrek-region-grid";
@@ -15,23 +14,6 @@ import {
 import { buildTogstrekMetadata, TOGSTREK_SITE_NAME } from "@/lib/togstrek-metadata";
 
 const homeHero = togstrekSiteLandingHeroImage();
-
-const TogstrekHomeSpotlightSection = dynamic(
-  () =>
-    import("@/components/togstrek-home/togstrek-home-spotlight-section").then(
-      (m) => m.TogstrekHomeSpotlightSection,
-    ),
-  {
-    ssr: false,
-    loading: () => (
-      <TogstrekFeaturedAdventure
-        layout="media"
-        adventure={togstrekHomeSpotlightDefaultAdventure()}
-        sectionAriaLabelledBy="togstrek-home-spotlight-heading"
-      />
-    ),
-  },
-);
 
 export const metadata: Metadata = {
   ...buildTogstrekMetadata({
@@ -87,7 +69,7 @@ export default function HomePage() {
           </>
         }
       />
-      <TogstrekHomeSpotlightSection
+      <TogstrekHomeSpotlightClient
         defaultAdventure={togstrekHomeSpotlightDefaultAdventure()}
         spotlightCandidates={spotlightCandidates}
       />
