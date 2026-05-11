@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
-import { unstable_noStore as noStore } from "next/cache";
 
-import { TogstrekFeaturedAdventure } from "@/components/togstrek-featured-adventure/togstrek-featured-adventure";
+import { TogstrekHomeSpotlightSection } from "@/components/togstrek-home/togstrek-home-spotlight-section";
 import { TogstrekHomeVisitedMapSection } from "@/components/togstrek-home/togstrek-home-visited-map-section";
 import { TogstrekPageHero } from "@/components/togstrek-page-hero";
 import { TogstrekRegionGrid } from "@/components/togstrek-region-grid";
 import { TogstrekCtaGhostInverseLink } from "@/components/togstrek-ui/togstrek-cta-ghost-inverse-link";
 import { TogstrekCtaOutlineAccentLink } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 import { togstrekSiteLandingHeroImage } from "@/config/togstrek-media";
-import { pickRandomHomeSpotlightAdventure } from "@/lib/togstrek-home-spotlight";
+import {
+  buildTogstrekHomeSpotlightPool,
+  togstrekHomeSpotlightDefaultAdventure,
+} from "@/lib/togstrek-home-spotlight";
 import { buildTogstrekMetadata, TOGSTREK_SITE_NAME } from "@/lib/togstrek-metadata";
 
 const homeHero = togstrekSiteLandingHeroImage();
@@ -35,8 +37,7 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  noStore();
-  const spotlightAdventure = pickRandomHomeSpotlightAdventure();
+  const spotlightCandidates = buildTogstrekHomeSpotlightPool();
 
   return (
     <div data-pagefind-ignore>
@@ -68,10 +69,9 @@ export default function HomePage() {
           </>
         }
       />
-      <TogstrekFeaturedAdventure
-        layout="media"
-        adventure={spotlightAdventure}
-        sectionAriaLabelledBy="togstrek-home-spotlight-heading"
+      <TogstrekHomeSpotlightSection
+        defaultAdventure={togstrekHomeSpotlightDefaultAdventure()}
+        spotlightCandidates={spotlightCandidates}
       />
       <TogstrekHomeVisitedMapSection />
       <TogstrekRegionGrid />

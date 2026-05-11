@@ -36,7 +36,7 @@ function alpineSpotlightContent(): TogstrekFeaturedAdventureContent {
 
 /**
  * Adventures shown in the primary nav mega menu, plus the Alpine long-form story,
- * for a single random homepage spotlight per request.
+ * for the homepage spotlight pool (randomised in the client after load).
  */
 export function buildTogstrekHomeSpotlightPool(): TogstrekFeaturedAdventureContent[] {
   return [
@@ -45,8 +45,7 @@ export function buildTogstrekHomeSpotlightPool(): TogstrekFeaturedAdventureConte
   ];
 }
 
-export function pickRandomHomeSpotlightAdventure(): TogstrekFeaturedAdventureContent {
-  const pool = buildTogstrekHomeSpotlightPool();
-  const i = Math.floor(Math.random() * pool.length);
-  return pool[i]!;
+/** Stable default for static HTML and first paint before client rotation. */
+export function togstrekHomeSpotlightDefaultAdventure(): TogstrekFeaturedAdventureContent {
+  return alpineSpotlightContent();
 }

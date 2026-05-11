@@ -7,8 +7,8 @@ import {
   togstrekRssShouldRedirectToCanonicalFeedUrl,
 } from "@/lib/togstrek-rss-feed";
 
-/** ISR window (seconds); must stay a numeric literal for Next.js route config analysis. */
-export const revalidate = 86400;
+/** Regenerate feeds on deploy only — avoids daily ISR origin work. */
+export const revalidate = false;
 
 export async function GET(request: Request) {
   const url = new URL(request.url);

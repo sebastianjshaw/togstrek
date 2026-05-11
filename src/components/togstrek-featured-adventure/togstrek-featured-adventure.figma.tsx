@@ -1,5 +1,7 @@
 import figma from "@figma/code-connect";
 
+import { togstrekFeaturedAlpineAdventure } from "@/data/togstrek-featured-alpine-adventure";
+
 import { TogstrekFeaturedAdventure } from "./togstrek-featured-adventure";
 
 /**
@@ -26,6 +28,7 @@ figma.connect(
     example: ({ sectionAriaLabelledBy }) => (
       <TogstrekFeaturedAdventure
         layout="media"
+        adventure={togstrekFeaturedAlpineAdventure}
         sectionAriaLabelledBy={sectionAriaLabelledBy}
       />
     ),

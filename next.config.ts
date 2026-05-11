@@ -30,6 +30,49 @@ function getMediaHostnameForNextConfig(): string {
   }
 }
 
+/** Canonical hostname for apex/www redirects — keep in sync with `src/proxy.ts` feed rules. */
+function getCanonicalSiteHostnameForNextConfig(): string {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (raw) {
+    try {
+      return new URL(raw).hostname;
+    } catch {
+      /* fall through */
+    }
+  }
+  return "www.togstrek.com";
+}
+
+function togstrekApexWwwHostRedirects(): {
+  source: string;
+  has: { type: "host"; value: string }[];
+  destination: string;
+  permanent: true;
+}[] {
+  const canonical = getCanonicalSiteHostnameForNextConfig();
+  if (canonical === "www.togstrek.com") {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "togstrek.com" }],
+        destination: "https://www.togstrek.com/:path*",
+        permanent: true,
+      },
+    ];
+  }
+  if (canonical === "togstrek.com") {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.togstrek.com" }],
+        destination: "https://togstrek.com/:path*",
+        permanent: true,
+      },
+    ];
+  }
+  return [];
+}
+
 const mediaHost = getMediaHostnameForNextConfig();
 /** Canonical CDN host for MDX/data URLs — always allow even if `NEXT_PUBLIC_MEDIA_BASE_URL` points elsewhere. */
 const defaultMediaHostname = new URL(DEFAULT_MEDIA_ORIGIN).hostname;
@@ -69,6 +112,7 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      ...togstrekApexWwwHostRedirects(),
       {
         source: "/map-demo",
         destination: "/visited-map",

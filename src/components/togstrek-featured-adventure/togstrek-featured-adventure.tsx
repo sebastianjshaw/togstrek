@@ -7,7 +7,6 @@ import {
   togstrekCtaAccentSolidGroupClassName,
 } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 import type { TogstrekFeaturedAdventureContent } from "@/data/togstrek-featured-adventure-content";
-import { togstrekFeaturedAlpineAdventure } from "@/data/togstrek-featured-alpine-adventure";
 import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
 function TogstrekFeaturedAdventureCtaLabelText({
@@ -28,14 +27,13 @@ type TogstrekFeaturedAdventureLayout = "media" | "panel";
 
 type TogstrekFeaturedAdventureProps = {
   layout: TogstrekFeaturedAdventureLayout;
-  /** Defaults to Alpine adventure (continent hubs, etc.). */
-  adventure?: TogstrekFeaturedAdventureContent;
+  adventure: TogstrekFeaturedAdventureContent;
   sectionAriaLabelledBy: string;
 };
 
 export function TogstrekFeaturedAdventure({
   layout,
-  adventure = togstrekFeaturedAlpineAdventure,
+  adventure,
   sectionAriaLabelledBy,
 }: TogstrekFeaturedAdventureProps) {
   const kicker =

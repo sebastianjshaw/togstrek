@@ -30,36 +30,7 @@ function slugifyLooseTitle(title: string): string {
   return normaliseAntarcticaCategoryKey(title).replace(/\s/g, "-");
 }
 
-function canonicalTogstrekHostname(): string | null {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (!raw) {
-    return "www.togstrek.com";
-  }
-  try {
-    return new URL(raw).hostname;
-  } catch {
-    return "www.togstrek.com";
-  }
-}
-
-function shouldNormalizeHost(requestHost: string): boolean {
-  return requestHost === "togstrek.com" || requestHost === "www.togstrek.com";
-}
-
 export function proxy(request: NextRequest) {
-  const host =
-    request.headers.get("x-forwarded-host")?.split(",")[0]?.trim() ??
-    request.headers.get("host") ??
-    "";
-
-  const wantHost = canonicalTogstrekHostname();
-  if (wantHost && shouldNormalizeHost(host) && host !== wantHost) {
-    const u = request.nextUrl.clone();
-    u.hostname = wantHost;
-    u.protocol = "https:";
-    return NextResponse.redirect(u, 308);
-  }
-
   const feedPath = request.nextUrl.pathname.replace(/\/+$/, "") || "/";
   if (feedPath === "/feed.xml" || feedPath === "/rss.xml") {
     const u = request.nextUrl.clone();
@@ -159,10 +130,11 @@ export function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     "/_next/image",
-    /*
-     * Run for all pathnames except Next internals and common static assets.
-     */
-    "/((?!_next/|favicon.ico|robots.txt|sitemap.xml|pagefind/|.*\\.(?:ico|png|jpg|jpeg|gif|webp|svg|txt|xml|json|webmanifest|woff2)$).*)",
+    "/feed.xml",
+    "/rss.xml",
+    "/antarctica/category/:path*",
+    "/",
+    "/:continent(africa|antarctica|asia|europe|north-america|oceania|south-america)",
   ],
 };
 

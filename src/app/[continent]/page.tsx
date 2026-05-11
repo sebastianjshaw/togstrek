@@ -9,6 +9,7 @@ import {
   TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK,
 } from "@/components/togstrek-hub";
 import { TogstrekFeaturedAdventure } from "@/components/togstrek-featured-adventure/togstrek-featured-adventure";
+import { togstrekFeaturedAlpineAdventure } from "@/data/togstrek-featured-alpine-adventure";
 import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
 import {
@@ -262,6 +263,7 @@ export default async function ContinentHubPage({
     continent === "europe" ? (
       <TogstrekFeaturedAdventure
         layout="panel"
+        adventure={togstrekFeaturedAlpineAdventure}
         sectionAriaLabelledBy="togstrek-europe-adventure-heading"
       />
     ) : undefined;
