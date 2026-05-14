@@ -76,6 +76,21 @@ export function buildSuggestedCaptionFromExif(
   if (exp) tail.push(exp);
   if (typeof iso === "number" && Number.isFinite(iso)) tail.push(`ISO${Math.round(iso)}`);
 
+  const iw = tags.ExifImageWidth ?? tags.ImageWidth;
+  const ih = tags.ExifImageHeight ?? tags.ImageHeight;
+  if (
+    !head.length &&
+    !tail.length &&
+    typeof iw === "number" &&
+    typeof ih === "number" &&
+    Number.isFinite(iw) &&
+    Number.isFinite(ih) &&
+    iw > 0 &&
+    ih > 0
+  ) {
+    return `${Math.round(iw)}×${Math.round(ih)} (Exif image size)`;
+  }
+
   if (!head.length && !tail.length) return null;
   const a = head.join(" ").replace(/\s+/g, " ").trim();
   const b = tail.join(", ");

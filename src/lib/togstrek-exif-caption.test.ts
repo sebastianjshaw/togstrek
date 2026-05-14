@@ -34,4 +34,13 @@ describe("buildSuggestedCaptionFromExif", () => {
   it("returns null when no usable fields", () => {
     expect(buildSuggestedCaptionFromExif({})).toBeNull();
   });
+
+  it("falls back to Exif pixel dimensions when camera exposure block is absent", () => {
+    expect(
+      buildSuggestedCaptionFromExif({
+        ExifImageWidth: 2366,
+        ExifImageHeight: 1775,
+      }),
+    ).toBe("2366×1775 (Exif image size)");
+  });
 });
