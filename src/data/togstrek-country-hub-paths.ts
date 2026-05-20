@@ -108,6 +108,52 @@ export const TOGSTREK_EUROPE_LEGACY_FLAT_HUB_SLUGS: readonly string[] = [
   "united-kingdom",
 ];
 
+/**
+ * Legacy Squarespace country URLs at `/{country}` (and `/{country}/…`) →
+ * `/{continent}/{country}`. Europe uses {@link TOGSTREK_EUROPE_LEGACY_FLAT_HUB_SLUGS}
+ * instead; see `next.config.ts`.
+ */
+export const TOGSTREK_LEGACY_FLAT_COUNTRY_HUB_REDIRECTS: readonly {
+  slug: string;
+  continent: "africa" | "asia" | "north-america" | "south-america" | "oceania";
+}[] = [
+  { slug: "benin", continent: "africa" },
+  { slug: "cameroon", continent: "africa" },
+  { slug: "egypt", continent: "africa" },
+  { slug: "ghana", continent: "africa" },
+  { slug: "kenya", continent: "africa" },
+  { slug: "morocco", continent: "africa" },
+  { slug: "nigeria", continent: "africa" },
+  { slug: "tanzania", continent: "africa" },
+  { slug: "tunisia", continent: "africa" },
+  { slug: "uganda", continent: "africa" },
+  { slug: "hong-kong", continent: "asia" },
+  { slug: "indonesia", continent: "asia" },
+  { slug: "israel", continent: "asia" },
+  { slug: "jordan", continent: "asia" },
+  { slug: "kazakhstan", continent: "asia" },
+  { slug: "kyrgyzstan", continent: "asia" },
+  { slug: "malaysia", continent: "asia" },
+  { slug: "nepal", continent: "asia" },
+  { slug: "palestine", continent: "asia" },
+  { slug: "singapore", continent: "asia" },
+  { slug: "tajikistan", continent: "asia" },
+  { slug: "thailand", continent: "asia" },
+  { slug: "turkmenistan", continent: "asia" },
+  { slug: "uzbekistan", continent: "asia" },
+  { slug: "belize", continent: "north-america" },
+  { slug: "canada", continent: "north-america" },
+  { slug: "costa-rica", continent: "north-america" },
+  { slug: "dominican-republic", continent: "north-america" },
+  { slug: "guatemala", continent: "north-america" },
+  { slug: "mexico", continent: "north-america" },
+  { slug: "united-states-of-america", continent: "north-america" },
+  { slug: "argentina", continent: "south-america" },
+  { slug: "colombia", continent: "south-america" },
+  { slug: "ecuador", continent: "south-america" },
+  { slug: "australia", continent: "oceania" },
+] as const;
+
 export type TogstrekSpecialTerritoryHub = {
   href: `/${string}`;
   label: string;

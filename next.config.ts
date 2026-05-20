@@ -7,7 +7,10 @@
 import type { NextConfig } from "next";
 
 import { TOGSTREK_REMOTE_IMAGE_PATTERNS } from "./src/config/togstrek-remote-image-hosts";
-import { TOGSTREK_EUROPE_LEGACY_FLAT_HUB_SLUGS } from "./src/data/togstrek-country-hub-paths";
+import {
+  TOGSTREK_EUROPE_LEGACY_FLAT_HUB_SLUGS,
+  TOGSTREK_LEGACY_FLAT_COUNTRY_HUB_REDIRECTS,
+} from "./src/data/togstrek-country-hub-paths";
 import { togstrekNorthAmericaLegacyPlaceRedirects } from "./src/data/togstrek-north-america-legacy-place-redirects";
 import { togstrekSeoLegacyRedirects } from "./src/data/togstrek-seo-legacy-redirects";
 
@@ -140,13 +143,8 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/argentina",
-        destination: "/south-america/argentina",
-        permanent: true,
-      },
-      {
-        source: "/uganda",
-        destination: "/africa/uganda",
+        source: "/turkiye/:path*",
+        destination: "/europe/turkiye/:path*",
         permanent: true,
       },
       {
@@ -406,11 +404,32 @@ const nextConfig: NextConfig = {
         destination: r.destination,
         permanent: true as const,
       })),
-      ...TOGSTREK_EUROPE_LEGACY_FLAT_HUB_SLUGS.map((slug) => ({
-        source: `/${slug}`,
-        destination: `/europe/${slug}`,
-        permanent: true as const,
-      })),
+      ...TOGSTREK_EUROPE_LEGACY_FLAT_HUB_SLUGS.flatMap((slug) => [
+        {
+          source: `/${slug}`,
+          destination: `/europe/${slug}`,
+          permanent: true as const,
+        },
+        {
+          source: `/${slug}/:path*`,
+          destination: `/europe/${slug}/:path*`,
+          permanent: true as const,
+        },
+      ]),
+      ...TOGSTREK_LEGACY_FLAT_COUNTRY_HUB_REDIRECTS.flatMap(
+        ({ slug, continent }) => [
+          {
+            source: `/${slug}`,
+            destination: `/${continent}/${slug}`,
+            permanent: true as const,
+          },
+          {
+            source: `/${slug}/:path*`,
+            destination: `/${continent}/${slug}/:path*`,
+            permanent: true as const,
+          },
+        ],
+      ),
       {
         source: "/svalbard",
         destination: "/europe/norway/svalbard/longyearbyen",
