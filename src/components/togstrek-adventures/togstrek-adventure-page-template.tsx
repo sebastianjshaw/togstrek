@@ -11,6 +11,7 @@ import { TogstrekPublishedDate } from "@/components/togstrek-ui/togstrek-publish
 import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
 import type { TogstrekAdventureMdxFrontmatter } from "@/lib/togstrek-adventure-frontmatter";
 import { togstrekAdventureStoryJsonLdGraph } from "@/lib/togstrek-json-ld";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 
 type TogstrekAdventurePageTemplateProps = {
@@ -37,7 +38,10 @@ export function TogstrekAdventurePageTemplate({
   ];
 
   return (
-    <main className="togstrek-adventure-story-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-adventure-story-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+    >
       <TogstrekJsonLd
         data={togstrekAdventureStoryJsonLdGraph({
           headline: frontmatter.title,

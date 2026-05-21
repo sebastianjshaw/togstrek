@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
 
@@ -16,7 +17,10 @@ export const metadata: Metadata = buildTogstrekMetadata({
 
 export default function CopyrightPage() {
   return (
-    <main className="togstrek-copyright-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-copyright-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+    >
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
         <TogstrekPageTitle id="togstrek-copyright-title">
           Copyright

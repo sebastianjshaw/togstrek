@@ -6,6 +6,7 @@ import { TogstrekBreadcrumb } from "@/components/togstrek-ui/togstrek-breadcrumb
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 import { togstrekOtherWorkHubFeatured } from "@/data/togstrek-other-work-hub";
 import { discoverTogstrekPhotographyCategorySlugs } from "@/lib/togstrek-photography-nav";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 
 function formatCategoryLabel(category: string): string {
@@ -20,7 +21,10 @@ export function TogstrekPhotographyHubPage() {
   const categories = discoverTogstrekPhotographyCategorySlugs();
 
   return (
-    <main className="togstrek-photography-hub-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-photography-hub-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+    >
       <TogstrekPageHeroFallbackHeader
         title="Photography"
         titleId="togstrek-photography-hub-title"

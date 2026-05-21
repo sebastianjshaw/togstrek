@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { TogstrekPagefindUi } from "@/components/togstrek-search/togstrek-pagefind-ui";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
 
@@ -18,6 +19,7 @@ export const metadata: Metadata = buildTogstrekMetadata({
 export default function SearchPage() {
   return (
     <main
+      {...togstrekMainLandmarkProps}
       className="togstrek-search-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
       data-pagefind-ignore
     >

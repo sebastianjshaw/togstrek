@@ -8,6 +8,7 @@ import { TogstrekPublishedDate } from "@/components/togstrek-ui/togstrek-publish
 import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
 import { TogstrekPageHeroFallbackHeader } from "@/components/togstrek-ui/togstrek-page-hero-fallback-header";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import type { TogstrekPageHeroQuote } from "@/components/togstrek-page-hero";
 import type { TogstrekOtherWorkMdxFrontmatter } from "@/lib/togstrek-other-work-frontmatter";
 
@@ -49,7 +50,10 @@ export function TogstrekOtherWorkPageTemplate({
         ];
 
   return (
-    <main className="togstrek-other-work-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-other-work-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+    >
       {frontmatter.heroImage ? (
         <TogstrekPageHero
           variant="article"

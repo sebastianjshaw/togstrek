@@ -13,6 +13,7 @@ import { TogstrekHikingMapSection } from "@/components/togstrek-hiking/togstrek-
 import { TogstrekHikingPostSeriesNav } from "@/components/togstrek-hiking/togstrek-hiking-post-series-nav";
 import { TogstrekJsonLd } from "@/components/togstrek-seo/togstrek-json-ld";
 import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import {
   getTogstrekHikingHubGroupEntries,
   getTogstrekHikingHubStandalonePostEntries,
@@ -120,7 +121,10 @@ export function TogstrekHikingPageTemplate({
   );
 
   return (
-    <main className="togstrek-hiking-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-hiking-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+    >
       {isPost && hikingPostPath ? (
         <TogstrekJsonLd
           data={togstrekHikingPostRichJsonLdGraph({

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
 
@@ -16,7 +17,10 @@ export const metadata: Metadata = buildTogstrekMetadata({
 
 export default function ContactPage() {
   return (
-    <main className="togstrek-contact-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-contact-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+    >
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
         <TogstrekPageTitle id="togstrek-contact-title">Contact</TogstrekPageTitle>
         <p className="togstrek-contact-lead mt-[var(--tt-space-8)] max-w-[var(--tt-layout-max-prose)] font-tt-body text-[length:var(--tt-text-lead)] leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">

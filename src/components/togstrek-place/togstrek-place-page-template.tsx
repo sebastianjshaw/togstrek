@@ -13,6 +13,7 @@ import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
 import { TogstrekPageHeroFallbackHeader } from "@/components/togstrek-ui/togstrek-page-hero-fallback-header";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import { formatSlugLabel } from "@/lib/togstrek-geo-labels";
 import {
   buildTogstrekPlaceBreadcrumbJsonLdItems,
@@ -79,6 +80,7 @@ export function TogstrekPlacePageTemplate({
 
   return (
     <main
+      {...togstrekMainLandmarkProps}
       className="togstrek-place-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
       {...(frontmatter.draft ? { "data-pagefind-ignore": true } : {})}
     >

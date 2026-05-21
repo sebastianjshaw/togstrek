@@ -5,6 +5,7 @@ import {
   type TogstrekPageHeroQuote,
 } from "@/components/togstrek-page-hero";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 
 export type TogstrekContinentHubHeroProps = {
   eyebrow: string;
@@ -40,7 +41,10 @@ export function TogstrekContinentHubTemplate({
   countriesSection,
 }: TogstrekContinentHubTemplateProps) {
   return (
-    <main className="togstrek-continent-hub w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-continent-hub w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+    >
       <TogstrekPageHero
         variant="landing"
         imageSrc={hero.imageSrc}

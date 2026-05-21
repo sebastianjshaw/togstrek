@@ -10,6 +10,7 @@ import {
   listTogstrekPhotographySlugListsInCategory,
 } from "@/lib/togstrek-photography-nav";
 import { loadTogstrekPhotographyFrontmatterOnly } from "@/lib/togstrek-load-photography-mdx";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
@@ -46,7 +47,10 @@ export function TogstrekPhotographyCategoryPage({
   );
 
   return (
-    <main className="togstrek-photography-category-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-photography-category-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+    >
       <TogstrekPageHeroFallbackHeader
         title={title}
         titleId="togstrek-photography-category-title"

@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { TogstrekBodyLink } from "@/components/togstrek-ui/togstrek-body-link";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 
 const COLLAGE_ACTIVITY_SRC =
   "https://media.togstrek.com/about/61834b2d19d33df7.jpg";
@@ -11,7 +12,10 @@ const COLLAGE_TRAVEL_SRC =
 
 export function TogstrekAboutPage() {
   return (
-    <main className="togstrek-about-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-about-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+    >
       {/* Custom dark hero (radial accents) — not `TogstrekPageHero`; mirrors eyebrow / rule / `TogstrekContentWidth` patterns there. */}
       <section
         className="togstrek-about-hero relative isolate overflow-hidden border-b border-tt-border-on-inverse bg-tt-surface-inverse text-tt-text-inverse"

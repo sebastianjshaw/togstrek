@@ -103,12 +103,10 @@ export default function RootLayout({
         <TogstrekJsonLd data={togstrekLayoutJsonLdGraph()} />
         <TogstrekSkipLink />
         <TogstrekSiteHeader />
-        {/* Single <main> per route lives in page templates; wrapper is for skip-link target only. */}
+        {/* Route templates own `<main id="togstrek-main">` (skip-link target). */}
         <div
-          id="togstrek-main"
           data-pagefind-body
           className="flex min-h-0 min-w-0 flex-1 flex-col"
-          tabIndex={-1}
         >
           {children}
         </div>

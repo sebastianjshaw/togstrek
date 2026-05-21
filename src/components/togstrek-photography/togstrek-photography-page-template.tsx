@@ -7,6 +7,7 @@ import { TogstrekDescriptionLead } from "@/components/togstrek-ui/togstrek-descr
 import { TogstrekPublishedDate } from "@/components/togstrek-ui/togstrek-published-date";
 import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
 import { TogstrekPageHeroFallbackHeader } from "@/components/togstrek-ui/togstrek-page-hero-fallback-header";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import { buildTogstrekPhotographyBreadcrumbItems } from "@/lib/togstrek-photography-nav";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 import type { TogstrekOtherWorkMdxFrontmatter } from "@/lib/togstrek-other-work-frontmatter";
@@ -34,7 +35,10 @@ export function TogstrekPhotographyPageTemplate({
   );
 
   return (
-    <main className="togstrek-photography-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-photography-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+    >
       {frontmatter.heroImage ? (
         <TogstrekPageHero
           variant="article"

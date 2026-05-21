@@ -11,6 +11,7 @@ import {
   buildTogstrekHomeSpotlightPool,
   togstrekHomeSpotlightDefaultAdventure,
 } from "@/lib/togstrek-home-spotlight";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import { buildTogstrekMetadata, TOGSTREK_SITE_NAME } from "@/lib/togstrek-metadata";
 
 const homeHero = togstrekSiteLandingHeroImage();
@@ -40,7 +41,11 @@ export default function HomePage() {
   const spotlightCandidates = buildTogstrekHomeSpotlightPool();
 
   return (
-    <div data-pagefind-ignore>
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-home-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+      data-pagefind-ignore
+    >
       <TogstrekPageHero
         imageSrc={homeHero.src}
         imageAlt={homeHero.alt}
@@ -75,6 +80,6 @@ export default function HomePage() {
       />
       <TogstrekHomeVisitedMapSection />
       <TogstrekRegionGrid />
-    </div>
+    </main>
   );
 }

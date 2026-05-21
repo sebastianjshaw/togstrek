@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 
 export const metadata: Metadata = {
@@ -11,7 +12,10 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <main className="togstrek-not-found-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-not-found-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+    >
       <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
         <p className="font-tt-body text-[length:var(--tt-text-overline)] font-semibold uppercase tracking-[var(--tt-tracking-overline)] text-tt-text-tertiary">
           404

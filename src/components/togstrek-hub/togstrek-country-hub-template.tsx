@@ -8,6 +8,7 @@ import {
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
 import type { TogstrekCountryHubHeaderQuote } from "@/data/togstrek-country-hub-list-quotes";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 
 /** Default gradient when a place has no hero image on country hub cards. */
@@ -68,7 +69,10 @@ export function TogstrekCountryHubTemplate({
   places,
 }: TogstrekCountryHubTemplateProps) {
   return (
-    <main className="togstrek-country-hub-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-country-hub-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+    >
       <TogstrekPageHero
         variant="landing"
         imageSrc={headerHero.src}

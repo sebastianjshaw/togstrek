@@ -8,13 +8,17 @@ import {
   togstrekAdventuresImage,
 } from "@/data/togstrek-adventures-page";
 import { listSortedTogstrekAdventureArchiveItems } from "@/lib/togstrek-adventure-content-fs";
+import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 
 export function TogstrekAdventuresPage() {
   const adventureArchive = listSortedTogstrekAdventureArchiveItems();
   const heroSrc = togstrekAdventuresImage(TOGSTREK_ADVENTURES_HERO_IMAGE_FILE);
 
   return (
-    <main className="togstrek-adventures-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
+    <main
+      {...togstrekMainLandmarkProps}
+      className="togstrek-adventures-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
+    >
       <TogstrekPageHero
         variant="landing"
         imageSrc={heroSrc}
