@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
+import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 import { memo, useEffect, useId } from "react";
 
-import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 import {
   classifyMarkdownImageAlt,
   resolveAccessibilityAlt,
@@ -97,20 +96,19 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
         aria-label={zoomAriaLabel}
       >
         <span className="togstrek-place-mdx-figure-frame togstrek-place-mdx-figure-frame--elevated relative block overflow-hidden border border-tt-border-muted/90 bg-tt-surface-muted">
-          <Image
+          <TogstrekCdnImage
             src={src}
             alt={imageAlt}
             width={safeW}
             height={safeH}
-            sizes={
+            slot={
               inPhotoGallery
                 ? photoGalleryLayout === "dense"
-                  ? "(max-width: 767px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 34vw, 26vw"
-                  : "(max-width: 767px) 100vw, 50vw"
-                : "(max-width: 768px) 100vw, min(42rem, 92vw)"
+                  ? "mdxGalleryDense"
+                  : "mdxGallery"
+                : "mdxInline"
             }
             loading="lazy"
-            unoptimized={togstrekUnoptimizedRemoteImageInDev(src)}
             className={`h-auto w-full object-contain ${
               inPhotoGallery
                 ? photoGalleryLayout === "dense"

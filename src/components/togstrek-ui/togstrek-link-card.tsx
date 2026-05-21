@@ -1,7 +1,6 @@
-import Image from "next/image";
+import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 import Link from "next/link";
 
-import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
 type TogstrekLinkCardRegionProps = {
   variant: "region";
@@ -128,13 +127,12 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
     if (hasHeaderImage) {
       const imageBlock = (
         <div className="togstrek-link-card-compact-header-image relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-tt-surface-muted">
-          <Image
+          <TogstrekCdnImage
             src={imageSrc!}
             alt={imageAlt ?? ""}
             fill
-            unoptimized={togstrekUnoptimizedRemoteImageInDev(imageSrc!)}
+            slot="regionCompact"
             className="object-cover object-center transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.03]"
-            sizes="(max-width:768px) 100vw, (max-width:1280px) 50vw, 33vw"
           />
         </div>
       );
@@ -229,17 +227,12 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
     >
       {hasImage && imageSrc ? (
         <>
-          <Image
+          <TogstrekCdnImage
             src={imageSrc}
             alt={imageAlt ?? ""}
             fill
-            unoptimized={togstrekUnoptimizedRemoteImageInDev(imageSrc)}
+            slot={isFeatured ? "regionFeatured" : "regionGrid"}
             className="object-cover object-center transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.04]"
-            sizes={
-              isFeatured
-                ? "(max-width:768px) 100vw, 90rem"
-                : "(max-width:768px) 100vw, 50vw"
-            }
           />
           <div
             className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_88%,transparent)] via-[color-mix(in_srgb,var(--tt-color-ink-strong)_35%,transparent)] to-[color-mix(in_srgb,var(--tt-color-ink-strong)_12%,transparent)]"

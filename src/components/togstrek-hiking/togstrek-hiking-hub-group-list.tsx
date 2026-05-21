@@ -1,11 +1,10 @@
-import Image from "next/image";
+import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 import Link from "next/link";
 
 import {
   formatTogstrekHikingHubDate,
   type TogstrekHikingHubEntry,
 } from "@/lib/togstrek-hiking-hub-entries";
-import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
 type TogstrekHikingHubGroupListProps = {
   entries: TogstrekHikingHubEntry[];
@@ -32,15 +31,12 @@ export function TogstrekHikingHubGroupList({
           >
             <div className="togstrek-hiking-hub-group-card-media relative aspect-[3/2] w-full overflow-hidden bg-tt-surface-muted">
               {entry.heroImage ? (
-                <Image
+                <TogstrekCdnImage
                   src={entry.heroImage.src}
                   alt={entry.heroImage.alt}
                   fill
-                  unoptimized={togstrekUnoptimizedRemoteImageInDev(
-                    entry.heroImage.src,
-                  )}
+                  slot="hikingHubCard"
                   className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
-                  sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
                 />
               ) : (
                 <div

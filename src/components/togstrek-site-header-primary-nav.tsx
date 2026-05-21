@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import {
   useCallback,
@@ -26,7 +25,7 @@ import {
   togstrekSectionMegaMenuList,
   type TogstrekSectionMegaKey,
 } from "@/data/togstrek-section-mega-menu";
-import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
+import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 
 const MEGA_CLOSE_MS = 200;
 
@@ -176,14 +175,11 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
                 className="togstrek-site-header-mega-panel-aside-adventure-card group block"
               >
                 <div className="togstrek-site-header-mega-panel-aside-adventure-image relative aspect-[4/3] w-full overflow-hidden rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-muted">
-                  <Image
+                  <TogstrekCdnImage
                     src={aside.featuredAdventure.imageSrc}
                     alt={aside.featuredAdventure.imageAlt}
                     fill
-                    sizes="(max-width: 1024px) 40vw, 22rem"
-                    unoptimized={togstrekUnoptimizedRemoteImageInDev(
-                      aside.featuredAdventure.imageSrc,
-                    )}
+                    slot="megaFeatured"
                     className="object-cover transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.02]"
                   />
                 </div>

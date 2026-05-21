@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 import Link from "next/link";
 
 import type { TogstrekAdventuresMegaFeaturedCard } from "@/data/togstrek-adventures-mega-menu";
@@ -34,11 +34,11 @@ export function TogstrekSiteHeaderAdventuresMegaPanel({
               className="togstrek-site-header-adventures-mega-card-link group block"
             >
               <div className={CARD_IMAGE_WRAP}>
-                <Image
+                <TogstrekCdnImage
                   src={card.imageSrc}
                   alt={card.imageAlt}
                   fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  slot="megaCard"
                   className="object-cover transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.02]"
                 />
               </div>

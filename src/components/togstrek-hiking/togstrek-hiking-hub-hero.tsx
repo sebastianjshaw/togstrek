@@ -1,7 +1,5 @@
-import Image from "next/image";
-
+import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
-import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 import type { TogstrekImageAsset } from "@/types/togstrek-place-page";
 
 type TogstrekHikingHubHeroProps = {
@@ -39,14 +37,13 @@ export function TogstrekHikingHubHero({
         className="togstrek-hiking-hub-hero-media relative w-full min-h-[min(52vh,560px)] max-h-[min(72vh,720px)]"
         style={{ aspectRatio: `${iw} / ${ih}` }}
       >
-        <Image
+        <TogstrekCdnImage
           src={heroImage.src}
           alt=""
           fill
+          slot="hikingHub"
           priority={heroImage.priority !== false}
-          unoptimized={togstrekUnoptimizedRemoteImageInDev(heroImage.src)}
           className="object-cover object-center"
-          sizes="100vw"
           aria-hidden
         />
         <div

@@ -1,8 +1,7 @@
-import Image from "next/image";
 import type { ReactNode } from "react";
 
+import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
-import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
 export type TogstrekPageHeroQuote = {
   children: ReactNode;
@@ -69,14 +68,13 @@ export function TogstrekPageHero({
           className="togstrek-page-hero-article-media relative w-full max-h-[min(76vh,720px)]"
           style={{ aspectRatio: `${iw} / ${ih}` }}
         >
-          <Image
+          <TogstrekCdnImage
             src={imageSrc}
             alt={imageAlt}
             fill
+            slot="heroArticle"
             priority={articlePriority}
-            unoptimized={togstrekUnoptimizedRemoteImageInDev(imageSrc)}
             className="object-cover object-center"
-            sizes="100vw"
           />
           <div
             className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_82%,transparent)] via-[color-mix(in_srgb,var(--tt-color-ink-strong)_8%,transparent)] to-transparent"
@@ -123,14 +121,13 @@ export function TogstrekPageHero({
     >
       <div className="togstrek-page-hero-media absolute inset-0 overflow-hidden">
         <div className="togstrek-page-hero-media-ken-burns absolute inset-0">
-          <Image
+          <TogstrekCdnImage
             src={imageSrc}
             alt={imageAlt}
             fill
+            slot="hero"
             priority={landingPriority}
-            unoptimized={togstrekUnoptimizedRemoteImageInDev(imageSrc)}
             className="object-cover object-center"
-            sizes="100vw"
           />
         </div>
         <div

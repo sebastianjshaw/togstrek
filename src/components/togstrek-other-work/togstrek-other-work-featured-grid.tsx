@@ -1,8 +1,7 @@
-import Image from "next/image";
+import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 import Link from "next/link";
 
 import type { TogstrekOtherWorkHubFeatured } from "@/data/togstrek-other-work-hub";
-import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
 type TogstrekOtherWorkFeaturedGridProps = {
   items: TogstrekOtherWorkHubFeatured[];
@@ -30,14 +29,13 @@ export function TogstrekOtherWorkFeaturedGrid({
           className="togstrek-other-work-hub-featured-card group flex flex-col overflow-hidden rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-base outline-none transition hover:border-tt-border-accent focus-visible:ring-2 focus-visible:ring-tt-accent"
         >
           <div className="togstrek-other-work-hub-featured-card-media relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-tt-surface-muted">
-            <Image
+            <TogstrekCdnImage
               src={item.imageSrc}
               alt={item.imageAlt}
               fill
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 18vw"
+              slot="photographyHub"
               loading="lazy"
               className="object-cover transition duration-300 group-hover:scale-[1.02]"
-              unoptimized={togstrekUnoptimizedRemoteImageInDev(item.imageSrc)}
             />
           </div>
           <div className="togstrek-other-work-hub-featured-card-meta flex min-h-0 flex-1 flex-col gap-1 p-2 sm:p-2.5">

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 import Link from "next/link";
 
 import { TogstrekPageHeroFallbackHeader } from "@/components/togstrek-ui/togstrek-page-hero-fallback-header";
@@ -12,7 +12,6 @@ import {
 import { loadTogstrekPhotographyFrontmatterOnly } from "@/lib/togstrek-load-photography-mdx";
 import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
-import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
 type TogstrekPhotographyCategoryPageProps = {
   category: string;
@@ -73,13 +72,12 @@ export function TogstrekPhotographyCategoryPage({
             >
               {post.imageSrc ? (
                 <div className="relative aspect-[3/2] w-full overflow-hidden bg-tt-surface-muted">
-                  <Image
+                  <TogstrekCdnImage
                     src={post.imageSrc}
                     alt={post.imageAlt}
                     fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    slot="photographyCard"
                     className="object-cover transition duration-300 group-hover:scale-[1.02]"
-                    unoptimized={togstrekUnoptimizedRemoteImageInDev(post.imageSrc)}
                   />
                 </div>
               ) : null}

@@ -51,6 +51,11 @@ Full list: **`package.json` → `scripts`**.
 
 - `next.config.ts` sets **`images.unoptimized: true`**, so images are **not** proxied through Vercel Image Optimization (`/_next/image`). That avoids [metered image optimization](https://vercel.com/docs/image-optimization/limits-and-pricing) and 402 responses when quota is exceeded; large media should stay on your CDN origin.
 - Visitor photo bytes are served from **`NEXT_PUBLIC_MEDIA_BASE_URL`** (e.g. Cloudflare in front of R2). [R2 ↔ Cloudflare edge](https://developers.cloudflare.com/r2/pricing/) has no egress charge; use a custom domain and cache rules so repeat views hit the edge, not origin every time.
+- **`TogstrekCdnImage`** (`src/components/togstrek-ui/togstrek-cdn-image.tsx`) pairs each layout **slot** with a `sizes` string and width ladder (`src/lib/togstrek-cdn-image.ts`). Set **`NEXT_PUBLIC_CDN_IMAGE_RESIZE=true`** after enabling [Cloudflare Image Resizing](https://developers.cloudflare.com/images/transform-images/) on the media zone so the browser receives `srcset` URLs under `/cdn-cgi/image/…` (off by default — originals are served until then).
+
+**Fonts**
+
+- Google fonts via `next/font` in `src/app/layout.tsx`: **`latin`** subsets only, **`display: "swap"`**, and trimmed weights (Space Grotesk 400–700; DM Sans 400–700). Geist Mono is not preloaded.
 
 ## Site URL at build time
 

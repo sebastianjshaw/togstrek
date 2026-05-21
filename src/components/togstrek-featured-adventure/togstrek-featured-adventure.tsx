@@ -1,13 +1,12 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 import {
   TogstrekCtaOutlineAccentLink,
   togstrekCtaAccentSolidGroupClassName,
 } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 import type { TogstrekFeaturedAdventureContent } from "@/data/togstrek-featured-adventure-content";
-import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
 function TogstrekFeaturedAdventureCtaLabelText({
   adventure,
@@ -52,13 +51,12 @@ export function TogstrekFeaturedAdventure({
             href={adventure.href}
             className="togstrek-featured-adventure-card group relative flex min-h-[min(52vw,20rem)] w-full flex-col justify-end overflow-hidden rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-base text-left shadow-[var(--tt-shadow-photo-tile)] transition-[transform,box-shadow,border-color] duration-[var(--tt-duration-normal)] ease-[var(--tt-ease-out)] after:pointer-events-none after:absolute after:inset-0 after:z-[2] after:rounded-[inherit] after:border-[length:var(--tt-border-width-thick)] after:border-transparent after:transition-colors hover:-translate-y-1 hover:shadow-[var(--tt-shadow-photo-tile-hover)] hover:after:border-tt-accent sm:min-h-[min(42vw,24rem)] md:aspect-[2.2/1] md:min-h-[min(36vh,26rem)]"
           >
-            <Image
+            <TogstrekCdnImage
               src={adventure.imageSrc}
               alt={adventure.imageAlt}
               fill
-              unoptimized={togstrekUnoptimizedRemoteImageInDev(adventure.imageSrc)}
+              slot="regionFeatured"
               className="object-cover object-center transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.03]"
-              sizes="(max-width:768px) 100vw, 90rem"
             />
             <div
               className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-[color-mix(in_srgb,var(--tt-color-ink-strong)_92%,transparent)] via-[color-mix(in_srgb,var(--tt-color-ink-strong)_45%,transparent)] to-[color-mix(in_srgb,var(--tt-color-ink-strong)_12%,transparent)]"
@@ -96,13 +94,12 @@ export function TogstrekFeaturedAdventure({
     >
       <div className="togstrek-featured-adventure-panel-grid grid grid-cols-1 md:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] md:items-stretch md:gap-0">
         <div className="togstrek-featured-adventure-panel-image-wrap relative order-1 aspect-[16/10] min-h-[12.5rem] w-full border-b border-tt-border-muted md:order-2 md:aspect-auto md:min-h-[min(22rem,42vh)] md:border-b-0 md:border-l md:border-tt-border-muted">
-          <Image
+          <TogstrekCdnImage
             src={adventure.imageSrc}
             alt={adventure.imageAlt}
             fill
-            unoptimized={togstrekUnoptimizedRemoteImageInDev(adventure.imageSrc)}
+            slot="adventurePanel"
             className="object-cover object-center"
-            sizes="(max-width:768px) 100vw, 42vw"
           />
         </div>
         <div className="togstrek-featured-adventure-panel-copy order-2 flex flex-col justify-center p-6 sm:p-8 md:order-1">

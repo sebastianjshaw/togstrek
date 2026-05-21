@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 import Link from "next/link";
 
 import { TOGSTREK_BODY_LINK_CLASSNAME } from "@/components/togstrek-ui/togstrek-body-link";
@@ -41,11 +41,11 @@ export function TogstrekAdventureFeaturedPlace({
   const safeDate = date ?? "";
   const hasImage = Boolean(imageSrc?.trim());
   const imageBlock = hasImage ? (
-    <Image
+    <TogstrekCdnImage
       src={imageSrc!}
       alt={imageAlt ?? safeTitle}
       fill
-      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      slot="adventureCard"
       className="object-cover transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-[1.03]"
     />
   ) : (

@@ -1,5 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
+
+import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 
 /**
  * Editorial media card — design spec: `docs/design-system.md` (lift, scrims, micro-CTA).
@@ -54,12 +55,13 @@ export function TogstrekEditorialMediaCard({
           className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[length:var(--tt-editorial-accent-bar-height)] origin-left scale-x-0 rounded-none bg-gradient-to-r from-tt-accent via-tt-accent/80 to-transparent transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-x-100 motion-reduce:scale-x-100 motion-reduce:group-hover:scale-x-100"
           aria-hidden
         />
-        <Image
+        <TogstrekCdnImage
           src={imageSrc}
           alt={imageAlt}
           fill
-          className="object-cover transition-[transform,filter] duration-[var(--tt-duration-slower)] ease-[var(--tt-ease-out)] group-hover:scale-[1.07] group-hover:brightness-[1.05] group-hover:contrast-[1.03] motion-reduce:group-hover:scale-100 motion-reduce:group-hover:brightness-100 motion-reduce:group-hover:contrast-100"
+          slot="editorialCard"
           sizes={sizes}
+          className="object-cover transition-[transform,filter] duration-[var(--tt-duration-slower)] ease-[var(--tt-ease-out)] group-hover:scale-[1.07] group-hover:brightness-[1.05] group-hover:contrast-[1.03] motion-reduce:group-hover:scale-100 motion-reduce:group-hover:brightness-100 motion-reduce:group-hover:contrast-100"
         />
         <div
           className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[radial-gradient(ellipse_85%_65%_at_50%_35%,transparent_0%,color-mix(in_srgb,var(--tt-color-ink-strong)_38%,transparent)_100%)] opacity-50 mix-blend-multiply transition-opacity duration-[var(--tt-duration-slow)] group-hover:opacity-70 motion-reduce:group-hover:opacity-50"

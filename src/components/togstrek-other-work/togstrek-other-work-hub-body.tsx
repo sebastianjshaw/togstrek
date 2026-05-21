@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 import Link from "next/link";
 
 import { TogstrekOtherWorkFeaturedGrid } from "@/components/togstrek-other-work/togstrek-other-work-featured-grid";
@@ -6,7 +6,6 @@ import {
   togstrekOtherWorkHubFeatured,
   togstrekOtherWorkHubSections,
 } from "@/data/togstrek-other-work-hub";
-import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-image";
 
 export function TogstrekOtherWorkHubBody() {
   return (
@@ -31,14 +30,13 @@ export function TogstrekOtherWorkHubBody() {
             className="togstrek-other-work-hub-section-card group block overflow-hidden rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-base p-1.5 outline-none transition hover:border-tt-border-accent focus-visible:ring-2 focus-visible:ring-tt-accent sm:p-2"
           >
             <div className="togstrek-other-work-hub-section-card-media relative aspect-[4/3] w-full overflow-hidden rounded-[var(--tt-radius-photo)] bg-tt-surface-muted">
-              <Image
+              <TogstrekCdnImage
                 src={item.imageSrc}
                 alt={item.imageAlt}
                 fill
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                slot="otherWorkCard"
                 loading="lazy"
                 className="object-cover transition duration-300 group-hover:scale-[1.02]"
-                unoptimized={togstrekUnoptimizedRemoteImageInDev(item.imageSrc)}
               />
             </div>
             <p className="togstrek-other-work-hub-section-card-label mt-2 line-clamp-2 text-center font-tt-display text-[11px] font-semibold uppercase leading-tight tracking-wide text-tt-text-secondary transition group-hover:text-tt-accent sm:text-[length:var(--tt-text-small)]">

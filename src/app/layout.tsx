@@ -20,18 +20,25 @@ import { getTogstrekSiteOrigin } from "@/lib/togstrek-site-url";
 const fontDisplay = Space_Grotesk({
   variable: "--font-tt-display",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  adjustFontFallback: true,
 });
 
 const fontDmSans = DM_Sans({
   variable: "--font-tt-dm-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
+  adjustFontFallback: true,
+  preload: true,
 });
 
 const fontGeistMono = Geist_Mono({
   variable: "--font-tt-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 
 export const viewport: Viewport = {
