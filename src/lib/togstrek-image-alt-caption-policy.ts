@@ -62,3 +62,25 @@ export function resolveAccessibilityAlt(altRaw: string): string {
  * (see audit script). Not used as `img alt` when policy says blank — use `""` there.
  */
 export const TOGSTREK_IMAGE_LIGHTBOX_FALLBACK_LABEL = "Photograph";
+
+/** Shared labels for MDX inline preview + fullscreen lightbox (keep in sync). */
+export type TogstrekMdxImagePresentation = {
+  /** `alt` on inline `Image` and overlay `<img>`. */
+  imageAlt: string;
+  /** Figcaption / overlay caption line; `null` when nothing is shown under the inline image. */
+  visibleCaption: string | null;
+  kind: TogstrekImageAltKind;
+};
+
+export function resolveMdxImagePresentation(
+  altRaw: string,
+): TogstrekMdxImagePresentation {
+  const kind = classifyMarkdownImageAlt(altRaw);
+  const accessibilityAlt = resolveAccessibilityAlt(altRaw);
+  const imageAlt =
+    accessibilityAlt.length > 0
+      ? accessibilityAlt
+      : TOGSTREK_IMAGE_LIGHTBOX_FALLBACK_LABEL;
+  const visibleCaption = resolveVisibleCaption(altRaw);
+  return { imageAlt, visibleCaption, kind };
+}

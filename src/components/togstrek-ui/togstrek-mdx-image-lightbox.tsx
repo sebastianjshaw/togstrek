@@ -7,8 +7,7 @@ import { togstrekUnoptimizedRemoteImageInDev } from "@/lib/togstrek-dev-remote-i
 import {
   classifyMarkdownImageAlt,
   resolveAccessibilityAlt,
-  resolveVisibleCaption,
-  TOGSTREK_IMAGE_LIGHTBOX_FALLBACK_LABEL,
+  resolveMdxImagePresentation,
 } from "@/lib/togstrek-image-alt-caption-policy";
 import { isLikelyCameraExifCaption } from "@/lib/togstrek-mdx-image-caption";
 
@@ -44,29 +43,18 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
   const altText = typeof alt === "string" ? alt.trim() : "";
   const hasValidSrc = Boolean(src && typeof src === "string");
 
-  const captionText = resolveVisibleCaption(altText);
+  const { imageAlt, visibleCaption, kind } = resolveMdxImagePresentation(altText);
   const accessibilityAlt = resolveAccessibilityAlt(altText);
-  /**
-   * Bing (and similar scanners) flags empty `alt` as "missing alt".
-   * Use a minimal fallback so shipped HTML always has a non-empty `alt` for content images.
-   */
-  const imageAltForImg =
-    accessibilityAlt.length > 0 ? accessibilityAlt : TOGSTREK_IMAGE_LIGHTBOX_FALLBACK_LABEL;
 
   const isExifCaption =
-    captionText !== null &&
-    captionText.length > 0 &&
-    isLikelyCameraExifCaption(captionText);
+    visibleCaption !== null &&
+    visibleCaption.length > 0 &&
+    isLikelyCameraExifCaption(visibleCaption);
 
   const captionDuplicatesAccessibleName =
-    captionText !== null &&
-    captionText.length > 0 &&
-    captionText === accessibilityAlt;
-
-  const lightboxCaptionAlt =
-    accessibilityAlt.length > 0
-      ? accessibilityAlt
-      : TOGSTREK_IMAGE_LIGHTBOX_FALLBACK_LABEL;
+    visibleCaption !== null &&
+    visibleCaption.length > 0 &&
+    visibleCaption === accessibilityAlt;
 
   const w =
     typeof width === "number" ? width : Number.parseInt(String(width), 10);
@@ -82,15 +70,15 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
     return ctx.register({
       id: instanceId,
       src,
-      alt: lightboxCaptionAlt,
+      imageAlt,
+      visibleCaption,
     });
-  }, [ctx, hasValidSrc, instanceId, src, lightboxCaptionAlt]);
+  }, [ctx, hasValidSrc, instanceId, src, imageAlt, visibleCaption]);
 
   const onOpen = () => {
     if (ctx) ctx.open(instanceId);
   };
 
-  const kind = classifyMarkdownImageAlt(altText);
   const zoomAriaLabel =
     kind === "descriptive" && accessibilityAlt.length > 0
       ? `View larger: ${accessibilityAlt}`
@@ -111,7 +99,7 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
         <span className="togstrek-place-mdx-figure-frame togstrek-place-mdx-figure-frame--elevated relative block overflow-hidden border border-tt-border-muted/90 bg-tt-surface-muted">
           <Image
             src={src}
-            alt={imageAltForImg}
+            alt={imageAlt}
             width={safeW}
             height={safeH}
             sizes={
@@ -133,12 +121,12 @@ export const TogstrekMdxImageLightbox = memo(function TogstrekMdxImageLightbox(
           />
         </span>
       </button>
-      {captionText !== null && captionText.length > 0 ? (
+      {visibleCaption !== null && visibleCaption.length > 0 ? (
         <figcaption
           className={`togstrek-mdx-image-caption mt-[var(--tt-space-3)] text-center font-tt-body text-[length:var(--tt-text-small)] text-tt-text-tertiary ${isExifCaption ? "togstrek-mdx-image-caption--exif font-mono text-[0.85em] leading-snug tracking-tight text-tt-text-tertiary/95" : ""} ${inPhotoGallery ? "line-clamp-2" : ""}`}
           {...(captionDuplicatesAccessibleName ? { "aria-hidden": true } : {})}
         >
-          {captionText}
+          {visibleCaption}
         </figcaption>
       ) : null}
     </figure>

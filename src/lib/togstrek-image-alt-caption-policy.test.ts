@@ -3,7 +3,9 @@ import { describe, expect, it } from "vitest";
 import {
   classifyMarkdownImageAlt,
   resolveAccessibilityAlt,
+  resolveMdxImagePresentation,
   resolveVisibleCaption,
+  TOGSTREK_IMAGE_LIGHTBOX_FALLBACK_LABEL,
 } from "@/lib/togstrek-image-alt-caption-policy";
 
 describe("togstrek-image-alt-caption-policy", () => {
@@ -33,5 +35,18 @@ describe("togstrek-image-alt-caption-policy", () => {
     expect(classifyMarkdownImageAlt("")).toBe("empty");
     expect(resolveVisibleCaption("")).toBeNull();
     expect(resolveAccessibilityAlt("")).toBe("");
+  });
+
+  it("resolveMdxImagePresentation aligns fallback alt without visible caption", () => {
+    const p = resolveMdxImagePresentation("IMG_4040.jpg");
+    expect(p.imageAlt).toBe(TOGSTREK_IMAGE_LIGHTBOX_FALLBACK_LABEL);
+    expect(p.visibleCaption).toBeNull();
+  });
+
+  it("resolveMdxImagePresentation keeps EXIF on image and caption", () => {
+    const exif = "Canon EOS R5, 24mm, f8, 1/250, ISO400";
+    const p = resolveMdxImagePresentation(exif);
+    expect(p.imageAlt).toBe(exif);
+    expect(p.visibleCaption).toBe(exif);
   });
 });

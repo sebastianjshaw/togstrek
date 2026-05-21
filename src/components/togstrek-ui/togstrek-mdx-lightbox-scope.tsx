@@ -14,10 +14,15 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 
+import { handleTogstrekLightboxFocusTrap } from "@/components/togstrek-ui/togstrek-mdx-lightbox-focus";
+
 export type TogstrekMdxLightboxEntry = {
   id: string;
   src: string;
-  alt: string;
+  /** Matches inline `Image` `alt` (see {@link resolveMdxImagePresentation}). */
+  imageAlt: string;
+  /** Visible caption when inline figure shows a figcaption; otherwise `null`. */
+  visibleCaption: string | null;
 };
 
 type TogstrekMdxLightboxContextValue = {
@@ -34,7 +39,7 @@ export function useTogstrekMdxLightbox(): TogstrekMdxLightboxContextValue | null
 
 /**
  * Wraps MDX article content so inline images can open a shared fullscreen lightbox
- * with keyboard (Escape, arrows) and prev/next when multiple images exist.
+ * with keyboard (Escape, arrows), focus trap, and inert background while open.
  */
 const clientMountedSubscribe = () => () => {};
 function clientMountedSnapshot() {
@@ -52,6 +57,8 @@ export function TogstrekMdxLightboxScope({ children }: { children: ReactNode }) 
     clientMountedSnapshot,
     clientMountedServerSnapshot,
   );
+  const inertScopeRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const focusBeforeOpenRef = useRef<HTMLElement | null>(null);
   const prevOpenIdRef = useRef<string | null>(null);
@@ -97,13 +104,25 @@ export function TogstrekMdxLightboxScope({ children }: { children: ReactNode }) 
   }, [entries, activeIdx, canNext]);
 
   useEffect(() => {
+    const scope = inertScopeRef.current;
+    if (!scope) return;
+    if (resolvedOpenId) {
+      scope.setAttribute("inert", "");
+    } else {
+      scope.removeAttribute("inert");
+    }
+  }, [resolvedOpenId]);
+
+  useEffect(() => {
     const wasOpen = prevOpenIdRef.current !== null;
     const nowOpen = resolvedOpenId !== null;
     prevOpenIdRef.current = resolvedOpenId;
 
     if (nowOpen && !wasOpen) {
       focusBeforeOpenRef.current = document.activeElement as HTMLElement | null;
-      closeButtonRef.current?.focus();
+      requestAnimationFrame(() => {
+        closeButtonRef.current?.focus();
+      });
     } else if (!nowOpen && wasOpen) {
       focusBeforeOpenRef.current?.focus?.();
       focusBeforeOpenRef.current = null;
@@ -116,10 +135,14 @@ export function TogstrekMdxLightboxScope({ children }: { children: ReactNode }) 
       if (e.key === "Escape") {
         e.preventDefault();
         close();
-      } else if (e.key === "ArrowLeft") {
+        return;
+      }
+      if (e.key === "ArrowLeft") {
         e.preventDefault();
         goPrev();
-      } else if (e.key === "ArrowRight") {
+        return;
+      }
+      if (e.key === "ArrowRight") {
         e.preventDefault();
         goNext();
       }
@@ -138,14 +161,20 @@ export function TogstrekMdxLightboxScope({ children }: { children: ReactNode }) 
     active &&
     createPortal(
       <div
+        ref={overlayRef}
         className="togstrek-mdx-lightbox-overlay fixed inset-0 z-[10050] flex flex-col items-center justify-center bg-black/88 p-[var(--tt-space-4)] backdrop-blur-sm"
         role="dialog"
         aria-modal="true"
         aria-labelledby={dialogTitleId}
+        onKeyDown={(e) => {
+          if (overlayRef.current) {
+            handleTogstrekLightboxFocusTrap(overlayRef.current, e.nativeEvent);
+          }
+        }}
         onClick={close}
       >
         <h2 id={dialogTitleId} className="sr-only">
-          Image viewer
+          {active.visibleCaption ?? active.imageAlt}
         </h2>
         <button
           ref={closeButtonRef}
@@ -199,15 +228,15 @@ export function TogstrekMdxLightboxScope({ children }: { children: ReactNode }) 
           {/* eslint-disable-next-line @next/next/no-img-element -- fullscreen arbitrary remote URLs */}
           <img
             src={active.src}
-            alt={active.alt || ""}
+            alt={active.imageAlt}
             className="togstrek-mdx-lightbox-overlay-img max-h-[min(100dvh,900px)] w-auto max-w-full object-contain"
           />
-          {active.alt ? (
+          {active.visibleCaption ? (
             <p
               aria-hidden
               className="togstrek-mdx-lightbox-overlay-caption mt-[var(--tt-space-4)] max-w-2xl text-center font-tt-body text-[length:var(--tt-text-small)] text-white/85"
             >
-              {active.alt}
+              {active.visibleCaption}
             </p>
           ) : null}
           {entries.length > 1 ? (
@@ -226,7 +255,9 @@ export function TogstrekMdxLightboxScope({ children }: { children: ReactNode }) 
 
   return (
     <TogstrekMdxLightboxContext.Provider value={value}>
-      {children}
+      <div ref={inertScopeRef} className="togstrek-mdx-lightbox-scope-contents min-w-0">
+        {children}
+      </div>
       {overlay}
     </TogstrekMdxLightboxContext.Provider>
   );
