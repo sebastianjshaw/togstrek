@@ -7,7 +7,7 @@ test.describe("smoke", () => {
   test("home /", async ({ page }) => {
     const res = await page.goto("/");
     expect(res?.ok(), res?.status().toString()).toBeTruthy();
-    // Home uses a top-level `div` (not `<main>`); hero H1 is the primary landmark.
+    await expect(page.locator("#togstrek-main")).toBeVisible();
     await expect(page.locator("#togstrek-home-hero-heading")).toBeVisible();
   });
 

@@ -1,3 +1,4 @@
+import type { TogstrekCardGradientId } from "@/data/togstrek-card-gradients";
 import {
   discoverTogstrekPlaceSlugs,
   togstrekPlaceMdxExists,
@@ -47,12 +48,13 @@ export const UK_NATION_CARD_BLURB: Record<UkNationSlug, string> = {
 };
 
 /** Gradients for nation cards (match region-card language; distinct hues). */
-export const UK_NATION_CARD_GRADIENT: Record<UkNationSlug, string> = {
-  england: "from-[#1a2332] via-[#2d4a3e] to-[#c4a574]/28",
-  scotland: "from-[#1b2838] via-[#2a4a5c] to-[#7cb8d8]/30",
-  wales: "from-[#1a2a24] via-[#2d4a38] to-[#6b9b7a]/28",
-  "northern-ireland": "from-[#2a1a28] via-[#3d2a40] to-[#c9a86c]/25",
-};
+export const UK_NATION_CARD_GRADIENT: Record<UkNationSlug, TogstrekCardGradientId> =
+  {
+    england: "ukEngland",
+    scotland: "ukScotland",
+    wales: "ukWales",
+    "northern-ireland": "ukNorthernIreland",
+  };
 
 /**
  * Whether a place row under `europe/united-kingdom` belongs to a UK nation hub

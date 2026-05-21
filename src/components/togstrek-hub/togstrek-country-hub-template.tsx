@@ -11,9 +11,11 @@ import type { TogstrekCountryHubHeaderQuote } from "@/data/togstrek-country-hub-
 import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 
+import type { TogstrekCardGradientId } from "@/data/togstrek-card-gradients";
+
 /** Default gradient when a place has no hero image on country hub cards. */
-export const TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK =
-  "from-[#1f2838] via-[#3d4f6b] to-[#c9a86c]/30";
+export const TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK: TogstrekCardGradientId =
+  "hubPlaceFallback";
 
 export type TogstrekCountryHubMapSlotProps = {
   title: string;

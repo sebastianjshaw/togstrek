@@ -9,13 +9,13 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import Map, {
   Layer,
   type MapRef,
-  Marker,
   NavigationControl,
   Popup,
   Source,
 } from "react-map-gl/maplibre";
 import Supercluster from "supercluster";
 
+import { TogstrekExploreMapMarker } from "@/components/togstrek-explore-map/togstrek-explore-map-marker";
 import { TogstrekCtaOutlineAccentLink } from "@/components/togstrek-ui/togstrek-cta-outline-accent-link";
 
 import type { TogstrekExploreMapProps, TogstrekMapPlace } from "./types";
@@ -286,7 +286,7 @@ function TogstrekExploreMapWithPlaces({
           if (isCluster && props.cluster_id != null) {
             const count = props.point_count ?? 0;
             return (
-              <Marker
+              <TogstrekExploreMapMarker
                 key={`cluster-${props.cluster_id}`}
                 longitude={lng}
                 latitude={lat}
@@ -306,7 +306,7 @@ function TogstrekExploreMapWithPlaces({
                 >
                   {count > 99 ? "99+" : count}
                 </button>
-              </Marker>
+              </TogstrekExploreMapMarker>
             );
           }
 
@@ -316,7 +316,7 @@ function TogstrekExploreMapWithPlaces({
           const isSelected = selected?.id === placeId;
 
           return (
-            <Marker
+            <TogstrekExploreMapMarker
               key={placeId}
               longitude={lng}
               latitude={lat}
@@ -337,7 +337,7 @@ function TogstrekExploreMapWithPlaces({
                   aria-hidden
                 />
               </button>
-            </Marker>
+            </TogstrekExploreMapMarker>
           );
         })}
 

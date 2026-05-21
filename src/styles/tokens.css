@@ -26,7 +26,8 @@
   --tt-color-text-secondary: var(--tt-color-ink-muted);
   --tt-color-text-tertiary: var(--tt-color-ink-subtle);
   --tt-color-text-inverse: var(--tt-color-white);
-  --tt-color-text-accent: var(--tt-color-accent);
+  /** Body links on light surfaces — slightly darker than brand accent for WCAG 2.1 AA (4.5:1). */
+  --tt-color-text-accent: #d41732;
   --tt-color-border-default: var(--tt-color-ink-strong);
   --tt-color-border-muted: color-mix(
     in srgb,

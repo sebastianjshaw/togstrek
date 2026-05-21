@@ -4,17 +4,9 @@ import {
   countPlacesInEnglandCounty,
   discoverEnglandCountyDirectorySlugs,
 } from "@/lib/togstrek-england-counties";
+import { togstrekHubStripGradientId } from "@/data/togstrek-card-gradients";
 import { formatSlugLabel } from "@/lib/togstrek-geo-labels";
 import { togstrekPlaceMdxExists } from "@/lib/togstrek-load-place-mdx";
-
-const TOGSTREK_COUNTY_CARD_GRADIENTS = [
-  "from-[#1a2332] via-[#2d4a3e] to-[#c4a574]/28",
-  "from-[#1f2838] via-[#3d4f6b] to-[#c9a86c]/30",
-  "from-[#1b2a1e] via-[#2f4a32] to-[#8fbc8f]/22",
-  "from-[#2a1a14] via-[#4a2a18] to-[#e35d2d]/28",
-  "from-[#1a1420] via-[#2d1f28] to-[#e31937]/28",
-  "from-[#0f2d3a] via-[#1e5c6b] to-[#7ec8d3]/25",
-] as const;
 
 function countySlugsForHubCards(): string[] {
   return discoverEnglandCountyDirectorySlugs().filter(
@@ -38,10 +30,7 @@ export function TogstrekEnglandCountiesStrip() {
         {slugs.map((slug, i) => {
           const label = formatSlugLabel(slug);
           const n = countPlacesInEnglandCounty(slug);
-          const gradient =
-            TOGSTREK_COUNTY_CARD_GRADIENTS[
-              i % TOGSTREK_COUNTY_CARD_GRADIENTS.length
-            ]!;
+          const gradient = togstrekHubStripGradientId(i);
           return (
             <li key={slug} className="min-w-0">
               <TogstrekLinkCard

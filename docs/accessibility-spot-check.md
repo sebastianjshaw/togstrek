@@ -8,4 +8,4 @@ Run these after meaningful UI changes (especially nav, typography, or colour tok
 4. **Explore map** — Tab to zoom controls (top-right) and map pins/clusters; each should show a **red** `focus-visible` ring (not MapLibre’s default blue).
 5. **Contrast** — In Chrome DevTools → Lighthouse → Accessibility (or axe), check **small uppercase** UI copy (e.g. nav labels) and **accent red** (`--tt-color-accent`) on white; adjust tokens or weight if any text fails WCAG 2.1 AA for its size.
 
-For automated CI, add a Playwright + `@axe-core/playwright` pass against `/`, `/about`, and one place URL when you are ready to maintain it.
+**CI:** `e2e/accessibility.spec.ts` runs axe (serious/critical only) on `/`, `/about`, and `/africa/egypt/cairo` after `npm run build && npm run test:e2e`.

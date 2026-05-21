@@ -1,13 +1,17 @@
 import { TogstrekCdnImage } from "@/components/togstrek-ui/togstrek-cdn-image";
 import Link from "next/link";
 
+import {
+  togstrekCardGradientClass,
+  type TogstrekCardGradientId,
+} from "@/data/togstrek-card-gradients";
 
 type TogstrekLinkCardRegionProps = {
   variant: "region";
   href: string;
   title: string;
   description: string;
-  gradient: string;
+  gradient: TogstrekCardGradientId;
   imageSrc?: string;
   imageAlt?: string;
   featured?: boolean;
@@ -241,7 +245,7 @@ export function TogstrekLinkCard(props: TogstrekLinkCardProps) {
         </>
       ) : (
         <div
-          className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${gradient} opacity-95 transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-105`}
+          className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${togstrekCardGradientClass(gradient)} opacity-95 transition-transform duration-[var(--tt-duration-slow)] ease-[var(--tt-ease-out)] group-hover:scale-105`}
           aria-hidden
         />
       )}

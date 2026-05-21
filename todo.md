@@ -1,4 +1,4 @@
-Remove dead photo-layout CSS; tokenize card gradients; add Playwright + axe on /, /about, one place URL.
+
 
 
 
