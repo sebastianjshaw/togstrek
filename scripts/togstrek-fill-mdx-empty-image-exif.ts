@@ -9,8 +9,10 @@
  * Usage:
  *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --dry-run
  *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --concurrency 4 --delay-ms 120
- *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --files content/places/africa/egypt/cairo.mdx
- *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --include "/africa/egypt/" --dry-run
+ *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --file content/places/africa/egypt/cairo.mdx
+ *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --file content/photography/explosion-at-sejdeln.mdx --file content/photography/events/meeting-merlin.mdx
+ *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --include africa/egypt/luxor --dry-run
+ *   (--include scans places + photography + hiking + adventures + other-work)
  */
 
 import fs from "node:fs";
@@ -25,6 +27,14 @@ import {
 } from "./lib/togstrek-exif-from-url";
 
 const PLACES_ROOT = path.join(process.cwd(), "content", "places");
+
+const CONTENT_MDX_ROOTS = [
+  PLACES_ROOT,
+  path.join(process.cwd(), "content", "photography"),
+  path.join(process.cwd(), "content", "hiking"),
+  path.join(process.cwd(), "content", "adventures"),
+  path.join(process.cwd(), "content", "other-work"),
+] as const;
 
 /** `![alt](https://media.togstrek.com/...)` — group 1 alt, group 2 URL. */
 const MEDIA_IMG = new RegExp(
@@ -114,18 +124,30 @@ function applyReplacementsFromEnd(
   return out;
 }
 
+function collectMdxFilesFromRoots(roots: readonly string[]): string[] {
+  const out: string[] = [];
+  for (const root of roots) {
+    if (fs.existsSync(root)) walkMdxFiles(root, out);
+  }
+  return out.sort();
+}
+
 function resolveRequestedFilesOrAll(args: {
   files: string[];
   include: string;
   limitFiles: number;
 }): { files: string[]; allFilesCount: number } {
-  const allFiles: string[] = [];
-  if (!fs.existsSync(PLACES_ROOT)) {
+  const catalogRoots =
+    args.include.trim().length > 0 ? CONTENT_MDX_ROOTS : ([PLACES_ROOT] as const);
+  const allFiles = collectMdxFilesFromRoots(catalogRoots);
+  if (allFiles.length === 0 && catalogRoots === CONTENT_MDX_ROOTS) {
+    console.error("No MDX files found under content/ roots");
+    process.exit(1);
+  }
+  if (allFiles.length === 0 && !fs.existsSync(PLACES_ROOT)) {
     console.error("Missing", PLACES_ROOT);
     process.exit(1);
   }
-  walkMdxFiles(PLACES_ROOT, allFiles);
-  allFiles.sort();
 
   if (args.files.length > 0) {
     const resolved: string[] = [];

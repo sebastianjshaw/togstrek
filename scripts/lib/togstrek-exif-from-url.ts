@@ -116,6 +116,20 @@ export async function fetchExifCaptionForMediaUrl(
   const r = await fetchImageBuffer(url, 45_000);
   if (!r.ok || !r.buf) return null;
   const extracted = await extractExifTags(r.buf);
-  if (!extracted.tags) return null;
-  return buildSuggestedCaptionFromExif(extracted.tags);
+  if (extracted.tags) {
+    const fromExif = buildSuggestedCaptionFromExif(extracted.tags);
+    if (fromExif) return fromExif;
+  }
+  try {
+    const m = await sharp(Buffer.from(r.buf)).metadata();
+    if (m.width && m.height) {
+      return buildSuggestedCaptionFromExif({
+        ExifImageWidth: m.width,
+        ExifImageHeight: m.height,
+      });
+    }
+  } catch {
+    /* ignore */
+  }
+  return null;
 }

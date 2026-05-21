@@ -1,20 +1,8 @@
-Priority	Action
-
-P1
-
-P1
-Continue EXIF fill + audit for high-traffic MDX; fix obvious content bugs (e.g. stray text in explosion-at-sejdeln.mdx).
-P2
 Extract shared ArticlePageTemplate; switch MDX internal links to Link where href is same-origin.
-P2
 Lightbox: focus trap + inert; align overlay alt with inline fallback.
-P2
 Add rehype-sanitize for MDX defense in depth.
-P2
 Map control focus rings; review mega menu aria-hidden during exit.
-P2
 Font subsetting / display: swap; confirm CDN responsive image widths.
-P3
 Remove dead photo-layout CSS; tokenize card gradients; add Playwright + axe on /, /about, one place URL.
 
 
