@@ -13,6 +13,7 @@ import {
 } from "./src/data/togstrek-country-hub-paths";
 import { togstrekNorthAmericaLegacyPlaceRedirects } from "./src/data/togstrek-north-america-legacy-place-redirects";
 import { togstrekSeoLegacyRedirects } from "./src/data/togstrek-seo-legacy-redirects";
+import { buildTogstrekContentSecurityPolicy } from "./src/config/togstrek-content-security-policy";
 
 const DEFAULT_MEDIA_ORIGIN = "https://media.togstrek.com";
 
@@ -83,7 +84,16 @@ const mediaImageHosts = Array.from(
   new Set([mediaHost, defaultMediaHostname].filter(Boolean)),
 );
 
+const isDev = process.env.NODE_ENV === "development";
+
+const contentSecurityPolicy = buildTogstrekContentSecurityPolicy({
+  mediaImageHosts: mediaImageHosts,
+  allowGoogleAnalytics: true,
+  isDev,
+});
+
 const securityHeaders = [
+  { key: "Content-Security-Policy", value: contentSecurityPolicy },
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },

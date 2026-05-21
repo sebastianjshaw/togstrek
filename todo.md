@@ -1,7 +1,7 @@
 Priority	Action
 
 P1
-Add CSP (theme script + GA) in next.config.ts.
+
 P1
 Continue EXIF fill + audit for high-traffic MDX; fix obvious content bugs (e.g. stray text in explosion-at-sejdeln.mdx).
 P2
