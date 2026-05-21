@@ -1,6 +1,6 @@
 
 
-Add rehype-sanitize for MDX defense in depth.
+
 Map control focus rings; review mega menu aria-hidden during exit.
 Font subsetting / display: swap; confirm CDN responsive image widths.
 Remove dead photo-layout CSS; tokenize card gradients; add Playwright + axe on /, /about, one place URL.
