@@ -42,3 +42,22 @@
 .togstrek-explore-map .maplibregl-ctrl-group button:hover {
   background-color: var(--tt-color-surface-muted);
 }
+
+/* MapLibre defaults use #0096ff box-shadow; align zoom/attrib controls with site focus rings. */
+.togstrek-explore-map .maplibregl-ctrl-group button:focus,
+.togstrek-explore-map .maplibregl-ctrl-attrib-button:focus {
+  box-shadow: none;
+}
+
+.togstrek-explore-map .maplibregl-ctrl-group button:focus:focus-visible,
+.togstrek-explore-map .maplibregl-ctrl-attrib-button:focus:focus-visible {
+  outline: 2px solid var(--tt-color-accent);
+  outline-offset: 2px;
+}
+
+.togstrek-explore-map .togstrek-explore-map-cluster:focus-visible,
+.togstrek-explore-map .togstrek-explore-map-pin button:focus-visible,
+.togstrek-explore-map .togstrek-explore-map-card button:focus-visible {
+  outline: 2px solid var(--tt-color-accent);
+  outline-offset: 2px;
+}

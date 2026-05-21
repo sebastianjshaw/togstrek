@@ -13,6 +13,8 @@ describe("buildTogstrekContentSecurityPolicy", () => {
     expect(csp).toContain("script-src 'self' 'unsafe-inline'");
     expect(csp).toContain("https://www.googletagmanager.com");
     expect(csp).toContain("connect-src");
+    expect(csp).toContain("https://*.basemaps.cartocdn.com");
+    expect(csp).toContain("https://raw.githubusercontent.com");
     expect(csp).toContain("https://www.google-analytics.com");
     expect(csp).not.toContain("'unsafe-eval'");
   });

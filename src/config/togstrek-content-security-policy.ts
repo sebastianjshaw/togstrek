@@ -35,6 +35,9 @@ export function buildTogstrekContentSecurityPolicy(
   const connectSrc = [
     "'self'",
     "https://vitals.vercel-insights.com",
+    /** MapLibre raster tiles + country overlay GeoJSON (`togstrek-explore-map.tsx`). */
+    "https://*.basemaps.cartocdn.com",
+    "https://raw.githubusercontent.com",
     ...(allowGoogleAnalytics
       ? [
           "https://www.google-analytics.com",

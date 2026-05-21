@@ -359,7 +359,7 @@ function TogstrekExploreMapWithPlaces({
                 </h3>
                 <button
                   type="button"
-                  className="shrink-0 font-tt-body text-[length:var(--tt-text-small)] font-semibold text-tt-text-tertiary hover:text-tt-text-primary"
+                  className="shrink-0 rounded-sm font-tt-body text-[length:var(--tt-text-small)] font-semibold text-tt-text-tertiary hover:text-tt-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-2 focus-visible:ring-offset-tt-surface-base"
                   onClick={() => setSelected(null)}
                   aria-label="Close"
                 >

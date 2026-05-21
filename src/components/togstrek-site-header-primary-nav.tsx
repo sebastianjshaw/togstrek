@@ -36,6 +36,8 @@ const MEGA_PANEL_DEFER_MS = 280;
 /** Associates desktop mega triggers with the dropdown panel for assistive tech. */
 const HEADER_MEGA_PANEL_ID = "togstrek-site-header-mega-panel";
 
+const MEGA_TRIGGER_DATA_ATTR = "data-togstrek-mega-key";
+
 const TT_FOCUS_RING_HEADER =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-2 focus-visible:ring-offset-tt-surface-base rounded-sm";
 
@@ -55,6 +57,18 @@ type OpenMegaKey =
   | TogstrekNavMegaContinentId
   | TogstrekSectionMegaKey
   | "adventures";
+
+function focusMegaTriggerForKey(
+  nav: HTMLElement | null,
+  key: OpenMegaKey,
+): void {
+  if (!nav) return;
+  nav
+    .querySelector<HTMLAnchorElement>(
+      `a[${MEGA_TRIGGER_DATA_ATTR}="${key}"]`,
+    )
+    ?.focus();
+}
 
 type TogstrekSiteHeaderMegaPanelAside = {
   heading: string;
@@ -283,8 +297,12 @@ export function TogstrekSiteHeaderPrimaryNav({
 
   const closeMega = useCallback(() => {
     cancelClose();
+    const closingKey = openMegaKey;
     setOpenMegaKey(null);
-  }, [cancelClose]);
+    if (closingKey) {
+      focusMegaTriggerForKey(megaNavRef.current, closingKey);
+    }
+  }, [cancelClose, openMegaKey]);
 
   useEffect(() => {
     if (!openMegaKey) return;
@@ -372,6 +390,17 @@ export function TogstrekSiteHeaderPrimaryNav({
   const displayMegaKey = openMegaKey ?? deferredMegaKey;
   const megaPanelInteractive = openMegaKey !== null;
 
+  /** Exit animation keeps the panel mounted but non-interactive; pull focus back to the trigger. */
+  useEffect(() => {
+    if (megaPanelInteractive || displayMegaKey === null) return;
+    const panel = megaPanelRef.current;
+    if (!panel) return;
+    const active = document.activeElement;
+    if (active instanceof Node && panel.contains(active)) {
+      focusMegaTriggerForKey(megaNavRef.current, displayMegaKey);
+    }
+  }, [megaPanelInteractive, displayMegaKey]);
+
   const megaPanelMotionPhase:
     | "enter"
     | "open"
@@ -408,6 +437,7 @@ export function TogstrekSiteHeaderPrimaryNav({
             <Link
               href="/adventures"
               className={DESKTOP_MEGA_TRIGGER_CLASS}
+              {...{ [MEGA_TRIGGER_DATA_ATTR]: "adventures" }}
               aria-expanded={openMegaKey === "adventures"}
               aria-haspopup="true"
               aria-controls={HEADER_MEGA_PANEL_ID}
@@ -427,6 +457,7 @@ export function TogstrekSiteHeaderPrimaryNav({
               <Link
                 href={item.href}
                 className={DESKTOP_MEGA_TRIGGER_CLASS}
+                {...{ [MEGA_TRIGGER_DATA_ATTR]: item.continentId }}
                 aria-expanded={openMegaKey === item.continentId}
                 aria-haspopup="true"
                 aria-controls={HEADER_MEGA_PANEL_ID}
@@ -447,6 +478,7 @@ export function TogstrekSiteHeaderPrimaryNav({
               <Link
                 href={section.navHref}
                 className={DESKTOP_MEGA_TRIGGER_CLASS}
+                {...{ [MEGA_TRIGGER_DATA_ATTR]: section.key }}
                 aria-expanded={openMegaKey === section.key}
                 aria-haspopup="true"
                 aria-controls={HEADER_MEGA_PANEL_ID}
@@ -471,7 +503,8 @@ export function TogstrekSiteHeaderPrimaryNav({
           ref={megaPanelRef}
           id={HEADER_MEGA_PANEL_ID}
           role="region"
-          aria-hidden={!megaPanelInteractive}
+          aria-hidden={megaPanelInteractive ? undefined : true}
+          inert={megaPanelInteractive ? undefined : true}
           data-tt-mega-motion={megaPanelMotionPhase ?? undefined}
           className={`togstrek-site-header-mega-panel fixed inset-x-0 z-[100] border-b shadow-[var(--tt-shadow-elevated)] ${
             displayMegaKey === "adventures"
