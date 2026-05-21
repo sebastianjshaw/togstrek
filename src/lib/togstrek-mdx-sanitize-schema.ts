@@ -20,21 +20,55 @@ function mergeTagAttributeList(tag: string, extra: readonly string[]): string[] 
 
 const defaultClobber = defaultSchema.clobber ?? [];
 
+/** MDX layout components that appear as HAST element names before JSX compile. */
+const TOGSTREK_MDX_COMPONENT_TAG_NAMES = [
+  "PhotoGallery",
+  "TogstrekJumpTo",
+  "TogstrekAdventureFeaturedSection",
+  "TogstrekAdventureFeaturedPlace",
+  "TogstrekOtherWorkHubBody",
+] as const;
+
+const TOGSTREK_MDX_COMPONENT_ATTRIBUTES = [
+  "title",
+  "href",
+  "date",
+  "dateTime",
+  "imageSrc",
+  "imageAlt",
+  "excerpt",
+  "layout",
+  "payload",
+] as const;
+
 /**
  * Sanitation schema for MDX-generated HTML (GitHub defaults + `rehype-slug` heading `id`s).
- * MDX JSX components (`PhotoGallery`, `TogstrekJumpTo`, etc.) are not HAST elements and pass through unchanged.
+ * Also allowlists project MDX layout tags and `div`/`className` for direct HAST sanitization.
+ * Adventure MDX skips `rehype-sanitize` in {@link loadTogstrekAdventureMdx} because the plugin
+ * still drops JSX layout nodes in the compile pipeline despite this schema.
  *
  * `id` is not clobber-prefixed so in-page `#anchors` from jump-to nav match `rehype-slug` output.
  */
 export const togstrekMdxSanitizeSchema: Schema = {
   ...defaultSchema,
+  tagNames: [
+    ...(defaultSchema.tagNames ?? []),
+    ...TOGSTREK_MDX_COMPONENT_TAG_NAMES,
+  ],
   clobber: defaultClobber.filter((name) => name !== "id"),
   attributes: {
     ...defaultSchema.attributes,
+    div: mergeTagAttributeList("div", ["className", "class"]),
     ...Object.fromEntries(
       HEADING_TAGS.map((tag) => [
         tag,
         mergeTagAttributeList(tag, ["id"]),
+      ]),
+    ),
+    ...Object.fromEntries(
+      TOGSTREK_MDX_COMPONENT_TAG_NAMES.map((tag) => [
+        tag,
+        [...TOGSTREK_MDX_COMPONENT_ATTRIBUTES],
       ]),
     ),
   },

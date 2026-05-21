@@ -34,6 +34,32 @@ describe("togstrekMdxSanitizeSchema", () => {
     expect(out.properties?.id).toBe("my-section");
   });
 
+  it("keeps adventure intro div className", () => {
+    const tree = el("div", { className: "togstrek-adventure-mdx-intro" }, [
+      { type: "text", value: "Hello" },
+    ]);
+    const out = sanitize(tree, togstrekMdxSanitizeSchema) as Element;
+    expect(out.tagName).toBe("div");
+    expect(out.properties?.className).toBe("togstrek-adventure-mdx-intro");
+  });
+
+  it("keeps TogstrekAdventureFeaturedPlace attributes", () => {
+    const tree = el(
+      "TogstrekAdventureFeaturedPlace",
+      {
+        href: "/africa/egypt/cairo",
+        title: "Cairo",
+        date: "2025",
+        excerpt: "Pyramids",
+      },
+      [],
+    );
+    const out = sanitize(tree, togstrekMdxSanitizeSchema) as Element;
+    expect(out.tagName).toBe("TogstrekAdventureFeaturedPlace");
+    expect(out.properties?.href).toBe("/africa/egypt/cairo");
+    expect(out.properties?.title).toBe("Cairo");
+  });
+
   it("strips javascript: links", () => {
     const tree = el("a", { href: "javascript:alert(1)" }, [
       { type: "text", value: "click" },

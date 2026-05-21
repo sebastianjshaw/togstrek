@@ -11,7 +11,8 @@ import {
   type TogstrekAdventureMdxFrontmatter,
 } from "@/lib/togstrek-adventure-frontmatter";
 import { shouldOmitVisibleDescriptionLead } from "@/lib/togstrek-mdx-description-lead-dedupe";
-import { togstrekMdxRehypePlugins } from "@/lib/togstrek-mdx-rehype-plugins";
+import rehypeSlug from "rehype-slug";
+
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
 
 export type TogstrekAdventureMdxResult = {
@@ -43,7 +44,9 @@ export async function loadTogstrekAdventureMdx(
       parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [...togstrekMdxRemarkPlugins],
-        rehypePlugins: [...togstrekMdxRehypePlugins],
+        // Adventure MDX is mostly JSX layout components + intro wrappers; full
+        // `rehype-sanitize` strips those HAST nodes (see togstrek-mdx-sanitize-schema).
+        rehypePlugins: [rehypeSlug],
       },
     },
     components: getTogstrekAdventureMdxComponents(),

@@ -11,6 +11,17 @@ test.describe("smoke", () => {
     await expect(page.locator("#togstrek-home-hero-heading")).toBeVisible();
   });
 
+  test("adventure page (Egypt 2025) shows place cards", async ({ page }) => {
+    const res = await page.goto("/adventures/2025-the-book-of-the-dead");
+    expect(res?.ok(), res?.status().toString()).toBeTruthy();
+    await expect(
+      page.locator(".togstrek-adventure-featured-place-card"),
+    ).toHaveCount(6);
+    await expect(
+      page.getByRole("link", { name: "Cairo", exact: true }),
+    ).toBeVisible();
+  });
+
   test("place page (Cairo)", async ({ page }) => {
     const res = await page.goto("/africa/egypt/cairo");
     expect(res?.ok(), res?.status().toString()).toBeTruthy();
