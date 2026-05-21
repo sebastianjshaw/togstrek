@@ -596,11 +596,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/photography",
-        destination: "/other-work",
-        permanent: false,
-      },
-      {
         source: "/hiking/bohusleden/etapp-2-stensjn-skats",
         destination: "/hiking/bohusleden/etapp-02-stensjon-to-skatas",
         permanent: true,

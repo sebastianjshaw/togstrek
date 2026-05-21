@@ -4,6 +4,7 @@ import { discoverTogstrekHikingGroupSegmentLists } from "@/lib/togstrek-hiking-g
 import { discoverTogstrekHikingSlugLists } from "@/lib/togstrek-hiking-content-fs";
 import { discoverTogstrekOtherWorkSlugLists } from "@/lib/togstrek-load-other-work-mdx";
 import { discoverTogstrekPhotographySlugLists } from "@/lib/togstrek-load-photography-mdx";
+import { discoverTogstrekPhotographyCategorySlugs } from "@/lib/togstrek-photography-nav";
 import {
   discoverTogstrekCountryHubParams,
   discoverTogstrekPlaceSlugs,
@@ -193,6 +194,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ),
     );
 
+  const photographyHubEntry: MetadataRoute.Sitemap[number] = {
+    url: `${base}/photography`,
+    changeFrequency: "monthly",
+    priority: 0.84,
+  };
+
+  const photographyCategoryEntries: MetadataRoute.Sitemap =
+    discoverTogstrekPhotographyCategorySlugs().map((category) => ({
+      url: `${base}/photography/${category}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.72,
+    }));
+
   const photographyEntries: MetadataRoute.Sitemap =
     discoverTogstrekPhotographySlugLists().map((segments) =>
       withOptionalLastModified(
@@ -216,6 +230,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...placeEntries,
     ...hikingEntries,
     ...otherWorkEntries,
+    photographyHubEntry,
+    ...photographyCategoryEntries,
     ...photographyEntries,
   ];
 }

@@ -7,16 +7,9 @@ import { TogstrekDescriptionLead } from "@/components/togstrek-ui/togstrek-descr
 import { TogstrekPublishedDate } from "@/components/togstrek-ui/togstrek-published-date";
 import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
 import { TogstrekPageHeroFallbackHeader } from "@/components/togstrek-ui/togstrek-page-hero-fallback-header";
+import { buildTogstrekPhotographyBreadcrumbItems } from "@/lib/togstrek-photography-nav";
 import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 import type { TogstrekOtherWorkMdxFrontmatter } from "@/lib/togstrek-other-work-frontmatter";
-
-function formatSectionLabel(segment: string): string {
-  return segment
-    .split(/[-_]+/)
-    .filter(Boolean)
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-}
 
 type TogstrekPhotographyPageTemplateProps = {
   frontmatter: TogstrekOtherWorkMdxFrontmatter;
@@ -35,16 +28,10 @@ export function TogstrekPhotographyPageTemplate({
   const showDescriptionLead =
     Boolean(frontmatter.description) && !omitDescriptionLead;
 
-  const breadcrumbItems: { href?: string; label: string }[] = [
-    { href: "/other-work", label: "Other work" },
-  ];
-  if (slugSegments.length >= 2) {
-    breadcrumbItems.push({
-      href: `/other-work/${slugSegments[0]}`,
-      label: formatSectionLabel(slugSegments[0]!),
-    });
-  }
-  breadcrumbItems.push({ label: frontmatter.title });
+  const breadcrumbItems = buildTogstrekPhotographyBreadcrumbItems(
+    slugSegments,
+    frontmatter.title,
+  );
 
   return (
     <main className="togstrek-photography-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]">
