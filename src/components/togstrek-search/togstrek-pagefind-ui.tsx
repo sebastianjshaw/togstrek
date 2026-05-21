@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { TogstrekSearchSuggestionChips } from "@/components/togstrek-search/togstrek-search-suggestion-chips";
+import { subscribeTogstrekSearchSuggest } from "@/lib/togstrek-search-suggest";
+
 type PagefindSearchResult = {
   id: string;
   data: () => Promise<{
@@ -204,10 +207,12 @@ export function TogstrekPagefindUi() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [term]);
 
-  const suggestionTerms = useMemo(
-    () => ["Kungsleden", "Istanbul", "Tulum", "Bohusleden", "street photography", "Svalbard"],
-    [],
-  );
+  useEffect(() => {
+    return subscribeTogstrekSearchSuggest((suggested) => {
+      setTerm(suggested);
+      inputRef.current?.focus();
+    });
+  }, []);
 
   if (isUnavailable) {
     return (
@@ -314,22 +319,7 @@ export function TogstrekPagefindUi() {
           <p className="mt-[var(--tt-space-2)] font-tt-body text-[length:var(--tt-text-small)] leading-[var(--tt-leading-relaxed)] text-tt-text-tertiary">
             Try a place name, a trail, or a topic — these usually work well:
           </p>
-          <ul className="mt-[var(--tt-space-4)] flex flex-wrap gap-2">
-            {suggestionTerms.map((t) => (
-              <li key={t}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setTerm(t);
-                    inputRef.current?.focus();
-                  }}
-                  className="togstrek-search-empty-suggestion inline-flex items-center rounded-full border border-tt-border-muted bg-tt-surface-base px-3 py-1 font-tt-body text-[length:var(--tt-text-small)] text-tt-text-secondary transition-[border-color,transform,box-shadow] duration-[var(--tt-duration-fast)] ease-[var(--tt-ease-out)] hover:border-tt-accent/40 motion-safe:hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tt-accent focus-visible:ring-offset-2 focus-visible:ring-offset-tt-surface-muted/60"
-                >
-                  {t}
-                </button>
-              </li>
-            ))}
-          </ul>
+          <TogstrekSearchSuggestionChips />
         </div>
       ) : null}
     </div>

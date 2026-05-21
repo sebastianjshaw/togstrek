@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { TogstrekPagefindUi } from "@/components/togstrek-search/togstrek-pagefind-ui";
+import { TogstrekSearchSuggestionChips } from "@/components/togstrek-search/togstrek-search-suggestion-chips";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 import { TogstrekPageTitle } from "@/components/togstrek-ui/togstrek-page-title";
 import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
@@ -34,22 +35,7 @@ export default function SearchPage() {
             <p className="font-tt-body text-[length:var(--tt-text-small)] font-semibold uppercase tracking-[var(--tt-tracking-wide)] text-tt-text-tertiary">
               Try searching for
             </p>
-            <ul className="mt-[var(--tt-space-4)] flex flex-wrap gap-2">
-              {[
-                "Kungsleden",
-                "Istanbul",
-                "Tulum",
-                "Bohusleden",
-                "street photography",
-                "Svalbard",
-              ].map((term) => (
-                <li key={term}>
-                  <span className="togstrek-search-suggestion inline-flex items-center rounded-full border border-tt-border-muted bg-tt-surface-base px-3 py-1 font-tt-body text-[length:var(--tt-text-small)] text-tt-text-secondary">
-                    {term}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <TogstrekSearchSuggestionChips />
             <p className="mt-[var(--tt-space-4)] max-w-[72ch] font-tt-body text-[length:var(--tt-text-small)] leading-[var(--tt-leading-relaxed)] text-tt-text-tertiary">
               Results open instantly and work entirely on this site — no accounts,
               no tracking pixels, no external search engine required.

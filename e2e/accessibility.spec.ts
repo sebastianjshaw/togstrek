@@ -29,4 +29,29 @@ test.describe("accessibility (axe)", () => {
     ).toBeVisible();
     await expectNoSeriousAxeViolations(page);
   });
+
+  test("search /search", async ({ page }) => {
+    const res = await page.goto("/search");
+    expect(res?.ok(), res?.status().toString()).toBeTruthy();
+    await expect(page.locator("#togstrek-search-title")).toBeVisible();
+    await expectNoSeriousAxeViolations(page);
+  });
+
+  test("hiking post Bohusleden etapp 04", async ({ page }) => {
+    const res = await page.goto(
+      "/hiking/bohusleden/etapp-04-kasjon-to-jonsered",
+    );
+    expect(res?.ok(), res?.status().toString()).toBeTruthy();
+    await expect(page.locator("#togstrek-main")).toBeVisible();
+    await expectNoSeriousAxeViolations(page);
+  });
+
+  test("adventure 2025 The Book of the Dead", async ({ page }) => {
+    const res = await page.goto("/adventures/2025-the-book-of-the-dead");
+    expect(res?.ok(), res?.status().toString()).toBeTruthy();
+    await expect(
+      page.getByRole("heading", { name: /book of the dead/i }).first(),
+    ).toBeVisible();
+    await expectNoSeriousAxeViolations(page);
+  });
 });
