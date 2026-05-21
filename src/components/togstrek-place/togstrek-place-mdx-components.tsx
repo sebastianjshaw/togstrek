@@ -1,7 +1,7 @@
 import type { MDXComponents } from "mdx/types.js";
 
 import { TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK } from "@/components/togstrek-hub/togstrek-country-hub-template";
-import { TOGSTREK_BODY_LINK_CLASSNAME } from "@/components/togstrek-ui/togstrek-body-link";
+import { TogstrekMdxAnchor } from "@/components/togstrek-ui/togstrek-mdx-anchor";
 import { TogstrekJumpTo } from "@/components/togstrek-ui/togstrek-jump-to";
 import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import { TogstrekMdxImageLightbox } from "@/components/togstrek-ui/togstrek-mdx-image-lightbox";
@@ -50,21 +50,7 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
       />
     ),
     li: (props) => <li {...props} className="togstrek-place-mdx-li mt-2" />,
-    a: ({ href, children, ...rest }) => {
-      const external = href?.startsWith("http");
-      return (
-        <a
-          href={href}
-          {...rest}
-          className={`togstrek-place-mdx-a ${TOGSTREK_BODY_LINK_CLASSNAME}`}
-          {...(external
-            ? { target: "_blank", rel: "noopener noreferrer" }
-            : {})}
-        >
-          {children}
-        </a>
-      );
-    },
+    a: (props) => <TogstrekMdxAnchor {...props} />,
     blockquote: (props) => (
       <blockquote
         {...props}

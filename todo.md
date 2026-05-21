@@ -1,4 +1,4 @@
-Extract shared ArticlePageTemplate; switch MDX internal links to Link where href is same-origin.
+
 Lightbox: focus trap + inert; align overlay alt with inline fallback.
 Add rehype-sanitize for MDX defense in depth.
 Map control focus rings; review mega menu aria-hidden during exit.

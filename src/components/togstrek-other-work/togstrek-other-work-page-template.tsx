@@ -1,14 +1,6 @@
 import type { ReactNode } from "react";
 
-import { TogstrekPageHero } from "@/components/togstrek-page-hero";
-import { TogstrekBreadcrumb } from "@/components/togstrek-ui/togstrek-breadcrumb";
-import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
-import { TogstrekDescriptionLead } from "@/components/togstrek-ui/togstrek-description-lead";
-import { TogstrekPublishedDate } from "@/components/togstrek-ui/togstrek-published-date";
-import { TogstrekMdxLightboxScope } from "@/components/togstrek-ui/togstrek-mdx-lightbox-scope";
-import { TogstrekPageHeroFallbackHeader } from "@/components/togstrek-ui/togstrek-page-hero-fallback-header";
-import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
-import { togstrekMainLandmarkProps } from "@/lib/togstrek-main-landmark";
+import { TogstrekArticlePageTemplate } from "@/components/togstrek-article/togstrek-article-page-template";
 import type { TogstrekPageHeroQuote } from "@/components/togstrek-page-hero";
 import type { TogstrekOtherWorkMdxFrontmatter } from "@/lib/togstrek-other-work-frontmatter";
 
@@ -28,8 +20,6 @@ export function TogstrekOtherWorkPageTemplate({
   omitDescriptionLead = false,
 }: TogstrekOtherWorkPageTemplateProps) {
   const isHub = slugSegments.length === 0;
-  const showDescriptionLead =
-    !isHub && Boolean(frontmatter.description) && !omitDescriptionLead;
 
   const hubHeroQuote: TogstrekPageHeroQuote | undefined =
     isHub && frontmatter.heroQuote
@@ -41,66 +31,29 @@ export function TogstrekOtherWorkPageTemplate({
         }
       : undefined;
 
-  const breadcrumbItems =
-    isHub
-      ? [{ label: frontmatter.title }]
-      : [
-          { href: "/other-work", label: "Other work" },
-          { label: frontmatter.title },
-        ];
+  const breadcrumbItems = isHub
+    ? [{ label: frontmatter.title }]
+    : [
+        { href: "/other-work", label: "Other work" },
+        { label: frontmatter.title },
+      ];
 
   return (
-    <main
-      {...togstrekMainLandmarkProps}
-      className="togstrek-other-work-page w-full min-w-0 flex-1 [overflow-wrap:anywhere]"
-    >
-      {frontmatter.heroImage ? (
-        <TogstrekPageHero
-          variant="article"
-          imageSrc={frontmatter.heroImage.src}
-          imageAlt={frontmatter.heroImage.alt}
-          imageWidth={frontmatter.heroImage.width}
-          imageHeight={frontmatter.heroImage.height}
-          imagePriority={frontmatter.heroImage.priority}
-          eyebrow={isHub ? "Portfolio" : "Other work"}
-          title={frontmatter.title}
-          titleId="togstrek-other-work-hero-title"
-          quote={hubHeroQuote}
-        />
-      ) : (
-        <TogstrekPageHeroFallbackHeader
-          title={frontmatter.title}
-          titleId="togstrek-other-work-title"
-        />
-      )}
-
-      <TogstrekContentWidth className={TOGSTREK_PAGE_CONTENT_Y}>
-        <TogstrekBreadcrumb items={breadcrumbItems} />
-
-        {showDescriptionLead ? (
-          <TogstrekDescriptionLead>{frontmatter.description}</TogstrekDescriptionLead>
-        ) : null}
-
-        {!isHub ? (
-          <TogstrekPublishedDate
-            published={frontmatter.published}
-            modified={frontmatter.modified}
-            descriptionLeadShown={showDescriptionLead}
-          />
-        ) : null}
-
-        <TogstrekMdxLightboxScope>
-          <article
-            className={
-              isHub
-                ? "togstrek-prose togstrek-place-mdx-root mt-[var(--tt-space-8)] max-w-none"
-                : "togstrek-prose togstrek-place-mdx-root mt-[var(--tt-space-12)]"
-            }
-          >
-            {mdxContent}
-          </article>
-        </TogstrekMdxLightboxScope>
-      </TogstrekContentWidth>
-    </main>
+    <TogstrekArticlePageTemplate
+      pageClassName="togstrek-other-work-page"
+      title={frontmatter.title}
+      description={frontmatter.description}
+      published={frontmatter.published}
+      modified={frontmatter.modified}
+      heroImage={frontmatter.heroImage}
+      heroQuote={hubHeroQuote}
+      eyebrow={isHub ? "Portfolio" : "Other work"}
+      heroTitleId="togstrek-other-work-hero-title"
+      fallbackTitleId="togstrek-other-work-title"
+      breadcrumbItems={breadcrumbItems}
+      mdxContent={mdxContent}
+      omitDescriptionLead={omitDescriptionLead}
+      isHub={isHub}
+    />
   );
 }
