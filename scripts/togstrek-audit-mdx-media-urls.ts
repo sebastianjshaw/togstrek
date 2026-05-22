@@ -10,7 +10,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { getTogstrekMediaBaseUrl } from "@/config/togstrek-media";
-import { extractTogstrekMdxMediaUrls } from "@/lib/togstrek-mdx-media-urls";
+import {
+  extractTogstrekMdxMediaUrls,
+  isTogstrekMdxMediaUrlWellFormed,
+} from "@/lib/togstrek-mdx-media-urls";
 
 const ROOT = process.cwd();
 const DEFAULT_CONCURRENCY = 8;
@@ -78,6 +81,7 @@ function indexUrlsByFile(files: string[]): Map<string, UrlRef> {
     const text = fs.readFileSync(fp, "utf8");
     const rel = path.relative(ROOT, fp);
     for (const url of extractTogstrekMdxMediaUrls(text)) {
+      if (!isTogstrekMdxMediaUrlWellFormed(url)) continue;
       const existing = byUrl.get(url);
       if (existing) {
         if (!existing.files.includes(rel)) existing.files.push(rel);

@@ -1,44 +1,34 @@
 import { getTogstrekMediaBaseUrl } from "@/config/togstrek-media";
 
-const MDX_IMG = /!\[[^\]]*\]\(\s*([^)\s]+)\s*\)/g;
-
-/** `imageSrc="…"`, YAML `src: https://…`, and bare CDN URLs in MDX/frontmatter. */
-function buildMediaUrlPattern(): RegExp {
-  const base = getTogstrekMediaBaseUrl().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(`${base}[^\\s)\\]"'<>]+`, "gi");
-}
+const MEDIA_IMAGE_EXT = /\.(?:jpe?g|png|webp|gif)/i;
 
 /**
- * Collect unique media CDN URLs referenced in an MDX file (markdown, YAML, JSX attrs).
+ * Scan from each CDN origin through the first image extension. Handles paths with
+ * parentheses (e.g. `Beach-001+(2019-04-25T18_27_49.843).jpg`) and ignores prose
+ * placeholders like `overview/…` that lack an extension.
  */
 export function extractTogstrekMdxMediaUrls(fileText: string): string[] {
-  const pattern = buildMediaUrlPattern();
+  const base = getTogstrekMediaBaseUrl();
   const found = new Set<string>();
+  let index = 0;
 
-  let m: RegExpExecArray | null;
-  MDX_IMG.lastIndex = 0;
-  while ((m = MDX_IMG.exec(fileText))) {
-    const url = normalizeExtractedMediaUrl(m[1] ?? "");
-    if (url) found.add(url);
-  }
-
-  pattern.lastIndex = 0;
-  while ((m = pattern.exec(fileText))) {
-    const url = normalizeExtractedMediaUrl(m[0] ?? "");
-    if (url) found.add(url);
+  while ((index = fileText.indexOf(base, index)) !== -1) {
+    const slice = fileText.slice(index);
+    MEDIA_IMAGE_EXT.lastIndex = 0;
+    const extMatch = MEDIA_IMAGE_EXT.exec(slice);
+    if (extMatch) {
+      const raw = slice
+        .slice(0, extMatch.index + extMatch[0].length)
+        .replace(/[),.;]+$/, "");
+      if (raw.startsWith("http")) found.add(raw);
+    }
+    index += base.length;
   }
 
   return [...found].sort();
 }
 
-function normalizeExtractedMediaUrl(raw: string): string | null {
-  const trimmed = raw.trim().replace(/[),.;]+$/g, "");
-  if (!trimmed.startsWith("http")) return null;
-  try {
-    const u = new URL(trimmed);
-    u.hash = "";
-    return u.href;
-  } catch {
-    return null;
-  }
+/** HEAD/GET checks should use the literal MDX string (not `URL#href` re-encoding). */
+export function isTogstrekMdxMediaUrlWellFormed(url: string): boolean {
+  return MEDIA_IMAGE_EXT.test(url);
 }

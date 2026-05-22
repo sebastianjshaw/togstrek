@@ -13,6 +13,8 @@
     "exif:fill-mdx": "tsx scripts/togstrek-fill-mdx-empty-image-exif.ts",
     "media:audit-image-alt": "tsx scripts/togstrek-audit-mdx-image-alt.ts",
     "media:audit-urls": "tsx scripts/togstrek-audit-mdx-media-urls.ts",
+    "media:fix-urls": "tsx scripts/togstrek-fix-mdx-media-urls.ts",
+    "media:probe-broken-urls": "tsx scripts/togstrek-probe-broken-media-urls.ts",
     "media:suggest-alt-heuristic": "tsx scripts/togstrek-suggest-alt-heuristic.ts",
     "start": "next start",
     "lint": "eslint",
