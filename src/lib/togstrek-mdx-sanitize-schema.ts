@@ -27,6 +27,7 @@ const TOGSTREK_MDX_COMPONENT_TAG_NAMES = [
   "TogstrekAdventureFeaturedSection",
   "TogstrekAdventureFeaturedPlace",
   "TogstrekOtherWorkHubBody",
+  "TogstrekOtherWorkSectionFeatured",
 ] as const;
 
 const TOGSTREK_MDX_COMPONENT_ATTRIBUTES = [
@@ -39,6 +40,7 @@ const TOGSTREK_MDX_COMPONENT_ATTRIBUTES = [
   "excerpt",
   "layout",
   "payload",
+  "section",
 ] as const;
 
 /**

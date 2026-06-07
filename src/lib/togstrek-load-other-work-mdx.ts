@@ -12,8 +12,8 @@ import {
   parseTogstrekOtherWorkFrontmatter,
   type TogstrekOtherWorkMdxFrontmatter,
 } from "@/lib/togstrek-other-work-frontmatter";
-import { togstrekMdxRehypePlugins } from "@/lib/togstrek-mdx-rehype-plugins";
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
+import rehypeSlug from "rehype-slug";
 import {
   areTogstrekSafeUrlPathSegments,
   isTogstrekPathWithinRoot,
@@ -103,7 +103,10 @@ export async function loadTogstrekOtherWorkMdx(
       parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [...togstrekMdxRemarkPlugins],
-        rehypePlugins: [...togstrekMdxRehypePlugins],
+        // Hub/section MDX is mostly layout components (`TogstrekOtherWorkHubBody`,
+        // `TogstrekOtherWorkSectionFeatured`); `rehype-sanitize` strips those nodes
+        // (see loadTogstrekAdventureMdx and togstrek-mdx-sanitize-schema).
+        rehypePlugins: [rehypeSlug],
       },
     },
     components,

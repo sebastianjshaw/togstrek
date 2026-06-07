@@ -1,0 +1,16 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "health-tracker",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "/Users/Sebastian.Shaw/Documents/Code/health-tracker",
+        "run",
+        "dev"
+      ],
+      "port": 3000
+    }
+  ]
+}
