@@ -46,8 +46,8 @@ const TOGSTREK_MDX_COMPONENT_ATTRIBUTES = [
 /**
  * Sanitation schema for MDX-generated HTML (GitHub defaults + `rehype-slug` heading `id`s).
  * Also allowlists project MDX layout tags and `div`/`className` for direct HAST sanitization.
- * Adventure MDX skips `rehype-sanitize` in {@link loadTogstrekAdventureMdx} because the plugin
- * still drops JSX layout nodes in the compile pipeline despite this schema.
+ * Adventure, other-work, place, and hiking MDX skip `rehype-sanitize` in their loaders because
+ * the plugin still drops JSX layout nodes in the compile pipeline despite this schema.
  *
  * `id` is not clobber-prefixed so in-page `#anchors` from jump-to nav match `rehype-slug` output.
  */

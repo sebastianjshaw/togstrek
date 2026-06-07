@@ -14,8 +14,8 @@ import {
   type TogstrekHikingMdxFrontmatter,
 } from "@/lib/togstrek-hiking-frontmatter";
 import { shouldOmitVisibleDescriptionLead } from "@/lib/togstrek-mdx-description-lead-dedupe";
-import { togstrekMdxRehypePlugins } from "@/lib/togstrek-mdx-rehype-plugins";
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
+import rehypeSlug from "rehype-slug";
 
 export type TogstrekHikingMdxResult = {
   frontmatter: TogstrekHikingMdxFrontmatter;
@@ -42,7 +42,8 @@ export async function loadTogstrekHikingMdx(
       parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [...togstrekMdxRemarkPlugins],
-        rehypePlugins: [...togstrekMdxRehypePlugins],
+        // Hiking MDX shares place components (`PhotoGallery`, `TogstrekJumpTo`).
+        rehypePlugins: [rehypeSlug],
       },
     },
     components: getTogstrekPlaceMdxComponents(),
