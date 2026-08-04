@@ -56,8 +56,8 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     attribution: "John McAfee",
   },
   CA: {
-    body: "Canada is a country of winter light, long roads, and neighbours who say sorry like a reflex.",
-    attribution: "",
+    body: "There are just such good vibes in Canada.",
+    attribution: "Pokimane",
   },
   CH: {
     body: "It's tough to find a place not to like in Switzerland.",
@@ -133,7 +133,7 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
   },
   HK: {
     body: "Those of us lucky enough to fall in love with Asia know that it's an affair that's as long as it is resonant.",
-    attribution: "",
+    attribution: "Hanya Yanagihara",
   },
   HR: {
     body: "Croatia has been glorious - it's so beautiful, and I want to go back as often as I can.",
@@ -144,16 +144,16 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     attribution: "Franz Liszt",
   },
   ID: {
-    body: "Indonesia is seventeen thousand islands of smoke, surf, and voices that never quite agree — and that is the point.",
-    attribution: "",
+    body: "a better Indonesia will forever be a promise—but one that is forever worthy of effort.",
+    attribution: "Goenawan Mohamad",
   },
   IE: {
     body: "We may have bad weather in Ireland, but the sun shines in the hearts of the people and that keeps us all warm.",
     attribution: "Marianne Williamson",
   },
   IL: {
-    body: "Israel changed my life. It is one of the most amazing countries that I have ever been to.- Frank Grillo",
-    attribution: "",
+    body: "Israel changed my life. It is one of the most amazing countries that I have ever been to.",
+    attribution: "Frank Grillo",
   },
   IS: {
     body: "I would like to go to Iceland to see the northern lights.",
@@ -208,8 +208,8 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     attribution: "Enrique Pena Nietoley",
   },
   MY: {
-    body: "Malaysia is a country unlike any other: Full of promise and fragility. - Tariq Ramadan",
-    attribution: "",
+    body: "Malaysia is a country unlike any other: Full of promise and fragility.",
+    attribution: "Tariq Ramadan",
   },
   NG: {
     body: "Nigeria will shine again if we reason together as Nigerians",
@@ -233,7 +233,7 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
   },
   PS: {
     body: "I would like to go and dance in Palestine one day, with great pleasure, great pleasure.",
-    attribution: "",
+    attribution: "Mikhail Baryshnikov",
   },
   PT: {
     body: "I’ve got two places I like to be. Portugal is one",
