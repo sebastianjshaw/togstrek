@@ -172,12 +172,20 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     attribution: "",
   },
   KZ: {
-    body: "Kazakhstan is steppe wind, Silk Road memory, and cities rising faster than the maps.",
-    attribution: "",
+    body: "There was no such thing as Kazakhstan. It was just a chunk of Soviet Union. I had to build a country...",
+    attribution: "Nursultan Nazarbayev",
   },
   KE: {
     body: "Kenya is an immense land with a capacity for healing.",
     attribution: "Yvonne Adhiambo Owuor",
+  },
+  KH: {
+    body: "The most beautiful thing in Cambodia isn't the country - it's the Cambodian people.",
+    attribution: "Rithy Panh",
+  },
+  KR: {
+    body: "My favorite thing about South Korea is the people - they are so kind and helpful.",
+    attribution: "Elana Meyers",
   },
   LI: {
     body: "I grew up in Europe, where the history comes from.",
@@ -268,8 +276,8 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     attribution: "Bhumibol Adulyadej",
   },
   TJ: {
-    body: "Tajikistan holds the Pamirs like a spine of snow above every valley story.",
-    attribution: "",
+    body: "May your path be bright and happy, my dear Tajikistan! Tajikistan forward! Forward! Forward!",
+    attribution: "Emomali Rahmon",
   },
   TR: {
     body: "Istanbul is the city where continents argue in whispers and call it music.",
@@ -287,6 +295,10 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     body: "In Tanzania, it was more than one hundred tribal units which lost their freedom; it was one nation that regained it.",
     attribution: "Julius Kambarage Nyerere",
   },
+  TW: {
+    body: "We will strive to make Taiwan a better place and enable our people to live better lives.",
+    attribution: "Chen Shui-bian",
+  },
   UA: {
     body: "I promise everyone who comes to Ukraine can see a beautiful country.- Vitali Klitschko",
     attribution: "Vitali Klitschko",
@@ -300,8 +312,8 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     attribution: "America",
   },
   UZ: {
-    body: "Uzbekistan is blue domes, bazaar noise, and desert heat that remembers every caravan.",
-    attribution: "",
+    body: "In Uzbekistan, every corner tells the story of an empire that crossed East and West, leaving the scent of spices and legends in the wind.",
+    attribution: "Simone M. Albore",
   },
 };
 
