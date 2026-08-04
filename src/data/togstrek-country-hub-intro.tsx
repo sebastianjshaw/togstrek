@@ -70,6 +70,28 @@ const egyptHubIntro = (
   </div>
 );
 
+const cambodiaHubIntro = (
+  <div className={togstrekCountryHubIntroProseClass}>
+    <p>
+      <strong>Tuk tuks.</strong>{" "}
+      Use the PassApp or Grab apps and the price is fixed upfront, often just
+      a 2–3 minute wait anywhere in town. Street hailing requires bargaining,
+      but they&apos;re pretty happy to do so.
+    </p>
+    <p>
+      <strong>Phnom Penh Airport.</strong>{" "}
+      New and huge. It&apos;s far bigger than currently needed, and clearly
+      built for future growth. Clean, modern, and fast to get through.
+    </p>
+    <p>
+      <strong>Money.</strong>{" "}
+      USD and Cambodian riel are used interchangeably. ATMs dispense both.
+      Bring plenty of $1 bills for tips and small fares, as you won&apos;t
+      see them much in change. Notes with any tears are rejected.
+    </p>
+  </div>
+);
+
 const turkmenistanHubIntro = (
   <div className={togstrekCountryHubIntroProseClass}>
     <p>
@@ -123,6 +145,9 @@ export function getTogstrekCountryHubIntro(
   }
   if (continent === "africa" && country === "egypt") {
     return egyptHubIntro;
+  }
+  if (continent === "asia" && country === "cambodia") {
+    return cambodiaHubIntro;
   }
   if (continent === "asia" && country === "turkmenistan") {
     return turkmenistanHubIntro;
