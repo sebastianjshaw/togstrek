@@ -250,7 +250,7 @@ export default async function TogstrekCountryHubPage({
       map={{
         title: "Map",
         description:
-          "Each pin sits where that place’s story is anchored — the latitude and longitude saved with the write-up.",
+          "Each pin in the map shows a place visited and a story told.",
         mapHeadingId: "togstrek-country-hub-map-heading",
         children: (
           <TogstrekCountryHubMap
@@ -268,7 +268,7 @@ export default async function TogstrekCountryHubPage({
         description:
           isUnitedKingdom || isUnitedStatesHub || isSwedenHub
             ? "Every place story in this country — open a card for photos, maps, and notes."
-            : "Open a story — photos, maps, and notes from each location.",
+            : "Open a story, find out about a place, its photos, recommendations and impresions.",
         placesHeadingId: "togstrek-country-hub-places-heading",
         children: (
           <>

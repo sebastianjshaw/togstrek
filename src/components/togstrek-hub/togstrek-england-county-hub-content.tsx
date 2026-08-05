@@ -124,7 +124,7 @@ export function TogstrekEnglandCountyHubContent({
       places={{
         title: "Places",
         description:
-          "Open a story — photos, maps, and notes from each location.",
+          "Open a story, find out about a place, its photos, recommendations and impresions.",
         placesHeadingId: "togstrek-england-county-hub-places-heading",
         children: (
           <>

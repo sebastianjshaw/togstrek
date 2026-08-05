@@ -109,7 +109,7 @@ export function TogstrekUnitedStatesStateHubContent({
       map={{
         title: "Map",
         description:
-          "Each pin sits where that place’s story is anchored — the latitude and longitude saved with the write-up.",
+          "Each pin in the map shows a place visited and a story told.",
         mapHeadingId: "togstrek-united-states-state-hub-map-heading",
         children: (
           <TogstrekCountryHubMap
@@ -122,7 +122,7 @@ export function TogstrekUnitedStatesStateHubContent({
       places={{
         title: "Places",
         description:
-          "Open a story — photos, maps, and notes from each location.",
+          "Open a story, find out about a place, its photos, recommendations and impresions from each place.",
         placesHeadingId: "togstrek-united-states-state-hub-places-heading",
         children: (
           <>

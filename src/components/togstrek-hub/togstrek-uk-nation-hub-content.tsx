@@ -110,7 +110,7 @@ export function TogstrekUkNationHubContent({ nation }: TogstrekUkNationHubConten
       map={{
         title: "Map",
         description:
-          "Each pin sits where that place’s story is anchored — the latitude and longitude saved with the write-up.",
+          "Each pin in the map shows a place visited and a story told.",
         mapHeadingId: "togstrek-uk-nation-hub-map-heading",
         children: (
           <TogstrekCountryHubMap
@@ -123,8 +123,8 @@ export function TogstrekUkNationHubContent({ nation }: TogstrekUkNationHubConten
       places={{
         title: isEngland ? "All places" : "Places",
         description: isEngland
-          ? "Every place story in England — open a card for photos, maps, and notes."
-          : "Open a story — photos, maps, and notes from each location.",
+          ? "Each pin in the map shows a place visited and a story told."
+          : "Open a story, find out about a place, its photos, recommendations and impresions from each place.",
         placesHeadingId: "togstrek-uk-nation-hub-places-heading",
         children: (
           <>
