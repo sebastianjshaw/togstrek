@@ -42,7 +42,7 @@ export const togstrekHikingMegaMenu: TogstrekSectionMegaMenuDefinition = {
   navLabel: "Hiking",
   panelHeading: "Hiking trails",
   tagline:
-    "SOMETIMES THE BEST WAY TO EXPLORE THE WORLD IS TO WALK EVERY INCH OF IT.",
+    "Sometimes the best way to explore the world is to walk every inch of it.",
   links: [
     { href: "/hiking/nepal/annapurna", label: "Annapurna" },
     { href: "/hiking/bohusleden", label: "Bohusleden" },
@@ -76,7 +76,7 @@ export const togstrekOtherWorkMegaMenu: TogstrekSectionMegaMenuDefinition = {
   navLabel: "Other Work",
   panelHeading: "Other work",
   tagline:
-    "EXPLORATION IS NOT JUST TRAVELLING. IT'S HOW YOU LOOK AT THE WORLD, HOW YOU TRY NEW THINGS, AND HOW YOU LEARN.",
+    "Exploration is not just travelling. It's how you look at the world, how you try new things, and how you learn.",
   links: [
     { href: "/other-work/art-nude", label: "Art nude" },
     { href: "/other-work/astrophotography", label: "Astrophotography" },

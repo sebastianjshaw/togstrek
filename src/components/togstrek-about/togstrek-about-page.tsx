@@ -85,8 +85,8 @@ export function TogstrekAboutPage() {
           </p>
           <p className="mt-[var(--tt-space-6)] max-w-[52ch] font-tt-body text-[length:var(--tt-text-lead)] font-semibold leading-[var(--tt-leading-relaxed)] text-tt-text-secondary">
             I&apos;ve been asked,{" "}
-            <em>&quot;Do you ever just go to a beach and just lay there?&quot;</em>{" "}
-            and the answer is never, I relax by seeing something new.
+            <em>&quot;Do you ever just go to a beach and lie there?&quot;</em>{" "}
+            and the answer is never — I relax by seeing something new.
           </p>
         </TogstrekContentWidth>
       </section>

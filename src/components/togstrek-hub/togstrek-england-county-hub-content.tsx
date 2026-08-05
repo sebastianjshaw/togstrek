@@ -110,8 +110,7 @@ export function TogstrekEnglandCountyHubContent({
       ]}
       map={{
         title: "Map",
-        description:
-          "Each pin sits where that place’s story is anchored — the latitude and longitude saved with the write-up.",
+        description: "Each pin marks a place with a story — click through to read it.",
         mapHeadingId: "togstrek-england-county-hub-map-heading",
         children: (
           <TogstrekCountryHubMap
@@ -124,7 +123,7 @@ export function TogstrekEnglandCountyHubContent({
       places={{
         title: "Places",
         description:
-          "Open a story, find out about a place, its photos, recommendations and impresions.",
+          "Open a story to find out about a place — its photos, recommendations, and impressions.",
         placesHeadingId: "togstrek-england-county-hub-places-heading",
         children: (
           <>

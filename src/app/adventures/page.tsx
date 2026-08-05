@@ -12,7 +12,7 @@ import {
 } from "@/lib/togstrek-metadata";
 
 const ADVENTURES_DESCRIPTION =
-  "Long-form trips on Tog's Trek — from 443km through Sweden to the ends of the world — with the full stories and photography when each page is live.";
+  "The trips too big for a single place page — 443km through Sweden, and journeys to the far side of the world — with full stories and photography as each one goes live.";
 
 const ogImageUrl = togstrekAdventuresImage(TOGSTREK_ADVENTURES_HERO_IMAGE_FILE);
 

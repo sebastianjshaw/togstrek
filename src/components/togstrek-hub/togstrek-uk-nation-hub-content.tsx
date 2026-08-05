@@ -109,8 +109,7 @@ export function TogstrekUkNationHubContent({ nation }: TogstrekUkNationHubConten
       beforeMapSlot={isEngland ? <TogstrekEnglandCountiesStrip /> : undefined}
       map={{
         title: "Map",
-        description:
-          "Each pin in the map shows a place visited and a story told.",
+        description: "Each pin marks a place with a story — click through to read it.",
         mapHeadingId: "togstrek-uk-nation-hub-map-heading",
         children: (
           <TogstrekCountryHubMap
@@ -122,9 +121,8 @@ export function TogstrekUkNationHubContent({ nation }: TogstrekUkNationHubConten
       }}
       places={{
         title: isEngland ? "All places" : "Places",
-        description: isEngland
-          ? "Each pin in the map shows a place visited and a story told."
-          : "Open a story, find out about a place, its photos, recommendations and impresions from each place.",
+        description:
+          "Open a story to find out about a place — its photos, recommendations, and impressions.",
         placesHeadingId: "togstrek-uk-nation-hub-places-heading",
         children: (
           <>

@@ -21,7 +21,7 @@ const FALLBACK: TogstrekFeaturedAdventureContent = {
   tagline:
     "Across Europe with a camera — fjords, capitals, and ridgelines in the same frame.",
   body:
-    "Europe is a continent steeped in history, culture, and diverse landscapes. On Tog's Trek we wander cobblestone streets and mountain passes alike — from scenic fjords and Baltic harbours to the buzz of capital cities — with a camera and a notebook.",
+    "I went in on a single rail pass with a camera and a notebook, no fixed plan beyond it — mountain passes one day, Baltic harbours the next, capital-city crowds the day after that. Cobblestones and ridgelines in the same trip, sometimes the same afternoon.",
   ctaLabel: "Open Alpine Adventure",
   kickerHome: "Spotlight",
   kickerHub: "Featured adventure",

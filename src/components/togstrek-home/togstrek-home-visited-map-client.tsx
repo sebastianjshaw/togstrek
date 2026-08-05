@@ -82,9 +82,10 @@ export function TogstrekHomeVisitedMapClient({
             title="Countries visited"
             description={
               <p>
-                The map shows {places.length} countries with geocoded place stories
-                (of {visitedCountries} with content). Tap a marker to open the country
-                hub.
+                The map shows {places.length} countries with a story pinned
+                (of {visitedCountries}{" "}
+                I&apos;ve written about so far). Tap a marker to open the
+                country hub.
               </p>
             }
           />

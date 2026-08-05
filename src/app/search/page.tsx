@@ -9,7 +9,7 @@ import { TOGSTREK_PAGE_CONTENT_Y } from "@/lib/togstrek-layout";
 import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
 
 const SEARCH_DESCRIPTION =
-  "Search hiking guides, travel stories, photography, and place pages across Tog’s Trek.";
+  "Search everything I’ve written here — hiking guides, travel stories, photography, and place pages.";
 
 export const metadata: Metadata = buildTogstrekMetadata({
   title: "Search",

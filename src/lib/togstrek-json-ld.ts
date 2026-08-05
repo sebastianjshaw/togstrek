@@ -10,7 +10,7 @@ import { getTogstrekSiteOrigin } from "@/lib/togstrek-site-url";
 const SITE_NAME = "A Tog's Trek";
 
 const SITE_DESCRIPTION =
-  "Curious travel guides and photo essays — countries, places, hikes, and the stories behind the frame.";
+  "The most exciting journey is the next one. Travel photography, place guides, and personal essays — countries, trails, cities, and the stories behind the frame.";
 
 function buildTogstrekWebSiteNode(): Record<string, unknown> {
   const origin = getTogstrekSiteOrigin().replace(/\/+$/, "");

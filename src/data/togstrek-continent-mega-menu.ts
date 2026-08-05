@@ -92,20 +92,28 @@ export function getTogstrekContinentMegaMenuLinks(
     );
 }
 
+/**
+ * Adapted from the continent hub descriptions in `togstrek-continent-hub-meta.ts`
+ * so the mega menu doesn't carry a second, weaker set of lines. Stored in
+ * sentence case — the panel applies `uppercase` via CSS.
+ */
 export const togstrekContinentMegaMenuTaglines: Record<
   TogstrekUnContinentId,
   string
 > = {
   europe:
-    "THE 50 COUNTRIES WHO HOST BOTH THE LARGEST AND SMALLEST NATIONS IN THE WORLD.",
+    "Alpine ridges, Baltic brick, and midnight sun on the same rail pass.",
   africa:
-    "FROM THE MAGHREB TO THE CAPE — DESERTS, DELTAS, AND DIVERSE CITIES.",
-  antarctica: "ICE, RESEARCH STATIONS, AND THE LAST GREAT WILDERNESS.",
-  asia: "FROM STEPPES TO SKYLINES — THE WORLD'S LARGEST CONTINENT.",
+    "Heat-haze savanna to medina alleys — trip notes from trains, trails, and taxi windows.",
+  antarctica:
+    "Ice, silence, and scale — expedition notes from the Peninsula and the Southern Ocean.",
+  asia: "Steppes tilt into skylines without asking permission.",
   "north-america":
-    "FROM ARCTIC TUNDRA TO DESERT RANGES — COASTS, CANYONS, AND CITIES.",
-  oceania: "ISLAND NATIONS, REEFS, AND VAST SOUTHERN SKIES.",
-  "south-america": "ANDES, AMAZON, AND PATAGONIAN HORIZONS.",
+    "Pacific fog, desert heat, and kitchen-table Spanish, from Canada down through Central America.",
+  oceania:
+    "When the atlas says Pacific, it means more blue than the legend has room for.",
+  "south-america":
+    "The Andes pull you south until the horizon runs out of land.",
   other: "",
 };
 

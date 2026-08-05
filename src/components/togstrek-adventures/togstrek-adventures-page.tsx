@@ -44,7 +44,7 @@ export function TogstrekAdventuresPage() {
             and deserve more attention. I&apos;ve{" "}
             <span className="text-tt-accent">walked</span>{" "}
             443km of Sweden and been to the ends of the{" "}
-            <span className="text-tt-accent">World</span>.
+            <span className="text-tt-accent">world</span>.
           </h2>
           <div className="mt-[var(--tt-space-10)] flex justify-center">
             <TogstrekCtaOutlineAccentExternalLink

@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     template: "%s · A Tog's Trek",
   },
   description:
-    "Personal travel photography and stories — countries, places, trails, and what happened before and after the shutter. Field notes from A Tog's Trek.",
+    "The most exciting journey is the next one. Travel photography, place guides, and personal essays — countries, trails, cities, and the stories behind the frame.",
   metadataBase: new URL(getTogstrekSiteOrigin()),
   manifest: "/site.webmanifest",
   icons: {

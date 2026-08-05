@@ -108,8 +108,7 @@ export function TogstrekSwedenLanHubContent({
       ]}
       map={{
         title: "Map",
-        description:
-          "Each pin in the map shows a place visited and a story told.",
+        description: "Each pin marks a place with a story — click through to read it.",
         mapHeadingId: "togstrek-sweden-lan-hub-map-heading",
         children: (
           <TogstrekCountryHubMap
@@ -122,7 +121,7 @@ export function TogstrekSwedenLanHubContent({
       places={{
         title: "Places",
         description:
-          "Open a story, find out about a place, its photos, recommendations and impresions from each place.",
+          "Open a story to find out about a place — its photos, recommendations, and impressions.",
         placesHeadingId: "togstrek-sweden-lan-hub-places-heading",
         children: (
           <>

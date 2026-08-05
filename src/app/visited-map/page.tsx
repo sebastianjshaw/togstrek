@@ -9,7 +9,7 @@ import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
 import { buildTogstrekVisitedTravelDataset } from "@/lib/togstrek-visited-travel-data";
 
 const VISITED_MAP_DESCRIPTION =
-  "Interactive map of where Tog’s Trek has published place stories: filter by continent, switch between country and place pins, and see coverage against the full UN country list.";
+  "An interactive map of everywhere I’ve written a place story — filter by continent, switch between country and place pins, and check coverage against the full UN list.";
 
 export const metadata: Metadata = buildTogstrekMetadata({
   title: "Visited map",
