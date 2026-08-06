@@ -11,7 +11,10 @@ import {
   isTogstrekContinentHubRouteSlug,
   togstrekContinentHubPageMeta,
 } from "@/data/togstrek-continent-hub-meta";
-import { TOGSTREK_SWEDEN_COUNTRY_HUB_HERO } from "@/data/togstrek-country-hub-paths";
+import {
+  TOGSTREK_CAMBODIA_COUNTRY_HUB_HERO,
+  TOGSTREK_SWEDEN_COUNTRY_HUB_HERO,
+} from "@/data/togstrek-country-hub-paths";
 import { togstrekUnCountryNameToUrlSlug } from "@/lib/togstrek-geo-labels";
 import {
   listTogstrekPlaceSlugsForCountry,
@@ -141,6 +144,9 @@ export function resolveTogstrekCountryHubHeaderHero(
   ) {
     return TOGSTREK_SWEDEN_COUNTRY_HUB_HERO;
   }
+  if (continent === "asia" && country === "cambodia" && placeOrder === undefined) {
+    return TOGSTREK_CAMBODIA_COUNTRY_HUB_HERO;
+  }
   const rows =
     placeOrder ?? listTogstrekPlaceSlugsForCountry(continent, country);
   const picked = pickFirstPlaceHeroFromOrderedPlaces(
@@ -178,6 +184,9 @@ export function pickTogstrekCountryHubTileHeroFromPlaces(options: {
 
   if (contentContinent === "europe" && countrySlug === "sweden") {
     return TOGSTREK_SWEDEN_COUNTRY_HUB_HERO;
+  }
+  if (contentContinent === "asia" && countrySlug === "cambodia") {
+    return TOGSTREK_CAMBODIA_COUNTRY_HUB_HERO;
   }
 
   return pickFirstPlaceHeroForCountryHub(contentContinent, countrySlug);

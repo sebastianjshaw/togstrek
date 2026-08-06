@@ -9,6 +9,12 @@ export const TOGSTREK_SWEDEN_COUNTRY_HUB_HERO: { src: string; alt: string } = {
   alt: "Brännö — rocky coast and archipelago, Västra Götaland, Sweden",
 };
 
+/** Header + Asia tile image for `/asia/cambodia` (overrides the "first place" default — see `resolveTogstrekCountryHubHeaderHero`). */
+export const TOGSTREK_CAMBODIA_COUNTRY_HUB_HERO: { src: string; alt: string } = {
+  src: "https://media.togstrek.com/asia/cambodia/siem-reap/Angkor%20Wat%20Temple%20-%20005.jpg",
+  alt: "The central tower of Angkor Wat — Siem Reap, Cambodia",
+};
+
 /** Optional card title on continent hubs when it should differ from the UN English name (e.g. Türkiye). */
 export const togstrekCountryHubTileTitleByIso2: Partial<
   Record<string, string>
