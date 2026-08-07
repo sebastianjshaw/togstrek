@@ -67,6 +67,10 @@ export const togstrekCountryHubHeaderQuoteByIso2: Partial<
     body: "Cameroon is stronger because it's a country of conquerors, of winners.",
     attribution: "Roger Milla",
   },
+  CN: {
+    body: "China is not a country or a language but a world.",
+    attribution: "Haun Saussy",
+  },
   CO: {
     body: "In Colombia, we have a lot of passion.",
     attribution: "Maluma",
