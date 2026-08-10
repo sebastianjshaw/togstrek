@@ -92,6 +92,30 @@ const cambodiaHubIntro = (
   </div>
 );
 
+const southKoreaHubIntro = (
+  <div className={togstrekCountryHubIntroProseClass}>
+    <p>
+      <strong>Transport.</strong>{" "}
+      Get a T-money card for the metro and buses — Seoul&apos;s subway
+      covers virtually everything. On Android there&apos;s a mostly
+      functional app version, and you can get a refund on the card balance
+      when you leave (less a small handling fee). Maps.me and Naver Maps
+      are more reliable than Google Maps in Korea, which won&apos;t offer
+      walking directions and is missing many local places.
+    </p>
+    <p>
+      <strong>Money.</strong>{" "}
+      South Korean won (KRW). Cards are widely accepted, but many
+      traditional markets and street food stalls are cash only.
+    </p>
+    <p>
+      <strong>Language.</strong>{" "}
+      Korean. English signage is common in tourist areas and on the metro,
+      and young Koreans often speak some English.
+    </p>
+  </div>
+);
+
 const turkmenistanHubIntro = (
   <div className={togstrekCountryHubIntroProseClass}>
     <p>
@@ -151,6 +175,9 @@ export function getTogstrekCountryHubIntro(
   }
   if (continent === "asia" && country === "turkmenistan") {
     return turkmenistanHubIntro;
+  }
+  if (continent === "asia" && country === "south-korea") {
+    return southKoreaHubIntro;
   }
   return undefined;
 }
