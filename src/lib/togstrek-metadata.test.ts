@@ -4,6 +4,7 @@ import {
   buildTogstrekMetadata,
   getTogstrekDefaultSocialOgImage,
   togstrekCanonicalSocialImageUrl,
+  togstrekOgResizeUrl,
 } from "./togstrek-metadata";
 
 describe("togstrekCanonicalSocialImageUrl", () => {
@@ -60,7 +61,24 @@ describe("buildTogstrekMetadata", () => {
     const tw = m.twitter as {
       images?: { url: string; alt?: string }[];
     };
-    expect(tw.images?.[0]?.url).toBe("https://media.togstrek.com/a.jpg");
+    expect(tw.images?.[0]?.url).toBe(
+      togstrekOgResizeUrl("https://media.togstrek.com/a.jpg", 1200, 630),
+    );
     expect(tw.images?.[0]?.alt).toBe("Caption");
+  });
+});
+
+describe("togstrekOgResizeUrl", () => {
+  it("routes media.togstrek.com photos through /api/og-image", () => {
+    expect(
+      togstrekOgResizeUrl("https://media.togstrek.com/a.jpg", 1200, 630),
+    ).toBe(
+      "/api/og-image?src=https%3A%2F%2Fmedia.togstrek.com%2Fa.jpg&w=1200&h=630",
+    );
+  });
+
+  it("leaves non-CDN hosts untouched", () => {
+    const u = "https://example.com/a.jpg";
+    expect(togstrekOgResizeUrl(u, 1200, 630)).toBe(u);
   });
 });

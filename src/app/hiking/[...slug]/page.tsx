@@ -45,12 +45,11 @@ export async function generateMetadata({
       type: "article",
       authors: [{ name: TOGSTREK_AUTHOR_NAME, url: getTogstrekAboutPathAbsolute() }],
       openGraphDescription: fm.description,
+      // Width/height intentionally omitted — see togstrek-place-app-route.tsx.
       openGraphImages: fm.heroImage
         ? [
             {
               url: fm.heroImage.src,
-              width: fm.heroImage.width,
-              height: fm.heroImage.height,
               alt: fm.heroImage.alt,
             },
           ]

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { togstrekSiteLandingHeroImage } from "@/config/togstrek-media";
+import { isTogstrekMediaCdnUrl } from "@/lib/togstrek-cdn-image";
 
 export const TOGSTREK_SITE_NAME = "A Tog's Trek";
 
@@ -31,12 +32,38 @@ export function togstrekCanonicalSocialImageUrl(imageUrl: string): string {
   return imageUrl;
 }
 
+/**
+ * Routes a `media.togstrek.com` photo through `/api/og-image` so social
+ * crawlers get a real 1200x630 JPEG instead of a multi-megabyte original —
+ * see that route's doc comment for why (Cloudflare Image Resizing and
+ * Vercel's image optimizer are both unavailable in this deployment). Left
+ * untouched for any other host (e.g. the odd external OG image).
+ */
+export function togstrekOgResizeUrl(
+  src: string,
+  width: number = TOGSTREK_OG_IMAGE_WIDTH,
+  height: number = TOGSTREK_OG_IMAGE_HEIGHT,
+): string {
+  if (!isTogstrekMediaCdnUrl(src)) return src;
+  const params = new URLSearchParams({
+    src,
+    w: String(width),
+    h: String(height),
+  });
+  return `/api/og-image?${params.toString()}`;
+}
+
 function normalizeOgImage(img: TogstrekOgImage): TogstrekOgImage {
   const url =
     typeof img.url === "string" ? img.url : String(img.url as string | URL);
+  const canonicalUrl = togstrekCanonicalSocialImageUrl(url);
+  const width = img.width ?? TOGSTREK_OG_IMAGE_WIDTH;
+  const height = img.height ?? TOGSTREK_OG_IMAGE_HEIGHT;
   return {
     ...img,
-    url: togstrekCanonicalSocialImageUrl(url),
+    url: togstrekOgResizeUrl(canonicalUrl, width, height),
+    width,
+    height,
   };
 }
 

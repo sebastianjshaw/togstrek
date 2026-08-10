@@ -217,12 +217,14 @@ export async function generateTogstrekPlaceRouteMetadata(
     path,
     type: "article",
     openGraphDescription: fm.description,
+    // Width/height intentionally omitted: `normalizeOgImage` defaults to the
+    // standard 1200x630 social-preview crop rather than the hero's native
+    // resolution, which the `/api/og-image` resize route would otherwise
+    // serve at full size.
     openGraphImages: fm.heroImage
       ? [
           {
             url: fm.heroImage.src,
-            width: fm.heroImage.width,
-            height: fm.heroImage.height,
             alt: fm.heroImage.alt,
           },
         ]

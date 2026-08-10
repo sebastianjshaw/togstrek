@@ -20,12 +20,11 @@ export async function generateMetadata(): Promise<Metadata> {
     path: "/other-work",
     type: "website",
     openGraphDescription: fm.description,
+    // Width/height intentionally omitted — see togstrek-place-app-route.tsx.
     openGraphImages: fm.heroImage
       ? [
           {
             url: fm.heroImage.src,
-            width: fm.heroImage.width,
-            height: fm.heroImage.height,
             alt: fm.heroImage.alt,
           },
         ]
