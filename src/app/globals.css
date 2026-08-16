@@ -18,6 +18,7 @@
   --color-tt-border-muted: var(--tt-color-border-muted);
   --color-tt-border-accent: var(--tt-color-border-accent);
   --color-tt-border-on-inverse: var(--tt-color-border-on-inverse);
+  --color-tt-photo-mat: var(--tt-color-photo-mat);
 
   --font-tt-display: var(--tt-font-display);
   --font-tt-body: var(--tt-font-body);
@@ -81,6 +82,16 @@
     .togstrek-mdx-photo-gallery-wrap {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--tt-space-4);
+    }
+  }
+
+  /**
+   * Triad — a `default`-layout gallery with exactly three images sits on one
+   * row at desktop width instead of wrapping 2-then-1.
+   */
+  @media (min-width: 1024px) {
+    .togstrek-mdx-photo-gallery-wrap--triad {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 

@@ -17,6 +17,10 @@
   --tt-color-ink-subtle: #6b6b6b;
   --tt-color-surface-inverse: #1a1420;
   --tt-color-surface-inverse-elevated: #2a2230;
+  /** Letterbox mat behind `object-contain` photos — fixed dark neutral (like a
+   * lightbox/Lightroom canvas), intentionally NOT swapped by `[data-theme]` so
+   * photos read consistently in both light and dark mode. */
+  --tt-color-photo-mat: #242424;
 
   /* —— Semantic colors —— */
   --tt-color-surface-base: var(--tt-color-white);

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, type ReactNode } from "react";
+import { Children, createContext, useContext, type ReactNode } from "react";
 
 export type TogstrekMdxPhotoGalleryLayout = "default" | "dense";
 
@@ -40,16 +40,34 @@ function normalizeLayout(
   return raw === "dense" ? "dense" : "default";
 }
 
+/** Count real image entries, ignoring the whitespace text nodes MDX leaves between them. */
+function countGalleryItems(children: ReactNode): number {
+  return Children.toArray(children).filter((child) => {
+    if (child == null) return false;
+    if (typeof child === "string") return child.trim() !== "";
+    return true;
+  }).length;
+}
+
 /** MDX: wrap consecutive `![alt](url)` blocks for a grid + shared lightbox. */
 export function TogstrekMdxPhotoGallery({
   children,
   layout: layoutProp,
 }: TogstrekMdxPhotoGalleryProps) {
   const layout = normalizeLayout(layoutProp);
-  const wrapClass =
-    layout === "dense"
-      ? "togstrek-mdx-photo-gallery-wrap togstrek-mdx-photo-gallery-wrap--dense"
-      : "togstrek-mdx-photo-gallery-wrap";
+  /**
+   * `default` layout only ever reaches 2 columns, so exactly 3 images wrap
+   * 2-then-1. At desktop width they should read as one row of three instead.
+   * `dense` already opens a 3-column track at `lg`, so it needs no help.
+   */
+  const isTriad = layout === "default" && countGalleryItems(children) === 3;
+  const wrapClass = [
+    "togstrek-mdx-photo-gallery-wrap",
+    layout === "dense" ? "togstrek-mdx-photo-gallery-wrap--dense" : "",
+    isTriad ? "togstrek-mdx-photo-gallery-wrap--triad" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <TogstrekMdxPhotoGalleryContext.Provider
