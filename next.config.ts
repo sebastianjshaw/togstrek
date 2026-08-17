@@ -253,8 +253,18 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/europe/category/Italy",
+        destination: "/europe/italy",
+        permanent: true,
+      },
+      {
         source: "/asia/category/Israel",
         destination: "/asia/israel",
+        permanent: true,
+      },
+      {
+        source: "/asia/category/Turkey",
+        destination: "/europe/turkiye",
         permanent: true,
       },
       {

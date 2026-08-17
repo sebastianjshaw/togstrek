@@ -142,6 +142,48 @@ export const togstrekSeoLegacyRedirects: {
     source: "/blog/nature-walks-in-le-chatelard",
     destination: "/europe/france/le-chatelard",
   },
+  { source: "/blog/reykjavik", destination: "/europe/iceland/reykjavik" },
+  {
+    source: "/blog/fashionable-zombie-studio-shoot",
+    destination: "/photography/models/fashionable-zombies",
+  },
+  {
+    source: "/blog/modern-art-museum",
+    destination: "/europe/united-kingdom/scotland/edinburg",
+  },
+  { source: "/blog/amman-downtown", destination: "/asia/jordan/amman" },
+  {
+    source: "/blog/bmws-and-wurmeck-the-dragon",
+    destination: "/europe/germany/munich",
+  },
+  { source: "/blog/patong-market", destination: "/asia/thailand/phuket" },
+  {
+    source: "/blog/pourquoi-pas-island",
+    destination: "/antarctica/pourquoi-pas-island",
+  },
+  /** Old flat `/{continent}/{place}` URLs missing the country segment. */
+  { source: "/europe/meyrin", destination: "/europe/switzerland/meyrin" },
+  {
+    source: "/europe/vasternorrland/ullanger",
+    destination: "/europe/sweden/vasternorrland/ullanger",
+  },
+  { source: "/utvandraleden", destination: "/hiking/utvandrarleden" },
+  /**
+   * Greater London content moved from a flat `united-kingdom/greater-london`
+   * folder into the correct `england/greater-london` county location.
+   */
+  {
+    source: "/greater-london",
+    destination: "/europe/united-kingdom/england/greater-london/london",
+  },
+  {
+    source: "/europe/united-kingdom/greater-london",
+    destination: "/europe/united-kingdom/england/greater-london",
+  },
+  {
+    source: "/europe/united-kingdom/greater-london/richmond",
+    destination: "/europe/united-kingdom/england/greater-london/richmond",
+  },
   /**
    * Legacy “Paróquia da Vera Cruz” link sat under a duplicated `europe` segment;
    * content lives on the Aveiro place page (`placeSlug: averio`).
