@@ -1,6 +1,7 @@
 import {
   discoverTogstrekPlaceSlugs,
   loadTogstrekPlaceFrontmatterOnly,
+  togstrekPlaceMdxExists,
 } from "@/lib/togstrek-load-place-mdx";
 import { togstrekPlacePathFromSegments } from "@/lib/togstrek-place-path";
 import {
@@ -49,6 +50,18 @@ export type TogstrekVisitedCityMarker = {
   thumbnailAlt?: string;
 };
 
+export type TogstrekVisitedSpecialEntry = {
+  name: string;
+  /** Set only when place content exists for this entry. */
+  href?: string;
+};
+
+export type TogstrekVisitedSpecialGroup = {
+  total: number;
+  visitedCount: number;
+  entries: TogstrekVisitedSpecialEntry[];
+};
+
 export type TogstrekVisitedTravelDataset = {
   generatedAtIso: string;
   global: {
@@ -65,6 +78,10 @@ export type TogstrekVisitedTravelDataset = {
    * Used when no legacy flat hub exists in `togstrekCountryHubPathByIso2`.
    */
   countryStoryHrefByIso2: Record<string, string>;
+  /** UN special territories (not UN members) — Taiwan, Niue, Cook Islands. */
+  specialTerritories: TogstrekVisitedSpecialGroup;
+  /** Other one-off locations worth a mention outside the UN-195 count. */
+  uniqueLocations: TogstrekVisitedSpecialGroup;
 };
 
 const CONTINENT_ORDER: TogstrekVisitedContinentId[] = [
@@ -103,6 +120,8 @@ const TOGSTREK_COUNTRY_SLUG_ISO2: Record<string, string> = {
   antarctic: "AQ",
   /** Hong Kong SAR — not a separate UN row in our list. */
   "hong-kong": "HK",
+  /** UN special territory (not a UN member) — not a separate UN row in our list. */
+  taiwan: "TW",
   turkiye: "TR",
   turkey: "TR",
   /** Matches place content folder + hub slug (UN auto-slug is `united-states`). */
@@ -136,9 +155,67 @@ export function getIso2ForCountrySlug(
   );
 }
 
+const TOGSTREK_UN195_ISO2_SET = new Set(
+  togstrekUn195Countries.map((c) => c.iso2),
+);
+
+/** True only when the slug resolves to an ISO2 that is an actual row in the UN-195 list. */
+function isUnMemberCountrySlug(
+  continent: TogstrekVisitedContinentId,
+  countrySlug: string,
+): boolean {
+  const iso2 = resolveIso2ForCountrySlug(continent, countrySlug);
+  return iso2 !== undefined && TOGSTREK_UN195_ISO2_SET.has(iso2);
+}
+
+/**
+ * UN special territories (not UN members) and other one-off locations called
+ * out separately from the UN-195 count. `placeSlug` set when the location is
+ * nested under a country's place content (e.g. Svalbard under Norway) rather
+ * than being its own country-hub slug.
+ */
+const TOGSTREK_SPECIAL_TERRITORIES_CONFIG: {
+  name: string;
+  continent: TogstrekVisitedContinentId;
+  countrySlug: string;
+}[] = [
+  { name: "Taiwan", continent: "asia", countrySlug: "taiwan" },
+  { name: "Niue", continent: "oceania", countrySlug: "niue" },
+  {
+    name: "the Cook Islands",
+    continent: "oceania",
+    countrySlug: "cook-islands",
+  },
+];
+
+const TOGSTREK_UNIQUE_LOCATIONS_CONFIG: {
+  name: string;
+  continent: TogstrekVisitedContinentId;
+  countrySlug: string;
+  placeSlug?: string;
+  hrefOverride?: string;
+}[] = [
+  {
+    name: "Antarctica",
+    continent: "antarctica",
+    countrySlug: "antarctic",
+    hrefOverride: "/antarctica",
+  },
+  { name: "Hong Kong", continent: "asia", countrySlug: "hong-kong" },
+  {
+    name: "Svalbard",
+    continent: "europe",
+    countrySlug: "norway",
+    placeSlug: "svalbard",
+  },
+];
+
 export function buildTogstrekVisitedTravelDataset(): TogstrekVisitedTravelDataset {
   const placeSlugs = discoverTogstrekPlaceSlugs();
+  /** Every discovered country-like slug, UN member or not — used to resolve special-location links. */
   const countrySets = new Map<TogstrekVisitedContinentId, Set<string>>();
+  /** Subset of `countrySets` that actually matches a UN-195 row — the only thing counted in totals. */
+  const unMemberCountrySets = new Map<TogstrekVisitedContinentId, Set<string>>();
   const cityCounts = new Map<TogstrekVisitedContinentId, number>();
   const cityMarkers: TogstrekVisitedCityMarker[] = [];
 
@@ -164,6 +241,12 @@ export function buildTogstrekVisitedTravelDataset(): TogstrekVisitedTravelDatase
     const set = countrySets.get(continent) ?? new Set<string>();
     set.add(fm.countrySlug);
     countrySets.set(continent, set);
+
+    if (isUnMemberCountrySlug(continent, fm.countrySlug)) {
+      const unSet = unMemberCountrySets.get(continent) ?? new Set<string>();
+      unSet.add(fm.countrySlug);
+      unMemberCountrySets.set(continent, unSet);
+    }
 
     cityCounts.set(continent, (cityCounts.get(continent) ?? 0) + 1);
 
@@ -228,7 +311,7 @@ export function buildTogstrekVisitedTravelDataset(): TogstrekVisitedTravelDatase
     const totalCountries = togstrekUn195Countries.filter(
       (c) => c.continent === id,
     ).length;
-    const visitedCountries = countrySets.get(id)?.size ?? 0;
+    const visitedCountries = unMemberCountrySets.get(id)?.size ?? 0;
     const visitedCities = cityCounts.get(id) ?? 0;
     return {
       id,
@@ -240,12 +323,53 @@ export function buildTogstrekVisitedTravelDataset(): TogstrekVisitedTravelDatase
     };
   });
 
-  const visitedCountries = [...countrySets.values()].reduce(
+  const visitedCountries = [...unMemberCountrySets.values()].reduce(
     (sum, set) => sum + set.size,
     0,
   );
   const visitedCities = placeSlugs.length;
   const totalCountries = togstrekUn195Countries.length;
+
+  function resolveSpecialLocation(cfg: {
+    name: string;
+    continent: TogstrekVisitedContinentId;
+    countrySlug: string;
+    placeSlug?: string;
+    hrefOverride?: string;
+  }): TogstrekVisitedSpecialEntry {
+    const exists = cfg.placeSlug
+      ? togstrekPlaceMdxExists(cfg.continent, cfg.countrySlug, [cfg.placeSlug])
+      : (countrySets.get(cfg.continent)?.has(cfg.countrySlug) ?? false);
+    if (!exists) return { name: cfg.name };
+    const href =
+      cfg.hrefOverride ??
+      (cfg.placeSlug
+        ? `/${cfg.continent}/${cfg.countrySlug}/${cfg.placeSlug}`
+        : `/${cfg.continent}/${cfg.countrySlug}`);
+    return { name: cfg.name, href };
+  }
+
+  function buildSpecialGroup(
+    config: {
+      name: string;
+      continent: TogstrekVisitedContinentId;
+      countrySlug: string;
+      placeSlug?: string;
+      hrefOverride?: string;
+    }[],
+  ): TogstrekVisitedSpecialGroup {
+    const entries = config.map(resolveSpecialLocation);
+    return {
+      total: entries.length,
+      visitedCount: entries.filter((e) => e.href).length,
+      entries,
+    };
+  }
+
+  const specialTerritories = buildSpecialGroup(
+    TOGSTREK_SPECIAL_TERRITORIES_CONFIG,
+  );
+  const uniqueLocations = buildSpecialGroup(TOGSTREK_UNIQUE_LOCATIONS_CONFIG);
 
   return {
     generatedAtIso: new Date().toISOString(),
@@ -259,5 +383,7 @@ export function buildTogstrekVisitedTravelDataset(): TogstrekVisitedTravelDatase
     countryMarkers,
     cityMarkers,
     countryStoryHrefByIso2,
+    specialTerritories,
+    uniqueLocations,
   };
 }

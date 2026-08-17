@@ -6,6 +6,7 @@ import Link from "next/link";
 import type { TogstrekMapPlace } from "@/components/togstrek-explore-map";
 import { TogstrekContentWidth } from "@/components/togstrek-ui/togstrek-content-width";
 import { TogstrekSectionHeader } from "@/components/togstrek-ui/togstrek-section-header";
+import type { TogstrekVisitedSpecialGroup } from "@/lib/togstrek-visited-travel-data";
 
 const TogstrekExploreMap = dynamic(
   () =>
@@ -31,10 +32,42 @@ export type TogstrekHomeVisitedMapClientProps = {
   visitedPlaces: number;
   /** Same rounding as `buildTogstrekVisitedTravelDataset` global coverage. */
   coveragePercent: number;
+  specialTerritories: TogstrekVisitedSpecialGroup;
+  uniqueLocations: TogstrekVisitedSpecialGroup;
 };
 
 function formatCoverageDisplay(value: number): string {
   return `${value.toFixed(1)}%`;
+}
+
+const TOGSTREK_HOME_VISITED_MAP_INLINE_LINK_CLASS =
+  "font-semibold text-tt-accent underline decoration-tt-accent/35 underline-offset-[0.2em] transition-colors hover:text-tt-accent-hover hover:decoration-tt-accent-hover";
+
+/** Renders a comma-separated, "and"-joined list; entries with `href` link to their page. */
+function TogstrekSpecialEntryList({
+  entries,
+}: {
+  entries: TogstrekVisitedSpecialGroup["entries"];
+}) {
+  return (
+    <>
+      {entries.map((entry, index) => (
+        <span key={entry.name}>
+          {index === 0 ? "" : index === entries.length - 1 ? " and " : ", "}
+          {entry.href ? (
+            <Link
+              href={entry.href}
+              className={TOGSTREK_HOME_VISITED_MAP_INLINE_LINK_CLASS}
+            >
+              {entry.name}
+            </Link>
+          ) : (
+            entry.name
+          )}
+        </span>
+      ))}
+    </>
+  );
 }
 
 function togstrekHomeVisitedMapStatCard(
@@ -69,6 +102,8 @@ export function TogstrekHomeVisitedMapClient({
   totalCountries,
   visitedPlaces,
   coveragePercent,
+  specialTerritories,
+  uniqueLocations,
 }: TogstrekHomeVisitedMapClientProps) {
   return (
     <section
@@ -82,10 +117,17 @@ export function TogstrekHomeVisitedMapClient({
             title="Countries visited"
             description={
               <p>
-                The map shows {places.length} countries with a story pinned
-                (of {visitedCountries}{" "}
-                I&apos;ve written about so far). Tap a marker to open the
-                country hub.
+                The map shows {visitedCountries}{" "}
+                countries I&apos;ve been to out of the {totalCountries}{" "}
+                officially registered with the UN, as well as{" "}
+                {specialTerritories.visitedCount}{" "}
+                of the UN&apos;s three special territories (
+                <TogstrekSpecialEntryList entries={specialTerritories.entries} />
+                ) and {uniqueLocations.visitedCount}{" "}
+                more &quot;unique&quot; locations that deserve their own
+                special mention:{" "}
+                <TogstrekSpecialEntryList entries={uniqueLocations.entries} />.
+                Tap a marker to open the country hub.
               </p>
             }
           />

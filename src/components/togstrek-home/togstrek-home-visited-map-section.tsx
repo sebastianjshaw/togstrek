@@ -20,6 +20,8 @@ export function TogstrekHomeVisitedMapSection() {
       totalCountries={travel.global.totalCountries}
       visitedPlaces={travel.global.visitedCities}
       coveragePercent={travel.global.coveragePercent}
+      specialTerritories={travel.specialTerritories}
+      uniqueLocations={travel.uniqueLocations}
     />
   );
 }

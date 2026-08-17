@@ -191,6 +191,11 @@ const togstrekAsiaSpecialTerritoriesUnsorted: TogstrekSpecialTerritoryHub[] = [
     label: "Hong Kong",
     note: "Special administrative region, China",
   },
+  {
+    href: "/asia/taiwan",
+    label: "Taiwan",
+    note: "One of the UN's three special territories",
+  },
 ];
 
 export const togstrekAsiaSpecialTerritories: TogstrekSpecialTerritoryHub[] = [
