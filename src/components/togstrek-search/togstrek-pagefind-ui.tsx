@@ -26,6 +26,24 @@ type PagefindApi = {
 const PAGEFIND_BUNDLE_PATH = "/pagefind/pagefind.js";
 const TOGSTREK_SEARCH_RESULTS_LIMIT = 20;
 
+/**
+ * Search terms that never literally appear in the indexed content because the
+ * site displays a different name (e.g. "Türkiye" everywhere, never "Turkey").
+ * Pagefind does a literal-text search, so without this a query for "turkey"
+ * — searched word-for-word against pages that only ever say "Türkiye" —
+ * correctly, but unhelpfully, returns nothing.
+ */
+const TOGSTREK_SEARCH_QUERY_ALIASES: Record<string, string> = {
+  turkey: "türkiye",
+};
+
+function applyTogstrekSearchQueryAliases(query: string): string {
+  return query.replace(/[\p{L}\p{N}'-]+/gu, (word) => {
+    const alias = TOGSTREK_SEARCH_QUERY_ALIASES[word.toLowerCase()];
+    return alias ?? word;
+  });
+}
+
 function stripHtml(input: string): string {
   return input.replaceAll(/<[^>]*>/g, "").trim();
 }
@@ -142,7 +160,9 @@ export function TogstrekPagefindUi() {
       void (async () => {
         try {
           setStatus("Searching…");
-          const search = await api.search(trimmed);
+          const search = await api.search(
+            applyTogstrekSearchQueryAliases(trimmed),
+          );
           const total = search.results.length;
           setTotalMatches(total);
           const enriched = await Promise.all(
