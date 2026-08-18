@@ -6,6 +6,11 @@
  * - {@link TogstrekGoogleAnalytics} — `gtag` init
  * - {@link TogstrekJsonLd} — `application/ld+json`
  * - Next.js runtime chunks in dev (`'unsafe-eval'` when `isDev`)
+ *
+ * `'wasm-unsafe-eval'` (always on, not just dev) — Pagefind's search index
+ * loads a WASM module client-side (`togstrek-pagefind-ui.tsx`); without this,
+ * `WebAssembly.instantiate` is blocked by CSP and search silently returns no
+ * results in production, with no network request to show why.
  */
 export type TogstrekContentSecurityPolicyOptions = {
   /** Hostnames allowed for `img-src` (CDN) — keep in sync with `images.remotePatterns`. */
@@ -27,6 +32,7 @@ export function buildTogstrekContentSecurityPolicy(
   const scriptSrc = [
     "'self'",
     "'unsafe-inline'",
+    "'wasm-unsafe-eval'",
     ...(isDev ? ["'unsafe-eval'"] : []),
     "https://va.vercel-scripts.com",
     ...(allowGoogleAnalytics ? ["https://www.googletagmanager.com"] : []),

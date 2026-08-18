@@ -29,4 +29,20 @@ describe("buildTogstrekContentSecurityPolicy", () => {
     expect(csp).toContain("'unsafe-eval'");
     expect(csp).not.toContain("googletagmanager.com");
   });
+
+  it("allows wasm-unsafe-eval in both dev and production for Pagefind's WASM module", () => {
+    const prod = buildTogstrekContentSecurityPolicy({
+      mediaImageHosts: [],
+      allowGoogleAnalytics: false,
+      isDev: false,
+    });
+    const dev = buildTogstrekContentSecurityPolicy({
+      mediaImageHosts: [],
+      allowGoogleAnalytics: false,
+      isDev: true,
+    });
+
+    expect(prod).toContain("'wasm-unsafe-eval'");
+    expect(dev).toContain("'wasm-unsafe-eval'");
+  });
 });
