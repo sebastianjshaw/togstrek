@@ -67,6 +67,13 @@ const MEGA_CARD_META: Partial<
       "Bishkek to Ashgabat — five countries, Soviet layers, yurt camps, and Darvaza burning in the Karakum.",
     spotlightCtaLabel: "Open Five Stans",
   },
+  "/adventures/2026-asia": {
+    width: 1920,
+    height: 1281,
+    spotlightTagline:
+      "Angkor's ruins, a childhood return to Singapore, Taipei's night markets, and Seoul's palaces against the DMZ.",
+    spotlightCtaLabel: "Open 2026: Asia",
+  },
 };
 
 /**
