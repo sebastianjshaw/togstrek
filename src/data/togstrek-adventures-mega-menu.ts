@@ -72,7 +72,7 @@ const MEGA_CARD_META: Partial<
     height: 1281,
     spotlightTagline:
       "Angkor's ruins, a childhood return to Singapore, Taipei's night markets, and Seoul's palaces against the DMZ.",
-    spotlightCtaLabel: "Open 2026: Asia",
+    spotlightCtaLabel: "Open 2026: Gods & Glass",
   },
 };
 
