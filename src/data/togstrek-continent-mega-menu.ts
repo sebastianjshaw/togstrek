@@ -133,7 +133,7 @@ const togstrekContinentMegaMenuFeaturedAdventureHrefByContinent: Record<
   TogstrekNavMegaContinentId,
   string | null
 > = {
-  africa: "/adventures/2022-the-roof-of-africa",
+  africa: "/adventures/2025-the-book-of-the-dead",
   antarctica: "/adventures/2020-the-end-of-the-world",
   asia: "/adventures/2026-asia",
   europe: "/adventures/2023-hulduflk",
