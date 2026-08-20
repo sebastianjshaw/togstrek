@@ -74,6 +74,12 @@ type TogstrekSiteHeaderMegaPanelAside = {
   headingHref?: `/${string}`;
   links?: { href: string; label: string }[];
   featuredAdventure?: TogstrekContinentMegaMenuFeaturedAdventure | null;
+  /**
+   * Footer link under the featured card. Defaults to "All adventures →"
+   * linking `/adventures`; pass `null` to omit (e.g. a card that isn't an
+   * adventure, like the About card, with nothing to browse).
+   */
+  featuredLink?: { href: string; label: string } | null;
 };
 
 function TogstrekSiteHeaderMegaMenuPanelBase({
@@ -188,13 +194,15 @@ function TogstrekSiteHeaderMegaMenuPanelBase({
                 </p>
               </Link>
             )}
-            <Link
-              href="/adventures"
-              onClick={onNavigate}
-              className="togstrek-site-header-mega-panel-aside-all-adventures-link mt-[var(--tt-space-6)] inline-block font-tt-body text-[length:var(--tt-text-small)] font-semibold text-tt-accent underline-offset-2 transition-colors hover:underline"
-            >
-              All adventures →
-            </Link>
+            {aside.featuredLink !== null ? (
+              <Link
+                href={aside.featuredLink?.href ?? "/adventures"}
+                onClick={onNavigate}
+                className="togstrek-site-header-mega-panel-aside-all-adventures-link mt-[var(--tt-space-6)] inline-block font-tt-body text-[length:var(--tt-text-small)] font-semibold text-tt-accent underline-offset-2 transition-colors hover:underline"
+              >
+                {aside.featuredLink?.label ?? "All adventures →"}
+              </Link>
+            ) : null}
           </div>
         ) : null}
         {(aside.links?.length ?? 0) > 0 ? (

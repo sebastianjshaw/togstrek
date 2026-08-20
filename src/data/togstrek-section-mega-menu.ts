@@ -18,6 +18,12 @@ export type TogstrekSectionMegaAside = {
    * When set, `links` in the aside are usually empty.
    */
   featuredAdventure?: TogstrekContinentMegaMenuFeaturedAdventure | null;
+  /**
+   * Footer link under the featured card. Defaults to "All adventures →"
+   * linking `/adventures`; pass `null` to omit (e.g. a card that isn't an
+   * adventure, with nothing to browse).
+   */
+  featuredLink?: { href: string; label: string } | null;
 };
 
 export type TogstrekSectionMegaMenuDefinition = {
@@ -94,6 +100,14 @@ export const togstrekOtherWorkMegaMenu: TogstrekSectionMegaMenuDefinition = {
     heading: "About",
     headingHref: "/about",
     links: [],
+    featuredAdventure: {
+      href: "/about",
+      title: "About",
+      imageSrc: "https://media.togstrek.com/about/SebastianShaw.jpeg",
+      imageAlt:
+        "Sebastian Shaw photographing a city skyline from a rooftop at golden hour, camera raised to his eye",
+    },
+    featuredLink: null,
   },
   emptyStateMessage:
     "Galleries and series are on the way — open Other Work for the overview.",
