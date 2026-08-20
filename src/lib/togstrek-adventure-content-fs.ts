@@ -57,11 +57,18 @@ export function adventureMdxExists(slug: string): boolean {
 
 export function discoverTogstrekAdventureSlugs(): string[] {
   if (!fs.existsSync(ADVENTURES_ROOT)) return [];
-  return fs
-    .readdirSync(ADVENTURES_ROOT)
-    .filter((f) => f.endsWith(".mdx"))
-    .map((f) => f.slice(0, -".mdx".length))
-    .filter(isTogstrekSafeUrlPathSegment);
+  return (
+    fs
+      .readdirSync(ADVENTURES_ROOT)
+      .filter((f) => f.endsWith(".mdx"))
+      .map((f) => f.slice(0, -".mdx".length))
+      .filter(isTogstrekSafeUrlPathSegment)
+      // `readdirSync` order isn't guaranteed by POSIX and differs between the
+      // build container and local dev; the archive sort below falls back to
+      // this array's order for same-year, unpublished entries, so it needs
+      // to be deterministic (and `YYYY-slug` sorts chronologically for free).
+      .sort()
+  );
 }
 
 export function discoverTogstrekAdventureSlugParams(): { slug: string }[] {
