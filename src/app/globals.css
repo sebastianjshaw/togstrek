@@ -121,6 +121,22 @@
     }
   }
 
+  /**
+   * Grid3 — always exactly three columns from tablet width up, regardless of
+   * item count or viewport (unlike `dense`, which opens a 4th column at
+   * `xl`). For large same-subject sets where every shot carries similar
+   * weight (e.g. `layout="grid3"` in MDX).
+   */
+  .togstrek-mdx-photo-gallery-wrap--grid3 {
+    gap: var(--tt-space-3);
+  }
+
+  @media (min-width: 768px) {
+    .togstrek-mdx-photo-gallery-wrap--grid3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
   .togstrek-mdx-photo-gallery-wrap .togstrek-place-mdx-figure .togstrek-place-mdx-figure-frame {
     box-shadow: var(--tt-shadow-photo-deep);
   }

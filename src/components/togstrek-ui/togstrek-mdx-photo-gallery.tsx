@@ -2,7 +2,7 @@
 
 import { Children, createContext, useContext, type ReactNode } from "react";
 
-export type TogstrekMdxPhotoGalleryLayout = "default" | "dense";
+export type TogstrekMdxPhotoGalleryLayout = "default" | "dense" | "grid3";
 
 type TogstrekMdxPhotoGalleryContextValue = {
   inGallery: boolean;
@@ -29,7 +29,10 @@ export type TogstrekMdxPhotoGalleryProps = {
   children: ReactNode;
   /**
    * `dense` — more columns on large viewports + shorter thumbnails for long sets
-   * (e.g. 12+ images). Use with explicit `<PhotoGallery layout="dense">` in MDX.
+   * (e.g. 12+ images). `grid3` — always exactly three columns from tablet width
+   * up, regardless of viewport or item count (a fixed 3-up grid, e.g. for a
+   * large set of similar-weight shots). Use with explicit
+   * `<PhotoGallery layout="dense">` / `<PhotoGallery layout="grid3">` in MDX.
    */
   layout?: TogstrekMdxPhotoGalleryLayout | string;
 };
@@ -37,7 +40,9 @@ export type TogstrekMdxPhotoGalleryProps = {
 function normalizeLayout(
   raw: TogstrekMdxPhotoGalleryProps["layout"],
 ): TogstrekMdxPhotoGalleryLayout {
-  return raw === "dense" ? "dense" : "default";
+  if (raw === "dense") return "dense";
+  if (raw === "grid3") return "grid3";
+  return "default";
 }
 
 /** Count real image entries, ignoring the whitespace text nodes MDX leaves between them. */
@@ -64,6 +69,7 @@ export function TogstrekMdxPhotoGallery({
   const wrapClass = [
     "togstrek-mdx-photo-gallery-wrap",
     layout === "dense" ? "togstrek-mdx-photo-gallery-wrap--dense" : "",
+    layout === "grid3" ? "togstrek-mdx-photo-gallery-wrap--grid3" : "",
     isTriad ? "togstrek-mdx-photo-gallery-wrap--triad" : "",
   ]
     .filter(Boolean)
