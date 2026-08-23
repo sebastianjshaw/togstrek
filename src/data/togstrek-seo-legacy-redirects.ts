@@ -206,4 +206,12 @@ export const togstrekSeoLegacyRedirects: {
     source: "/antarctica/lamaire-channel",
     destination: "/antarctica/lemaire-channel",
   },
+  /**
+   * This file was mislabeled "etapp-20-aigert-to-serve-1" (a copy/rename
+   * artifact) but its content is actually stage 21, Serve to Tärnasjö.
+   */
+  {
+    source: "/hiking/kungsleden/etapp-20-aigert-to-serve-1",
+    destination: "/hiking/kungsleden/etapp-21-serve-to-tarnasjo",
+  },
 ];
