@@ -186,11 +186,24 @@ export const togstrekSeoLegacyRedirects: {
   },
   /**
    * Legacy “Paróquia da Vera Cruz” link sat under a duplicated `europe` segment;
-   * content lives on the Aveiro place page (`placeSlug: averio`).
+   * content lives on the Aveiro place page.
    */
   {
     source:
       "/europe/europe/portugal/Par%C3%B3quia%20da%20Vera%20Cruz",
-    destination: "/europe/portugal/averio",
+    destination: "/europe/portugal/aveiro",
+  },
+  /**
+   * Place-page renames: fixing typo'd slugs left the old URLs live in search
+   * indexes and bookmarks.
+   */
+  { source: "/europe/portugal/averio", destination: "/europe/portugal/aveiro" },
+  {
+    source: "/europe/united-kingdom/england/devon/chagford",
+    destination: "/europe/united-kingdom/devon/chagford",
+  },
+  {
+    source: "/antarctica/lamaire-channel",
+    destination: "/antarctica/lemaire-channel",
   },
 ];

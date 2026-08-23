@@ -642,7 +642,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/hiking/sweden/utvandraleden",
-        destination: "/hiking/utvandrarleden/utvandraleden",
+        destination: "/hiking/utvandrarleden/utvandrarleden",
         permanent: true,
       },
       {
