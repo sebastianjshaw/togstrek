@@ -74,6 +74,12 @@ export function buildTogstrekContentSecurityPolicy(
     "base-uri": ["'self'"],
     "form-action": ["'self'"],
     "frame-ancestors": ["'self'"],
+    /** `TogstrekMdxYouTubeEmbed` — YouTube video embeds in place/hiking MDX content. */
+    "frame-src": [
+      "'self'",
+      "https://www.youtube.com",
+      "https://www.youtube-nocookie.com",
+    ],
     "object-src": ["'none'"],
     "script-src": scriptSrc,
     "style-src": ["'self'", "'unsafe-inline'"],

@@ -7,6 +7,7 @@ import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import { TogstrekMdxImageLightbox } from "@/components/togstrek-ui/togstrek-mdx-image-lightbox";
 import { TogstrekMdxParagraph } from "@/components/togstrek-ui/togstrek-mdx-paragraph";
 import { TogstrekMdxPhotoGallery } from "@/components/togstrek-ui/togstrek-mdx-photo-gallery";
+import { TogstrekMdxYouTubeEmbed } from "@/components/togstrek-ui/togstrek-mdx-youtube-embed";
 
 /**
  * MDX map for prose + travel content: place pages, hiking, photography, and
@@ -68,6 +69,7 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
     /** Responsive image grid + lightbox; wrap consecutive `![alt](url)` blocks. */
     PhotoGallery: (props) => <TogstrekMdxPhotoGallery {...props} />,
     TogstrekMdxPhotoGallery: (props) => <TogstrekMdxPhotoGallery {...props} />,
+    TogstrekYouTube: (props) => <TogstrekMdxYouTubeEmbed {...props} />,
     TogstrekMdxCardGrid: ({ className, ...rest }) => (
       <div
         {...rest}
