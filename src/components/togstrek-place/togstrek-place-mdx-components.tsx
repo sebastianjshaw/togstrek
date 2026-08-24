@@ -37,6 +37,12 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
         className="togstrek-place-mdx-h3 mt-[var(--tt-space-12)] scroll-mt-[calc(var(--tt-layout-header-height)+var(--tt-space-6))] border-t border-tt-border-muted pt-[var(--tt-space-6)] font-tt-display text-[length:var(--tt-text-lead)] font-bold text-tt-text-primary"
       />
     ),
+    h4: (props) => (
+      <h4
+        {...props}
+        className="togstrek-place-mdx-h4 mt-[var(--tt-space-8)] scroll-mt-[calc(var(--tt-layout-header-height)+var(--tt-space-6))] font-tt-display text-[length:var(--tt-text-body)] font-bold text-tt-text-primary"
+      />
+    ),
     p: (props) => <TogstrekMdxParagraph {...props} />,
     ul: (props) => (
       <ul
