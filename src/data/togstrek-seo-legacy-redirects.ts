@@ -214,4 +214,9 @@ export const togstrekSeoLegacyRedirects: {
     source: "/hiking/kungsleden/etapp-20-aigert-to-serve-1",
     destination: "/hiking/kungsleden/etapp-21-serve-to-tarnasjo",
   },
+  /** Krasnyy Most place page removed; send old links to the country hub. */
+  {
+    source: "/asia/kyrgyzstan/krasnyy-most",
+    destination: "/asia/kyrgyzstan",
+  },
 ];
