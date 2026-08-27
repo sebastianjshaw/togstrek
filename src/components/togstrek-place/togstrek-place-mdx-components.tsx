@@ -7,6 +7,7 @@ import { TogstrekLinkCard } from "@/components/togstrek-ui/togstrek-link-card";
 import { TogstrekMdxImageLightbox } from "@/components/togstrek-ui/togstrek-mdx-image-lightbox";
 import { TogstrekMdxParagraph } from "@/components/togstrek-ui/togstrek-mdx-paragraph";
 import { TogstrekMdxPhotoGallery } from "@/components/togstrek-ui/togstrek-mdx-photo-gallery";
+import { TogstrekMdxYearTag } from "@/components/togstrek-ui/togstrek-mdx-year-tag";
 import { TogstrekMdxYouTubeEmbed } from "@/components/togstrek-ui/togstrek-mdx-youtube-embed";
 
 /**
@@ -76,6 +77,7 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
     PhotoGallery: (props) => <TogstrekMdxPhotoGallery {...props} />,
     TogstrekMdxPhotoGallery: (props) => <TogstrekMdxPhotoGallery {...props} />,
     TogstrekYouTube: (props) => <TogstrekMdxYouTubeEmbed {...props} />,
+    TogstrekYearTag: (props) => <TogstrekMdxYearTag {...props} />,
     TogstrekMdxCardGrid: ({ className, ...rest }) => (
       <div
         {...rest}
