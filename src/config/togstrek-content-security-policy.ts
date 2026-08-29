@@ -41,8 +41,8 @@ export function buildTogstrekContentSecurityPolicy(
   const connectSrc = [
     "'self'",
     "https://vitals.vercel-insights.com",
-    /** MapLibre raster tiles + country overlay GeoJSON (`togstrek-explore-map.tsx`). */
-    "https://*.basemaps.cartocdn.com",
+    /** MapLibre vector tiles/style/fonts/sprites + country overlay GeoJSON (`togstrek-explore-map.tsx`). */
+    "https://tiles.openfreemap.org",
     "https://raw.githubusercontent.com",
     ...(allowGoogleAnalytics
       ? [
@@ -60,7 +60,7 @@ export function buildTogstrekContentSecurityPolicy(
     "blob:",
     ...mediaImageHosts.map(hostToImgSrc),
     "https://images.unsplash.com",
-    "https://*.basemaps.cartocdn.com",
+    "https://tiles.openfreemap.org",
     ...(allowGoogleAnalytics
       ? [
           "https://www.google-analytics.com",

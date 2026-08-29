@@ -4,7 +4,6 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import "./togstrek-explore-map.css";
 
 import type { FilterSpecification, Map as MapLibreMap } from "maplibre-gl";
-import type { ComponentProps } from "react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import Map, {
   Layer,
@@ -20,32 +19,14 @@ import { TogstrekCtaOutlineAccentLink } from "@/components/togstrek-ui/togstrek-
 
 import type { TogstrekExploreMapProps, TogstrekMapPlace } from "./types";
 
-const TOGSTREK_MAP_DARK_STYLE = {
-  version: 8 as const,
-  name: "togstrek-carto-dark",
-  sources: {
-    carto: {
-      type: "raster" as const,
-      tiles: [
-        "https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-        "https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-        "https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
-      ],
-      tileSize: 256,
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
-    },
-  },
-  layers: [
-    {
-      id: "carto",
-      type: "raster" as const,
-      source: "carto",
-      minzoom: 0,
-      maxzoom: 22,
-    },
-  ],
-};
+/**
+ * Free, keyless dark vector style (OSM + OpenMapTiles data, MapLibre-native).
+ * Was CARTO's raw raster tile CDN (`{a,b,c}.basemaps.cartocdn.com/dark_all`),
+ * which now requires an API key and serves a watermark placeholder without
+ * one. Attribution comes from the style/TileJSON's own `attribution` fields;
+ * MapLibre merges those into its attribution control automatically.
+ */
+const TOGSTREK_MAP_DARK_STYLE = "https://tiles.openfreemap.org/styles/dark";
 
 /**
  * Natural Earth 110m admin-0 countries. Some rows use `ISO_A2: "-99"` and put
@@ -251,9 +232,7 @@ function TogstrekExploreMapWithPlaces({
         key={placesFitKey}
         ref={mapRef}
         initialViewState={startView}
-        mapStyle={
-          TOGSTREK_MAP_DARK_STYLE as ComponentProps<typeof Map>["mapStyle"]
-        }
+        mapStyle={TOGSTREK_MAP_DARK_STYLE}
         style={{ width: "100%", height: "100%" }}
         onMoveEnd={onMoveEnd}
         onLoad={fitToPlaces}
