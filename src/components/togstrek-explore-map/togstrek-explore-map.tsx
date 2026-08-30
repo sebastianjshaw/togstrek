@@ -156,9 +156,24 @@ function TogstrekExploreMapWithPlaces({
     setZoom(evt.target.getZoom());
   }, []);
 
-  const fitToPlaces = useCallback(() => {
+  const onMapLoad = useCallback(() => {
     const map = mapRef.current?.getMap();
-    if (!map || places.length === 0) return;
+    if (!map) return;
+
+    /**
+     * OpenFreeMap's "dark" style paints ice shelf/glacier fills almost the
+     * same colour as the background (`rgb(12,12,12)` / `hsl(0,1%,2%)`), so
+     * Antarctica — nearly all ice — renders as an empty void even though the
+     * vector data is there. Nudge both to a colour that reads against the
+     * background while staying in the style's dark palette.
+     */
+    for (const layerId of ["landcover_ice_shelf", "landcover_glacier"]) {
+      if (map.getLayer(layerId)) {
+        map.setPaintProperty(layerId, "fill-color", "rgb(48, 54, 62)");
+      }
+    }
+
+    if (places.length === 0) return;
     const lngs = places.map((p) => p.longitude);
     const lats = places.map((p) => p.latitude);
     map.fitBounds(
@@ -235,7 +250,7 @@ function TogstrekExploreMapWithPlaces({
         mapStyle={TOGSTREK_MAP_DARK_STYLE}
         style={{ width: "100%", height: "100%" }}
         onMoveEnd={onMoveEnd}
-        onLoad={fitToPlaces}
+        onLoad={onMapLoad}
       >
         {visitedCountryFillFilter ? (
           <Source
