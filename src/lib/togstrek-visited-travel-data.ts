@@ -210,6 +210,28 @@ const TOGSTREK_UNIQUE_LOCATIONS_CONFIG: {
   },
 ];
 
+/**
+ * Picks a country-level map marker location from that country's visited
+ * places. Averaging raw lat/lng breaks for countries with widely dispersed
+ * territory, e.g. Norway (mainland ~60°N) plus Svalbard (~78°N) averages to
+ * open ocean between them. Instead, pick whichever actual visited place sits
+ * closest to the simple mean — the marker always lands on real, visited land.
+ */
+function pickTogstrekCountryMarkerCoordinate(
+  coords: { lat: number; lng: number }[],
+): { lat: number; lng: number } {
+  if (coords.length === 1) return coords[0]!;
+
+  const meanLat = coords.reduce((sum, c) => sum + c.lat, 0) / coords.length;
+  const meanLng = coords.reduce((sum, c) => sum + c.lng, 0) / coords.length;
+
+  return coords.reduce((closest, c) => {
+    const d = (c.lat - meanLat) ** 2 + (c.lng - meanLng) ** 2;
+    const closestD = (closest.lat - meanLat) ** 2 + (closest.lng - meanLng) ** 2;
+    return d < closestD ? c : closest;
+  }, coords[0]!);
+}
+
 export function buildTogstrekVisitedTravelDataset(): TogstrekVisitedTravelDataset {
   const placeSlugs = discoverTogstrekPlaceSlugs();
   /** Every discovered country-like slug, UN member or not — used to resolve special-location links. */
@@ -225,9 +247,7 @@ export function buildTogstrekVisitedTravelDataset(): TogstrekVisitedTravelDatase
       continent: TogstrekVisitedContinentId;
       countrySlug: string;
       citiesVisited: number;
-      sumLat: number;
-      sumLng: number;
-      coordsCount: number;
+      coords: { lat: number; lng: number }[];
     }
   >();
 
@@ -254,15 +274,11 @@ export function buildTogstrekVisitedTravelDataset(): TogstrekVisitedTravelDatase
       continent,
       countrySlug: fm.countrySlug,
       citiesVisited: 0,
-      sumLat: 0,
-      sumLng: 0,
-      coordsCount: 0,
+      coords: [],
     };
     current.citiesVisited += 1;
     if (typeof fm.lat === "number" && typeof fm.lng === "number") {
-      current.sumLat += fm.lat;
-      current.sumLng += fm.lng;
-      current.coordsCount += 1;
+      current.coords.push({ lat: fm.lat, lng: fm.lng });
       cityMarkers.push({
         id: `${continent}-${fm.countrySlug}-${fm.placeSlug}`,
         continent,
@@ -280,13 +296,14 @@ export function buildTogstrekVisitedTravelDataset(): TogstrekVisitedTravelDatase
   }
 
   const countryMarkers: TogstrekVisitedCountryMarker[] = [...byCountry.entries()]
-    .filter(([, value]) => value.coordsCount > 0)
+    .filter(([, value]) => value.coords.length > 0)
     .map(([key, value]) => {
       const iso2 = resolveIso2ForCountrySlug(
         value.continent,
         value.countrySlug,
       );
       const countryHubHref = `/${value.continent}/${value.countrySlug}`;
+      const { lat, lng } = pickTogstrekCountryMarkerCoordinate(value.coords);
       return {
         id: key,
         continent: value.continent,
@@ -294,8 +311,8 @@ export function buildTogstrekVisitedTravelDataset(): TogstrekVisitedTravelDatase
         countryLabel: formatSlugLabel(value.countrySlug),
         citiesVisited: value.citiesVisited,
         href: countryHubHref,
-        latitude: value.sumLat / value.coordsCount,
-        longitude: value.sumLng / value.coordsCount,
+        latitude: lat,
+        longitude: lng,
         iso2,
       };
     });
