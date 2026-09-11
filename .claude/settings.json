@@ -1,0 +1,5 @@
+{
+  "enabledPlugins": {
+    "percy-visual-testing@percy-visual-testing": true
+  }
+}
