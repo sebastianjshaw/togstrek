@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import percySnapshot from "@percy/playwright";
 
 import { expectNoSeriousAxeViolations } from "./togstrek-axe";
 
@@ -19,6 +20,7 @@ test.describe("accessibility (axe)", () => {
     expect(res?.ok(), res?.status().toString()).toBeTruthy();
     await expect(page.locator("#togstrek-main")).toBeVisible();
     await expectNoSeriousAxeViolations(page);
+    await percySnapshot(page, "About");
   });
 
   test("place page Cairo /africa/egypt/cairo", async ({ page }) => {
@@ -44,6 +46,7 @@ test.describe("accessibility (axe)", () => {
     expect(res?.ok(), res?.status().toString()).toBeTruthy();
     await expect(page.locator("#togstrek-main")).toBeVisible();
     await expectNoSeriousAxeViolations(page);
+    await percySnapshot(page, "Hiking post (Bohusleden etapp 04)");
   });
 
   test("adventure 2025 The Book of the Dead", async ({ page }) => {

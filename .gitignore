@@ -44,6 +44,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# Percy local plugin state (not part of project history)
+.percy/
+
 # large photography staging (use CDN; see public/media/README.txt)
 public/media/originals/**
 !public/media/originals/.gitkeep

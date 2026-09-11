@@ -22,5 +22,7 @@ jobs:
         run: npm run build
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
-      - name: E2E smoke
-        run: npx playwright test
+      - name: E2E smoke (Percy)
+        run: npx percy exec -- npx playwright test
+        env:
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
