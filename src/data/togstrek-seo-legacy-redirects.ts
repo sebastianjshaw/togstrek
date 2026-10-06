@@ -236,7 +236,10 @@ export const togstrekSeoLegacyRedirects: {
     destination: "/europe/united-kingdom/england/lymington",
   },
   { source: "/vastmanland", destination: "/europe/sweden/vastmanland" },
-  { source: "/blog/schiphol-airport", destination: "/europe/netherlands" },
+  {
+    source: "/blog/schiphol-airport",
+    destination: "/europe/netherlands/voorschoten",
+  },
   /** "vasterbotton" typo in the Västerbotten county slug. */
   {
     source: "/europe/sweden/vasterbotton/:path*",
