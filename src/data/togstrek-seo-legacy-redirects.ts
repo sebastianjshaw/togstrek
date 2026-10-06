@@ -219,4 +219,9 @@ export const togstrekSeoLegacyRedirects: {
     source: "/asia/kyrgyzstan/krasnyy-most",
     destination: "/asia/kyrgyzstan",
   },
+  /** Voru's old "-village" URL is still live in search indexes and links. */
+  {
+    source: "/asia/tajikistan/voru-village",
+    destination: "/asia/tajikistan/voru",
+  },
 ];
