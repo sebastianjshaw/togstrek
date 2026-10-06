@@ -273,16 +273,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/europe/Malta",
-        destination: "/europe/malta",
-        permanent: true,
-      },
-      {
-        source: "/europe/Netherlands",
-        destination: "/europe/netherlands",
-        permanent: true,
-      },
-      {
         source: "/europe/brans",
         destination: "/europe/sweden/brans",
         permanent: true,

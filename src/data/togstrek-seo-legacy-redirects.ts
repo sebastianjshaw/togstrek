@@ -224,4 +224,22 @@ export const togstrekSeoLegacyRedirects: {
     source: "/asia/tajikistan/voru-village",
     destination: "/asia/tajikistan/voru",
   },
+  /** 404s surfaced in site analytics: old shortcuts, blog posts, a typo'd slug. */
+  { source: "/a-togs-trek", destination: "/" },
+  {
+    source: "/blog/principality-of-lichtenstein",
+    destination: "/europe/liechtenstein/vaduz",
+  },
+  { source: "/mainland-norway", destination: "/europe/norway" },
+  {
+    source: "/blog/hurst-castle-milford-on-sea",
+    destination: "/europe/united-kingdom/england/lymington",
+  },
+  { source: "/vastmanland", destination: "/europe/sweden/vastmanland" },
+  { source: "/blog/schiphol-airport", destination: "/europe/netherlands" },
+  /** "vasterbotton" typo in the Västerbotten county slug. */
+  {
+    source: "/europe/sweden/vasterbotton/:path*",
+    destination: "/europe/sweden/vasterbotten/:path*",
+  },
 ];
