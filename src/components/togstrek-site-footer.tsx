@@ -51,10 +51,10 @@ export function TogstrekSiteFooter() {
           </Link>
           <TogstrekSiteFooterSep />
           <Link
-            href="/other-work"
+            href="/photography"
             className={togstrekSiteFooterNavLinkClassName}
           >
-            Other work
+            Other Work
           </Link>
           <TogstrekSiteFooterSep />
           <Link href="/search" className={togstrekSiteFooterNavLinkClassName}>

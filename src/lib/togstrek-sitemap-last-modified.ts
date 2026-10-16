@@ -2,8 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { hikingMdxFilePath } from "@/lib/togstrek-hiking-content-fs";
-import { otherWorkMdxFilePath } from "@/lib/togstrek-load-other-work-mdx";
 import { photographyMdxFilePath } from "@/lib/togstrek-load-photography-mdx";
+import { photographySectionMdxFilePath } from "@/lib/togstrek-load-photography-section-mdx";
 
 const PLACES_ROOT = path.join(process.cwd(), "content", "places");
 
@@ -69,10 +69,11 @@ export function togstrekSitemapLastModifiedForHiking(
   return statMtime(hikingMdxFilePath(slugSegments));
 }
 
-export function togstrekSitemapLastModifiedForOtherWork(
-  slugSegments: string[],
+/** Other Work hub (no `collection`) or a collection's intro page. */
+export function togstrekSitemapLastModifiedForPhotographySection(
+  collection?: string,
 ): Date | undefined {
-  return statMtime(otherWorkMdxFilePath(slugSegments));
+  return statMtime(photographySectionMdxFilePath(collection));
 }
 
 export function togstrekSitemapLastModifiedForPhotography(

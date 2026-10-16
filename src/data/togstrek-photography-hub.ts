@@ -1,18 +1,18 @@
 /**
- * Other Work hub (`/other-work`) — portfolio tiles + featured list.
+ * Other Work hub (`/photography`) — portfolio tiles + featured list.
  * Mirrors Squarespace “portfolio grid overlay” (compact tiles, 4∶3), not full-width MDX figures.
  */
 
 const M = "https://media.togstrek.com";
 
-export type TogstrekOtherWorkHubSection = {
+export type TogstrekPhotographyHubSection = {
   href: string;
   label: string;
   imageSrc: string;
   imageAlt: string;
 };
 
-export type TogstrekOtherWorkHubFeatured = {
+export type TogstrekPhotographyHubFeatured = {
   href: string;
   title: string;
   imageSrc: string;
@@ -21,57 +21,57 @@ export type TogstrekOtherWorkHubFeatured = {
 };
 
 /** Main collection tiles — same order as legacy Squarespace hub. */
-export const togstrekOtherWorkHubSections: TogstrekOtherWorkHubSection[] = [
+export const togstrekPhotographyHubSections: TogstrekPhotographyHubSection[] = [
   {
-    href: "/other-work/art-nude",
+    href: "/photography/art-nude",
     label: "Art Nude",
     imageSrc: `${M}/other-work/art-nude/20121017-20121017-_js_7359jpg_8334220349_o-.jpg`,
     imageAlt: "Art Nude",
   },
   {
-    href: "/other-work/astrophotography",
+    href: "/photography/astrophotography",
     label: "Astro",
     imageSrc: `${M}/other-work/astrophotography/Moon2.jpg`,
     imageAlt: "Astrophotography",
   },
   {
-    href: "/other-work/events",
+    href: "/photography/events",
     label: "Events",
     imageSrc: `${M}/other-work/events/20150810-IMG_3642-23-39-16.jpg`,
     imageAlt: "Events",
   },
   {
-    href: "/other-work/fetish",
+    href: "/photography/fetish",
     label: "Fetish",
     imageSrc: `${M}/other-work/fetish/20090606-20090606-dsc00777_3612027502_o-.jpg`,
     imageAlt: "Fetish",
   },
   {
-    href: "/other-work/photography-guides",
+    href: "/photography/guides",
     label: "Guides",
     imageSrc: `${M}/other-work/photography-guides/LongestNight-4.jpg`,
     imageAlt: "Guides",
   },
   {
-    href: "/other-work/misc",
+    href: "/photography/misc",
     label: "Misc",
     imageSrc: `${M}/other-work/misc/misc.jpg`,
     imageAlt: "Misc",
   },
   {
-    href: "/other-work/models",
+    href: "/photography/models",
     label: "Models & Fashion",
     imageSrc: `${M}/other-work/models/ella-de-vine/20101121-_JS_4063-406343a3.webp`,
     imageAlt: "Ella De Vine — studio portrait, Models & Fashion",
   },
   {
-    href: "/other-work/music",
+    href: "/photography/music",
     label: "Music",
     imageSrc: `${M}/other-work/music/20211031-5DM33876-33876.jpg`,
     imageAlt: "Music",
   },
   {
-    href: "/other-work/street-photography",
+    href: "/photography/street",
     label: "Street Photography",
     imageSrc: `${M}/other-work/street-photography/20120204+-+Wandering+Around+London-20120204-0001.jpg`,
     imageAlt: "Street Photography",
@@ -79,7 +79,7 @@ export const togstrekOtherWorkHubSections: TogstrekOtherWorkHubSection[] = [
 ];
 
 /** Summary block “Featured” — links to photo essays under `/photography/…`. */
-export const togstrekOtherWorkHubFeatured: TogstrekOtherWorkHubFeatured[] = [
+export const togstrekPhotographyHubFeatured: TogstrekPhotographyHubFeatured[] = [
   {
     href: "/photography/music/the-eras-tour",
     title: "The Eras Tour",

@@ -9,10 +9,6 @@ import {
   resolveTogstrekHikingRoute,
 } from "@/lib/togstrek-hiking-content-fs";
 import {
-  discoverTogstrekOtherWorkSlugLists,
-  loadTogstrekOtherWorkFrontmatterOnly,
-} from "@/lib/togstrek-load-other-work-mdx";
-import {
   discoverTogstrekPhotographySlugLists,
   loadTogstrekPhotographyFrontmatterOnly,
 } from "@/lib/togstrek-load-photography-mdx";
@@ -30,8 +26,7 @@ export type TogstrekRssSection =
   | "adventures"
   | "places"
   | "hiking"
-  | "photography"
-  | "other-work";
+  | "photography";
 
 export type TogstrekRssFeedBuildOptions = {
   /** Path only, e.g. `/feed.xml` — used for `<atom:link rel="self" />`. */
@@ -99,11 +94,12 @@ function normalizeSection(raw: string | null): TogstrekRssSection | undefined {
     s === "adventures" ||
     s === "places" ||
     s === "hiking" ||
-    s === "photography" ||
-    s === "other-work"
+    s === "photography"
   ) {
     return s;
   }
+  // Other Work and photography are one section now; keep old feed URLs working.
+  if (s === "other-work") return "photography";
   return undefined;
 }
 
@@ -239,27 +235,6 @@ function photographyItems(origin: string): TogstrekRssItem[] {
   return out;
 }
 
-function otherWorkItems(origin: string): TogstrekRssItem[] {
-  const out: TogstrekRssItem[] = [];
-  for (const segments of discoverTogstrekOtherWorkSlugLists()) {
-    if (segments.length === 0) continue;
-    const fm = loadTogstrekOtherWorkFrontmatterOnly(segments);
-    const path = `/other-work/${segments.join("/")}`;
-    const url = `${origin}${path}`;
-    const when = pubDateForContent(fm.published, fm.modified);
-    if (when.getTime() === 0) continue;
-    out.push({
-      title: fm.title,
-      link: url,
-      guid: url,
-      pubDate: when,
-      description: fm.description?.trim() || fm.title,
-      category: "other-work",
-    });
-  }
-  return out;
-}
-
 function mergeAndCap(items: TogstrekRssItem[], max: number): TogstrekRssItem[] {
   return [...items]
     .sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime())
@@ -273,8 +248,7 @@ function channelTitle(opts: TogstrekRssFeedBuildOptions): string {
   if (opts.section === "adventures") return "A Tog's Trek — Adventures";
   if (opts.section === "places") return "A Tog's Trek — Places";
   if (opts.section === "hiking") return "A Tog's Trek — Hiking";
-  if (opts.section === "photography") return "A Tog's Trek — Photography";
-  if (opts.section === "other-work") return "A Tog's Trek — Other work";
+  if (opts.section === "photography") return "A Tog's Trek — Other Work";
   return "A Tog's Trek";
 }
 
@@ -285,7 +259,7 @@ function channelDescription(opts: TogstrekRssFeedBuildOptions): string {
   if (opts.section) {
     return `Latest updates — ${opts.section.replace(/-/g, " ")}.`;
   }
-  return "Latest updates across adventures, places, hiking, photography, and other work.";
+  return "Latest updates across adventures, places, hiking, and other work.";
 }
 
 export function buildTogstrekRssDocument(opts: TogstrekRssFeedBuildOptions): string {
@@ -304,7 +278,6 @@ export function buildTogstrekRssDocument(opts: TogstrekRssFeedBuildOptions): str
   if (want("places")) items.push(...placeItems(origin, continent));
   if (want("hiking")) items.push(...hikingItems(origin));
   if (want("photography")) items.push(...photographyItems(origin));
-  if (want("other-work")) items.push(...otherWorkItems(origin));
 
   const capped = mergeAndCap(items, max);
   const lastBuild = capped[0]?.pubDate ?? new Date();

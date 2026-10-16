@@ -117,7 +117,7 @@ export const togstrekRegionGridItems: TogstrekRegionGridItem[] = [
       "Sunset light on Mount Kilimanjaro between Shira Camp and Barranco Camp",
   },
   {
-    href: "/other-work",
+    href: "/photography",
     label: "Other Work",
     blurb: "Beyond travel",
     gradient: "otherWork",

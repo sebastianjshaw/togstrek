@@ -9,9 +9,9 @@ import { getTogstrekPlaceMdxComponents } from "@/components/togstrek-place/togst
 import { togstrekMdxRemarkPlugins } from "@/lib/togstrek-mdx-remark-plugins";
 import { shouldOmitVisibleDescriptionLead } from "@/lib/togstrek-mdx-description-lead-dedupe";
 import {
-  parseTogstrekOtherWorkFrontmatter,
-  type TogstrekOtherWorkMdxFrontmatter,
-} from "@/lib/togstrek-other-work-frontmatter";
+  parseTogstrekPhotographyFrontmatter,
+  type TogstrekPhotographyMdxFrontmatter,
+} from "@/lib/togstrek-photography-frontmatter";
 import {
   areTogstrekSafeUrlPathSegments,
   isTogstrekPathWithinRoot,
@@ -35,7 +35,7 @@ function resolvePhotographyMdxPath(slugSegments: string[]): string | null {
 }
 
 export type TogstrekPhotographyMdxResult = {
-  frontmatter: TogstrekOtherWorkMdxFrontmatter;
+  frontmatter: TogstrekPhotographyMdxFrontmatter;
   content: ReactNode;
   /** When true, body already opens with the same copy as `description` — hide the lead. */
   omitDescriptionLead: boolean;
@@ -61,14 +61,14 @@ export function photographyMdxExists(slugSegments: string[]): boolean {
 
 export function loadTogstrekPhotographyFrontmatterOnly(
   slugSegments: string[],
-): TogstrekOtherWorkMdxFrontmatter {
+): TogstrekPhotographyMdxFrontmatter {
   const fp = resolvePhotographyMdxPath(slugSegments);
   if (!fp) {
     throw new Error("Invalid photography path parameters");
   }
   const raw = fs.readFileSync(fp, "utf8");
   const { data } = matter(raw);
-  return parseTogstrekOtherWorkFrontmatter(data as Record<string, unknown>);
+  return parseTogstrekPhotographyFrontmatter(data as Record<string, unknown>);
 }
 
 export async function loadTogstrekPhotographyMdx(
@@ -78,7 +78,7 @@ export async function loadTogstrekPhotographyMdx(
   const source = fs.readFileSync(fp, "utf8");
 
   const parsed = matter(source);
-  const fmDedupe = parseTogstrekOtherWorkFrontmatter(
+  const fmDedupe = parseTogstrekPhotographyFrontmatter(
     parsed.data as Record<string, unknown>,
   );
   const omitDescriptionLead = shouldOmitVisibleDescriptionLead(
@@ -101,7 +101,7 @@ export async function loadTogstrekPhotographyMdx(
   });
 
   const fm = rawFm as Record<string, unknown>;
-  const frontmatter = parseTogstrekOtherWorkFrontmatter(fm);
+  const frontmatter = parseTogstrekPhotographyFrontmatter(fm);
 
   return { frontmatter, content, omitDescriptionLead };
 }

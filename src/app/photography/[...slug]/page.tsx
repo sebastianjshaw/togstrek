@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { TogstrekPhotographyCategoryPage } from "@/components/togstrek-photography/togstrek-photography-category-page";
+import { TogstrekPhotographySectionPageTemplate } from "@/components/togstrek-photography/togstrek-photography-section-page-template";
 import { TogstrekPhotographyPageTemplate } from "@/components/togstrek-photography/togstrek-photography-page-template";
 import { buildTogstrekMetadata } from "@/lib/togstrek-metadata";
+import {
+  loadTogstrekPhotographySectionFrontmatterOnly,
+  loadTogstrekPhotographySectionMdx,
+  photographySectionMdxExists,
+} from "@/lib/togstrek-load-photography-section-mdx";
 import {
   discoverTogstrekPhotographySlugParams,
   loadTogstrekPhotographyFrontmatterOnly,
@@ -17,19 +22,20 @@ import {
 
 export const dynamicParams = false;
 
-function formatCategoryTitle(category: string): string {
-  return category
-    .split(/[-_]+/)
-    .filter(Boolean)
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
+/** `/photography/<collection>` — an Other Work collection with an intro page. */
+function isCollectionRoute(slug: string[]): boolean {
+  return (
+    slug.length === 1 &&
+    isTogstrekPhotographyCategorySlug(slug[0]!) &&
+    photographySectionMdxExists(slug[0]!)
+  );
 }
 
 export async function generateStaticParams(): Promise<{ slug: string[] }[]> {
   const postParams = discoverTogstrekPhotographySlugParams();
-  const categoryParams = discoverTogstrekPhotographyCategorySlugs().map(
-    (category) => ({ slug: [category] }),
-  );
+  const categoryParams = discoverTogstrekPhotographyCategorySlugs()
+    .filter((category) => photographySectionMdxExists(category))
+    .map((category) => ({ slug: [category] }));
   return [...categoryParams, ...postParams];
 }
 
@@ -40,16 +46,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
 
-  if (
-    slug.length === 1 &&
-    isTogstrekPhotographyCategorySlug(slug[0]!)
-  ) {
+  if (isCollectionRoute(slug)) {
     const category = slug[0]!;
+    const fm = loadTogstrekPhotographySectionFrontmatterOnly(category);
     return buildTogstrekMetadata({
-      title: formatCategoryTitle(category),
-      description: `Photo essays in the ${formatCategoryTitle(category)} collection.`,
+      title: fm.title,
+      description: fm.description,
       path: `/photography/${category}`,
       type: "website",
+      openGraphDescription: fm.description,
+      // Width/height intentionally omitted — see togstrek-place-app-route.tsx.
+      openGraphImages: fm.heroImage
+        ? [{ url: fm.heroImage.src, alt: fm.heroImage.alt }]
+        : undefined,
     });
   }
 
@@ -83,11 +92,17 @@ export default async function TogstrekPhotographySlugPage({
 }) {
   const { slug } = await params;
 
-  if (
-    slug.length === 1 &&
-    isTogstrekPhotographyCategorySlug(slug[0]!)
-  ) {
-    return <TogstrekPhotographyCategoryPage category={slug[0]!} />;
+  if (isCollectionRoute(slug)) {
+    const { frontmatter, content, omitDescriptionLead } =
+      await loadTogstrekPhotographySectionMdx(slug[0]!);
+    return (
+      <TogstrekPhotographySectionPageTemplate
+        frontmatter={frontmatter}
+        mdxContent={content}
+        isHub={false}
+        omitDescriptionLead={omitDescriptionLead}
+      />
+    );
   }
 
   if (!photographyMdxExists(slug)) {

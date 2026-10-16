@@ -37,6 +37,29 @@ export const togstrekSeoLegacyRedirects: {
   destination: string;
 }[] = [
   { source: "/home", destination: "/" },
+  /**
+   * Other Work and Photography were one section split across two URL trees;
+   * everything now lives under `/photography`. Collection pages keep their
+   * names except the two that were prefixed on the old tree.
+   */
+  { source: "/other-work", destination: "/photography" },
+  ...[
+    ["art-nude", "art-nude"],
+    ["astrophotography", "astrophotography"],
+    ["events", "events"],
+    ["fetish", "fetish"],
+    ["misc", "misc"],
+    ["models", "models"],
+    ["music", "music"],
+    ["photography-guides", "guides"],
+    ["guides", "guides"],
+    ["street-photography", "street"],
+    ["street", "street"],
+    ["model", "models"],
+  ].map(([from, to]) => ({
+    source: `/other-work/${from}`,
+    destination: `/photography/${to}`,
+  })),
   { source: "/tag", destination: "/" },
   { source: "/tag/", destination: "/" },
   /** Duplicate continent segment from old exports / bad links */
@@ -72,11 +95,11 @@ export const togstrekSeoLegacyRedirects: {
     source: "/other-work/merlin",
     destination: "/photography/events/meeting-merlin",
   },
-  /** Retired “Avalon” project — consolidated to Other work hub for external links */
-  { source: "/other-work/avalon", destination: "/other-work" },
-  { source: "/photography/avalon/:path*", destination: "/other-work" },
-  { source: "/photography/avalon-visit-2", destination: "/other-work" },
-  { source: "/photography/avalon-family-tour", destination: "/other-work" },
+  /** Retired “Avalon” project — consolidated to the Other Work hub for external links */
+  { source: "/other-work/avalon", destination: "/photography" },
+  { source: "/photography/avalon/:path*", destination: "/photography" },
+  { source: "/photography/avalon-visit-2", destination: "/photography" },
+  { source: "/photography/avalon-family-tour", destination: "/photography" },
   /** Old blog photo-diary URLs → current place or adventure pages */
   {
     source: "/blog/alpine-adventure-exploring-chamonix",
@@ -130,11 +153,11 @@ export const togstrekSeoLegacyRedirects: {
   { source: "/blog/tagged/hungary", destination: "/europe/hungary" },
   {
     source: "/blog/tagged/travelphotography",
-    destination: "/other-work",
+    destination: "/photography",
   },
   {
     source: "/blog/tagged/travel-photography",
-    destination: "/other-work",
+    destination: "/photography",
   },
   { source: "/blog/tagged/algar", destination: "/europe/portugal" },
   { source: "/blog/innsbruck", destination: "/europe/austria/innsbruck" },
@@ -248,4 +271,6 @@ export const togstrekSeoLegacyRedirects: {
     source: "/europe/sweden/vasterbotton/:path*",
     destination: "/europe/sweden/vasterbotten/:path*",
   },
+  /** Any other old Other Work path (Squarespace leftovers) lands on the hub. */
+  { source: "/other-work/:path*", destination: "/photography" },
 ];

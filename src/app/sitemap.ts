@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { discoverTogstrekHikingGroupSegmentLists } from "@/lib/togstrek-hiking-groups";
 import { discoverTogstrekHikingSlugLists } from "@/lib/togstrek-hiking-content-fs";
-import { discoverTogstrekOtherWorkSlugLists } from "@/lib/togstrek-load-other-work-mdx";
+import { photographySectionMdxExists } from "@/lib/togstrek-load-photography-section-mdx";
 import { discoverTogstrekPhotographySlugLists } from "@/lib/togstrek-load-photography-mdx";
 import { discoverTogstrekPhotographyCategorySlugs } from "@/lib/togstrek-photography-nav";
 import {
@@ -13,8 +13,8 @@ import {
 import {
   togstrekSitemapLastModifiedForCountryHub,
   togstrekSitemapLastModifiedForHiking,
-  togstrekSitemapLastModifiedForOtherWork,
   togstrekSitemapLastModifiedForPhotography,
+  togstrekSitemapLastModifiedForPhotographySection,
   togstrekSitemapLastModifiedForPlace,
 } from "@/lib/togstrek-sitemap-last-modified";
 import { buildTogstrekPlacePublicPath } from "@/lib/togstrek-place-path";
@@ -179,33 +179,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   );
 
-  const otherWorkEntries: MetadataRoute.Sitemap =
-    discoverTogstrekOtherWorkSlugLists().map((segments) =>
-      withOptionalLastModified(
-        {
-          url:
-            segments.length === 0
-              ? `${base}/other-work`
-              : `${base}/other-work/${segments.join("/")}`,
-          changeFrequency: "monthly" as const,
-          priority: segments.length === 0 ? 0.84 : 0.7,
-        },
-        togstrekSitemapLastModifiedForOtherWork(segments),
-      ),
+  const photographyHubEntry: MetadataRoute.Sitemap[number] =
+    withOptionalLastModified(
+      {
+        url: `${base}/photography`,
+        changeFrequency: "monthly" as const,
+        priority: 0.84,
+      },
+      togstrekSitemapLastModifiedForPhotographySection(),
     );
 
-  const photographyHubEntry: MetadataRoute.Sitemap[number] = {
-    url: `${base}/photography`,
-    changeFrequency: "monthly",
-    priority: 0.84,
-  };
-
   const photographyCategoryEntries: MetadataRoute.Sitemap =
-    discoverTogstrekPhotographyCategorySlugs().map((category) => ({
-      url: `${base}/photography/${category}`,
-      changeFrequency: "monthly" as const,
-      priority: 0.72,
-    }));
+    discoverTogstrekPhotographyCategorySlugs()
+      .filter((category) => photographySectionMdxExists(category))
+      .map((category) =>
+        withOptionalLastModified(
+          {
+            url: `${base}/photography/${category}`,
+            changeFrequency: "monthly" as const,
+            priority: 0.72,
+          },
+          togstrekSitemapLastModifiedForPhotographySection(category),
+        ),
+      );
 
   const photographyEntries: MetadataRoute.Sitemap =
     discoverTogstrekPhotographySlugLists().map((segments) =>
@@ -229,7 +225,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...swedenLanHubEntries,
     ...placeEntries,
     ...hikingEntries,
-    ...otherWorkEntries,
     photographyHubEntry,
     ...photographyCategoryEntries,
     ...photographyEntries,

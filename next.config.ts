@@ -209,17 +209,17 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/photography/category/Art\\+Nude",
-        destination: "/other-work/art-nude",
+        destination: "/photography/art-nude",
         permanent: true,
       },
       {
         source: "/photography/category/Fetish",
-        destination: "/other-work/fetish",
+        destination: "/photography/fetish",
         permanent: true,
       },
       {
         source: "/photography/category/Astrophotography",
-        destination: "/other-work/astrophotography",
+        destination: "/photography/astrophotography",
         permanent: true,
       },
       {
@@ -653,21 +653,6 @@ const nextConfig: NextConfig = {
       {
         source: "/antarctica/antarctic/:place",
         destination: "/antarctica/:place",
-        permanent: true,
-      },
-      {
-        source: "/other-work/guides",
-        destination: "/other-work/photography-guides",
-        permanent: true,
-      },
-      {
-        source: "/other-work/model",
-        destination: "/other-work/models",
-        permanent: true,
-      },
-      {
-        source: "/other-work/street",
-        destination: "/other-work/street-photography",
         permanent: true,
       },
       ...togstrekSeoLegacyRedirects.map((r) => ({

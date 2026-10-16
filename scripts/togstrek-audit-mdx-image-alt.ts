@@ -34,7 +34,6 @@ function parseArgs(): { contentRoots: string[] } {
       "content/adventures",
       "content/hiking",
       "content/photography",
-      "content/other-work",
       "content/blog",
     ]) {
       const p = path.join(ROOT, rel);

@@ -1,6 +1,6 @@
 # A Tog's Trek
 
-Personal travel photography and long-form field notes: countries and cities, multi-day hikes, adventure essays, and a separate photography archive. The site is static-first (Next.js); story pages live under predictable URL prefixes.
+Personal travel photography and long-form field notes: countries and cities, multi-day hikes, adventure essays, and an Other Work section of photography portfolios and essays. The site is static-first (Next.js); story pages live under predictable URL prefixes.
 
 ## Canonical origin
 
@@ -17,8 +17,7 @@ https://www.togstrek.com/
 - Home: https://www.togstrek.com/
 - Adventures (trip essays): https://www.togstrek.com/adventures
 - Hiking (trail journals & stages): https://www.togstrek.com/hiking
-- Photography (galleries & essays): https://www.togstrek.com/photography
-- Other work (portfolio-style topics): https://www.togstrek.com/other-work
+- Other Work (photography portfolios, events, studio and street work, astrophotography, guides): https://www.togstrek.com/photography
 - Visited map (where the author has been): https://www.togstrek.com/visited-map
 - About: https://www.togstrek.com/about
 - Contact: https://www.togstrek.com/contact

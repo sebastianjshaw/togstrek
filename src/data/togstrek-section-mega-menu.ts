@@ -1,6 +1,6 @@
 /**
  * Hub links for Hiking and Other Work mega menus. Add entries here as you
- * migrate pages; paths follow `/hiking/...` and `/other-work/...`.
+ * migrate pages; paths follow `/hiking/...` and `/photography/...`.
  */
 
 import type { TogstrekContinentMegaMenuFeaturedAdventure } from "@/data/togstrek-continent-mega-menu";
@@ -78,24 +78,24 @@ export const togstrekHikingMegaMenu: TogstrekSectionMegaMenuDefinition = {
 
 export const togstrekOtherWorkMegaMenu: TogstrekSectionMegaMenuDefinition = {
   key: "other-work",
-  navHref: "/other-work",
+  navHref: "/photography",
   navLabel: "Other Work",
   panelHeading: "Other work",
   tagline:
     "Exploration is not just travelling. It's how you look at the world, how you try new things, and how you learn.",
   links: [
-    { href: "/other-work/art-nude", label: "Art nude" },
-    { href: "/other-work/astrophotography", label: "Astrophotography" },
-    { href: "/other-work/events", label: "Events" },
-    { href: "/other-work/fetish", label: "Fetish" },
-    { href: "/other-work/photography-guides", label: "Guides" },
-    { href: "/other-work/misc", label: "Misc" },
-    { href: "/other-work/models", label: "Models & fashion" },
-    { href: "/other-work/music", label: "Music" },
-    { href: "/other-work/street-photography", label: "Street" },
+    { href: "/photography/art-nude", label: "Art nude" },
+    { href: "/photography/astrophotography", label: "Astrophotography" },
+    { href: "/photography/events", label: "Events" },
+    { href: "/photography/fetish", label: "Fetish" },
+    { href: "/photography/guides", label: "Guides" },
+    { href: "/photography/misc", label: "Misc" },
+    { href: "/photography/models", label: "Models & fashion" },
+    { href: "/photography/music", label: "Music" },
+    { href: "/photography/street", label: "Street" },
   ].sort((a, b) => a.label.localeCompare(b.label)),
   ctaLabel: "All other work",
-  ctaHref: "/other-work",
+  ctaHref: "/photography",
   aside: {
     heading: "About",
     headingHref: "/about",

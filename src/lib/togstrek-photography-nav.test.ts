@@ -13,7 +13,7 @@ describe("buildTogstrekPhotographyBreadcrumbItems", () => {
       ["events", "goteborgsvarvet-2024"],
       "Göteborgsvarvet 2024",
     );
-    expect(items[0]).toEqual({ href: "/photography", label: "Photography" });
+    expect(items[0]).toEqual({ href: "/photography", label: "Other Work" });
     expect(items[1]?.href).toBe("/photography/events");
     expect(items[1]?.label).toBe("Events");
     expect(items[2]?.label).toBe("Göteborgsvarvet 2024");
@@ -60,7 +60,7 @@ describe("photography collections", () => {
     expect(slugsIn("models")).toContain("model/corporate-self-portraits");
   });
 
-  it("includes root-level posts that the Other work sections list", () => {
+  it("includes root-level posts that list the collection in frontmatter", () => {
     expect(slugsIn("art-nude")).toEqual(
       expect.arrayContaining([
         "acrobatic-art-nudes",

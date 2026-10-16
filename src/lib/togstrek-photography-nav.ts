@@ -1,6 +1,6 @@
-import { TOGSTREK_OTHER_WORK_SECTION_FEATURED } from "@/data/togstrek-other-work-section-featured";
 import {
   discoverTogstrekPhotographySlugLists,
+  loadTogstrekPhotographyFrontmatterOnly,
   photographyMdxExists,
 } from "@/lib/togstrek-load-photography-mdx";
 import { isTogstrekSafeUrlPathSegment } from "@/lib/togstrek-path-safety";
@@ -24,15 +24,6 @@ const FOLDER_TO_CATEGORY: Record<string, string> = {
   model: "models",
 };
 
-/**
- * “Other work” section keys that differ from the photography folder name for
- * the same collection.
- */
-const OTHER_WORK_SECTION_TO_CATEGORY: Record<string, string> = {
-  "photography-guides": "guides",
-  "street-photography": "street",
-};
-
 /** Category a top-level folder belongs to (folds legacy duplicates). */
 export function canonicalTogstrekPhotographyCategory(folder: string): string {
   return FOLDER_TO_CATEGORY[folder] ?? folder;
@@ -41,61 +32,39 @@ export function canonicalTogstrekPhotographyCategory(folder: string): string {
 let categoryPostsCache: Map<string, string[][]> | undefined;
 
 /**
- * Every collection with the posts that belong to it. A post is in the
- * collection of its folder and in each collection the Other work sections list
- * it under, so posts that sit at the root or in another folder (e.g. Acrobatic
- * Art Nudes under Art Nude) still show up when filtering.
+ * Every Other Work collection with the posts that belong to it. A post lists
+ * its collections in `collections` frontmatter; without it, a post sits in the
+ * collection named by its folder.
  */
 function categoryPosts(): Map<string, string[][]> {
   if (categoryPostsCache && process.env.NODE_ENV === "production") {
     return categoryPostsCache;
   }
 
-  const byCategory = new Map<string, Map<string, string[]>>();
-  const add = (category: string, segments: string[]): void => {
-    if (!isTogstrekSafeUrlPathSegment(category)) return;
-    let posts = byCategory.get(category);
-    if (!posts) {
-      posts = new Map();
+  const byCategory = new Map<string, string[][]>();
+  for (const segments of discoverTogstrekPhotographySlugLists()) {
+    const { collections } = loadTogstrekPhotographyFrontmatterOnly(segments);
+    const categories =
+      collections ??
+      (segments.length >= 2
+        ? [canonicalTogstrekPhotographyCategory(segments[0]!)]
+        : []);
+    for (const category of categories) {
+      if (!isTogstrekSafeUrlPathSegment(category)) continue;
+      const posts = byCategory.get(category) ?? [];
+      posts.push(segments);
       byCategory.set(category, posts);
     }
-    posts.set(segments.join("/"), segments);
-  };
-
-  for (const segments of discoverTogstrekPhotographySlugLists()) {
-    if (segments.length >= 2) {
-      add(canonicalTogstrekPhotographyCategory(segments[0]!), segments);
-    }
+  }
+  for (const posts of byCategory.values()) {
+    posts.sort((a, b) => a.join("/").localeCompare(b.join("/")));
   }
 
-  const prefix = "/photography/";
-  for (const [section, rows] of Object.entries(
-    TOGSTREK_OTHER_WORK_SECTION_FEATURED,
-  )) {
-    const category = OTHER_WORK_SECTION_TO_CATEGORY[section] ?? section;
-    for (const row of rows) {
-      if (!row.href.startsWith(prefix)) continue;
-      const segments = row.href.slice(prefix.length).split("/").filter(Boolean);
-      if (
-        segments.length > 0 &&
-        segments.every(isTogstrekSafeUrlPathSegment) &&
-        photographyMdxExists(segments)
-      ) {
-        add(category, segments);
-      }
-    }
-  }
-
-  categoryPostsCache = new Map(
-    [...byCategory].map(([category, posts]) => [
-      category,
-      [...posts.values()].sort((a, b) => a.join("/").localeCompare(b.join("/"))),
-    ]),
-  );
-  return categoryPostsCache;
+  categoryPostsCache = byCategory;
+  return byCategory;
 }
 
-/** Collections shown as filters on `/photography`, in alphabetical order. */
+/** Other Work collections, in alphabetical order. */
 export function discoverTogstrekPhotographyCategorySlugs(): string[] {
   return [...categoryPosts().keys()].sort((a, b) => a.localeCompare(b));
 }
@@ -120,7 +89,7 @@ export function buildTogstrekPhotographyBreadcrumbItems(
   currentTitle: string,
 ): TogstrekBreadcrumbItem[] {
   const items: TogstrekBreadcrumbItem[] = [
-    { href: "/photography", label: "Photography" },
+    { href: "/photography", label: "Other Work" },
   ];
 
   if (slugSegments.length >= 2) {

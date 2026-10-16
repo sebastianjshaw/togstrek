@@ -12,7 +12,7 @@
  *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --file content/places/africa/egypt/cairo.mdx
  *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --file content/photography/explosion-at-sejdeln.mdx --file content/photography/events/meeting-merlin.mdx
  *   npx tsx scripts/togstrek-fill-mdx-empty-image-exif.ts --include africa/egypt/luxor --dry-run
- *   (--include scans places + photography + hiking + adventures + other-work)
+ *   (--include scans places + photography + hiking + adventures)
  */
 
 import fs from "node:fs";
@@ -33,7 +33,6 @@ const CONTENT_MDX_ROOTS = [
   path.join(process.cwd(), "content", "photography"),
   path.join(process.cwd(), "content", "hiking"),
   path.join(process.cwd(), "content", "adventures"),
-  path.join(process.cwd(), "content", "other-work"),
 ] as const;
 
 /** `![alt](https://media.togstrek.com/...)` — group 1 alt, group 2 URL. */

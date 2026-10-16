@@ -2,10 +2,10 @@ import type { ReactNode } from "react";
 
 import { TogstrekArticlePageTemplate } from "@/components/togstrek-article/togstrek-article-page-template";
 import { buildTogstrekPhotographyBreadcrumbItems } from "@/lib/togstrek-photography-nav";
-import type { TogstrekOtherWorkMdxFrontmatter } from "@/lib/togstrek-other-work-frontmatter";
+import type { TogstrekPhotographyMdxFrontmatter } from "@/lib/togstrek-photography-frontmatter";
 
 type TogstrekPhotographyPageTemplateProps = {
-  frontmatter: TogstrekOtherWorkMdxFrontmatter;
+  frontmatter: TogstrekPhotographyMdxFrontmatter;
   mdxContent: ReactNode;
   slugSegments: string[];
   /** Hide YAML `description` above the article when it duplicates the body opening. */
@@ -26,7 +26,7 @@ export function TogstrekPhotographyPageTemplate({
       published={frontmatter.published}
       modified={frontmatter.modified}
       heroImage={frontmatter.heroImage}
-      eyebrow="Photography"
+      eyebrow="Other Work"
       heroTitleId="togstrek-photography-hero-title"
       fallbackTitleId="togstrek-photography-title"
       breadcrumbItems={buildTogstrekPhotographyBreadcrumbItems(
