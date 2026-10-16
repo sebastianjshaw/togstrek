@@ -1,3 +1,5 @@
+import { formatTogstrekDisplayDate } from "@/lib/togstrek-display-date";
+
 type TogstrekPublishedDateProps = {
   published?: string;
   modified?: string;
@@ -15,8 +17,9 @@ export function TogstrekPublishedDate({
   descriptionLeadShown,
   className,
 }: TogstrekPublishedDateProps) {
-  const pub = published?.trim();
+  const pub = formatTogstrekDisplayDate(published);
   if (!pub) return null;
+  const updated = formatTogstrekDisplayDate(modified);
 
   return (
     <p
@@ -31,7 +34,7 @@ export function TogstrekPublishedDate({
         .join(" ")}
     >
       Published {pub}
-      {modified?.trim() ? ` · Updated ${modified.trim()}` : ""}
+      {updated ? ` · Updated ${updated}` : ""}
     </p>
   );
 }
