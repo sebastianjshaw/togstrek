@@ -240,6 +240,9 @@ export const togstrekSeoLegacyRedirects: {
     source: "/blog/schiphol-airport",
     destination: "/europe/netherlands/voorschoten",
   },
+  /** Single-post duplicate photography folders folded into their collection. */
+  { source: "/photography/event", destination: "/photography/events" },
+  { source: "/photography/model", destination: "/photography/models" },
   /** "vasterbotton" typo in the Västerbotten county slug. */
   {
     source: "/europe/sweden/vasterbotton/:path*",

@@ -33,8 +33,9 @@ export function TogstrekPhotographyCategoryPage({
   }
 
   const title = formatCategoryTitle(category);
-  const posts = listTogstrekPhotographySlugListsInCategory(category).map(
-    (segments) => {
+  // Posts come from several folders, so order by title rather than by path.
+  const posts = listTogstrekPhotographySlugListsInCategory(category)
+    .map((segments) => {
       const fm = loadTogstrekPhotographyFrontmatterOnly(segments);
       return {
         href: `/photography/${segments.join("/")}`,
@@ -42,8 +43,8 @@ export function TogstrekPhotographyCategoryPage({
         imageSrc: fm.heroImage?.src,
         imageAlt: fm.heroImage?.alt ?? fm.title,
       };
-    },
-  );
+    })
+    .sort((a, b) => a.title.localeCompare(b.title, "en", { sensitivity: "base" }));
 
   return (
     <main

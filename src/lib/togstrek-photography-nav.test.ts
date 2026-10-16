@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildTogstrekPhotographyBreadcrumbItems,
+  discoverTogstrekPhotographyCategorySlugs,
   isTogstrekPhotographyCategorySlug,
+  listTogstrekPhotographySlugListsInCategory,
 } from "@/lib/togstrek-photography-nav";
 
 describe("buildTogstrekPhotographyBreadcrumbItems", () => {
@@ -38,5 +40,41 @@ describe("isTogstrekPhotographyCategorySlug", () => {
     expect(isTogstrekPhotographyCategorySlug("explosion-at-sejdeln")).toBe(
       false,
     );
+  });
+});
+
+describe("photography collections", () => {
+  const slugsIn = (category: string) =>
+    listTogstrekPhotographySlugListsInCategory(category).map((s) => s.join("/"));
+
+  it("lists each collection once, folding the single-post duplicate folders", () => {
+    const categories = discoverTogstrekPhotographyCategorySlugs();
+    expect(categories).toContain("events");
+    expect(categories).toContain("models");
+    expect(categories).not.toContain("event");
+    expect(categories).not.toContain("model");
+  });
+
+  it("includes posts from the duplicate folders in the main collection", () => {
+    expect(slugsIn("events")).toContain("event/up-close-and-personal");
+    expect(slugsIn("models")).toContain("model/corporate-self-portraits");
+  });
+
+  it("includes root-level posts that the Other work sections list", () => {
+    expect(slugsIn("art-nude")).toEqual(
+      expect.arrayContaining([
+        "acrobatic-art-nudes",
+        "art-nude/art-nude-with-ivoryflame",
+      ]),
+    );
+    expect(slugsIn("guides")).toContain("night-shooting-guide");
+  });
+
+  it("links a post in a duplicate folder to its collection in breadcrumbs", () => {
+    const items = buildTogstrekPhotographyBreadcrumbItems(
+      ["event", "up-close-and-personal"],
+      "Up close and personal...",
+    );
+    expect(items[1]).toEqual({ href: "/photography/events", label: "Events" });
   });
 });
