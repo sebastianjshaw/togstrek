@@ -242,6 +242,11 @@ export const togstrekSeoLegacyRedirects: {
     source: "/asia/kyrgyzstan/krasnyy-most",
     destination: "/asia/kyrgyzstan",
   },
+  /** Nurota's page was published as "nurata-aydar-kul"; the slug now matches the title. */
+  {
+    source: "/asia/uzbekistan/nurata-aydar-kul",
+    destination: "/asia/uzbekistan/nurota",
+  },
   /** Voru's old "-village" URL is still live in search indexes and links. */
   {
     source: "/asia/tajikistan/voru-village",
