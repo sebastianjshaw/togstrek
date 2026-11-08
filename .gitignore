@@ -66,3 +66,6 @@ public/media/originals/**
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Instagram auto-post state (kept on the instagram-state branch in CI)
+/.instagram-state.json

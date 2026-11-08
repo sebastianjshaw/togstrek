@@ -1,0 +1,82 @@
+name: Instagram post
+
+# Posts the next page from the site to Instagram once a day. See
+# docs/instagram-autopost.md for setup. Nothing is posted by a scheduled run
+# until the repository variable INSTAGRAM_POSTING_ENABLED is set to "true".
+
+on:
+  schedule:
+    # 16:00 UTC (18:00 in Sweden in summer, 17:00 in winter).
+    - cron: "0 16 * * *"
+  workflow_dispatch:
+    inputs:
+      live:
+        description: "Post for real. Leave unticked for a dry run that posts nothing."
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: instagram-post
+  cancel-in-progress: false
+
+jobs:
+  post:
+    if: github.event_name == 'workflow_dispatch' || vars.INSTAGRAM_POSTING_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+      INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+      LIVE: ${{ github.event_name == 'schedule' || inputs.live }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # What has been posted lives on its own branch so that saving it does not
+      # trigger a site deploy on main.
+      - name: Load posting state
+        run: |
+          mkdir -p "$RUNNER_TEMP/state"
+          if git fetch origin instagram-state:instagram-state 2>/dev/null; then
+            git show instagram-state:state.json > "$RUNNER_TEMP/state/state.json" || true
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci
+
+      - name: Post the next page
+        run: |
+          if [ "$LIVE" = "true" ]; then
+            npx tsx scripts/togstrek-instagram-publish.ts --post --state "$RUNNER_TEMP/state/state.json"
+          else
+            npx tsx scripts/togstrek-instagram-publish.ts --state "$RUNNER_TEMP/state/state.json"
+          fi
+
+      # Runs even if the post step failed after publishing, so a post is not repeated.
+      - name: Save posting state
+        if: ${{ always() && env.LIVE == 'true' }}
+        run: |
+          [ -f "$RUNNER_TEMP/state/state.json" ] || exit 0
+          git config user.name "togstrek-instagram-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if git show-ref --verify --quiet refs/heads/instagram-state; then
+            git worktree add "$RUNNER_TEMP/wt" instagram-state
+          else
+            git worktree add --detach "$RUNNER_TEMP/wt"
+            git -C "$RUNNER_TEMP/wt" checkout --orphan instagram-state
+            git -C "$RUNNER_TEMP/wt" rm -rf . > /dev/null 2>&1 || true
+          fi
+          cp "$RUNNER_TEMP/state/state.json" "$RUNNER_TEMP/wt/state.json"
+          cd "$RUNNER_TEMP/wt"
+          git add state.json
+          if git diff --cached --quiet; then
+            echo "State unchanged."
+          else
+            git commit -m "Instagram posting state [skip ci]"
+            git push origin instagram-state
+          fi
