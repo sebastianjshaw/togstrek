@@ -44,20 +44,32 @@ Before each post the script also checks that the page returns 200 on the live si
 
 ## One-time setup
 
-You need to do the Meta steps yourself: they involve your Instagram login and an app secret.
+You need to do the Meta steps yourself: they involve your Instagram login and an app secret. These steps are for a Meta app that uses **Instagram API setup with Unified login**, which is what newer apps get. (Meta calls the Facebook Login route legacy, and the Instagram Login route is not offered to newer apps.) No Facebook Page is needed, but the app does need to belong to a business portfolio.
 
-1. **Account.** The Instagram account is a Business account and is linked to a Facebook Page (Instagram → Settings → Accounts Center / Linked accounts).
-2. **Meta app.** At [developers.facebook.com](https://developers.facebook.com) create an app (type Business). Add the permissions `instagram_basic`, `instagram_content_publish`, `pages_show_list` and `pages_read_engagement`. While the app stays in Development mode and you are its admin, these work on your own account without App Review.
-3. **Token.** In the Graph API Explorer, generate a user token with those permissions, then:
-   1. Exchange it for a long-lived token: `GET /oauth/access_token?grant_type=fb_exchange_token&client_id=APP_ID&client_secret=APP_SECRET&fb_exchange_token=SHORT_TOKEN`
-   2. List your Pages with that long-lived token: `GET /me/accounts`. Use the **Page access token** for your Page. A Page token made from a long-lived user token has no fixed expiry (it stops working if you change your Facebook password or lose admin access to the Page).
-   3. Find the Instagram account id: `GET /PAGE_ID?fields=instagram_business_account`. The `id` inside is your Instagram user id.
-4. **GitHub secrets.** In the repo, Settings → Secrets and variables → Actions → *Secrets*, add:
-   - `INSTAGRAM_USER_ID`: the Instagram user id from step 3.3
-   - `INSTAGRAM_ACCESS_TOKEN`: the Page access token from step 3.2
-5. **Dry run in Actions.** Actions → *Instagram post* → *Run workflow*, leaving "Post for real" unticked. It prints what it would post.
-6. **First real post, by hand.** Run the same workflow with "Post for real" ticked, and check the post on Instagram.
-7. **Turn on the schedule.** Settings → Secrets and variables → Actions → *Variables*, add `INSTAGRAM_POSTING_ENABLED` = `true`. Until this exists, scheduled runs do nothing. Delete the variable (or set it to anything else) to pause posting.
+1. **Account.** The Instagram account is a Business or Creator account.
+2. **Meta app.** At [developers.facebook.com](https://developers.facebook.com) the app uses the "Manage messaging & content on Instagram" use case. Keep it in **Development mode** with you as an admin: that is enough to publish to your own account without App Review.
+3. **Permissions.** In the dashboard go to Use cases → Manage messaging & content on Instagram → Customize → *API setup with Unified login* → Configure your app. The configuration needs `instagram_basic` and `instagram_content_publish`.
+4. **Redirect URL.** The configuration form asks you to "Register a new redirect URL". It must be an HTTPS address you control. Use `https://www.togstrek.com/`. Nothing on the site needs to handle it, because the steps below skip the sign-in flow that uses it.
+5. **Token (shortcut for your own account).** On the same API setup page, find the step *Generate access tokens*:
+   1. Choose **Add account** and add your Instagram account as an Instagram Tester.
+   2. Accept the invite on instagram.com: Settings → Website permissions → Apps and websites → Tester Invites.
+   3. Back in the dashboard choose **Generate token**, complete the login and copy the token. **It is shown only once.**
+6. **Instagram account id.** In your terminal, so the token is not saved in your shell history:
+
+   ```bash
+   printf 'Token: '; read -rs IG_TOKEN; echo
+   curl -s "https://graph.facebook.com/v27.0/me/assigned_instagram_accounts?fields=id,username&access_token=$IG_TOKEN"
+   ```
+
+   The `id` for your account is the Instagram user id.
+7. **GitHub secrets.** In the repo, Settings → Secrets and variables → Actions → *Secrets*, add:
+   - `INSTAGRAM_USER_ID`: the id from step 6
+   - `INSTAGRAM_ACCESS_TOKEN`: the token from step 5
+8. **Dry run in Actions.** Actions → *Instagram post* → *Run workflow*, leaving "Post for real" unticked. It prints what it would post.
+9. **First real post, by hand.** Run the same workflow with "Post for real" ticked, and check the post on Instagram.
+10. **Turn on the schedule.** Settings → Secrets and variables → Actions → *Variables*, add `INSTAGRAM_POSTING_ENABLED` = `true`. Until this exists, scheduled runs do nothing. Delete the variable (or set it to anything else) to pause posting.
+
+**Token lifetime.** Meta's pages say whether the token expires "depends on your configuration" and do not give a lifetime. Check the token's type and expiry in the dashboard's configuration preview. If it does expire, a scheduled run fails with an Instagram error (GitHub emails you); generate a new token and update the `INSTAGRAM_ACCESS_TOKEN` secret.
 
 ## How it keeps its place
 
@@ -72,7 +84,7 @@ To restart the queue from the beginning, delete `state.json` from that branch (o
 - **Token problems** show up as a failed workflow run (GitHub emails you). The error message from Instagram is printed in the log.
 - **If a post succeeds but the state save fails**, the same page may be posted again the next day. Check the workflow log and the `instagram-state` branch.
 - **Scheduled workflows pause** after 60 days without repository activity (a GitHub rule). Any commit or a manual run wakes them.
-- **Graph API version** defaults to `v23.0` and can be changed with the `INSTAGRAM_GRAPH_VERSION` environment variable.
+- **Graph API version** defaults to `v23.0` (Meta's current docs show `v27.0`) and can be changed with the `INSTAGRAM_GRAPH_VERSION` environment variable.
 
 ## Where the code is
 
