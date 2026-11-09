@@ -1,5 +1,7 @@
 import type { MDXComponents } from "mdx/types.js";
 
+import { TogstrekAdventureFeaturedPlace } from "@/components/togstrek-adventures/togstrek-adventure-featured-place";
+import { TogstrekAdventureFeaturedSection } from "@/components/togstrek-adventures/togstrek-adventure-featured-section";
 import { TOGSTREK_COUNTRY_HUB_PLACE_CARD_GRADIENT_FALLBACK } from "@/components/togstrek-hub/togstrek-country-hub-template";
 import { TogstrekMdxAnchor } from "@/components/togstrek-ui/togstrek-mdx-anchor";
 import { TogstrekJumpTo } from "@/components/togstrek-ui/togstrek-jump-to";
@@ -76,6 +78,20 @@ export function getTogstrekPlaceMdxComponents(): MDXComponents {
     /** Responsive image grid + lightbox; wrap consecutive `![alt](url)` blocks. */
     PhotoGallery: (props) => <TogstrekMdxPhotoGallery {...props} />,
     TogstrekMdxPhotoGallery: (props) => <TogstrekMdxPhotoGallery {...props} />,
+    /**
+     * Dated image cards in a grid: day-by-day routes, linked sub-pages.
+     * The section's own top margin uses a space token that does not exist, so
+     * give it room from the preceding prose here. Adventure pages override this
+     * map and keep the original spacing under their `###` headings.
+     */
+    TogstrekAdventureFeaturedSection: (
+      props: React.ComponentProps<typeof TogstrekAdventureFeaturedSection>,
+    ) => (
+      <div className="togstrek-place-mdx-featured mt-[var(--tt-space-12)]">
+        <TogstrekAdventureFeaturedSection {...props} />
+      </div>
+    ),
+    TogstrekAdventureFeaturedPlace,
     TogstrekYouTube: (props) => <TogstrekMdxYouTubeEmbed {...props} />,
     TogstrekYearTag: (props) => <TogstrekMdxYearTag {...props} />,
     TogstrekMdxCardGrid: ({ className, ...rest }) => (
