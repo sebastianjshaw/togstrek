@@ -65,8 +65,6 @@
 
 ## Editorial review
 
-- [ ] **Art Nude collection copy**: the description and intro describe only the first (IvoryFlame) shoot; the second post, Acrobatic Art Nudes, doesn't fit "one light, a professional model". Decide whether to widen the copy (`content/photography/art-nude/_collection.mdx:3,17`)
-- [ ] **Collection descriptions vs intros**: Fetish and Art Nude intros restate the description ("professional rigger", "one light"); consider making the intro add the next layer of detail
 - [ ] **Hero alt backlog**: many photography posts still use the post title as hero alt (existing backlog, `npm run media:audit-image-alt`)
 - [ ] **Code: featured list drops posts with no hero** silently (`src/components/togstrek-photography/togstrek-photography-collection-posts.tsx`); site title template uses a straight apostrophe (`src/app/layout.tsx:53-54`)
 - [ ] **Code: featured-section top margin** uses non-existent `--tt-space-14` (`src/components/togstrek-adventures/togstrek-adventure-featured-section.tsx`); fix at the source, which shifts adventure pages
