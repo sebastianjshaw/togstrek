@@ -65,12 +65,8 @@
 
 ## Editorial review
 
-- [ ] **Astro collection quote**: the Neil deGrasse Tyson epigraph ends mid-sentence ("...I did all this") and could not be traced to a primary source (only quote-aggregator sites). Find the original wording and attribution, then complete the quote or drop it (`content/photography/astrophotography/_collection.mdx:12`)
-- [ ] **Norwich Festival post title**: "Norwich Festival 201" is a typo; the post is dated 2015-07-04, so probably "2015". Confirm the year (`content/photography/events/norwich-festival-201.mdx:2`)
 - [ ] **Art Nude collection copy**: the description and intro describe only the first (IvoryFlame) shoot; the second post, Acrobatic Art Nudes, doesn't fit "one light, a professional model". Decide whether to widen the copy (`content/photography/art-nude/_collection.mdx:3,17`)
-- [ ] **Street collection intro**: names Soho and Eriksberg but not the Grey London walk, which is also the hero (`content/photography/street/_collection.mdx:17`)
 - [ ] **Collection descriptions vs intros**: Fetish and Art Nude intros restate the description ("professional rigger", "one light"); consider making the intro add the next layer of detail
-- [ ] **Guides intro**: "Night photography first" isn't true of the card order (date-sorted); drop "first" or reorder (`content/photography/guides/_collection.mdx:17`)
 - [ ] **Hero alt backlog**: many photography posts still use the post title as hero alt (existing backlog, `npm run media:audit-image-alt`)
 - [ ] **Code: featured list drops posts with no hero** silently (`src/components/togstrek-photography/togstrek-photography-collection-posts.tsx`); site title template uses a straight apostrophe (`src/app/layout.tsx:53-54`)
 - [ ] **Code: featured-section top margin** uses non-existent `--tt-space-14` (`src/components/togstrek-adventures/togstrek-adventure-featured-section.tsx`); fix at the source, which shifts adventure pages
