@@ -6,8 +6,9 @@ name: Instagram post
 
 on:
   schedule:
-    # 16:00 UTC (18:00 in Sweden in summer, 17:00 in winter).
-    - cron: "0 16 * * *"
+    # 16:17 UTC (18:17 in Sweden in summer, 17:17 in winter). Not on the hour on
+    # purpose: GitHub delays or drops scheduled runs at :00, when load is highest.
+    - cron: "17 16 * * *"
   workflow_dispatch:
     inputs:
       live:

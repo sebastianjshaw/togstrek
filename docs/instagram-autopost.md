@@ -4,7 +4,7 @@ A scheduled job posts one image a day to the Tog's Trek Instagram account, linki
 
 - **What gets posted:** one image per post (the page's hero photo) with a templated caption: `Title, Region`, the page description, the page address, and a few hashtags.
 - **What is included:** place pages and hiking pages. Adventures, photography and Other Work are never posted.
-- **How often:** daily at 16:00 UTC (`.github/workflows/instagram.yml`).
+- **How often:** daily at 16:17 UTC (`.github/workflows/instagram.yml`). The minute is off the hour on purpose, because GitHub delays or drops scheduled runs at :00. Even so, a run can start late.
 - **After the last page:** the queue starts a new cycle. Pages added later join the queue automatically.
 
 ## What is skipped, and why
