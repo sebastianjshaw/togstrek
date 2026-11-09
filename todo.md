@@ -65,6 +65,5 @@
 
 ## Editorial review
 
-- [ ] **Hero alt backlog**: many photography posts still use the post title as hero alt (existing backlog, `npm run media:audit-image-alt`)
 - [ ] **Code: featured list drops posts with no hero** silently (`src/components/togstrek-photography/togstrek-photography-collection-posts.tsx`); site title template uses a straight apostrophe (`src/app/layout.tsx:53-54`)
 - [ ] **Code: featured-section top margin** uses non-existent `--tt-space-14` (`src/components/togstrek-adventures/togstrek-adventure-featured-section.tsx`); fix at the source, which shifts adventure pages
