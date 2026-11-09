@@ -32,6 +32,7 @@ export function TogstrekPhotographyPageTemplate({
       breadcrumbItems={buildTogstrekPhotographyBreadcrumbItems(
         slugSegments,
         frontmatter.title,
+        frontmatter.collections,
       )}
       mdxContent={mdxContent}
       omitDescriptionLead={omitDescriptionLead}

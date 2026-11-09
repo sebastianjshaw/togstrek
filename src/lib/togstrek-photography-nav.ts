@@ -83,17 +83,27 @@ export function listTogstrekPhotographySlugListsInCategory(
   return categoryPosts().get(category) ?? [];
 }
 
-/** Breadcrumbs for `/photography` article and category pages. */
+/**
+ * Breadcrumbs for `/photography` article and category pages. A post in a
+ * folder is crumbed under that folder's collection, unless its `collections`
+ * frontmatter names others and leaves the folder out (a post filed under
+ * `event/` that now lives in Misc), in which case the first one wins.
+ */
 export function buildTogstrekPhotographyBreadcrumbItems(
   slugSegments: string[],
   currentTitle: string,
+  collections?: string[],
 ): TogstrekBreadcrumbItem[] {
   const items: TogstrekBreadcrumbItem[] = [
     { href: "/photography", label: "Other Work" },
   ];
 
   if (slugSegments.length >= 2) {
-    const section = canonicalTogstrekPhotographyCategory(slugSegments[0]!);
+    const folderCategory = canonicalTogstrekPhotographyCategory(slugSegments[0]!);
+    const section =
+      collections?.length && !collections.includes(folderCategory)
+        ? collections[0]!
+        : folderCategory;
     const sectionItem: TogstrekBreadcrumbItem = {
       label: formatPhotographySectionLabel(section),
     };

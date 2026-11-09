@@ -55,9 +55,15 @@ describe("photography collections", () => {
     expect(categories).not.toContain("model");
   });
 
-  it("includes posts from the duplicate folders in the main collection", () => {
-    expect(slugsIn("events")).toContain("event/up-close-and-personal");
-    expect(slugsIn("models")).toContain("model/corporate-self-portraits");
+  it("files the posts in the duplicate folders under the collection their frontmatter names", () => {
+    expect(slugsIn("misc")).toEqual(
+      expect.arrayContaining([
+        "event/up-close-and-personal",
+        "model/corporate-self-portraits",
+      ]),
+    );
+    expect(slugsIn("events")).not.toContain("event/up-close-and-personal");
+    expect(slugsIn("models")).not.toContain("model/corporate-self-portraits");
   });
 
   it("includes root-level posts that list the collection in frontmatter", () => {
@@ -70,11 +76,25 @@ describe("photography collections", () => {
     expect(slugsIn("guides")).toContain("night-shooting-guide");
   });
 
-  it("links a post in a duplicate folder to its collection in breadcrumbs", () => {
+  it("crumbs a post under the collection its frontmatter names", () => {
     const items = buildTogstrekPhotographyBreadcrumbItems(
       ["event", "up-close-and-personal"],
       "Up close and personal...",
+      ["misc"],
     );
-    expect(items[1]).toEqual({ href: "/photography/events", label: "Events" });
+    expect(items[1]).toEqual({ href: "/photography/misc", label: "Misc" });
+  });
+
+  it("falls back to the folder's collection when frontmatter agrees or is absent", () => {
+    const crumb = (collections?: string[]) =>
+      buildTogstrekPhotographyBreadcrumbItems(
+        ["event", "some-post"],
+        "Some post",
+        collections,
+      )[1];
+    const events = { href: "/photography/events", label: "Events" };
+    expect(crumb()).toEqual(events);
+    expect(crumb(["events"])).toEqual(events);
+    expect(crumb(["music", "events"])).toEqual(events);
   });
 });
