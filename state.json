@@ -4,12 +4,13 @@
   "posted": [
     "hiking:kungsleden/etapp-21-serve-to-tarnasjo",
     "place:europe/poland/warsaw",
-    "hiking:kungsleden/etapp-24-viterskalet-to-hemavan"
+    "hiking:kungsleden/etapp-24-viterskalet-to-hemavan",
+    "place:africa/morocco/rabat"
   ],
   "last": {
-    "key": "hiking:kungsleden/etapp-24-viterskalet-to-hemavan",
-    "groupKey": "hiking/kungsleden",
-    "mediaId": "18097937090140344",
-    "postedAt": "2026-11-10T21:32:07.963Z"
+    "key": "place:africa/morocco/rabat",
+    "groupKey": "africa/morocco",
+    "mediaId": "17944469001101294",
+    "postedAt": "2026-11-10T21:49:31.355Z"
   }
 }
