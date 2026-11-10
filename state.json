@@ -3,12 +3,13 @@
   "cycle": 1,
   "posted": [
     "hiking:kungsleden/etapp-21-serve-to-tarnasjo",
-    "place:europe/poland/warsaw"
+    "place:europe/poland/warsaw",
+    "hiking:kungsleden/etapp-24-viterskalet-to-hemavan"
   ],
   "last": {
-    "key": "place:europe/poland/warsaw",
-    "groupKey": "europe/poland",
-    "mediaId": "18122304623585683",
-    "postedAt": "2026-11-09T18:05:10.628Z"
+    "key": "hiking:kungsleden/etapp-24-viterskalet-to-hemavan",
+    "groupKey": "hiking/kungsleden",
+    "mediaId": "18097937090140344",
+    "postedAt": "2026-11-10T21:32:07.963Z"
   }
 }
