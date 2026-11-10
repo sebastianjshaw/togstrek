@@ -69,11 +69,11 @@ describe("buildTogstrekMetadata", () => {
 });
 
 describe("togstrekOgResizeUrl", () => {
-  it("routes media.togstrek.com photos through /api/og-image", () => {
+  it("resizes media.togstrek.com photos with Cloudflare, not a Vercel function", () => {
     expect(
-      togstrekOgResizeUrl("https://media.togstrek.com/a.jpg", 1200, 630),
+      togstrekOgResizeUrl("https://media.togstrek.com/a/b%20c.jpg", 1200, 630),
     ).toBe(
-      "/api/og-image?src=https%3A%2F%2Fmedia.togstrek.com%2Fa.jpg&w=1200&h=630",
+      "https://media.togstrek.com/cdn-cgi/image/width=1200,height=630,fit=cover,gravity=auto,quality=80,format=jpeg/a/b%20c.jpg",
     );
   });
 

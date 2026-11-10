@@ -33,24 +33,25 @@ export function togstrekCanonicalSocialImageUrl(imageUrl: string): string {
 }
 
 /**
- * Routes a `media.togstrek.com` photo through `/api/og-image` so social
- * crawlers get a real 1200x630 JPEG instead of a multi-megabyte original —
- * see that route's doc comment for why (Cloudflare Image Resizing and
- * Vercel's image optimizer are both unavailable in this deployment). Left
- * untouched for any other host (e.g. the odd external OG image).
+ * Resizes a `media.togstrek.com` photo to a social-preview JPEG with Cloudflare
+ * Image Transformations on the media zone, so crawlers get a small 1200x630 file
+ * instead of a multi-megabyte original (WhatsApp gives up on those). It runs on
+ * Cloudflare, not Vercel: the earlier `/api/og-image` function counted every
+ * response against Vercel's Fast Origin Transfer quota. Left untouched for any
+ * other host (e.g. the odd external OG image).
  */
 export function togstrekOgResizeUrl(
   src: string,
   width: number = TOGSTREK_OG_IMAGE_WIDTH,
   height: number = TOGSTREK_OG_IMAGE_HEIGHT,
+  quality: number = 80,
 ): string {
   if (!isTogstrekMediaCdnUrl(src)) return src;
-  const params = new URLSearchParams({
-    src,
-    w: String(width),
-    h: String(height),
-  });
-  return `/api/og-image?${params.toString()}`;
+  const url = new URL(src);
+  const path = url.pathname.replace(/^\//, "");
+  // Already resized (the default image is normalised more than once).
+  if (path.startsWith("cdn-cgi/image/")) return src;
+  return `${url.origin}/cdn-cgi/image/width=${width},height=${height},fit=cover,gravity=auto,quality=${quality},format=jpeg/${path}`;
 }
 
 function normalizeOgImage(img: TogstrekOgImage): TogstrekOgImage {
