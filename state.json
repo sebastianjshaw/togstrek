@@ -5,12 +5,13 @@
     "hiking:kungsleden/etapp-21-serve-to-tarnasjo",
     "place:europe/poland/warsaw",
     "hiking:kungsleden/etapp-24-viterskalet-to-hemavan",
-    "place:africa/morocco/rabat"
+    "place:africa/morocco/rabat",
+    "place:antarctica/antarctic/fish-islands"
   ],
   "last": {
-    "key": "place:africa/morocco/rabat",
-    "groupKey": "africa/morocco",
-    "mediaId": "17944469001101294",
-    "postedAt": "2026-11-10T21:49:31.355Z"
+    "key": "place:antarctica/antarctic/fish-islands",
+    "groupKey": "antarctica/antarctic",
+    "mediaId": "18018858017747645",
+    "postedAt": "2026-11-11T11:32:04.816Z"
   }
 }
