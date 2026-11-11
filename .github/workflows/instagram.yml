@@ -1,14 +1,15 @@
 name: Instagram post
 
 # Posts the next page from the site to Instagram once a day. See
-# docs/instagram-autopost.md for setup. Nothing is posted by a scheduled run
-# until the repository variable INSTAGRAM_POSTING_ENABLED is set to "true".
+# docs/instagram-autopost.md for setup.
+#
+# There is deliberately no `schedule:` here. GitHub's cron was unreliable for this
+# repo (one run started 5 hours late), so a Cloudflare Worker (ops/instagram-trigger)
+# starts this workflow at 12:30 Swedish time through workflow_dispatch with
+# live=true. A live run does nothing unless the repository variable
+# INSTAGRAM_POSTING_ENABLED is set to "true", which is the pause switch.
 
 on:
-  schedule:
-    # 16:17 UTC (18:17 in Sweden in summer, 17:17 in winter). Not on the hour on
-    # purpose: GitHub delays or drops scheduled runs at :00, when load is highest.
-    - cron: "17 16 * * *"
   workflow_dispatch:
     inputs:
       live:
@@ -25,13 +26,13 @@ concurrency:
 
 jobs:
   post:
-    if: github.event_name == 'workflow_dispatch' || vars.INSTAGRAM_POSTING_ENABLED == 'true'
+    if: ${{ !inputs.live || vars.INSTAGRAM_POSTING_ENABLED == 'true' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
       INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
       INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
-      LIVE: ${{ github.event_name == 'schedule' || inputs.live }}
+      LIVE: ${{ inputs.live }}
     steps:
       - uses: actions/checkout@v4
 

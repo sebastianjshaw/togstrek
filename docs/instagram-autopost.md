@@ -4,7 +4,7 @@ A scheduled job posts one image a day to the Tog's Trek Instagram account, linki
 
 - **What gets posted:** one image per post (the page's hero photo) with a templated caption: `Title, Region`, the page description, the page address, and a few hashtags.
 - **What is included:** place pages and hiking pages. Adventures, photography and Other Work are never posted.
-- **How often:** daily at 16:17 UTC (`.github/workflows/instagram.yml`). The minute is off the hour on purpose, because GitHub delays or drops scheduled runs at :00. Even so, a run can start late.
+- **How often:** daily at 12:30 Swedish time, all year. A Cloudflare Worker (`ops/instagram-trigger`) starts the workflow through `workflow_dispatch`. The workflow has no `schedule:` of its own, because GitHub's cron ran unreliably for this repo (one run started 5 hours late).
 - **After the last page:** the queue starts a new cycle. Pages added later join the queue automatically.
 
 ## What is skipped, and why
@@ -67,7 +67,8 @@ You need to do the Meta steps yourself: they involve your Instagram login and an
    - `INSTAGRAM_ACCESS_TOKEN`: the token from step 5
 8. **Dry run in Actions.** Actions → *Instagram post* → *Run workflow*, leaving "Post for real" unticked. It prints what it would post.
 9. **First real post, by hand.** Run the same workflow with "Post for real" ticked, and check the post on Instagram.
-10. **Turn on the schedule.** Settings → Secrets and variables → Actions → *Variables*, add `INSTAGRAM_POSTING_ENABLED` = `true`. Until this exists, scheduled runs do nothing. Delete the variable (or set it to anything else) to pause posting.
+10. **Turn on posting.** Settings → Secrets and variables → Actions → *Variables*, add `INSTAGRAM_POSTING_ENABLED` = `true`. Until this exists, live runs do nothing. Delete the variable (or set it to anything else) to pause posting.
+11. **Start the daily trigger.** Follow `ops/instagram-trigger/README.md` to deploy the Cloudflare Worker that starts the workflow at 12:30 Swedish time.
 
 **Token lifetime.** Meta's pages say whether the token expires "depends on your configuration" and do not give a lifetime. Check the token's type and expiry in the dashboard's configuration preview. If it does expire, a scheduled run fails with an Instagram error (GitHub emails you); generate a new token and update the `INSTAGRAM_ACCESS_TOKEN` secret.
 
@@ -83,7 +84,7 @@ To restart the queue from the beginning, delete `state.json` from that branch (o
 - **Rate limit:** Meta allows far more posts per day than this uses.
 - **Token problems** show up as a failed workflow run (GitHub emails you). The error message from Instagram is printed in the log.
 - **If a post succeeds but the state save fails**, the same page may be posted again the next day. Check the workflow log and the `instagram-state` branch.
-- **Scheduled workflows pause** after 60 days without repository activity (a GitHub rule). Any commit or a manual run wakes them.
+- **The Worker's GitHub token expires.** When it does, the Worker's runs fail and posting stops (check the Worker's logs). Make a new token and update the secret with `npx wrangler secret put GITHUB_TOKEN`.
 - **Graph API version** defaults to `v23.0` (Meta's current docs show `v27.0`) and can be changed with the `INSTAGRAM_GRAPH_VERSION` environment variable.
 
 ## Where the code is
@@ -91,4 +92,5 @@ To restart the queue from the beginning, delete `state.json` from that branch (o
 - `src/lib/togstrek-instagram-post.ts`: eligibility rules, ordering, captions, state handling (unit-tested)
 - `src/lib/togstrek-instagram-collect.ts`: reads the content files
 - `scripts/togstrek-instagram-publish.ts`: the command-line runner and the Instagram API calls
-- `.github/workflows/instagram.yml`: the schedule
+- `.github/workflows/instagram.yml`: the workflow (manual or Worker-started)
+- `ops/instagram-trigger/`: the Cloudflare Worker that starts it daily

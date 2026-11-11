@@ -1,0 +1,8 @@
+name = "togstrek-instagram-trigger"
+main = "worker.mjs"
+compatibility_date = "2026-11-01"
+
+# UTC. 12:30 in Sweden is 10:30 UTC in summer and 11:30 UTC in winter; worker.mjs
+# lets through only the one that matches, so the post stays at 12:30 all year.
+[triggers]
+crons = ["30 10 * * *", "30 11 * * *"]
