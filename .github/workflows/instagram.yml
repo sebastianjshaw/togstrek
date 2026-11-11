@@ -9,9 +9,6 @@ on:
     # 16:17 UTC (18:17 in Sweden in summer, 17:17 in winter). Not on the hour on
     # purpose: GitHub delays or drops scheduled runs at :00, when load is highest.
     - cron: "17 16 * * *"
-    # TEMPORARY probe: a dry run every 15 minutes (posts nothing), to check that
-    # GitHub schedules this workflow at all. Remove once a scheduled run shows up.
-    - cron: "*/15 * * * *"
   workflow_dispatch:
     inputs:
       live:
@@ -34,9 +31,7 @@ jobs:
     env:
       INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
       INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
-      # Only the daily 16:17 schedule posts for real. The temporary probe schedule
-      # and an unticked manual run are dry runs.
-      LIVE: ${{ (github.event_name == 'schedule' && github.event.schedule == '17 16 * * *') || inputs.live }}
+      LIVE: ${{ github.event_name == 'schedule' || inputs.live }}
     steps:
       - uses: actions/checkout@v4
 
