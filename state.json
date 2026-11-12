@@ -6,12 +6,13 @@
     "place:europe/poland/warsaw",
     "hiking:kungsleden/etapp-24-viterskalet-to-hemavan",
     "place:africa/morocco/rabat",
-    "place:antarctica/antarctic/fish-islands"
+    "place:antarctica/antarctic/fish-islands",
+    "place:africa/egypt/aswan"
   ],
   "last": {
-    "key": "place:antarctica/antarctic/fish-islands",
-    "groupKey": "antarctica/antarctic",
-    "mediaId": "18018858017747645",
-    "postedAt": "2026-11-11T11:32:04.816Z"
+    "key": "place:africa/egypt/aswan",
+    "groupKey": "africa/egypt",
+    "mediaId": "17968703030983479",
+    "postedAt": "2026-11-12T11:32:19.093Z"
   }
 }
