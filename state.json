@@ -7,12 +7,13 @@
     "hiking:kungsleden/etapp-24-viterskalet-to-hemavan",
     "place:africa/morocco/rabat",
     "place:antarctica/antarctic/fish-islands",
-    "place:africa/egypt/aswan"
+    "place:africa/egypt/aswan",
+    "place:africa/tanzania/mto-wa-mbu"
   ],
   "last": {
-    "key": "place:africa/egypt/aswan",
-    "groupKey": "africa/egypt",
-    "mediaId": "17968703030983479",
-    "postedAt": "2026-11-12T11:32:19.093Z"
+    "key": "place:africa/tanzania/mto-wa-mbu",
+    "groupKey": "africa/tanzania",
+    "mediaId": "18637676092054465",
+    "postedAt": "2026-11-13T11:32:23.357Z"
   }
 }
