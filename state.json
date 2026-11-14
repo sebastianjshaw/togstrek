@@ -8,12 +8,13 @@
     "place:africa/morocco/rabat",
     "place:antarctica/antarctic/fish-islands",
     "place:africa/egypt/aswan",
-    "place:africa/tanzania/mto-wa-mbu"
+    "place:africa/tanzania/mto-wa-mbu",
+    "place:europe/monaco/monaco"
   ],
   "last": {
-    "key": "place:africa/tanzania/mto-wa-mbu",
-    "groupKey": "africa/tanzania",
-    "mediaId": "18637676092054465",
-    "postedAt": "2026-11-13T11:32:23.357Z"
+    "key": "place:europe/monaco/monaco",
+    "groupKey": "europe/monaco",
+    "mediaId": "18417379414082863",
+    "postedAt": "2026-11-14T11:32:21.281Z"
   }
 }
