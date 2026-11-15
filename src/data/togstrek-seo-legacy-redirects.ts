@@ -247,6 +247,11 @@ export const togstrekSeoLegacyRedirects: {
     source: "/asia/uzbekistan/nurata-aydar-kul",
     destination: "/asia/uzbekistan/nurota",
   },
+  /** The page was published as "Alpe d’Huez" but the trip was based in Les Arcs 2000. */
+  {
+    source: "/europe/france/alpe-dhuez",
+    destination: "/europe/france/les-arcs",
+  },
   /** Voru's old "-village" URL is still live in search indexes and links. */
   {
     source: "/asia/tajikistan/voru-village",
