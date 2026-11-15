@@ -1,3 +1,4 @@
+import { parseTogstrekHeroImage } from "@/lib/togstrek-frontmatter-hero-image";
 import type { TogstrekImageAsset } from "@/types/togstrek-place-page";
 
 /** Frontmatter for MDX under `content/adventures/*.mdx`. */
@@ -12,30 +13,6 @@ export type TogstrekAdventureMdxFrontmatter = {
   lng?: number;
   heroImage?: TogstrekImageAsset;
 };
-
-function parseHeroImage(raw: unknown): TogstrekImageAsset | undefined {
-  if (!raw || typeof raw !== "object") return undefined;
-  const o = raw as Record<string, unknown>;
-  if (
-    typeof o.basename !== "string" ||
-    typeof o.src !== "string" ||
-    typeof o.width !== "number" ||
-    typeof o.height !== "number" ||
-    typeof o.alt !== "string"
-  ) {
-    return undefined;
-  }
-  return {
-    basename: o.basename,
-    src: o.src,
-    width: o.width,
-    height: o.height,
-    alt: o.alt,
-    caption: typeof o.caption === "string" ? o.caption : undefined,
-    credit: typeof o.credit === "string" ? o.credit : undefined,
-    priority: o.priority === true,
-  };
-}
 
 export function parseTogstrekAdventureFrontmatter(
   raw: Record<string, unknown>,
@@ -72,6 +49,9 @@ export function parseTogstrekAdventureFrontmatter(
     modified,
     lat,
     lng,
-    heroImage: parseHeroImage(raw.heroImage),
+    heroImage: parseTogstrekHeroImage(
+      raw.heroImage,
+      `adventure "${String(raw.title ?? "untitled")}"`,
+    ),
   };
 }

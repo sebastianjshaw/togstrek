@@ -1,3 +1,4 @@
+import { parseTogstrekHeroImage } from "@/lib/togstrek-frontmatter-hero-image";
 import {
   TOGSTREK_POI_GROUP_IDS,
   type TogstrekImageAsset,
@@ -41,30 +42,6 @@ function isPoiGroupId(v: unknown): v is TogstrekPoiGroupId {
     typeof v === "string" &&
     (TOGSTREK_POI_GROUP_IDS as readonly string[]).includes(v)
   );
-}
-
-function parseHeroImage(raw: unknown): TogstrekImageAsset | undefined {
-  if (!raw || typeof raw !== "object") return undefined;
-  const o = raw as Record<string, unknown>;
-  if (
-    typeof o.basename !== "string" ||
-    typeof o.src !== "string" ||
-    typeof o.width !== "number" ||
-    typeof o.height !== "number" ||
-    typeof o.alt !== "string"
-  ) {
-    return undefined;
-  }
-  return {
-    basename: o.basename,
-    src: o.src,
-    width: o.width,
-    height: o.height,
-    alt: o.alt,
-    caption: typeof o.caption === "string" ? o.caption : undefined,
-    credit: typeof o.credit === "string" ? o.credit : undefined,
-    priority: o.priority === true,
-  };
 }
 
 function parsePoiItem(raw: unknown): TogstrekPoiListItem | null {
@@ -157,7 +134,10 @@ export function parseTogstrekPlaceFrontmatter(
     published,
     modified,
     draft: draft || undefined,
-    heroImage: parseHeroImage(raw.heroImage),
+    heroImage: parseTogstrekHeroImage(
+      raw.heroImage,
+      `place "${String(raw.title ?? "untitled")}"`,
+    ),
     poiGroups: parsePoiGroups(raw.poiGroups),
   };
 }

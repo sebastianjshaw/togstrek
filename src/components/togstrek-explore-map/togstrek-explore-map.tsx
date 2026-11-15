@@ -121,7 +121,6 @@ export function TogstrekExploreMap({
       popupCtaLabel={popupCtaLabel}
       initialViewState={initialViewState}
       visitedCountryIso2={visitedCountryIso2}
-      placesFitKey={placesFitKey}
     />
   );
 }
@@ -133,8 +132,7 @@ function TogstrekExploreMapWithPlaces({
   popupCtaLabel = "Open story",
   initialViewState,
   visitedCountryIso2,
-  placesFitKey,
-}: TogstrekExploreMapProps & { placesFitKey: string }) {
+}: TogstrekExploreMapProps) {
   const mapRef = useRef<MapRef>(null);
   const index = useMemo(() => placesToIndex(places), [places]);
 
@@ -244,7 +242,6 @@ function TogstrekExploreMapWithPlaces({
       aria-label={ariaLabel}
     >
       <Map
-        key={placesFitKey}
         ref={mapRef}
         initialViewState={startView}
         mapStyle={TOGSTREK_MAP_DARK_STYLE}

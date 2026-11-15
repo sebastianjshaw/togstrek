@@ -32,7 +32,7 @@ export const TogstrekExploreMapMarker = forwardRef<
       attributeFilter: ["role", "aria-label", "tabindex"],
     });
     return () => observer.disconnect();
-  });
+  }, []);
 
   return (
     <Marker

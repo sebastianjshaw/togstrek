@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { togstrekSiteLandingHeroImage } from "@/config/togstrek-media";
 import { isTogstrekMediaCdnUrl } from "@/lib/togstrek-cdn-image";
 
-export const TOGSTREK_SITE_NAME = "A Tog's Trek";
+export const TOGSTREK_SITE_NAME = "A Tog’s Trek";
 
 /** Declared OG / Twitter card dimensions (recommended aspect ~1.91:1). */
 export const TOGSTREK_OG_IMAGE_WIDTH = 1200;
@@ -79,7 +79,7 @@ export function getTogstrekDefaultSocialOgImage(): TogstrekOgImage {
   });
 }
 
-/** Matches `title.template` in `app/layout.tsx` (`%s · A Tog's Trek`). */
+/** Matches `title.template` in `app/layout.tsx` (`%s · A Tog’s Trek`). */
 export const TOGSTREK_METADATA_TITLE_SEPARATOR = " · ";
 
 export type TogstrekOgImage = {

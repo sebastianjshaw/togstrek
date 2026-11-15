@@ -107,6 +107,16 @@ export async function loadTogstrekPhotographyMdx(
 }
 
 export function discoverTogstrekPhotographySlugLists(): string[][] {
+  if (!photographySlugListsCache) {
+    photographySlugListsCache = scanPhotographySlugLists();
+  }
+  return photographySlugListsCache.map((s) => [...s]);
+}
+
+/** In-memory scan cache (same approach as `discoverTogstrekPlaceSlugs`): these were re-walking the content tree on every call. Restart the dev server after adding MDX so it refreshes. */
+let photographySlugListsCache: string[][] | undefined;
+
+function scanPhotographySlugLists(): string[][] {
   if (!fs.existsSync(PHOTOGRAPHY_ROOT)) return [];
   const out: string[][] = [];
 

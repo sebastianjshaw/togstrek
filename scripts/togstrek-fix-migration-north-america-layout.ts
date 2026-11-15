@@ -152,14 +152,13 @@ function main(): void {
 
   if (!dryRun) {
     removeEmptyDirs(naRoot);
+    // `removeEmptyDirs` already deletes `usa/` once it is empty. If it is still there it
+    // holds files that were skipped (destination existed), so never delete it blindly.
     const legacyUsa = path.join(naRoot, "usa");
     if (fs.existsSync(legacyUsa)) {
-      try {
-        fs.rmSync(legacyUsa, { recursive: true, force: true });
-        console.log("Removed leftover migration/cdn-upload-ready/north-america/usa/");
-      } catch {
-        /* ignore */
-      }
+      console.warn(
+        `Left in place (still has files that were skipped): ${path.relative(repo, legacyUsa)}/ — review and remove by hand.`,
+      );
     }
     console.log("\nPruned empty directories.");
   }

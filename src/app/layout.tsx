@@ -50,8 +50,8 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "A Tog's Trek",
-    template: "%s · A Tog's Trek",
+    default: "A Tog’s Trek",
+    template: "%s · A Tog’s Trek",
   },
   description:
     "The most exciting journey is the next one. Travel photography, place guides, and personal essays — countries, trails, cities, and the stories behind the frame.",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     siteName: TOGSTREK_SITE_NAME,
-    title: "A Tog's Trek",
+    title: "A Tog’s Trek",
     description:
       "Photo essays and travel notes from a photographer: regions, cities, hikes, and family trips — with the pictures to prove it.",
     locale: "en_GB",

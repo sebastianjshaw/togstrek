@@ -1,3 +1,4 @@
+import { parseTogstrekHeroImage } from "@/lib/togstrek-frontmatter-hero-image";
 import type { TogstrekImageAsset } from "@/types/togstrek-place-page";
 
 /** Frontmatter for MDX under `content/photography/**` (posts, collection and hub pages). */
@@ -18,30 +19,6 @@ export type TogstrekPhotographyMdxFrontmatter = {
   heroQuote?: string;
   heroQuoteAttribution?: string;
 };
-
-function parseHeroImage(raw: unknown): TogstrekImageAsset | undefined {
-  if (!raw || typeof raw !== "object") return undefined;
-  const o = raw as Record<string, unknown>;
-  if (
-    typeof o.basename !== "string" ||
-    typeof o.src !== "string" ||
-    typeof o.width !== "number" ||
-    typeof o.height !== "number" ||
-    typeof o.alt !== "string"
-  ) {
-    return undefined;
-  }
-  return {
-    basename: o.basename,
-    src: o.src,
-    width: o.width,
-    height: o.height,
-    alt: o.alt,
-    caption: typeof o.caption === "string" ? o.caption : undefined,
-    credit: typeof o.credit === "string" ? o.credit : undefined,
-    priority: o.priority === true,
-  };
-}
 
 /**
  * `gray-matter` (js-yaml) turns an unquoted `2009-01-31` / `2009-01-31T00:00:00.000Z`
@@ -90,7 +67,10 @@ export function parseTogstrekPhotographyFrontmatter(
     modified,
     lat,
     lng,
-    heroImage: parseHeroImage(raw.heroImage),
+    heroImage: parseTogstrekHeroImage(
+      raw.heroImage,
+      `photography "${String(raw.title ?? "untitled")}"`,
+    ),
     collections: collections?.length ? collections : undefined,
     heroQuote: heroQuote || undefined,
     heroQuoteAttribution: heroQuoteAttribution || undefined,

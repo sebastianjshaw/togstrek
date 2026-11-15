@@ -11,6 +11,7 @@ type TogstrekPhotographyFeaturedGridProps = {
 
 /**
  * Compact 4∶3 tiles + title + date — same layout as the `/photography` (Other Work) hub “Featured” row.
+ * An item with no `imageSrc` keeps its card (muted tile, title, date) instead of being dropped.
  */
 export function TogstrekPhotographyFeaturedGrid({
   items,
@@ -29,14 +30,16 @@ export function TogstrekPhotographyFeaturedGrid({
           className="togstrek-photography-hub-featured-card group flex flex-col overflow-hidden rounded-[var(--tt-radius-photo)] border border-tt-border-muted bg-tt-surface-base outline-none transition hover:border-tt-border-accent focus-visible:ring-2 focus-visible:ring-tt-accent"
         >
           <div className="togstrek-photography-hub-featured-card-media relative aspect-[4/3] w-full shrink-0 overflow-hidden bg-tt-surface-muted">
-            <TogstrekCdnImage
-              src={item.imageSrc}
-              alt={item.imageAlt}
-              fill
-              slot="photographyHub"
-              loading="lazy"
-              className="object-cover transition duration-300 group-hover:scale-[1.02]"
-            />
+            {item.imageSrc ? (
+              <TogstrekCdnImage
+                src={item.imageSrc}
+                alt={item.imageAlt}
+                fill
+                slot="photographyHub"
+                loading="lazy"
+                className="object-cover transition duration-300 group-hover:scale-[1.02]"
+              />
+            ) : null}
           </div>
           <div className="togstrek-photography-hub-featured-card-meta flex min-h-0 flex-1 flex-col gap-1 p-2 sm:p-2.5">
             <span className="line-clamp-2 font-tt-body text-[length:var(--tt-text-small)] font-medium leading-snug text-tt-text-primary sm:text-[13px]">

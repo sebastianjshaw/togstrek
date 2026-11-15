@@ -13,6 +13,14 @@ const HIKING_ROOT = path.join(process.cwd(), "content", "hiking");
  * Root-level `*.mdx` files (e.g. `surtesjon.mdx`) are not groups — they are single posts.
  */
 export function discoverTogstrekHikingGroupSegmentLists(): string[][] {
+  if (!hikingGroupsCache) hikingGroupsCache = scanHikingGroupSegmentLists();
+  return hikingGroupsCache.map((g) => [...g]);
+}
+
+/** In-memory scan cache (same approach as `discoverTogstrekPlaceSlugs`): these were re-walking the content tree on every call. Restart the dev server after adding MDX so it refreshes. */
+let hikingGroupsCache: string[][] | undefined;
+
+function scanHikingGroupSegmentLists(): string[][] {
   if (!fs.existsSync(HIKING_ROOT)) return [];
   const groups: string[][] = [];
 

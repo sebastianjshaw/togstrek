@@ -117,6 +117,14 @@ export function loadTogstrekHikingFrontmatterOnly(
  * Returns `[]` for `index.mdx` (URL `/hiking`), and one array per nested file.
  */
 export function discoverTogstrekHikingSlugLists(): string[][] {
+  if (!hikingSlugListsCache) hikingSlugListsCache = scanHikingSlugLists();
+  return hikingSlugListsCache.map((s) => [...s]);
+}
+
+/** In-memory scan cache (same approach as `discoverTogstrekPlaceSlugs`): these were re-walking the content tree on every call. Restart the dev server after adding MDX so it refreshes. */
+let hikingSlugListsCache: string[][] | undefined;
+
+function scanHikingSlugLists(): string[][] {
   if (!fs.existsSync(HIKING_ROOT)) return [];
   const out: string[][] = [];
 

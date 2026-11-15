@@ -33,7 +33,6 @@ export function TogstrekPhotographyCollectionPosts({
       };
       return item;
     })
-    .filter((item) => item.imageSrc !== "")
     .sort(
       (a, b) =>
         b.date.localeCompare(a.date) ||
