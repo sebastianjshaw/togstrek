@@ -9,12 +9,13 @@
     "place:antarctica/antarctic/fish-islands",
     "place:africa/egypt/aswan",
     "place:africa/tanzania/mto-wa-mbu",
-    "place:europe/monaco/monaco"
+    "place:europe/monaco/monaco",
+    "place:south-america/ecuador/cuenca"
   ],
   "last": {
-    "key": "place:europe/monaco/monaco",
-    "groupKey": "europe/monaco",
-    "mediaId": "18417379414082863",
-    "postedAt": "2026-11-14T11:32:21.281Z"
+    "key": "place:south-america/ecuador/cuenca",
+    "groupKey": "south-america/ecuador",
+    "mediaId": "18148192810567095",
+    "postedAt": "2026-11-15T11:32:08.049Z"
   }
 }
