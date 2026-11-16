@@ -10,12 +10,13 @@
     "place:africa/egypt/aswan",
     "place:africa/tanzania/mto-wa-mbu",
     "place:europe/monaco/monaco",
-    "place:south-america/ecuador/cuenca"
+    "place:south-america/ecuador/cuenca",
+    "place:europe/sweden/vastra-gotaland/mellerud"
   ],
   "last": {
-    "key": "place:south-america/ecuador/cuenca",
-    "groupKey": "south-america/ecuador",
-    "mediaId": "18148192810567095",
-    "postedAt": "2026-11-15T11:32:08.049Z"
+    "key": "place:europe/sweden/vastra-gotaland/mellerud",
+    "groupKey": "europe/sweden",
+    "mediaId": "18657625246023286",
+    "postedAt": "2026-11-16T11:32:10.409Z"
   }
 }
