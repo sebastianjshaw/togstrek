@@ -12,12 +12,13 @@
     "place:europe/monaco/monaco",
     "place:south-america/ecuador/cuenca",
     "place:europe/sweden/vastra-gotaland/mellerud",
-    "place:south-america/ecuador/tulcan"
+    "place:south-america/ecuador/tulcan",
+    "place:asia/turkmenistan/dashoguz"
   ],
   "last": {
-    "key": "place:south-america/ecuador/tulcan",
-    "groupKey": "south-america/ecuador",
-    "mediaId": "17965772091209226",
-    "postedAt": "2026-11-17T11:32:05.553Z"
+    "key": "place:asia/turkmenistan/dashoguz",
+    "groupKey": "asia/turkmenistan",
+    "mediaId": "17970582681240878",
+    "postedAt": "2026-11-18T11:32:18.481Z"
   }
 }
