@@ -13,12 +13,13 @@
     "place:south-america/ecuador/cuenca",
     "place:europe/sweden/vastra-gotaland/mellerud",
     "place:south-america/ecuador/tulcan",
-    "place:asia/turkmenistan/dashoguz"
+    "place:asia/turkmenistan/dashoguz",
+    "place:europe/sweden/vasterbotten/hemavan"
   ],
   "last": {
-    "key": "place:asia/turkmenistan/dashoguz",
-    "groupKey": "asia/turkmenistan",
-    "mediaId": "17970582681240878",
-    "postedAt": "2026-11-18T11:32:18.481Z"
+    "key": "place:europe/sweden/vasterbotten/hemavan",
+    "groupKey": "europe/sweden",
+    "mediaId": "18115657223173841",
+    "postedAt": "2026-11-19T11:32:26.556Z"
   }
 }
