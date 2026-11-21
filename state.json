@@ -15,12 +15,13 @@
     "place:south-america/ecuador/tulcan",
     "place:asia/turkmenistan/dashoguz",
     "place:europe/sweden/vasterbotten/hemavan",
-    "place:europe/united-kingdom/england/cheshire/ellesmere-port"
+    "place:europe/united-kingdom/england/cheshire/ellesmere-port",
+    "place:europe/sweden/kronoberg/almhult"
   ],
   "last": {
-    "key": "place:europe/united-kingdom/england/cheshire/ellesmere-port",
-    "groupKey": "europe/united-kingdom",
-    "mediaId": "18001913670046352",
-    "postedAt": "2026-11-20T11:31:55.559Z"
+    "key": "place:europe/sweden/kronoberg/almhult",
+    "groupKey": "europe/sweden",
+    "mediaId": "18083925893425322",
+    "postedAt": "2026-11-21T11:32:12.827Z"
   }
 }
