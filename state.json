@@ -16,12 +16,13 @@
     "place:asia/turkmenistan/dashoguz",
     "place:europe/sweden/vasterbotten/hemavan",
     "place:europe/united-kingdom/england/cheshire/ellesmere-port",
-    "place:europe/sweden/kronoberg/almhult"
+    "place:europe/sweden/kronoberg/almhult",
+    "place:asia/cambodia/sambor-prei-kuk"
   ],
   "last": {
-    "key": "place:europe/sweden/kronoberg/almhult",
-    "groupKey": "europe/sweden",
-    "mediaId": "18083925893425322",
-    "postedAt": "2026-11-21T11:32:12.827Z"
+    "key": "place:asia/cambodia/sambor-prei-kuk",
+    "groupKey": "asia/cambodia",
+    "mediaId": "18167237479492274",
+    "postedAt": "2026-11-22T11:32:15.588Z"
   }
 }
