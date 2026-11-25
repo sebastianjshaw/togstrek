@@ -19,12 +19,13 @@
     "place:europe/sweden/kronoberg/almhult",
     "place:asia/cambodia/sambor-prei-kuk",
     "place:asia/tajikistan/istaravshan",
-    "place:asia/uzbekistan/malikrabot"
+    "place:asia/uzbekistan/malikrabot",
+    "place:europe/slovenia/ljubljana"
   ],
   "last": {
-    "key": "place:asia/uzbekistan/malikrabot",
-    "groupKey": "asia/uzbekistan",
-    "mediaId": "18506325760097314",
-    "postedAt": "2026-11-24T11:32:05.520Z"
+    "key": "place:europe/slovenia/ljubljana",
+    "groupKey": "europe/slovenia",
+    "mediaId": "18137440540670670",
+    "postedAt": "2026-11-25T11:32:03.479Z"
   }
 }
