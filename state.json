@@ -20,12 +20,13 @@
     "place:asia/cambodia/sambor-prei-kuk",
     "place:asia/tajikistan/istaravshan",
     "place:asia/uzbekistan/malikrabot",
-    "place:europe/slovenia/ljubljana"
+    "place:europe/slovenia/ljubljana",
+    "hiking:kungsleden/etapp-07-kaitumjaurestugorna-teusajaurestugorna"
   ],
   "last": {
-    "key": "place:europe/slovenia/ljubljana",
-    "groupKey": "europe/slovenia",
-    "mediaId": "18137440540670670",
-    "postedAt": "2026-11-25T11:32:03.479Z"
+    "key": "hiking:kungsleden/etapp-07-kaitumjaurestugorna-teusajaurestugorna",
+    "groupKey": "hiking/kungsleden",
+    "mediaId": "17980501397934650",
+    "postedAt": "2026-11-26T11:32:47.457Z"
   }
 }
