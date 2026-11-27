@@ -21,12 +21,13 @@
     "place:asia/tajikistan/istaravshan",
     "place:asia/uzbekistan/malikrabot",
     "place:europe/slovenia/ljubljana",
-    "hiking:kungsleden/etapp-07-kaitumjaurestugorna-teusajaurestugorna"
+    "hiking:kungsleden/etapp-07-kaitumjaurestugorna-teusajaurestugorna",
+    "place:north-america/united-states-of-america/california/big-sur"
   ],
   "last": {
-    "key": "hiking:kungsleden/etapp-07-kaitumjaurestugorna-teusajaurestugorna",
-    "groupKey": "hiking/kungsleden",
-    "mediaId": "17980501397934650",
-    "postedAt": "2026-11-26T11:32:47.457Z"
+    "key": "place:north-america/united-states-of-america/california/big-sur",
+    "groupKey": "north-america/united-states-of-america",
+    "mediaId": "17895032730457657",
+    "postedAt": "2026-11-27T11:32:01.952Z"
   }
 }
