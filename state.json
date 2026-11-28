@@ -22,12 +22,13 @@
     "place:asia/uzbekistan/malikrabot",
     "place:europe/slovenia/ljubljana",
     "hiking:kungsleden/etapp-07-kaitumjaurestugorna-teusajaurestugorna",
-    "place:north-america/united-states-of-america/california/big-sur"
+    "place:north-america/united-states-of-america/california/big-sur",
+    "place:africa/uganda/lake-mburo"
   ],
   "last": {
-    "key": "place:north-america/united-states-of-america/california/big-sur",
-    "groupKey": "north-america/united-states-of-america",
-    "mediaId": "17895032730457657",
-    "postedAt": "2026-11-27T11:32:01.952Z"
+    "key": "place:africa/uganda/lake-mburo",
+    "groupKey": "africa/uganda",
+    "mediaId": "18115916465582751",
+    "postedAt": "2026-11-28T11:32:26.340Z"
   }
 }
